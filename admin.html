@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PERSIAN STARK | Admin</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Tahoma,sans-serif;
+  background:#080b12;
+  color:#fff;
+  min-height:100vh;
+}
+
+header{
+  background:#101522;
+  border-bottom:1px solid #20283a;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:900;
+  color:#00e5ff;
+}
+
+.admin{
+  font-size:13px;
+  color:#aaa;
+}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
+}
+
+.login,
+.panel{
+  background:#101522;
+  border:1px solid #20283a;
+  border-radius:16px;
+  padding:20px;
+  margin-top:20px;
+}
+
+h2{
+  margin-bottom:18px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  background:#080b12;
+  color:#fff;
+  border:1px solid #293247;
+  border-radius:10px;
+  padding:13px;
+  margin-bottom:12px;
+  font-size:14px;
+}
+
+textarea{
+  min-height:140px;
+  resize:vertical;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:13px 18px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn{
+  background:#00e5ff;
+  color:#001016;
+}
+
+.logout{
+  background:#ff3d71;
+  color:white;
+}
+
+.hidden{
+  display:none;
+}
+
+.status{
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  background:#080b12;
+  color:#aaa;
+  font-size:13px;
+}
+
+.preview{
+  width:100%;
+  max-height:300px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-top:10px;
+  display:none;
+}
+
+.posts{
+  margin-top:25px;
+}
+
+.post{
+  background:#080b12;
+  border:1px solid #20283a;
+  border-radius:12px;
+  padding:15px;
+  margin-top:10px;
+}
+
+.post img{
+  width:100%;
+  max-height:220px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+.post h3{
+  margin-bottom:7px;
+}
+
+.post small{
+  color:#888;
+}
+
+@media(max-width:600px){
+  .container{
+    padding:12px;
+  }
+
+  header{
+    padding:15px 12px;
+  }
+
+  .logo{
+    font-size:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">PERSIAN STARK</div>
+  <div class="admin" id="adminInfo">در حال بررسی...</div>
+</header>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <div class="login" id="loginBox">
+
+    <h2>🔐 ورود به پنل مدیریت</h2>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="ایمیل"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="رمز عبور"
+    >
+
+    <button class="btn" onclick="login()">
+      ورود
+    </button>
+
+    <div class="status" id="loginStatus"></div>
+
+  </div>
+
+
+  <!-- ADMIN PANEL -->
+  <div class="panel hidden" id="adminPanel">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+
+      <h2>⚡ پنل مدیریت</h2>
+
+      <button class="logout" onclick="logout()">
+        خروج
+      </button>
+
+    </div>
+
+
+    <hr style="border-color:#20283a;margin:20px 0;">
+
+
+    <h2>➕ افزودن مطلب جدید</h2>
+
+    <input
+      type="text"
+      id="title"
+      placeholder="عنوان مطلب"
+    >
+
+    <select id="category">
+      <option value="news">📰 خبر</option>
+      <option value="game">🎮 معرفی بازی</option>
+      <option value="software">💾 نرم‌افزار</option>
+    </select>
+
+    <input
+      type="text"
+      id="description"
+      placeholder="توضیح کوتاه"
+    >
+
+    <textarea
+      id="content"
+      placeholder="متن کامل مطلب"
+    ></textarea>
+
+    <input
+      type="text"
+      id="downloadUrl"
+      placeholder="لینک دانلود - اختیاری"
+    >
+
+    <label style="display:block;margin-bottom:8px;">
+      🖼️ تصویر مطلب
+    </label>
+
+    <input
+      type="file"
+      id="imageFile"
+      accept="image/*"
+      onchange="previewImage()"
+    >
+
+    <img
+      id="preview"
+      class="preview"
+    >
+
+    <button
+      class="btn"
+      onclick="addPost()"
+      style="margin-top:12px;"
+    >
+      🚀 انتشار مطلب
+    </button>
+
+    <div class="status" id="postStatus"></div>
+
+
+    <div class="posts">
+
+      <h2>📚 مطالب سایت</h2>
+
+      <div id="postsList">
+        در حال بارگذاری...
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://jmdoxofcyoxdrtxvvuiu.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+// --------------------------------
+// CHECK ADMIN
+// --------------------------------
+
+async function checkAdmin(){
+
+  const {
+    data:{
+      user
+    }
+  } = await supabaseClient.auth.getUser();
+
+  if(!user){
+
+    document.getElementById("loginBox")
+      .classList.remove("hidden");
+
+    document.getElementById("adminPanel")
+      .classList.add("hidden");
+
+    document.getElementById("adminInfo").innerText =
+      "وارد نشده";
+
+    return;
+
+  }
+
+
+  const {
+    data:profile,
+    error
+  } = await supabaseClient
+    .from("profiles")
+    .select("username,is_admin")
+    .eq("id",user.id)
+    .single();
+
+
+  if(error || !profile || !profile.is_admin){
+
+    document.getElementById("loginBox")
+      .classList.remove("hidden");
+
+    document.getElementById("adminPanel")
+      .classList.add("hidden");
+
+    document.getElementById("adminInfo").innerText =
+      "دسترسی غیرمجاز";
+
+    return;
+
+  }
+
+
+  document.getElementById("loginBox")
+    .classList.add("hidden");
+
+  document.getElementById("adminPanel")
+    .classList.remove("hidden");
+
+  document.getElementById("adminInfo").innerText =
+    "ادمین: " + (profile.username || user.email);
+
+  loadPosts();
+
+}
+
+
+// --------------------------------
+// LOGIN
+// --------------------------------
+
+async function login(){
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+
+  if(!email || !password){
+
+    document.getElementById("loginStatus").innerText =
+      "ایمیل و رمز عبور را وارد کن.";
+
+    return;
+
+  }
+
+
+  document.getElementById("loginStatus").innerText =
+    "در حال ورود...";
+
+
+  const {
+    error
+  } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+
+  if(error){
+
+    document.getElementById("loginStatus").innerText =
+      error.message;
+
+    return;
+
+  }
+
+
+  document.getElementById("loginStatus").innerText =
+    "ورود موفق بود.";
+
+  checkAdmin();
+
+}
+
+
+// --------------------------------
+// LOGOUT
+// --------------------------------
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  location.reload();
+
+}
+
+
+// --------------------------------
+// IMAGE PREVIEW
+// --------------------------------
+
+function previewImage(){
+
+  const file =
+    document.getElementById("imageFile").files[0];
+
+  const preview =
+    document.getElementById("preview");
+
+
+  if(!file){
+
+    preview.style.display = "none";
+    return;
+
+  }
+
+
+  preview.src =
+    URL.createObjectURL(file);
+
+  preview.style.display = "block";
+
+}
+
+
+// --------------------------------
+// ADD POST
+// --------------------------------
+
+async function addPost(){
+
+  const title =
+    document.getElementById("title").value.trim();
+
+  const category =
+    document.getElementById("category").value;
+
+  const description =
+    document.getElementById("description").value.trim();
+
+  const content =
+    document.getElementById("content").value.trim();
+
+  const downloadUrl =
+    document.getElementById("downloadUrl").value.trim();
+
+  const file =
+    document.getElementById("imageFile").files[0];
+
+
+  const status =
+    document.getElementById("postStatus");
+
+
+  if(!title){
+
+    status.innerText =
+      "عنوان مطلب را وارد کن.";
+
+    return;
+
+  }
+
+
+  status.innerText =
+    "در حال انتشار...";
+
+
+  let imageUrl = null;
+
+
+  // -------------------------------
+  // UPLOAD IMAGE
+  // -------------------------------
+
+  if(file){
+
+    const extension =
+      file.name.split(".").pop();
+
+    const fileName =
+      Date.now() + "-" +
+      Math.random().toString(36).substring(2) +
+      "." + extension;
+
+
+    const {
+      error:uploadError
+    } = await supabaseClient
+      .storage
+      .from("images")
+      .upload(fileName,file);
+
+
+    if(uploadError){
+
+      status.innerText =
+        "خطا در آپلود تصویر: " +
+        uploadError.message;
+
+      return;
+
+    }
+
+
+    const {
+      data:publicData
+    } =
+      supabaseClient
+      .storage
+      .from("images")
+      .getPublicUrl(fileName);
+
+
+    imageUrl =
+      publicData.publicUrl;
+
+  }
+
+
+  // -------------------------------
+  // INSERT POST
+  // -------------------------------
+
+  const {
+    error
+  } = await supabaseClient
+    .from("posts")
+    .insert({
+
+      title:title,
+
+      description:description,
+
+      content:content,
+
+      image_url:imageUrl,
+
+      download_url:
+        downloadUrl || null,
+
+      category:category
+
+    });
+
+
+  if(error){
+
+    status.innerText =
+      "خطا در ذخیره مطلب: " +
+      error.message;
+
+    return;
+
+  }
+
+
+  status.innerText =
+    "✅ مطلب با موفقیت منتشر شد.";
+
+
+  document.getElementById("title").value = "";
+  document.getElementById("description").value = "";
+  document.getElementById("content").value = "";
+  document.getElementById("downloadUrl").value = "";
+  document.getElementById("imageFile").value = "";
+
+  document.getElementById("preview").style.display =
+    "none";
+
+
+  loadPosts();
+
+}
+
+
+// --------------------------------
+// LOAD POSTS
+// --------------------------------
+
+async function loadPosts(){
+
+  const container =
+    document.getElementById("postsList");
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("posts")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+
+  if(error){
+
+    container.innerHTML =
+      "خطا: " + error.message;
+
+    return;
+
+  }
+
+
+  if(!data || data.length === 0){
+
+    container.innerHTML =
+      "هنوز مطلبی وجود ندارد.";
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    data.map(post => {
+
+      const image =
+        post.image_url
+        ? `<img src="${post.image_url}">`
+        : "";
+
+
+      return `
+
+        <div class="post">
+
+          ${image}
+
+          <h3>
+            ${escapeHtml(post.title)}
+          </h3>
+
+          <small>
+            دسته:
+            ${escapeHtml(post.category)}
+          </small>
+
+          <p style="margin-top:10px;color:#aaa;">
+            ${escapeHtml(post.description || "")}
+          </p>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+// --------------------------------
+// ESCAPE HTML
+// --------------------------------
+
+function escapeHtml(text){
+
+  return String(text || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+// --------------------------------
+// AUTH STATE
+// --------------------------------
+
+supabaseClient.auth.onAuthStateChange(
+  function(){
+
+    checkAdmin();
+
+  }
+);
+
+
+// START
+
+checkAdmin();
+
+</script>
+
+</body>
+</html>
