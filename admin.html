@@ -2,556 +2,2532 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PERSIAN STARK | پنل مدیریت</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>PERSIAN STARK | Admin</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --bg:#090b10;--panel:#11151d;--panel2:#171c26;--text:#f4f7fb;--muted:#98a3b5;
-  --line:#252d3a;--accent:#7c5cff;--accent2:#00d4ff;--danger:#ff5577;--ok:#36d399;
+  --bg:#080a10;
+  --panel:#111621;
+  --panel2:#171d2a;
+  --border:#293142;
+  --text:#f5f7fb;
+  --muted:#9aa5b7;
+  --accent:#7c5cff;
+  --ok:#21d692;
+  --danger:#ff5272;
 }
+
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 10% 0%,#18203a 0,transparent 35%),var(--bg);color:var(--text);font-family:Vazirmatn,Arial,sans-serif}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Tahoma,Arial,sans-serif;
+  background:radial-gradient(circle at 85% 0,#20163f 0,#080a10 38%,#05060a 100%);
+  color:var(--text);
+}
+
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-#login{min-height:100vh;display:grid;place-items:center;padding:20px}
-.login-card{width:min(430px,100%);background:rgba(17,21,29,.94);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 25px 70px #0008}
-.logo{font-weight:900;font-size:27px;letter-spacing:1px}
-.logo span{color:var(--accent)}
-.muted{color:var(--muted);font-size:14px}
-input,textarea,select{width:100%;background:#0c1017;border:1px solid var(--line);color:var(--text);border-radius:13px;padding:12px 14px;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--accent)}
-textarea{min-height:130px;resize:vertical}
-label{display:block;margin:14px 0 7px;font-weight:700;font-size:14px}
-.btn{border:0;border-radius:12px;padding:11px 15px;color:white;background:linear-gradient(135deg,var(--accent),#9b6cff);font-weight:800}
-.btn.secondary{background:#202734}
-.btn.ok{background:#126b50}
-.btn.danger{background:#7b263e}
-.btn.full{width:100%;margin-top:18px}
-#app{min-height:100vh}
-.topbar{position:sticky;top:0;z-index:20;background:#0b0e14eF;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
-.top-actions{display:flex;gap:8px;align-items:center}
-.layout{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:calc(100vh - 68px)}
-.sidebar{border-left:1px solid var(--line);background:#0d1118;padding:18px;position:sticky;top:68px;height:calc(100vh - 68px)}
-.navbtn{width:100%;text-align:right;background:transparent;border:1px solid transparent;color:var(--text);padding:12px;border-radius:12px;margin-bottom:7px}
-.navbtn:hover,.navbtn.active{background:#191f2b;border-color:var(--line)}
-main{padding:22px;max-width:1250px;width:100%;margin:auto}
-.section{display:none}
-.section.active{display:block}
-h1{font-size:26px;margin:0 0 7px}
-h2{font-size:19px;margin:0 0 10px}
-.card{background:rgba(17,21,29,.92);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.preview{width:100%;max-height:250px;object-fit:cover;border-radius:14px;border:1px solid var(--line);margin-top:10px}
-.post-item{display:grid;grid-template-columns:100px 1fr auto;gap:14px;align-items:center;border-top:1px solid var(--line);padding:13px 0}
-.post-item:first-child{border-top:0}
-.thumb{width:100px;height:70px;object-fit:cover;border-radius:10px;background:#080a0e}
-.block-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-.block{border:1px solid var(--line);background:#0d121a;border-radius:15px;padding:13px}
-.block-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:10px}
-.badge{display:inline-flex;padding:5px 9px;border-radius:999px;background:#1c2432;color:#cfd7e5;font-size:12px}
-.block-actions{display:flex;gap:5px;flex-wrap:wrap}
-.small{padding:7px 9px;border-radius:9px;border:0;background:#202734;color:white}
-.video-box{background:#05070a;border-radius:12px;overflow:hidden;margin-top:8px}
-.video-box video{width:100%;display:block;max-height:380px}
-.notice{padding:11px 13px;border-radius:11px;background:#151c28;color:#cdd6e5;margin-top:10px;font-size:13px}
-.success{color:#62e6b0}.error{color:#ff718c}
-.choice{display:flex;gap:8px;flex-wrap:wrap}
-.choice button{flex:1;min-width:120px}
-.choice button.selected{outline:2px solid var(--accent);background:#252b3a}
-.range-row{display:grid;grid-template-columns:1fr 70px;gap:10px;align-items:center}
-input[type=range]{padding:0}
-.toggle{display:flex;justify-content:space-between;align-items:center;background:#0d121a;border:1px solid var(--line);padding:13px;border-radius:13px;margin-top:10px}
-.switch{width:48px;height:27px;position:relative}
-.switch input{display:none}
-.slider{position:absolute;inset:0;background:#333b49;border-radius:99px}
-.slider:before{content:"";position:absolute;width:21px;height:21px;right:3px;top:3px;background:white;border-radius:50%;transition:.2s}
-.switch input:checked+.slider{background:var(--accent)}
-.switch input:checked+.slider:before{transform:translateX(-21px)}
-@media(max-width:850px){
- .layout{display:block}.sidebar{position:fixed;z-index:30;right:0;top:68px;width:280px;height:calc(100vh - 68px);transform:translateX(110%);transition:.2s;box-shadow:-20px 0 50px #0008}.sidebar.open{transform:translateX(0)}
- main{padding:15px}.grid,.grid3{grid-template-columns:1fr}.post-item{grid-template-columns:70px 1fr}.post-item .actions{grid-column:1/-1}.thumb{width:70px;height:55px}
+
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:260px minmax(0,1fr);
 }
-@media(min-width:851px){#menuBtn{display:none}}
+
+.sidebar{
+  position:sticky;
+  top:0;
+  height:100vh;
+  padding:18px 14px;
+  background:rgba(9,12,18,.94);
+  border-left:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  z-index:20;
+}
+
+.brand{
+  padding:10px 8px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:14px;
+}
+
+.brand b{
+  font-size:21px;
+  display:block;
+}
+
+.brand small{color:var(--muted)}
+
+.nav{
+  display:grid;
+  gap:7px;
+}
+
+.nav button{
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--muted);
+  padding:12px;
+  border-radius:11px;
+  text-align:right;
+}
+
+.nav button:hover,
+.nav button.active{
+  background:var(--panel2);
+  border-color:var(--border);
+  color:#fff;
+}
+
+.sideBottom{
+  position:absolute;
+  bottom:15px;
+  left:14px;
+  right:14px;
+  display:grid;
+  gap:7px;
+}
+
+.main{
+  min-width:0;
+  padding:22px;
+  max-width:1500px;
+  width:100%;
+  margin:auto;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.top h1{
+  margin:0 0 5px;
+  font-size:25px;
+}
+
+.top p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.btn{
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:#fff;
+  border-radius:10px;
+  padding:10px 13px;
+}
+
+.btn.primary{
+  background:linear-gradient(135deg,#7c5cff,#583bd3);
+  border:0;
+}
+
+.btn.ok{
+  background:#0d2b20;
+  border-color:#1d6048;
+}
+
+.btn.danger{
+  background:#35131e;
+  border-color:#642437;
+  color:#ffb5c3;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+
+.stat,.panel{
+  background:rgba(17,22,33,.92);
+  border:1px solid var(--border);
+  border-radius:15px;
+  box-shadow:0 15px 40px rgba(0,0,0,.22);
+}
+
+.stat{padding:17px}
+
+.stat span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.stat b{
+  display:block;
+  font-size:27px;
+  margin-top:7px;
+}
+
+.panel{
+  padding:17px;
+  margin-top:16px;
+}
+
+.head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.head h2{
+  margin:0;
+  font-size:18px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field{
+  display:grid;
+  gap:7px;
+  margin-bottom:13px;
+}
+
+.field label{
+  font-size:13px;
+  color:#ccd3df;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  border:1px solid var(--border);
+  background:#0a0e15;
+  color:#fff;
+  border-radius:10px;
+  padding:11px;
+  outline:0;
+}
+
+.field textarea{
+  min-height:125px;
+  resize:vertical;
+  line-height:1.8;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus{
+  border-color:var(--accent);
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.notice{
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#0d121b;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+}
+
+.notice.ok{
+  border-color:#1c5b45;
+  color:#9df0cb;
+  background:#0c2119;
+}
+
+.notice.error{
+  border-color:#6b2638;
+  color:#ffbdca;
+  background:#241018;
+}
+
+.postList{
+  display:grid;
+  gap:9px;
+}
+
+.post{
+  display:grid;
+  grid-template-columns:82px minmax(0,1fr) auto;
+  gap:12px;
+  align-items:center;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#0c1119;
+}
+
+.thumb{
+  width:82px;
+  height:62px;
+  object-fit:cover;
+  border-radius:8px;
+  background:#161c27;
+}
+
+.ptitle{
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.meta{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.actions{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.actions .btn{
+  padding:8px 10px;
+  font-size:12px;
+}
+
+.blocks{
+  display:grid;
+  gap:10px;
+}
+
+.block{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  background:#0c1119;
+}
+
+.blockHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:9px;
+}
+
+.blockTools{
+  display:flex;
+  gap:5px;
+}
+
+.blockTools button{
+  border:1px solid var(--border);
+  background:#171d2a;
+  color:#fff;
+  border-radius:7px;
+  padding:5px 8px;
+}
+
+.preview{
+  max-width:100%;
+  max-height:280px;
+  border-radius:10px;
+  display:block;
+  margin-top:8px;
+}
+
+video.preview{
+  width:100%;
+  background:#000;
+}
+
+.loginWrap{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:18px;
+}
+
+.login{
+  width:min(430px,100%);
+  background:rgba(17,22,33,.97);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.login h1{
+  margin:0 0 5px;
+}
+
+.login p{
+  color:var(--muted);
+  font-size:13px;
+  margin:0 0 20px;
+}
+
+.toast{
+  position:fixed;
+  left:15px;
+  bottom:15px;
+  z-index:100;
+  max-width:min(430px,calc(100vw - 30px));
+  padding:13px 15px;
+  border-radius:11px;
+  background:#121722;
+  border:1px solid var(--border);
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  line-height:1.7;
+}
+
+.toast.error{border-color:#6b2638}
+.toast.ok{border-color:#1c5b45}
+
+.mobileMenu{display:none}
+
+@media(max-width:1050px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .app{grid-template-columns:220px minmax(0,1fr)}
+}
+
+@media(max-width:760px){
+
+  .app{display:block}
+
+  .sidebar{
+    position:fixed;
+    top:0;
+    right:0;
+    left:0;
+    height:auto;
+    padding:9px 11px;
+    border-left:0;
+    border-bottom:1px solid var(--border);
+  }
+
+  .brand{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:5px 2px 9px;
+    margin:0;
+  }
+
+  .brand b{font-size:18px}
+
+  .mobileMenu{display:block}
+
+  .nav{
+    display:none;
+    padding-top:8px;
+  }
+
+  .sidebar.open .nav{display:grid}
+
+  .nav button{padding:11px}
+
+  .sideBottom{
+    display:none;
+    position:static;
+    margin-top:8px;
+  }
+
+  .sidebar.open .sideBottom{display:grid}
+
+  .main{padding:72px 9px 18px}
+
+  .top{align-items:flex-start}
+
+  .top h1{font-size:20px}
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+  }
+
+  .stat{padding:13px}
+
+  .stat b{font-size:21px}
+
+  .panel{
+    padding:13px;
+    border-radius:13px;
+  }
+
+  .grid2{
+    grid-template-columns:1fr;
+    gap:0;
+  }
+
+  .post{
+    grid-template-columns:58px minmax(0,1fr);
+    align-items:start;
+  }
+
+  .thumb{
+    width:58px;
+    height:52px;
+  }
+
+  .post .actions{
+    grid-column:1/-1;
+  }
+
+  .post .actions .btn{flex:1}
+
+  .row .btn{min-height:42px}
+
+  .field input,
+  .field textarea,
+  .field select{
+    font-size:16px;
+  }
+}
+
+@media(max-width:390px){
+  .cards{grid-template-columns:1fr}
+  .main{padding-inline:7px}
+}
 </style>
 </head>
 <body>
 
-<div id="login">
-  <div class="login-card">
-    <div class="logo">PERSIAN <span>STARK</span></div>
-    <p class="muted">ورود به پنل مدیریت</p>
-    <label>ایمیل</label>
-    <input id="email" type="email" autocomplete="username" placeholder="admin@example.com">
-    <label>رمز عبور</label>
-    <input id="password" type="password" autocomplete="current-password" placeholder="رمز عبور">
-    <button class="btn full" id="loginBtn">ورود به پنل</button>
-    <div id="loginMsg" class="notice hidden"></div>
+<div id="loginView" class="loginWrap">
+
+  <div class="login">
+
+    <h1>PERSIAN STARK</h1>
+
+    <p>ورود به پنل مدیریت</p>
+
+    <div class="field">
+      <label>ایمیل</label>
+      <input id="loginEmail" type="email" autocomplete="username">
+    </div>
+
+    <div class="field">
+      <label>رمز عبور</label>
+      <input id="loginPassword" type="password" autocomplete="current-password">
+    </div>
+
+    <button class="btn primary" style="width:100%" onclick="login()">
+      ورود
+    </button>
+
+    <div id="loginMsg" class="notice hidden" style="margin-top:12px"></div>
+
   </div>
+
 </div>
 
-<div id="app" class="hidden">
-  <header class="topbar">
-    <div class="row">
-      <button class="btn secondary" id="menuBtn">☰</button>
-      <div class="logo">PERSIAN <span>STARK</span></div>
+
+<div id="app" class="app hidden">
+
+  <aside id="sidebar" class="sidebar">
+
+    <div class="brand">
+
+      <div>
+        <b>PERSIAN STARK</b>
+        <small>ADMIN PANEL</small>
+      </div>
+
+      <button class="btn mobileMenu" onclick="toggleSidebar()">☰</button>
+
     </div>
-    <div class="top-actions">
-      <a class="btn secondary" href="index.html" target="_blank">مشاهده سایت ↗</a>
-      <button class="btn danger" id="logoutBtn">خروج</button>
+
+
+    <nav class="nav">
+
+      <button class="active"
+              onclick="showSection('dashboard',this)">
+        📊 داشبورد
+      </button>
+
+      <button onclick="showSection('posts',this)">
+        📰 مطالب
+      </button>
+
+      <button onclick="showSection('editor',this)">
+        ✏️ ساخت مطلب
+      </button>
+
+      <button onclick="showSection('settings',this)">
+        ⚙️ تنظیمات سایت
+      </button>
+
+    </nav>
+
+
+    <div class="sideBottom">
+
+      <button class="btn"
+              onclick="window.open('https://hadi2006-hub.github.io/','_blank')">
+        🌐 مشاهده سایت
+      </button>
+
+      <button class="btn danger" onclick="logout()">
+        خروج
+      </button>
+
     </div>
-  </header>
 
-  <div class="layout">
-    <aside class="sidebar" id="sidebar">
-      <button class="navbtn active" data-section="dashboard">🏠 داشبورد</button>
-      <button class="navbtn" data-section="posts">📝 مطالب</button>
-      <button class="navbtn" data-section="settings">⚙️ تنظیمات سایت</button>
-    </aside>
+  </aside>
 
-    <main>
-      <section id="dashboard" class="section active">
-        <h1>داشبورد</h1>
-        <p class="muted">مدیریت PERSIAN STARK از گوشی، تبلت یا کامپیوتر.</p>
-        <div class="grid3">
-          <div class="card"><div class="muted">تعداد مطالب</div><h2 id="statPosts">—</h2></div>
-          <div class="card"><div class="muted">حالت سایت</div><h2 id="statTheme">—</h2></div>
-          <div class="card"><div class="muted">پس‌زمینه</div><h2 id="statBg">—</h2></div>
+
+  <main class="main">
+
+    <div class="top">
+
+      <div>
+        <h1 id="pageTitle">داشبورد</h1>
+        <p id="adminEmail"></p>
+      </div>
+
+      <div class="row">
+
+        <button class="btn" onclick="refreshAll()">
+          ↻ بروزرسانی
+        </button>
+
+        <button class="btn primary"
+                onclick="showSection('editor')">
+          ＋ مطلب جدید
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- DASHBOARD -->
+
+    <section id="dashboard" class="section">
+
+      <div class="cards">
+
+        <div class="stat">
+          <span>کل مطالب</span>
+          <b id="statPosts">0</b>
         </div>
-      </section>
 
-      <section id="posts" class="section">
-        <div class="row" style="justify-content:space-between">
-          <div><h1>مطالب</h1><p class="muted">ساخت مقاله با متن، تصویر و ویدیو با هر ترتیبی که خواستی.</p></div>
-          <button class="btn" id="newPostBtn">+ مطلب جدید</button>
+        <div class="stat">
+          <span>اخبار</span>
+          <b id="statNews">0</b>
         </div>
 
-        <div id="postEditor" class="card hidden">
-          <h2 id="editorTitle">مطلب جدید</h2>
-          <input type="hidden" id="postId">
+        <div class="stat">
+          <span>معرفی بازی</span>
+          <b id="statGames">0</b>
+        </div>
 
-          <div class="grid">
-            <div>
-              <label>عنوان</label>
-              <input id="postTitle" placeholder="مثلاً معرفی Silent Hill: Townfall">
-            </div>
-            <div>
-              <label>دسته‌بندی</label>
-              <select id="postCategory">
-                <option value="news">اخبار</option>
-                <option value="game">معرفی بازی</option>
-                <option value="software">نرم‌افزار</option>
-                <option value="other">سایر</option>
-              </select>
-            </div>
+        <div class="stat">
+          <span>نرم‌افزار</span>
+          <b id="statSoftware">0</b>
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="head">
+
+          <h2>وضعیت پنل</h2>
+
+          <small style="color:var(--muted)">
+            موبایل + کامپیوتر
+          </small>
+
+        </div>
+
+        <div class="notice ok">
+          پنل برای موبایل، لپ‌تاپ و کامپیوتر طراحی شده است.
+          در موبایل منو جمع می‌شود و فرم‌ها تک‌ستونه می‌شوند.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- POSTS -->
+
+    <section id="posts" class="section hidden">
+
+      <div class="panel">
+
+        <div class="head">
+
+          <h2>مطالب سایت</h2>
+
+          <button class="btn primary"
+                  onclick="showSection('editor')">
+            ＋ ساخت مطلب
+          </button>
+
+        </div>
+
+        <div id="postList" class="postList"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- EDITOR -->
+
+    <section id="editor" class="section hidden">
+
+      <div class="panel">
+
+        <div class="head">
+
+          <h2 id="editorTitle">
+            ساخت مطلب جدید
+          </h2>
+
+          <small id="editingId"
+                 style="color:var(--muted)">
+          </small>
+
+        </div>
+
+
+        <input type="hidden" id="postId">
+
+
+        <div class="grid2">
+
+          <div class="field">
+
+            <label>عنوان</label>
+
+            <input id="title"
+                   placeholder="مثلاً معرفی بازی...">
+
           </div>
+
+
+          <div class="field">
+
+            <label>دسته‌بندی</label>
+
+            <select id="category">
+
+              <option value="news">
+                اخبار
+              </option>
+
+              <option value="game">
+                معرفی بازی
+              </option>
+
+              <option value="software">
+                نرم‌افزار
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
 
           <label>توضیح کوتاه</label>
-          <textarea id="postDescription" style="min-height:90px" placeholder="متن کوتاه برای کارت مطلب"></textarea>
 
-          <label>تصویر اصلی / کاور</label>
-          <input id="coverFile" type="file" accept="image/*">
-          <div id="coverStatus" class="muted"></div>
-          <img id="coverPreview" class="preview hidden">
+          <textarea id="description"
+                    placeholder="خلاصه مطلب...">
+          </textarea>
 
-          <label>لینک دانلود (اختیاری)</label>
-          <input id="downloadUrl" placeholder="https://...">
-
-          <div class="card" style="margin-top:18px;background:#0b0f16">
-            <div class="row" style="justify-content:space-between">
-              <div>
-                <h2>محتوای مقاله</h2>
-                <div class="muted">بلوک‌ها را به هر ترتیبی که می‌خواهی اضافه کن.</div>
-              </div>
-              <div class="row">
-                <button class="btn secondary" id="addTextBtn">+ متن</button>
-                <button class="btn secondary" id="addImageBtn">+ تصویر</button>
-                <button class="btn secondary" id="addVideoBtn">+ ویدیو</button>
-              </div>
-            </div>
-            <div id="blocks" class="block-list"></div>
-            <div id="emptyBlocks" class="notice">هنوز محتوایی اضافه نشده. از دکمه‌های بالا شروع کن.</div>
-          </div>
-
-          <div class="row">
-            <button class="btn" id="savePostBtn">ذخیره مطلب</button>
-            <button class="btn secondary" id="cancelEditBtn">انصراف</button>
-          </div>
-          <div id="saveMsg" class="notice hidden"></div>
         </div>
 
-        <div class="card">
-          <div class="row" style="justify-content:space-between">
-            <h2>مطالب ثبت‌شده</h2>
-            <button class="btn secondary" id="refreshPostsBtn">↻ بروزرسانی</button>
+
+        <div class="grid2">
+
+
+          <div class="field">
+
+            <label>
+              لینک دانلود
+              (اختیاری)
+            </label>
+
+            <input id="downloadUrl"
+                   placeholder="https://...">
+
           </div>
-          <div id="postsList"></div>
+
+
+          <div class="field">
+
+            <label>
+              تصویر کاور
+            </label>
+
+            <input id="coverFile"
+                   type="file"
+                   accept="image/*">
+
+            <button class="btn"
+                    onclick="uploadCover()">
+              آپلود کاور
+            </button>
+
+            <input id="coverUrl"
+                   placeholder="یا URL تصویر">
+
+            <img id="coverPreview"
+                 class="preview hidden">
+
+          </div>
+
+
         </div>
-      </section>
 
-      <section id="settings" class="section">
-        <h1>تنظیمات سایت</h1>
-        <p class="muted">این تنظیمات از هر دستگاهی قابل تغییر است.</p>
 
-        <div class="card">
-          <h2>🎨 حالت نمایش</h2>
-          <div class="choice" id="themeChoices">
-            <button class="btn secondary" data-theme="dark">🌙 دارک</button>
-            <button class="btn secondary" data-theme="light">☀️ روشن</button>
-            <button class="btn secondary" data-theme="system">🔄 خودکار</button>
-          </div>
+        <div class="field">
+
+          <label>
+            محتوای اصلی قدیمی
+            (اختیاری)
+          </label>
+
+          <textarea id="content"
+                    placeholder="متن اصلی مطلب...">
+          </textarea>
+
         </div>
 
-        <div class="card">
-          <h2>🌌 پس‌زمینه صفحه اصلی</h2>
-          <div class="choice" id="bgChoices">
-            <button class="btn secondary" data-bg="animated">✨ متحرک</button>
-            <button class="btn secondary" data-bg="image">🖼️ تصویر</button>
-            <button class="btn secondary" data-bg="video">🎬 ویدیو</button>
-            <button class="btn secondary" data-bg="none">❌ خاموش</button>
+
+        <!-- BLOCK EDITOR -->
+
+        <div class="panel"
+             style="background:#0b0f17">
+
+          <div class="head">
+
+            <h2>بدنه مطلب</h2>
+
+            <small style="color:var(--muted)">
+              متن، عکس و ویدیو را به هر ترتیبی بچین
+            </small>
+
           </div>
 
-          <label>فایل پس‌زمینه</label>
-          <input id="bgFile" type="file" accept="image/*,video/mp4,video/webm,video/*">
-          <div id="bgStatus" class="muted"></div>
 
-          <label>یا لینک پس‌زمینه</label>
-          <input id="bgUrl" placeholder="https://...">
+          <div class="row"
+               style="margin-bottom:12px">
 
-          <label>تاریکی روی پس‌زمینه</label>
-          <div class="range-row">
-            <input id="bgOverlay" type="range" min="0" max="100" value="55">
-            <input id="bgOverlayNumber" type="number" min="0" max="100" value="55">
+            <button class="btn"
+                    onclick="addBlock('text')">
+              ＋ متن
+            </button>
+
+            <button class="btn"
+                    onclick="addBlock('image')">
+              ＋ عکس
+            </button>
+
+            <button class="btn"
+                    onclick="addBlock('video')">
+              ＋ ویدیو
+            </button>
+
           </div>
 
-          <div class="toggle">
-            <span>فعال بودن پس‌زمینه</span>
-            <label class="switch"><input id="bgEnabled" type="checkbox" checked><span class="slider"></span></label>
+
+          <div id="blocks"
+               class="blocks">
           </div>
 
-          <div class="toggle">
-            <span>بی‌صدا بودن ویدیوی پس‌زمینه</span>
-            <label class="switch"><input id="bgMuted" type="checkbox" checked><span class="slider"></span></label>
-          </div>
-
-          <button class="btn full" id="saveSettingsBtn">ذخیره تنظیمات</button>
-          <div id="settingsMsg" class="notice hidden"></div>
         </div>
-      </section>
-    </main>
-  </div>
+
+
+        <div id="saveMsg"
+             class="notice hidden"
+             style="margin-bottom:12px">
+        </div>
+
+
+        <div class="row">
+
+          <button class="btn primary"
+                  onclick="savePost()">
+            💾 ذخیره مطلب
+          </button>
+
+          <button class="btn"
+                  onclick="newPost()">
+            پاک کردن فرم
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SETTINGS -->
+
+    <section id="settings" class="section hidden">
+
+      <div class="panel">
+
+        <div class="head">
+
+          <h2>
+            تنظیمات ظاهر سایت
+          </h2>
+
+          <small style="color:var(--muted)">
+            site_settings
+          </small>
+
+        </div>
+
+
+        <div class="grid2">
+
+
+          <div class="field">
+
+            <label>تم سایت</label>
+
+            <select id="theme">
+
+              <option value="dark">
+                تاریک
+              </option>
+
+              <option value="light">
+                روشن
+              </option>
+
+              <option value="system">
+                سیستم
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              نوع پس‌زمینه
+            </label>
+
+            <select id="backgroundType">
+
+              <option value="animated">
+                متحرک
+              </option>
+
+              <option value="image">
+                تصویر
+              </option>
+
+              <option value="video">
+                ویدیو
+              </option>
+
+              <option value="none">
+                بدون پس‌زمینه
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            URL پس‌زمینه
+          </label>
+
+          <input id="backgroundUrl"
+                 placeholder="https://...">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            فایل پس‌زمینه
+          </label>
+
+          <input id="backgroundFile"
+                 type="file"
+                 accept="image/*,video/*">
+
+          <button class="btn"
+                  onclick="uploadBackground()">
+            آپلود پس‌زمینه
+          </button>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            تاریکی پس‌زمینه:
+            <span id="overlayValue">55</span>%
+          </label>
+
+          <input id="backgroundOverlay"
+                 type="range"
+                 min="0"
+                 max="100"
+                 value="55"
+                 oninput="overlayValue.textContent=this.value">
+
+        </div>
+
+
+        <div class="row">
+
+          <button id="bgEnabled"
+                  class="btn ok"
+                  onclick="toggleBool('bgEnabled')">
+            پس‌زمینه فعال
+          </button>
+
+          <button id="bgMuted"
+                  class="btn ok"
+                  onclick="toggleBool('bgMuted')">
+            ویدیو بی‌صدا
+          </button>
+
+        </div>
+
+
+        <div id="settingsMsg"
+             class="notice hidden"
+             style="margin:14px 0">
+        </div>
+
+
+        <button class="btn primary"
+                onclick="saveSettings()">
+          💾 ذخیره تنظیمات
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
 </div>
 
+
+<div id="toast"
+     class="toast hidden">
+</div>
 <script>
-const SUPABASE_URL = "https://jmdoxofcyoxdrtxvvuiu.supabase.co";
-const SUPABASE_KEY = "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const $ = id => document.getElementById(id);
-let currentSettings = null;
+const SUPABASE_URL =
+"https://jmdoxofcyoxdrtxvvuiu.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+let currentUser = null;
 let blocks = [];
-let editingPostId = null;
 
-function msg(el, text, type=""){
-  el.textContent = text;
-  el.classList.remove("hidden","error","success");
-  if(type) el.classList.add(type);
-}
-function slugFile(name){
-  return Date.now()+"-"+Math.random().toString(36).slice(2,9)+"-"+name.replace(/[^a-zA-Z0-9._-]/g,"-");
-}
-function escapeHtml(s=""){
-  return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-}
+let bgEnabledState = true;
+let bgMutedState = true;
 
-async function uploadFile(file, folder){
-  const path = folder + "/" + slugFile(file.name);
-  const {error} = await supabaseClient.storage.from("images").upload(path,file,{upsert:false});
-  if(error) throw error;
-  const {data} = supabaseClient.storage.from("images").getPublicUrl(path);
-  return data.publicUrl;
+
+const $ = id =>
+document.getElementById(id);
+
+
+/* =========================
+   UI
+========================= */
+
+function toggleSidebar(){
+
+  $("sidebar").classList.toggle("open");
+
 }
 
-async function requireAdmin(){
-  const {data:{user}} = await supabaseClient.auth.getUser();
-  if(!user) return false;
-  const {data,error} = await supabaseClient
-    .from("profiles").select("is_admin").eq("id",user.id).maybeSingle();
-  if(error || !data?.is_admin) return false;
-  return true;
+
+function showSection(id,btn){
+
+  document
+  .querySelectorAll(".section")
+  .forEach(x=>x.classList.add("hidden"));
+
+  $(id).classList.remove("hidden");
+
+
+  document
+  .querySelectorAll(".nav button")
+  .forEach(x=>x.classList.remove("active"));
+
+
+  if(btn)
+    btn.classList.add("active");
+
+
+  const titles={
+    dashboard:"داشبورد",
+    posts:"مطالب",
+    editor:"ساخت مطلب",
+    settings:"تنظیمات سایت"
+  };
+
+
+  $("pageTitle").textContent =
+  titles[id] || "پنل مدیریت";
+
+
+  if(window.innerWidth<=760)
+    $("sidebar").classList.remove("open");
+
+
+  if(id==="posts")
+    loadPosts();
+
+
+  if(id==="settings")
+    loadSettings();
+
 }
 
-async function start(){
-  const ok = await requireAdmin();
-  if(!ok){
-    $("login").classList.remove("hidden");
-    $("app").classList.add("hidden");
-    return;
-  }
-  $("login").classList.add("hidden");
-  $("app").classList.remove("hidden");
-  await loadSettings();
-  await loadPosts();
+
+function notice(el,text,type="error"){
+
+  el.textContent=text;
+
+  el.className=
+  "notice "+type;
+
 }
+
+
+function toast(text,type="ok"){
+
+  const el=$("toast");
+
+  el.textContent=text;
+
+  el.className=
+  "toast "+type;
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=
+  setTimeout(()=>{
+    el.className="toast hidden";
+  },4000);
+
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
 async function login(){
-  const email=$("email").value.trim(), password=$("password").value;
-  const el=$("loginMsg");
-  if(!email||!password){msg(el,"ایمیل و رمز عبور را وارد کن.","error");return}
-  const {error}=await supabaseClient.auth.signInWithPassword({email,password});
-  if(error){msg(el,error.message,"error");return}
-  if(!(await requireAdmin())){
-    await supabaseClient.auth.signOut();
-    msg(el,"این حساب دسترسی ادمین ندارد.","error");return
+
+  const email=
+  $("loginEmail").value.trim();
+
+  const password=
+  $("loginPassword").value;
+
+
+  if(!email || !password){
+
+    return notice(
+      $("loginMsg"),
+      "ایمیل و رمز عبور را وارد کن."
+    );
+
   }
-  await start();
-}
-$("loginBtn").onclick=login;
-$("password").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
-$("logoutBtn").onclick=async()=>{await supabaseClient.auth.signOut();location.reload()};
 
-document.querySelectorAll(".navbtn").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");
-  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-  $(b.dataset.section).classList.add("active");
-  $("sidebar").classList.remove("open");
-});
-$("menuBtn").onclick=()=>$("sidebar").classList.toggle("open");
 
-function resetEditor(){
-  editingPostId=null; blocks=[];
-  $("postId").value="";
-  $("postTitle").value="";
-  $("postDescription").value="";
-  $("postCategory").value="news";
-  $("downloadUrl").value="";
-  $("coverFile").value="";
-  $("coverPreview").classList.add("hidden");
-  $("coverPreview").src="";
-  $("coverStatus").textContent="";
-  $("editorTitle").textContent="مطلب جدید";
-  renderBlocks();
-  $("saveMsg").classList.add("hidden");
-}
-$("newPostBtn").onclick=()=>{$("postEditor").classList.remove("hidden");resetEditor();window.scrollTo({top:0,behavior:"smooth"})};
-$("cancelEditBtn").onclick=()=>{$("postEditor").classList.add("hidden");resetEditor()};
-
-function addBlock(type,data={}){
-  blocks.push({
-    id:data.id||null,type,content:data.content||"",sort_order:blocks.length,
-    file:null, preview:data.content||""
+  const {data,error}=
+  await supabaseClient.auth.signInWithPassword({
+    email,
+    password
   });
-  renderBlocks();
-}
-$("addTextBtn").onclick=()=>addBlock("text");
-$("addImageBtn").onclick=()=>addBlock("image");
-$("addVideoBtn").onclick=()=>addBlock("video");
 
-function renderBlocks(){
-  const wrap=$("blocks"); wrap.innerHTML="";
-  $("emptyBlocks").classList.toggle("hidden",blocks.length>0);
-  blocks.forEach((b,i)=>{
-    const div=document.createElement("div");div.className="block";
-    const typeName={text:"📝 متن",image:"🖼️ تصویر",video:"🎬 ویدیو"}[b.type];
-    div.innerHTML=`
-      <div class="block-head">
-        <span class="badge">${i+1} · ${typeName}</span>
-        <div class="block-actions">
-          <button class="small" data-act="up">↑</button>
-          <button class="small" data-act="down">↓</button>
-          <button class="small" data-act="del">🗑️</button>
-        </div>
-      </div>
-      <div class="body"></div>`;
-    const body=div.querySelector(".body");
-    if(b.type==="text"){
-      const ta=document.createElement("textarea");ta.placeholder="متن این بخش را بنویس...";ta.value=b.content;
-      ta.oninput=()=>b.content=ta.value;body.appendChild(ta);
-    }else{
-      const input=document.createElement("input");
-      input.type="file";input.accept=b.type==="image"?"image/*":"video/*";
-      input.onchange=async()=>{
-        if(!input.files[0])return;
-        b.file=input.files[0];
-        b.content="";
-        const status=document.createElement("div");status.className="muted";status.textContent="فایل انتخاب شد؛ هنگام ذخیره آپلود می‌شود.";
-        body.appendChild(status);
-        if(b.type==="image"){
-          const r=new FileReader();r.onload=e=>{let im=body.querySelector("img");if(!im){im=document.createElement("img");im.className="preview";body.appendChild(im)}im.src=e.target.result};r.readAsDataURL(b.file);
-        }
-      };
-      body.appendChild(input);
-      const url=document.createElement("input");url.style.marginTop="8px";url.placeholder=b.type==="image"?"یا لینک مستقیم تصویر":"یا لینک ویدیو (YouTube / MP4 / ...)";
-      url.value=b.content;url.oninput=()=>b.content=url.value;body.appendChild(url);
-      if(b.content){
-        if(b.type==="image"){const im=document.createElement("img");im.className="preview";im.src=b.content;body.appendChild(im)}
-        else{const p=document.createElement("div");p.className="notice";p.textContent="لینک ویدیو ذخیره شده است.";body.appendChild(p)}
-      }
-    }
-    div.querySelector('[data-act="up"]').onclick=()=>{if(i>0){[blocks[i-1],blocks[i]]=[blocks[i],blocks[i-1]];renderBlocks()}};
-    div.querySelector('[data-act="down"]').onclick=()=>{if(i<blocks.length-1){[blocks[i+1],blocks[i]]=[blocks[i],blocks[i+1]];renderBlocks()}};
-    div.querySelector('[data-act="del"]').onclick=()=>{if(confirm("این بخش حذف شود؟")){blocks.splice(i,1);renderBlocks()}};
-    wrap.appendChild(div);
-  });
+
+  if(error){
+
+    return notice(
+      $("loginMsg"),
+      "ورود ناموفق: "+error.message
+    );
+
+  }
+
+
+  await boot(data.user);
+
 }
 
-$("coverFile").onchange=()=>{
-  const f=$("coverFile").files[0];if(!f)return;
-  $("coverStatus").textContent="تصویر انتخاب شد؛ هنگام ذخیره آپلود می‌شود.";
-  const r=new FileReader();r.onload=e=>{$("coverPreview").src=e.target.result;$("coverPreview").classList.remove("hidden")};r.readAsDataURL(f);
-};
 
-async function savePost(){
-  const title=$("postTitle").value.trim();
-  const description=$("postDescription").value.trim();
-  if(!title){msg($("saveMsg"),"عنوان را وارد کن.","error");return}
-  const saveBtn=$("savePostBtn");saveBtn.disabled=true;saveBtn.textContent="در حال ذخیره...";
-  try{
-    let coverUrl=null;
-    if(editingPostId){
-      const {data:old}=await supabaseClient.from("posts").select("image_url").eq("id",editingPostId).single();
-      coverUrl=old?.image_url||null;
-    }
-    const cf=$("coverFile").files[0];
-    if(cf) coverUrl=await uploadFile(cf,"covers");
+async function logout(){
 
-    const payload={
-      title,description,content:description,image_url:coverUrl,
-      download_url:$("downloadUrl").value.trim()||null,
-      category:$("postCategory").value
-    };
-    let postId=editingPostId;
-    if(postId){
-      const {error}=await supabaseClient.from("posts").update(payload).eq("id",postId);
-      if(error)throw error;
-      await supabaseClient.from("post_blocks").delete().eq("post_id",postId);
-    }else{
-      const {data,error}=await supabaseClient.from("posts").insert(payload).select("id").single();
-      if(error)throw error;postId=data.id;
-    }
+  await supabaseClient.auth.signOut();
 
-    const rows=[];
-    for(let i=0;i<blocks.length;i++){
-      const b=blocks[i];
-      let content=b.content.trim();
-      if(b.file) content=await uploadFile(b.file,b.type==="image"?"article-images":"article-videos");
-      if(!content)continue;
-      rows.push({post_id:postId,type:b.type,content,sort_order:i});
-    }
-    if(rows.length){
-      const {error}=await supabaseClient.from("post_blocks").insert(rows);
-      if(error)throw error;
-    }
-    msg($("saveMsg"),"مطلب با موفقیت ذخیره شد.","success");
-    await loadPosts();
-    setTimeout(()=>{$("postEditor").classList.add("hidden");resetEditor()},500);
-  }catch(e){
-    console.error(e);msg($("saveMsg"),"خطا: "+(e.message||e),"error");
-  }finally{saveBtn.disabled=false;saveBtn.textContent="ذخیره مطلب"}
+  location.reload();
+
 }
-$("savePostBtn").onclick=savePost;
+
+
+async function boot(user){
+
+  currentUser=user;
+
+
+  const {data:profile,error}=
+  await supabaseClient
+  .from("profiles")
+  .select("is_admin,username")
+  .eq("id",user.id)
+  .maybeSingle();
+
+
+  if(error){
+
+    return notice(
+      $("loginMsg"),
+      "خطا در بررسی ادمین: "+
+      error.message
+    );
+
+  }
+
+
+  if(!profile || profile.is_admin!==true){
+
+    await supabaseClient.auth.signOut();
+
+    return notice(
+      $("loginMsg"),
+      "این حساب دسترسی ادمین ندارد."
+    );
+
+  }
+
+
+  $("adminEmail").textContent=
+  (profile.username || user.email)+
+  " • "+
+  user.email;
+
+
+  $("loginView")
+  .classList.add("hidden");
+
+
+  $("app")
+  .classList.remove("hidden");
+
+
+  await refreshAll();
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+async function refreshAll(){
+
+  await loadPosts();
+
+  await loadStats();
+
+  await loadSettings();
+
+}
+
+
+async function loadStats(){
+
+  const {data,error}=
+  await supabaseClient
+  .from("posts")
+  .select("category");
+
+
+  if(error){
+
+    return toast(
+      "خطا در آمار: "+error.message,
+      "error"
+    );
+
+  }
+
+
+  $("statPosts").textContent=
+  data.length;
+
+
+  $("statNews").textContent=
+  data.filter(x=>x.category==="news").length;
+
+
+  $("statGames").textContent=
+  data.filter(x=>x.category==="game").length;
+
+
+  $("statSoftware").textContent=
+  data.filter(x=>x.category==="software").length;
+
+}
+
+
+/* =========================
+   POSTS LIST
+========================= */
 
 async function loadPosts(){
-  const {data,error}=await supabaseClient.from("posts").select("*").order("created_at",{ascending:false});
-  if(error){$("postsList").innerHTML='<div class="error">خطا در دریافت مطالب</div>';return}
-  $("statPosts").textContent=data.length;
-  const wrap=$("postsList");wrap.innerHTML="";
-  if(!data.length){wrap.innerHTML='<div class="notice">هنوز مطلبی ثبت نشده.</div>';return}
-  data.forEach(p=>{
-    const div=document.createElement("div");div.className="post-item";
-    div.innerHTML=`
-      <img class="thumb" src="${p.image_url||""}" onerror="this.style.visibility='hidden'">
-      <div><strong>${escapeHtml(p.title)}</strong><div class="muted">${escapeHtml(p.category||"")} · ${new Date(p.created_at).toLocaleDateString("fa-IR")}</div></div>
-      <div class="actions row">
-        <button class="btn secondary edit">ویرایش</button>
-        <button class="btn danger del">حذف</button>
-      </div>`;
-    div.querySelector(".edit").onclick=()=>editPost(p.id);
-    div.querySelector(".del").onclick=()=>deletePost(p.id);
-    wrap.appendChild(div);
-  });
+
+  const box=$("postList");
+
+  box.innerHTML=
+  '<div class="notice">در حال دریافت مطالب...</div>';
+
+
+  const {data,error}=
+  await supabaseClient
+  .from("posts")
+  .select("*")
+  .order("created_at",{ascending:false});
+
+
+  if(error){
+
+    box.innerHTML=
+    '<div class="notice error">'+
+    escapeHtml(error.message)+
+    '</div>';
+
+    return;
+
+  }
+
+
+  if(!data.length){
+
+    box.innerHTML=
+    '<div class="notice">هنوز مطلبی وجود ندارد.</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML=
+  data.map(p=>`
+
+    <div class="post">
+
+      ${
+        p.image_url
+        ?
+        `<img class="thumb"
+              src="${escapeAttr(p.image_url)}">`
+        :
+        `<div class="thumb"></div>`
+      }
+
+      <div>
+
+        <div class="ptitle">
+          ${escapeHtml(p.title || "بدون عنوان")}
+        </div>
+
+        <div class="meta">
+
+          ${escapeHtml(p.category || "")}
+
+          •
+          
+          ${new Date(p.created_at)
+          .toLocaleString("fa-IR")}
+
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button class="btn"
+                onclick="editPost(${p.id})">
+          ویرایش
+        </button>
+
+        <button class="btn danger"
+                onclick="deletePost(${p.id})">
+          حذف
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("");
+
 }
-$("refreshPostsBtn").onclick=loadPosts;
+
+
+/* =========================
+   NEW POST
+========================= */
+
+function newPost(){
+
+  $("postId").value="";
+  $("title").value="";
+  $("category").value="news";
+  $("description").value="";
+  $("downloadUrl").value="";
+  $("coverUrl").value="";
+  $("content").value="";
+  $("coverFile").value="";
+
+  $("coverPreview")
+  .classList.add("hidden");
+
+
+  $("editorTitle").textContent=
+  "ساخت مطلب جدید";
+
+  $("editingId").textContent="";
+
+
+  blocks=[];
+
+  renderBlocks();
+
+
+  notice(
+    $("saveMsg"),
+    "فرم برای مطلب جدید آماده است.",
+    "ok"
+  );
+
+}
+
+
+/* =========================
+   EDIT
+========================= */
 
 async function editPost(id){
-  const {data:p,error}=await supabaseClient.from("posts").select("*").eq("id",id).single();
-  if(error)return alert(error.message);
-  const {data:bs}=await supabaseClient.from("post_blocks").select("*").eq("post_id",id).order("sort_order",{ascending:true});
-  editingPostId=id;
-  $("postEditor").classList.remove("hidden");
-  $("editorTitle").textContent="ویرایش مطلب";
-  $("postId").value=id;$("postTitle").value=p.title||"";$("postDescription").value=p.description||"";
-  $("postCategory").value=p.category||"news";$("downloadUrl").value=p.download_url||"";
-  $("coverFile").value="";$("coverStatus").textContent=p.image_url?"تصویر کاور فعلی":"";
-  if(p.image_url){$("coverPreview").src=p.image_url;$("coverPreview").classList.remove("hidden")}
-  blocks=(bs||[]).map(x=>({id:x.id,type:x.type,content:x.content||"",sort_order:x.sort_order,file:null}));
-  renderBlocks();window.scrollTo({top:0,behavior:"smooth"});
+
+  const {data:p,error}=
+  await supabaseClient
+  .from("posts")
+  .select("*")
+  .eq("id",id)
+  .single();
+
+
+  if(error){
+
+    return toast(
+      "خطا در دریافت مطلب: "+
+      error.message,
+      "error"
+    );
+
+  }
+
+
+  $("postId").value=p.id;
+
+  $("title").value=p.title || "";
+
+  $("category").value=
+  p.category || "news";
+
+  $("description").value=
+  p.description || "";
+
+  $("downloadUrl").value=
+  p.download_url || "";
+
+  $("coverUrl").value=
+  p.image_url || "";
+
+  $("content").value=
+  p.content || "";
+
+
+  $("editorTitle").textContent=
+  "ویرایش مطلب";
+
+  $("editingId").textContent=
+  "ID: "+p.id;
+
+
+  const {data:b,error:be}=
+  await supabaseClient
+  .from("post_blocks")
+  .select("*")
+  .eq("post_id",id)
+  .order("sort_order",{ascending:true});
+
+
+  if(be){
+
+    return toast(
+      "خطا در دریافت بلاک‌ها: "+
+      be.message,
+      "error"
+    );
+
+  }
+
+
+  blocks=b || [];
+
+  renderBlocks();
+
+  updateCoverPreview();
+
+  showSection("editor");
+
 }
+
+
+/* =========================
+   SAVE POST
+========================= */
+
+async function savePost(){
+
+  const id=
+  $("postId").value;
+
+
+  const payload={
+
+    title:
+    $("title").value.trim(),
+
+    description:
+    $("description").value.trim(),
+
+    content:
+    $("content").value.trim(),
+
+    image_url:
+    $("coverUrl").value.trim() || null,
+
+    download_url:
+    $("downloadUrl").value.trim() || null,
+
+    category:
+    $("category").value
+
+  };
+
+
+  if(!payload.title){
+
+    return notice(
+      $("saveMsg"),
+      "عنوان مطلب را وارد کن."
+    );
+
+  }
+
+
+  notice(
+    $("saveMsg"),
+    id
+    ?
+    "در حال بروزرسانی..."
+    :
+    "در حال ساخت مطلب...",
+    "ok"
+  );
+
+
+  let postId=id;
+
+
+  try{
+
+    /* =====================
+       STEP 1 POSTS
+    ===================== */
+
+    let result;
+
+
+    if(id){
+
+      result=
+      await supabaseClient
+      .from("posts")
+      .update(payload)
+      .eq("id",id)
+      .select()
+      .single();
+
+    }else{
+
+      result=
+      await supabaseClient
+      .from("posts")
+      .insert(payload)
+      .select()
+      .single();
+
+    }
+
+
+    if(result.error){
+
+      throw new Error(
+        "مرحله POSTS → "+
+        result.error.message
+      );
+
+    }
+
+
+    postId=result.data.id;
+
+
+    /* =====================
+       STEP 2 OLD BLOCKS
+    ===================== */
+
+    if(id){
+
+      const old=
+      await supabaseClient
+      .from("post_blocks")
+      .delete()
+      .eq("post_id",postId);
+
+
+      if(old.error){
+
+        throw new Error(
+          "مرحله POST_BLOCKS DELETE → "+
+          old.error.message
+        );
+
+      }
+
+    }
+
+
+    /* =====================
+       STEP 3 NEW BLOCKS
+    ===================== */
+
+    if(blocks.length){
+
+      const rows=
+      blocks.map((b,i)=>({
+
+        post_id:postId,
+
+        type:b.type,
+
+        content:b.content || "",
+
+        sort_order:i
+
+      }));
+
+
+      const ins=
+      await supabaseClient
+      .from("post_blocks")
+      .insert(rows);
+
+
+      if(ins.error){
+
+        throw new Error(
+          "مرحله POST_BLOCKS INSERT → "+
+          ins.error.message
+        );
+
+      }
+
+    }
+
+
+    $("postId").value=
+    postId;
+
+
+    notice(
+      $("saveMsg"),
+      "مطلب با موفقیت ذخیره شد. ID: "+postId,
+      "ok"
+    );
+
+
+    toast(
+      "مطلب ذخیره شد ✅",
+      "ok"
+    );
+
+
+    await refreshAll();
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    notice(
+      $("saveMsg"),
+      "خطا: "+error.message
+    );
+
+
+    toast(
+      error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
 
 async function deletePost(id){
-  if(!confirm("این مطلب و بخش‌های آن حذف شود؟"))return;
-  const {error}=await supabaseClient.from("posts").delete().eq("id",id);
-  if(error)alert(error.message);else await loadPosts();
+
+  if(!confirm(
+    "این مطلب و تمام بلاک‌های آن حذف شود؟"
+  )) return;
+
+
+  const {error}=
+  await supabaseClient
+  .from("posts")
+  .delete()
+  .eq("id",id);
+
+
+  if(error){
+
+    return toast(
+      "خطا در حذف: "+error.message,
+      "error"
+    );
+
+  }
+
+
+  toast("مطلب حذف شد","ok");
+
+  await refreshAll();
+
 }
+
+
+/* =========================
+   BLOCKS
+========================= */
+
+function addBlock(type){
+
+  blocks.push({
+
+    id:null,
+
+    type:type,
+
+    content:""
+
+  });
+
+
+  renderBlocks();
+
+}
+
+
+function renderBlocks(){
+
+  const box=$("blocks");
+
+
+  if(!blocks.length){
+
+    box.innerHTML=
+    '<div class="notice">'+
+    'هنوز بلاکی اضافه نشده. '+
+    'می‌توانی متن، عکس و ویدیو را به ترتیب دلخواه اضافه کنی.'+
+    '</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML=
+  blocks.map((b,i)=>{
+
+    const label=
+    b.type==="text"
+    ?
+    "متن"
+    :
+    b.type==="image"
+    ?
+    "تصویر"
+    :
+    "ویدیو";
+
+
+    if(b.type==="text"){
+
+      return `
+
+      <div class="block">
+
+        <div class="blockHead">
+
+          <strong>
+            ${i+1}. ${label}
+          </strong>
+
+          <div class="blockTools">
+
+            <button onclick="moveBlock(${i},-1)">
+              ↑
+            </button>
+
+            <button onclick="moveBlock(${i},1)">
+              ↓
+            </button>
+
+            <button onclick="removeBlock(${i})">
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <textarea
+          style="width:100%;min-height:120px"
+          oninput="blocks[${i}].content=this.value"
+        >${escapeHtml(b.content)}</textarea>
+
+      </div>
+
+      `;
+
+    }
+
+
+    return `
+
+    <div class="block">
+
+      <div class="blockHead">
+
+        <strong>
+          ${i+1}. ${label}
+        </strong>
+
+        <div class="blockTools">
+
+          <button onclick="moveBlock(${i},-1)">
+            ↑
+          </button>
+
+          <button onclick="moveBlock(${i},1)">
+            ↓
+          </button>
+
+          <button onclick="removeBlock(${i})">
+            ×
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          ${b.type==="image"
+          ?"URL تصویر"
+          :"URL ویدیو"}
+        </label>
+
+        <input
+          value="${escapeAttr(b.content)}"
+          oninput="blocks[${i}].content=this.value"
+          placeholder="https://..."
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          آپلود فایل
+        </label>
+
+        <input
+          type="file"
+          accept="${
+            b.type==="image"
+            ?"image/*"
+            :"video/*"
+          }"
+          onchange="uploadBlockFile(${i},this.files[0])"
+        >
+
+      </div>
+
+
+      <button
+        class="btn"
+        onclick="previewBlock(${i})"
+      >
+        پیش‌نمایش
+      </button>
+
+
+      <div id="blockPreview${i}"></div>
+
+    </div>
+
+    `;
+
+  }).join("");
+
+}
+
+
+function moveBlock(i,d){
+
+  const j=i+d;
+
+
+  if(j<0 || j>=blocks.length)
+    return;
+
+
+  [
+    blocks[i],
+    blocks[j]
+  ]=[
+    blocks[j],
+    blocks[i]
+  ];
+
+
+  renderBlocks();
+
+}
+
+
+function removeBlock(i){
+
+  blocks.splice(i,1);
+
+  renderBlocks();
+
+}
+
+
+/* =========================
+   STORAGE
+========================= */
+
+async function uploadFile(file,folder){
+
+  if(!file)
+    throw new Error("فایلی انتخاب نشده است.");
+
+
+  const ext=
+  (file.name.split(".").pop() || "bin")
+  .toLowerCase()
+  .replace(/[^a-z0-9]/g,"");
+
+
+  const name=
+  folder+
+  "/"+
+  Date.now()+
+  "-"+
+  Math.random().toString(36).slice(2,9)+
+  "."+
+  ext;
+
+
+  const {error}=
+  await supabaseClient
+  .storage
+  .from("images")
+  .upload(
+    name,
+    file,
+    {
+      upsert:false,
+      contentType:file.type
+    }
+  );
+
+
+  if(error){
+
+    throw new Error(
+      "STORAGE → "+
+      error.message
+    );
+
+  }
+
+
+  const {data}=
+  supabaseClient
+  .storage
+  .from("images")
+  .getPublicUrl(name);
+
+
+  return data.publicUrl;
+
+}
+
+
+async function uploadCover(){
+
+  const file=
+  $("coverFile").files[0];
+
+
+  if(!file){
+
+    return toast(
+      "اول فایل کاور را انتخاب کن.",
+      "error"
+    );
+
+  }
+
+
+  try{
+
+    notice(
+      $("saveMsg"),
+      "در حال آپلود کاور...",
+      "ok"
+    );
+
+
+    $("coverUrl").value=
+    await uploadFile(
+      file,
+      "covers"
+    );
+
+
+    updateCoverPreview();
+
+
+    toast(
+      "کاور آپلود شد ✅",
+      "ok"
+    );
+
+
+  }catch(error){
+
+    notice(
+      $("saveMsg"),
+      "خطای آپلود کاور: "+
+      error.message
+    );
+
+  }
+
+}
+
+
+async function uploadBlockFile(i,file){
+
+  if(!file) return;
+
+
+  try{
+
+    blocks[i].content=
+    await uploadFile(
+      file,
+      blocks[i].type==="image"
+      ?
+      "article-images"
+      :
+      "article-videos"
+    );
+
+
+    renderBlocks();
+
+
+    toast(
+      "فایل آپلود شد ✅",
+      "ok"
+    );
+
+
+  }catch(error){
+
+    toast(
+      error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+async function uploadBackground(){
+
+  const file=
+  $("backgroundFile").files[0];
+
+
+  if(!file){
+
+    return toast(
+      "اول فایل پس‌زمینه را انتخاب کن.",
+      "error"
+    );
+
+  }
+
+
+  try{
+
+    $("backgroundUrl").value=
+    await uploadFile(
+      file,
+      "site-backgrounds"
+    );
+
+
+    toast(
+      "پس‌زمینه آپلود شد ✅",
+      "ok"
+    );
+
+
+  }catch(error){
+
+    toast(
+      error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+function updateCoverPreview(){
+
+  const url=
+  $("coverUrl").value.trim();
+
+
+  const img=
+  $("coverPreview");
+
+
+  if(url){
+
+    img.src=url;
+
+    img.classList.remove("hidden");
+
+  }else{
+
+    img.classList.add("hidden");
+
+  }
+
+}
+
+
+$("coverUrl")
+.addEventListener(
+  "input",
+  updateCoverPreview
+);
+
+
+/* =========================
+   PREVIEW BLOCK
+========================= */
+
+function previewBlock(i){
+
+  const box=
+  $("blockPreview"+i);
+
+
+  const url=
+  blocks[i].content;
+
+
+  if(!url){
+
+    box.innerHTML="";
+
+    return;
+
+  }
+
+
+  if(blocks[i].type==="image"){
+
+    box.innerHTML=
+    `<img
+      class="preview"
+      src="${escapeAttr(url)}"
+    >`;
+
+  }else{
+
+    box.innerHTML=
+    `<video
+      class="preview"
+      controls
+      src="${escapeAttr(url)}">
+    </video>`;
+
+  }
+
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
 
 async function loadSettings(){
-  const {data,error}=await supabaseClient.from("site_settings").select("*").limit(1).maybeSingle();
-  if(error){console.error(error);return}
-  currentSettings=data;
-  if(!data)return;
-  $("bgUrl").value=data.background_url||"";
-  $("bgOverlay").value=data.background_overlay??55;
-  $("bgOverlayNumber").value=data.background_overlay??55;
-  $("bgEnabled").checked=data.background_enabled!==false;
-  $("bgMuted").checked=data.background_muted!==false;
-  setChoice("themeChoices","theme",data.theme);
-  setChoice("bgChoices","bg",data.background_type);
-  $("statTheme").textContent={dark:"دارک",light:"روشن",system:"خودکار"}[data.theme]||data.theme;
-  $("statBg").textContent={animated:"متحرک",image:"تصویر",video:"ویدیو",none:"خاموش"}[data.background_type]||data.background_type;
+
+  const {data,error}=
+  await supabaseClient
+  .from("site_settings")
+  .select("*")
+  .limit(1)
+  .maybeSingle();
+
+
+  if(error){
+
+    return toast(
+      "خطا در تنظیمات: "+
+      error.message,
+      "error"
+    );
+
+  }
+
+
+  if(!data) return;
+
+
+  $("theme").value=
+  data.theme || "dark";
+
+
+  $("backgroundType").value=
+  data.background_type || "animated";
+
+
+  $("backgroundUrl").value=
+  data.background_url || "";
+
+
+  $("backgroundOverlay").value=
+  data.background_overlay ?? 55;
+
+
+  $("overlayValue").textContent=
+  data.background_overlay ?? 55;
+
+
+  bgEnabledState=
+  data.background_enabled !== false;
+
+
+  bgMutedState=
+  data.background_muted !== false;
+
+
+  updateBoolButtons();
+
 }
-function setChoice(id,attr,value){
-  document.querySelectorAll("#"+id+" button").forEach(b=>b.classList.toggle("selected",b.dataset[attr]===value));
+
+
+function toggleBool(which){
+
+  if(which==="bgEnabled")
+    bgEnabledState=!bgEnabledState;
+
+
+  if(which==="bgMuted")
+    bgMutedState=!bgMutedState;
+
+
+  updateBoolButtons();
+
 }
-document.querySelectorAll("#themeChoices button").forEach(b=>b.onclick=()=>setChoice("themeChoices","theme",b.dataset.theme));
-document.querySelectorAll("#bgChoices button").forEach(b=>b.onclick=()=>setChoice("bgChoices","bg",b.dataset.bg));
-$("bgOverlay").oninput=e=>$("bgOverlayNumber").value=e.target.value;
-$("bgOverlayNumber").oninput=e=>$("bgOverlay").value=Math.max(0,Math.min(100,e.target.value||0));
-$("bgFile").onchange=()=>{$("bgStatus").textContent=$("bgFile").files[0]?"فایل انتخاب شد؛ هنگام ذخیره آپلود می‌شود.":""};
 
-function selected(id,attr){return document.querySelector("#"+id+" button.selected")?.dataset[attr]}
 
-$("saveSettingsBtn").onclick=async()=>{
-  const btn=$("saveSettingsBtn");btn.disabled=true;btn.textContent="در حال ذخیره...";
-  try{
-    let url=$("bgUrl").value.trim()||null;
-    const file=$("bgFile").files[0];
-    if(file)url=await uploadFile(file,"site-backgrounds");
-    const payload={
-      theme:selected("themeChoices","theme")||"dark",
-      background_type:selected("bgChoices","bg")||"animated",
-      background_url:url,
-      background_overlay:Number($("bgOverlay").value||55),
-      background_enabled:$("bgEnabled").checked,
-      background_muted:$("bgMuted").checked,
-      updated_at:new Date().toISOString()
-    };
-    const {data}=await supabaseClient.from("site_settings").select("id").limit(1).maybeSingle();
-    let error;
-    if(data?.id)({error}=await supabaseClient.from("site_settings").update(payload).eq("id",data.id));
-    else({error}=await supabaseClient.from("site_settings").insert(payload));
-    if(error)throw error;
-    msg($("settingsMsg"),"تنظیمات با موفقیت ذخیره شد.","success");
-    await loadSettings();
-  }catch(e){msg($("settingsMsg"),"خطا: "+(e.message||e),"error")}
-  finally{btn.disabled=false;btn.textContent="ذخیره تنظیمات"}
-};
+function updateBoolButtons(){
 
-supabaseClient.auth.onAuthStateChange(()=>setTimeout(start,0));
-start();
+  $("bgEnabled").textContent=
+  bgEnabledState
+  ?
+  "پس‌زمینه فعال"
+  :
+  "پس‌زمینه خاموش";
+
+
+  $("bgEnabled").className=
+  "btn "+
+  (
+    bgEnabledState
+    ?
+    "ok"
+    :
+    ""
+  );
+
+
+  $("bgMuted").textContent=
+  bgMutedState
+  ?
+  "ویدیو بی‌صدا"
+  :
+  "ویدیو با صدا";
+
+
+  $("bgMuted").className=
+  "btn "+
+  (
+    bgMutedState
+    ?
+    "ok"
+    :
+    ""
+  );
+
+}
+
+
+async function saveSettings(){
+
+  const payload={
+
+    theme:
+    $("theme").value,
+
+    background_type:
+    $("backgroundType").value,
+
+    background_url:
+    $("backgroundUrl").value.trim()
+    ||
+    null,
+
+    background_overlay:
+    Number(
+      $("backgroundOverlay").value
+    ),
+
+    background_enabled:
+    bgEnabledState,
+
+    background_muted:
+    bgMutedState,
+
+    updated_at:
+    new Date().toISOString()
+
+  };
+
+
+  const {data:existing,error:readError}=
+  await supabaseClient
+  .from("site_settings")
+  .select("id")
+  .limit(1)
+  .maybeSingle();
+
+
+  if(readError){
+
+    return notice(
+      $("settingsMsg"),
+      "خطای خواندن تنظیمات: "+
+      readError.message
+    );
+
+  }
+
+
+  let result;
+
+
+  if(existing){
+
+    result=
+    await supabaseClient
+    .from("site_settings")
+    .update(payload)
+    .eq("id",existing.id);
+
+  }else{
+
+    result=
+    await supabaseClient
+    .from("site_settings")
+    .insert(payload);
+
+  }
+
+
+  if(result.error){
+
+    return notice(
+      $("settingsMsg"),
+      "خطای ذخیره تنظیمات: "+
+      result.error.message
+    );
+
+  }
+
+
+  notice(
+    $("settingsMsg"),
+    "تنظیمات با موفقیت ذخیره شد.",
+    "ok"
+  );
+
+
+  toast(
+    "تنظیمات ذخیره شد ✅",
+    "ok"
+  );
+
+}
+
+
+/* =========================
+   SAFE TEXT
+========================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+  .replace(
+    /[&<>"']/g,
+    char=>({
+
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+
+    }[char])
+  );
+
+}
+
+
+function escapeAttr(value){
+
+  return escapeHtml(value);
+
+}
+
+
+/* =========================
+   AUTO LOGIN
+========================= */
+
+supabaseClient.auth
+.getSession()
+.then(({data})=>{
+
+  if(data.session){
+
+    boot(
+      data.session.user
+    );
+
+  }
+
+});
+
 </script>
+
 </body>
 </html>
