@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PERSIAN STARK</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,54 +13,69 @@
 
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Vazirmatn,sans-serif}
+html{scroll-behavior:smooth}
 body{
-background:#080b12;
+margin:0;
+min-height:100vh;
+font-family:Vazirmatn,sans-serif;
+background:#070a11;
 color:#fff;
 overflow-x:hidden;
 transition:.3s;
 }
-body.light{background:#f4f6fa;color:#111827}
+
+body.light{
+background:#f3f5f9;
+color:#111827;
+}
 
 #background{
 position:fixed;
 inset:0;
-z-index:-5;
+z-index:-10;
 background:
-radial-gradient(circle at 20% 20%,#16315c 0,transparent 35%),
-radial-gradient(circle at 80% 70%,#351052 0,transparent 35%),
-linear-gradient(120deg,#05070d,#101827,#070912);
-animation:bgMove 12s ease-in-out infinite alternate;
+radial-gradient(circle at 15% 20%,#17345d 0,transparent 34%),
+radial-gradient(circle at 85% 70%,#3b1257 0,transparent 34%),
+linear-gradient(120deg,#05070c,#101827,#060912);
+animation:bgMove 14s ease-in-out infinite alternate;
 }
+
 @keyframes bgMove{
-0%{transform:scale(1)}
-100%{transform:scale(1.12) translate(1%,1%)}
+from{transform:scale(1)}
+to{transform:scale(1.12) translate(1%,1%)}
 }
+
 #overlay{
 position:fixed;
 inset:0;
 background:#000;
-z-index:-4;
+z-index:-9;
 pointer-events:none;
 }
 
-.container{width:min(1200px,92%);margin:auto}
+.container{
+width:min(1200px,92%);
+margin:auto;
+}
+
+/* HEADER */
 
 header{
 position:sticky;
 top:0;
-z-index:50;
-backdrop-filter:blur(15px);
-background:rgba(5,8,15,.78);
+z-index:100;
+background:rgba(5,8,15,.82);
+backdrop-filter:blur(16px);
 border-bottom:1px solid rgba(255,255,255,.08);
 }
+
 body.light header{
-background:rgba(255,255,255,.82);
+background:rgba(255,255,255,.86);
 border-color:#ddd;
 }
 
 .nav{
-min-height:72px;
+min-height:70px;
 display:flex;
 align-items:center;
 justify-content:space-between;
@@ -67,178 +83,388 @@ gap:20px;
 }
 
 .logo{
-font-size:25px;
+font-size:23px;
 font-weight:900;
 letter-spacing:2px;
 color:#fff;
 text-shadow:0 0 20px #8b5cf6;
 cursor:pointer;
+white-space:nowrap;
 }
-body.light .logo{color:#111}
+
+body.light .logo{
+color:#111827;
+}
 
 nav{
 display:flex;
 align-items:center;
-gap:8px;
-flex-wrap:wrap;
+gap:7px;
 }
 
-button,.btn{
-border:0;
-border-radius:12px;
-padding:10px 15px;
+nav button{
+background:transparent;
+color:#dce2ef;
+border:1px solid transparent;
+padding:9px 12px;
+border-radius:10px;
 font-family:inherit;
 font-weight:700;
 cursor:pointer;
-background:#7c3aed;
-color:white;
 transition:.2s;
 }
-button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
-.btn.secondary{background:#20283a}
-.btn.danger{background:#dc2626}
+
+nav button:hover{
+background:rgba(124,58,237,.16);
+border-color:rgba(124,58,237,.3);
+color:#fff;
+}
+
+body.light nav button{
+color:#374151;
+}
+
+body.light nav button:hover{
+color:#111827;
+}
+
+.mobile-menu{
+display:none;
+background:#7c3aed;
+border:0;
+color:white;
+width:42px;
+height:42px;
+border-radius:11px;
+font-size:22px;
+cursor:pointer;
+}
+
+/* MOBILE MENU */
+
+.mobile-panel{
+position:fixed;
+top:70px;
+right:0;
+left:0;
+z-index:99;
+display:none;
+padding:12px;
+background:rgba(7,10,17,.97);
+border-bottom:1px solid rgba(255,255,255,.1);
+box-shadow:0 20px 40px rgba(0,0,0,.3);
+}
+
+.mobile-panel.show{
+display:block;
+}
+
+.mobile-panel button{
+width:100%;
+margin:4px 0;
+padding:13px;
+border:0;
+border-radius:12px;
+background:#151c2b;
+color:white;
+font-family:inherit;
+font-weight:700;
+text-align:right;
+cursor:pointer;
+}
+
+body.light .mobile-panel{
+background:rgba(255,255,255,.98);
+}
+
+body.light .mobile-panel button{
+background:#f1f3f7;
+color:#111827;
+}
+
+/* HERO */
 
 .hero{
-padding:75px 0 45px;
+padding:65px 0 20px;
 text-align:center;
 }
+
 .hero h1{
-font-size:clamp(35px,7vw,70px);
 margin:0;
+font-size:clamp(38px,7vw,72px);
 font-weight:900;
 text-shadow:0 0 35px #7c3aed;
 }
+
 .hero p{
 max-width:700px;
-margin:18px auto;
-color:#b8c0d4;
+margin:15px auto 25px;
 line-height:2;
+color:#aeb7ca;
 }
-body.light .hero p{color:#5b6475}
+
+body.light .hero p{
+color:#5b6475;
+}
+
+/* STATS */
 
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:14px;
-margin:15px 0 40px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:18px;
+margin:12px auto 28px;
+padding:8px 16px;
+width:max-content;
+max-width:96%;
+border-radius:30px;
+background:rgba(255,255,255,.045);
+border:1px solid rgba(255,255,255,.07);
+backdrop-filter:blur(12px);
 }
+
 .stat{
-padding:20px;
-border-radius:18px;
-background:rgba(255,255,255,.07);
-border:1px solid rgba(255,255,255,.08);
+display:flex;
+align-items:center;
+gap:5px;
+padding:0;
+background:transparent;
+border:0;
+box-shadow:none;
 text-align:center;
-backdrop-filter:blur(10px);
 }
-body.light .stat,.card{
-background:#fff;
-border-color:#e5e7eb;
-}
+
 .stat strong{
-display:block;
-font-size:27px;
-margin-bottom:5px;
+display:inline;
+font-size:13px;
+margin:0;
 color:#a78bfa;
 }
-.stat span{color:#aab2c4;font-size:13px}
+
+.stat span{
+color:#929bad;
+font-size:11px;
+}
+
+/* SECTIONS */
+
+.section{
+padding-top:20px;
+scroll-margin-top:90px;
+}
 
 .section-title{
 display:flex;
-justify-content:space-between;
 align-items:center;
-margin:35px 0 18px;
+justify-content:space-between;
+margin:25px 0 17px;
 }
-.section-title h2{margin:0;font-size:24px}
+
+.section-title h2{
+margin:0;
+font-size:24px;
+}
+
+/* CARDS */
 
 .grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:20px;
-padding-bottom:50px;
+padding-bottom:35px;
 }
 
 .card{
 overflow:hidden;
 border-radius:18px;
-background:rgba(14,19,31,.85);
+background:rgba(14,19,31,.88);
 border:1px solid rgba(255,255,255,.08);
-box-shadow:0 15px 40px rgba(0,0,0,.15);
+box-shadow:0 15px 40px rgba(0,0,0,.18);
 }
+
+body.light .card{
+background:#fff;
+border-color:#e3e6ec;
+}
+
 .card img{
+display:block;
 width:100%;
 height:190px;
 object-fit:cover;
-display:block;
 }
-.card-body{padding:18px}
-.card h3{margin:0 0 9px;font-size:20px}
+
+.card-body{
+padding:17px;
+}
+
+.card h3{
+margin:0 0 8px;
+font-size:19px;
+}
+
 .card p{
+min-height:50px;
+margin:0;
 color:#aeb7ca;
-line-height:1.8;
 font-size:14px;
-min-height:52px;
+line-height:1.9;
 }
-body.light .card p{color:#5d6675}
+
+body.light .card p{
+color:#5b6475;
+}
+
+.badge{
+display:inline-block;
+padding:4px 9px;
+border-radius:20px;
+background:#7c3aed;
+font-size:11px;
+margin-bottom:9px;
+}
 
 .card-actions{
 display:flex;
 gap:8px;
 margin-top:15px;
 }
-.card-actions button{flex:1}
+
+.card-actions button{
+flex:1;
+}
+
+.btn{
+border:0;
+border-radius:11px;
+padding:10px 14px;
+font-family:inherit;
+font-weight:700;
+cursor:pointer;
+background:#7c3aed;
+color:white;
+}
+
+.btn.secondary{
+background:#222c3f;
+}
+
+.btn.danger{
+background:#dc2626;
+}
 
 .empty{
-text-align:center;
-padding:50px;
-color:#9ca3af;
 grid-column:1/-1;
-}
-
-footer{
-padding:35px 0;
-border-top:1px solid rgba(255,255,255,.08);
 text-align:center;
+padding:45px;
 color:#8f98aa;
 }
+
+/* ARTICLE */
+
+.article-title{
+font-size:clamp(25px,5vw,42px);
+font-weight:900;
+line-height:1.5;
+margin:8px 0 20px;
+}
+
+.article-cover{
+width:100%;
+max-height:480px;
+object-fit:cover;
+border-radius:16px;
+margin-bottom:22px;
+}
+
+.block-text{
+font-size:17px;
+line-height:2.25;
+white-space:pre-wrap;
+margin:22px 0;
+}
+
+.block-image{
+display:block;
+width:100%;
+max-height:700px;
+object-fit:contain;
+border-radius:15px;
+margin:20px 0;
+background:#05070b;
+}
+
+.block-video{
+display:block;
+width:100%;
+max-height:650px;
+border-radius:15px;
+margin:20px 0;
+background:#000;
+}
+
+/* MODAL */
 
 .modal{
 display:none;
 position:fixed;
 inset:0;
-z-index:100;
+z-index:200;
+padding:15px;
 background:rgba(0,0,0,.78);
-padding:20px;
 overflow:auto;
 }
-.modal.show{display:flex;align-items:center;justify-content:center}
+
+.modal.show{
+display:flex;
+align-items:center;
+justify-content:center;
+}
 
 .modal-box{
+position:relative;
 width:min(900px,100%);
-max-height:92vh;
+max-height:94vh;
 overflow:auto;
+padding:25px;
+border-radius:22px;
 background:#111827;
 border:1px solid #30394d;
-border-radius:22px;
-padding:24px;
-position:relative;
 }
-body.light .modal-box{background:#fff;border-color:#ddd;color:#111}
+
+body.light .modal-box{
+background:#fff;
+border-color:#ddd;
+color:#111827;
+}
 
 .close{
 position:absolute;
-left:15px;
-top:15px;
-background:#dc2626;
-border-radius:50%;
+left:13px;
+top:13px;
 width:38px;
 height:38px;
 padding:0;
+border:0;
+border-radius:50%;
+background:#dc2626;
+color:#fff;
+font-size:23px;
+cursor:pointer;
 }
+
+/* AUTH */
 
 .auth{
 width:min(430px,100%);
 }
-.auth h2{text-align:center}
+
+.auth h2{
+text-align:center;
+margin-top:5px;
+}
+
 .auth input{
 width:100%;
 padding:13px;
@@ -246,79 +472,112 @@ margin:7px 0;
 border-radius:11px;
 border:1px solid #374151;
 background:#0b1220;
-color:#fff;
+color:white;
 font-family:inherit;
+outline:none;
 }
+
 body.light .auth input{
 background:#f8fafc;
-color:#111;
+color:#111827;
 border-color:#d1d5db;
 }
-.auth button{width:100%;margin-top:8px}
 
-.article-title{
-font-size:clamp(25px,5vw,42px);
-font-weight:900;
-margin:10px 0 20px;
-}
-.article-cover{
+.auth>button:not(.close){
 width:100%;
-max-height:480px;
-object-fit:cover;
-border-radius:16px;
-margin-bottom:25px;
-}
-.block-text{
-font-size:17px;
-line-height:2.2;
-white-space:pre-wrap;
-margin:22px 0;
-}
-.block-image{
-width:100%;
-max-height:700px;
-object-fit:contain;
-border-radius:15px;
-margin:18px 0;
-background:#05070b;
-}
-.block-video{
-width:100%;
-max-height:650px;
-border-radius:15px;
-margin:18px 0;
-background:#000;
-}
-.badge{
-display:inline-block;
-background:#7c3aed;
-padding:5px 10px;
-border-radius:20px;
-font-size:12px;
-margin-bottom:10px;
+margin-top:8px;
 }
 
-.mobile-menu{display:none}
+/* FOOTER */
 
-@media(max-width:850px){
-.stats{grid-template-columns:repeat(2,1fr)}
-.grid{grid-template-columns:repeat(2,1fr)}
-nav{display:none}
-.mobile-menu{display:block}
+footer{
+margin-top:20px;
+padding:35px 0;
+text-align:center;
+color:#8f98aa;
+border-top:1px solid rgba(255,255,255,.08);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+nav{
+display:none;
+}
+
+.mobile-menu{
+display:block;
+}
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
 }
 
 @media(max-width:600px){
-.container{width:94%}
-.hero{padding:50px 0 30px}
-.grid{grid-template-columns:1fr}
-.stats{gap:9px}
-.stat{padding:15px 8px}
-.stat strong{font-size:23px}
-.card img{height:210px}
-.modal{padding:8px}
-.modal-box{padding:18px;border-radius:16px}
-.nav{min-height:62px}
-.logo{font-size:19px}
+
+.container{
+width:94%;
+}
+
+.nav{
+min-height:62px;
+}
+
+.logo{
+font-size:18px;
+}
+
+.hero{
+padding-top:48px;
+}
+
+.hero h1{
+font-size:42px;
+}
+
+.stats{
+gap:8px;
+padding:7px 10px;
+width:96%;
+}
+
+.stat{
+gap:3px;
+}
+
+.stat strong{
+font-size:11px;
+}
+
+.stat span{
+font-size:9px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.card img{
+height:210px;
+}
+
+.modal{
+padding:7px;
+}
+
+.modal-box{
+padding:18px;
+border-radius:17px;
+}
+
+.block-text{
+font-size:15px;
+line-height:2.15;
+}
+
 }
 </style>
 </head>
@@ -331,26 +590,79 @@ nav{display:none}
 <header>
 <div class="container nav">
 
-<div class="logo" onclick="location.reload()">PERSIAN STARK</div>
+<div class="logo" onclick="goHome()">
+PERSIAN STARK
+</div>
 
 <nav>
-<button onclick="scrollToSection('news')">اخبار</button>
-<button onclick="scrollToSection('games')">معرفی بازی</button>
-<button onclick="scrollToSection('software')">نرم‌افزار</button>
-<button onclick="openAuth()">حساب کاربری</button>
-<button onclick="openStore()">🛒 فروشگاه</button>
+
+<button onclick="goHome()">🏠 خانه</button>
+
+<button onclick="scrollToSection('news')">
+📰 اخبار
+</button>
+
+<button onclick="scrollToSection('games')">
+🎮 معرفی بازی
+</button>
+
+<button onclick="scrollToSection('software')">
+💻 نرم‌افزار
+</button>
+
+<button onclick="openAuth()">
+👤 حساب کاربری
+</button>
+
+<button onclick="openStore()">
+🛒 فروشگاه
+</button>
+
 </nav>
 
-<button class="mobile-menu" onclick="openMenu()">☰</button>
+<button class="mobile-menu" onclick="toggleMobileMenu()">
+☰
+</button>
 
 </div>
 </header>
 
+<div id="mobilePanel" class="mobile-panel">
+
+<button onclick="mobileGo('home')">
+🏠 خانه
+</button>
+
+<button onclick="mobileGo('news')">
+📰 اخبار
+</button>
+
+<button onclick="mobileGo('games')">
+🎮 معرفی بازی
+</button>
+
+<button onclick="mobileGo('software')">
+💻 نرم‌افزار
+</button>
+
+<button onclick="mobileAuth()">
+👤 حساب کاربری
+</button>
+
+<button onclick="mobileStore()">
+🛒 فروشگاه
+</button>
+
+</div>
+
 <main>
 
 <section class="hero">
+
 <div class="container">
+
 <h1>PERSIAN STARK</h1>
+
 <p>
 دنیای بازی، اخبار گیم، معرفی بازی‌ها و نرم‌افزارهای کاربردی
 در یکجا.
@@ -360,7 +672,7 @@ nav{display:none}
 
 <div class="stat">
 <strong id="membersCount">0</strong>
-<span>👥 اعضای سایت</span>
+<span>👥 عضو</span>
 </div>
 
 <div class="stat">
@@ -370,37 +682,48 @@ nav{display:none}
 
 <div class="stat">
 <strong id="todayVisits">0</strong>
-<span>👀 بازدید امروز</span>
+<span>👀 امروز</span>
 </div>
 
 <div class="stat">
 <strong id="totalVisits">0</strong>
-<span>📊 بازدید کل</span>
+<span>📊 کل</span>
 </div>
 
 </div>
+
 </div>
+
 </section>
 
-<section id="news" class="container">
+<section id="news" class="container section">
+
 <div class="section-title">
 <h2>📰 آخرین اخبار</h2>
 </div>
+
 <div id="newsGrid" class="grid"></div>
+
 </section>
 
-<section id="games" class="container">
+<section id="games" class="container section">
+
 <div class="section-title">
 <h2>🎮 معرفی بازی‌ها</h2>
 </div>
+
 <div id="gamesGrid" class="grid"></div>
+
 </section>
 
-<section id="software" class="container">
+<section id="software" class="container section">
+
 <div class="section-title">
 <h2>💻 نرم‌افزار</h2>
 </div>
+
 <div id="softwareGrid" class="grid"></div>
+
 </section>
 
 </main>
@@ -412,9 +735,10 @@ PERSIAN STARK © 2026
 </footer>
 
 
-<!-- ARTICLE MODAL -->
+<!-- ARTICLE -->
 
 <div id="articleModal" class="modal">
+
 <div class="modal-box">
 
 <button class="close" onclick="closeModal('articleModal')">×</button>
@@ -422,62 +746,91 @@ PERSIAN STARK © 2026
 <div id="articleContent"></div>
 
 </div>
+
 </div>
 
 
-<!-- AUTH MODAL -->
+<!-- AUTH -->
 
 <div id="authModal" class="modal">
+
 <div class="modal-box auth">
 
 <button class="close" onclick="closeModal('authModal')">×</button>
 
 <h2 id="authTitle">ورود به حساب</h2>
 
-<input id="usernameInput" placeholder="نام کاربری">
+<input
+id="usernameInput"
+placeholder="نام کاربری"
+>
 
-<input id="emailInput" type="email" placeholder="ایمیل">
+<input
+id="emailInput"
+type="email"
+placeholder="ایمیل"
+>
 
-<input id="passwordInput" type="password" placeholder="رمز عبور">
+<input
+id="passwordInput"
+type="password"
+placeholder="رمز عبور"
+>
 
-<button onclick="submitAuth()" id="authButton">ورود</button>
-
-<button class="btn secondary" onclick="toggleAuth()" id="switchAuth">
-ثبت نام
+<button onclick="submitAuth()" id="authButton">
+ورود
 </button>
 
-<p id="authStatus" style="text-align:center;color:#a78bfa"></p>
+<button
+class="btn secondary"
+onclick="toggleAuth()"
+id="switchAuth"
+>
+ساخت حساب جدید
+</button>
+
+<p id="authStatus"
+style="text-align:center;color:#a78bfa">
+</p>
 
 </div>
+
 </div>
 
 
-<!-- USER MODAL -->
+<!-- USER -->
 
 <div id="userModal" class="modal">
+
 <div class="modal-box auth">
 
 <button class="close" onclick="closeModal('userModal')">×</button>
 
-<h2>حساب کاربری</h2>
+<h2>👤 حساب کاربری</h2>
 
 <p id="userEmail"></p>
 <p id="userName"></p>
 
-<button onclick="logout()">خروج از حساب</button>
+<button onclick="logout()">
+خروج از حساب
+</button>
 
 </div>
+
 </div>
 
 
 <!-- STORE -->
 
 <div id="storeModal" class="modal">
+
 <div class="modal-box auth">
 
 <button class="close" onclick="closeModal('storeModal')">×</button>
 
-<h2>🛒 فروشگاه PERSIAN STARK</h2>
+<h2 style="text-align:center">
+🛒 فروشگاه PERSIAN STARK
+</h2>
 
 <p style="text-align:center">
 فروشگاه اسکین‌های CS2
@@ -488,6 +841,7 @@ PERSIAN STARK © 2026
 </h3>
 
 </div>
+
 </div>
 
 
@@ -506,9 +860,7 @@ SUPABASE_KEY
 );
 
 
-// ================================
-// SESSION ID
-// ================================
+// SESSION
 
 let sessionId =
 localStorage.getItem("ps_session_id");
@@ -526,9 +878,87 @@ sessionId
 }
 
 
-// ================================
-// LOAD SETTINGS
-// ================================
+// MOBILE MENU
+
+function toggleMobileMenu(){
+
+document
+.getElementById("mobilePanel")
+.classList.toggle("show");
+
+}
+
+function closeMobileMenu(){
+
+document
+.getElementById("mobilePanel")
+.classList.remove("show");
+
+}
+
+function mobileGo(section){
+
+closeMobileMenu();
+
+if(section==="home"){
+goHome();
+return;
+}
+
+scrollToSection(section);
+
+}
+
+function mobileAuth(){
+
+closeMobileMenu();
+openAuth();
+
+}
+
+function mobileStore(){
+
+closeMobileMenu();
+openStore();
+
+}
+
+
+// HOME
+
+function goHome(){
+
+closeMobileMenu();
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+// SCROLL
+
+function scrollToSection(id){
+
+closeMobileMenu();
+
+const el =
+document.getElementById(id);
+
+if(el){
+
+el.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+}
+
+
+// SETTINGS
 
 async function loadSettings(){
 
@@ -539,17 +969,25 @@ await supabaseClient
 .limit(1)
 .maybeSingle();
 
-if(error || !data)return;
+if(error || !data){
+
+return;
+
+}
 
 
 // THEME
 
 if(data.theme==="light"){
+
 document.body.classList.add("light");
+
 }
 
-if(data.theme==="dark"){
+else{
+
 document.body.classList.remove("light");
+
 }
 
 
@@ -565,37 +1003,54 @@ document.getElementById("overlay")
 const bg =
 document.getElementById("background");
 
-if(!data.background_enabled){
+if(!data.background_enabled ||
+data.background_type==="none"){
 
 bg.style.display="none";
 return;
 
 }
 
-if(data.background_type==="none"){
-
-bg.style.display="none";
-
-}
-
-else if(data.background_type==="image" && data.background_url){
-
 bg.style.display="block";
-bg.style.backgroundImage=
+
+
+if(
+data.background_type==="image" &&
+data.background_url
+){
+
+bg.innerHTML="";
+
+bg.style.backgroundImage =
 `url("${data.background_url}")`;
-bg.style.animation="none";
+
 bg.style.backgroundSize="cover";
 bg.style.backgroundPosition="center";
+bg.style.animation="none";
 
 }
 
-else if(data.background_type==="video" && data.background_url){
+
+else if(
+data.background_type==="video" &&
+data.background_url
+){
 
 bg.innerHTML=`
-<video autoplay loop playsinline
+
+<video
+autoplay
+loop
+playsinline
 ${data.background_muted ? "muted":""}
-style="width:100%;height:100%;object-fit:cover">
-<source src="${data.background_url}">
+style="
+width:100%;
+height:100%;
+object-fit:cover;
+">
+
+<source src="${escapeAttr(data.background_url)}">
+
 </video>
 `;
 
@@ -606,16 +1061,15 @@ bg.style.animation="none";
 else{
 
 bg.innerHTML="";
-bg.style.display="block";
+
+bg.style.backgroundImage="";
 
 }
 
 }
 
 
-// ================================
-// LOAD POSTS
-// ================================
+// POSTS
 
 async function loadPosts(){
 
@@ -628,6 +1082,7 @@ await supabaseClient
 if(error){
 
 console.error(error);
+
 return;
 
 }
@@ -645,30 +1100,46 @@ news.innerHTML="";
 games.innerHTML="";
 software.innerHTML="";
 
+
 if(!data || !data.length){
 
-news.innerHTML=
-`<div class="empty">هنوز مطلبی منتشر نشده است.</div>`;
+news.innerHTML =
+`<div class="empty">
+هنوز مطلبی منتشر نشده است.
+</div>`;
 
 return;
 
 }
 
+
 data.forEach(post=>{
 
-const card = createCard(post);
+const card =
+createCard(post);
 
-if(post.category==="game" ||
-post.category==="games"){
+const category =
+String(post.category || "")
+.toLowerCase();
+
+
+if(
+category==="game" ||
+category==="games"
+){
 
 games.innerHTML += card;
 
 }
-else if(post.category==="software"){
+
+else if(
+category==="software"
+){
 
 software.innerHTML += card;
 
 }
+
 else{
 
 news.innerHTML += card;
@@ -680,9 +1151,7 @@ news.innerHTML += card;
 }
 
 
-// ================================
 // CARD
-// ================================
 
 function createCard(post){
 
@@ -690,15 +1159,15 @@ const image =
 post.image_url ||
 "https://images.unsplash.com/photo-1542751371-adc38448a05e";
 
-const desc =
-post.description || "";
-
 return `
 
 <article class="card">
 
-<img src="${escapeAttr(image)}"
-loading="lazy">
+<img
+src="${escapeAttr(image)}"
+loading="lazy"
+alt=""
+>
 
 <div class="card-body">
 
@@ -711,23 +1180,30 @@ ${escapeHTML(post.title || "بدون عنوان")}
 </h3>
 
 <p>
-${escapeHTML(desc)}
+${escapeHTML(post.description || "")}
 </p>
 
 <div class="card-actions">
 
-<button onclick="openArticle(${post.id})">
+<button
+onclick="openArticle(${post.id})"
+>
 ادامه مطلب
 </button>
 
 ${
 post.download_url
 ?
-`<button class="btn secondary"
-onclick="window.open('${escapeAttr(post.download_url)}','_blank')">
+`
+<button
+class="btn secondary"
+onclick="window.open('${escapeAttr(post.download_url)}','_blank')"
+>
 دانلود
-</button>`
-:""
+</button>
+`
+:
+""
 }
 
 </div>
@@ -741,63 +1217,77 @@ onclick="window.open('${escapeAttr(post.download_url)}','_blank')">
 }
 
 
-// ================================
-// OPEN ARTICLE
-// ================================
+// ARTICLE
 
 async function openArticle(postId){
 
-document.getElementById("articleModal")
+document
+.getElementById("articleModal")
 .classList.add("show");
 
 const box =
 document.getElementById("articleContent");
 
-box.innerHTML=
-`<p style="text-align:center">در حال بارگذاری...</p>`;
+box.innerHTML =
+`<p style="text-align:center">
+در حال بارگذاری مطلب...
+</p>`;
 
 
-const {data:post,error:postError} =
+const {
+data:post,
+error:postError
+} =
 await supabaseClient
 .from("posts")
 .select("*")
 .eq("id",postId)
 .single();
 
+
 if(postError){
 
-box.innerHTML=
-"<p>خطا در دریافت مطلب.</p>";
+box.innerHTML =
+`<p>خطا در دریافت مطلب.</p>`;
 
 return;
 
 }
 
 
-const {data:blocks,error:blockError} =
+const {
+data:blocks,
+error:blockError
+} =
 await supabaseClient
 .from("post_blocks")
 .select("*")
 .eq("post_id",postId)
 .order("sort_order",{ascending:true});
 
+
 if(blockError){
 
 console.error(blockError);
 
-box.innerHTML=
-`
+box.innerHTML = `
+
 <h1 class="article-title">
 ${escapeHTML(post.title)}
 </h1>
 
-<p>
-${escapeHTML(post.content || post.description || "")}
-</p>
+<div class="block-text">
+${escapeHTML(
+post.content ||
+post.description ||
+""
+)}
+</div>
 
 <p style="color:#f87171">
 بخش‌های چندرسانه‌ای مقاله بارگذاری نشد.
 </p>
+
 `;
 
 return;
@@ -821,21 +1311,32 @@ ${escapeHTML(post.title || "")}
 if(post.image_url){
 
 html += `
-<img class="article-cover"
-src="${escapeAttr(post.image_url)}">
+
+<img
+class="article-cover"
+src="${escapeAttr(post.image_url)}"
+loading="lazy"
+>
+
 `;
 
 }
 
 
-// اگر block نداریم، محتوای قدیمی پست را نمایش بده
+// BLOCKS
 
 if(!blocks || !blocks.length){
 
 html += `
+
 <div class="block-text">
-${escapeHTML(post.content || post.description || "")}
+${escapeHTML(
+post.content ||
+post.description ||
+""
+)}
 </div>
+
 `;
 
 }
@@ -847,9 +1348,11 @@ blocks.forEach(block=>{
 if(block.type==="text"){
 
 html += `
+
 <div class="block-text">
 ${escapeHTML(block.content || "")}
 </div>
+
 `;
 
 }
@@ -857,11 +1360,14 @@ ${escapeHTML(block.content || "")}
 else if(block.type==="image"){
 
 html += `
+
 <img
 class="block-image"
 src="${escapeAttr(block.content)}"
 loading="lazy"
+alt=""
 >
+
 `;
 
 }
@@ -869,14 +1375,22 @@ loading="lazy"
 else if(block.type==="video"){
 
 html += `
+
 <video
 class="block-video"
 controls
 preload="metadata"
-playsinline>
-<source src="${escapeAttr(block.content)}">
+playsinline
+>
+
+<source
+src="${escapeAttr(block.content)}"
+>
+
 مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+
 </video>
+
 `;
 
 }
@@ -889,16 +1403,23 @@ playsinline>
 if(post.download_url){
 
 html += `
-<div style="text-align:center;margin-top:30px">
 
-<a class="btn"
+<div style="
+text-align:center;
+margin-top:30px;
+">
+
+<a
+class="btn"
 href="${escapeAttr(post.download_url)}"
 target="_blank"
-rel="noopener">
+rel="noopener"
+>
 ⬇️ دانلود
 </a>
 
 </div>
+
 `;
 
 }
@@ -909,11 +1430,10 @@ box.innerHTML=html;
 }
 
 
-// ================================
 // AUTH
-// ================================
 
 let isSignup=false;
+
 
 function openAuth(){
 
@@ -925,13 +1445,15 @@ if(data.session){
 showUser();
 
 }
+
 else{
 
 isSignup=false;
 
 updateAuthUI();
 
-document.getElementById("authModal")
+document
+.getElementById("authModal")
 .classList.add("show");
 
 }
@@ -952,18 +1474,44 @@ updateAuthUI();
 
 function updateAuthUI(){
 
-document.getElementById("authTitle").textContent =
-isSignup ? "ساخت حساب" : "ورود به حساب";
+document
+.getElementById("authTitle")
+.textContent =
+isSignup
+?
+"ساخت حساب"
+:
+"ورود به حساب";
 
-document.getElementById("authButton").textContent =
-isSignup ? "ثبت نام" : "ورود";
 
-document.getElementById("switchAuth").textContent =
-isSignup ? "قبلاً حساب دارم" : "ساخت حساب جدید";
+document
+.getElementById("authButton")
+.textContent =
+isSignup
+?
+"ثبت نام"
+:
+"ورود";
 
-document.getElementById("usernameInput")
+
+document
+.getElementById("switchAuth")
+.textContent =
+isSignup
+?
+"قبلاً حساب دارم"
+:
+"ساخت حساب جدید";
+
+
+document
+.getElementById("usernameInput")
 .style.display =
-isSignup ? "block" : "none";
+isSignup
+?
+"block"
+:
+"none";
 
 }
 
@@ -971,23 +1519,34 @@ isSignup ? "block" : "none";
 async function submitAuth(){
 
 const email =
-document.getElementById("emailInput").value.trim();
+document
+.getElementById("emailInput")
+.value
+.trim();
 
 const password =
-document.getElementById("passwordInput").value;
+document
+.getElementById("passwordInput")
+.value;
 
 const username =
-document.getElementById("usernameInput").value.trim();
+document
+.getElementById("usernameInput")
+.value
+.trim();
 
 const status =
 document.getElementById("authStatus");
 
-status.textContent="در حال انجام...";
+
+status.textContent =
+"در حال انجام...";
 
 
 if(!email || !password){
 
-status.textContent="ایمیل و رمز عبور را وارد کن.";
+status.textContent =
+"ایمیل و رمز عبور را وارد کن.";
 
 return;
 
@@ -998,14 +1557,18 @@ if(isSignup){
 
 if(!username){
 
-status.textContent="نام کاربری را وارد کن.";
+status.textContent =
+"نام کاربری را وارد کن.";
 
 return;
 
 }
 
 
-const {data,error} =
+const {
+data,
+error
+} =
 await supabaseClient.auth.signUp({
 
 email,
@@ -1022,7 +1585,9 @@ username:username
 
 if(error){
 
-status.textContent=error.message;
+status.textContent =
+error.message;
+
 return;
 
 }
@@ -1030,24 +1595,32 @@ return;
 
 if(data.session){
 
-status.textContent="ثبت نام با موفقیت انجام شد.";
+status.textContent =
+"ثبت نام با موفقیت انجام شد.";
+
+setTimeout(()=>{
 
 closeModal("authModal");
 
-loadStats();
+},500);
 
 }
+
 else{
 
-status.textContent=
-"حساب ساخته شد. اگر تأیید ایمیل فعال باشد، ایمیلت را بررسی کن.";
+status.textContent =
+"حساب ساخته شد. اگر تأیید ایمیل فعال است، ایمیلت را بررسی کن.";
 
 }
 
 }
+
 else{
 
-const {data,error} =
+const {
+data,
+error
+} =
 await supabaseClient.auth.signInWithPassword({
 
 email,
@@ -1058,13 +1631,16 @@ password
 
 if(error){
 
-status.textContent=error.message;
+status.textContent =
+error.message;
+
 return;
 
 }
 
 
-status.textContent="ورود موفق بود.";
+status.textContent =
+"ورود موفق بود.";
 
 setTimeout(()=>{
 
@@ -1078,30 +1654,37 @@ loadStats();
 }
 
 
-// ================================
 // USER
-// ================================
 
 async function showUser(){
 
-const {data} =
+const {
+data
+} =
 await supabaseClient.auth.getUser();
 
 if(!data.user)return;
 
-document.getElementById("userEmail")
-.textContent=
-"ایمیل: "+(data.user.email || "");
 
-document.getElementById("userName")
-.textContent=
+document
+.getElementById("userEmail")
+.textContent =
+"ایمیل: "+
+(data.user.email || "");
+
+
+document
+.getElementById("userName")
+.textContent =
 "نام کاربری: "+
 (
 data.user.user_metadata?.username ||
 "کاربر PERSIAN STARK"
 );
 
-document.getElementById("userModal")
+
+document
+.getElementById("userModal")
 .classList.add("show");
 
 }
@@ -1118,9 +1701,7 @@ loadStats();
 }
 
 
-// ================================
 // PRESENCE
-// ================================
 
 async function updatePresence(){
 
@@ -1133,18 +1714,20 @@ p_session_id:sessionId
 }
 );
 
-}catch(e){
+}
+catch(error){
 
-console.error("presence",e);
+console.error(
+"presence:",
+error
+);
 
 }
 
 }
 
 
-// ================================
 // VISIT
-// ================================
 
 async function recordVisit(){
 
@@ -1157,102 +1740,98 @@ p_session_id:sessionId
 }
 );
 
-}catch(e){
+}
+catch(error){
 
-console.error("visit",e);
+console.error(
+"visit:",
+error
+);
 
 }
 
 }
 
 
-// ================================
 // STATS
-// ================================
 
 async function loadStats(){
 
 try{
 
-const {data,error} =
+const {
+data,
+error
+} =
 await supabaseClient.rpc(
 "get_site_stats"
 );
 
 if(error){
 
-console.error(error);
+console.error(
+"stats:",
+error
+);
+
 return;
 
 }
 
-document.getElementById("membersCount")
-.textContent=
-data.members ?? 0;
 
-document.getElementById("onlineCount")
-.textContent=
-data.online ?? 0;
+document
+.getElementById("membersCount")
+.textContent =
+data?.members ?? 0;
 
-document.getElementById("todayVisits")
-.textContent=
-data.today_visits ?? 0;
 
-document.getElementById("totalVisits")
-.textContent=
-data.total_visits ?? 0;
+document
+.getElementById("onlineCount")
+.textContent =
+data?.online ?? 0;
 
-}catch(e){
 
-console.error(e);
+document
+.getElementById("todayVisits")
+.textContent =
+data?.today_visits ?? 0;
+
+
+document
+.getElementById("totalVisits")
+.textContent =
+data?.total_visits ?? 0;
+
+}
+catch(error){
+
+console.error(error);
 
 }
 
 }
 
 
-// ================================
-// MENU
-// ================================
-
-function openMenu(){
-
-alert(
-"از منوی بالا می‌توانی به اخبار، معرفی بازی‌ها، نرم‌افزار و حساب کاربری دسترسی داشته باشی."
-);
-
-}
-
-
-function scrollToSection(id){
-
-document.getElementById(id)
-.scrollIntoView({
-behavior:"smooth"
-});
-
-}
-
+// MODALS
 
 function openStore(){
 
-document.getElementById("storeModal")
+document
+.getElementById("storeModal")
 .classList.add("show");
 
 }
 
-
 function closeModal(id){
 
-document.getElementById(id)
+document
+.getElementById(id)
 .classList.remove("show");
 
 }
 
 
-// ================================
 // ESCAPE
-// ================================
 
 function escapeHTML(value){
 
@@ -1275,9 +1854,7 @@ return String(value ?? "")
 }
 
 
-// ================================
 // AUTH STATE
-// ================================
 
 supabaseClient.auth.onAuthStateChange(
 (event,session)=>{
@@ -1292,9 +1869,7 @@ updatePresence();
 );
 
 
-// ================================
 // START
-// ================================
 
 async function start(){
 
@@ -1308,12 +1883,10 @@ await updatePresence();
 
 await loadStats();
 
-
-// هر 30 ثانیه حضور را تازه کن
-
 setInterval(async()=>{
 
 await updatePresence();
+
 await loadStats();
 
 },30000);
