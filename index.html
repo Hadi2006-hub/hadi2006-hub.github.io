@@ -1,20 +1,1129 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PERSIAN STARK</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PERSIAN STARK | اخبار و دنیای گیم</title>
+
+<meta name="description" content="PERSIAN STARK - اخبار گیم، معرفی بازی، نرم افزار و دنیای گیمینگ">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Vazirmatn',sans-serif;
+    background:#080a10;
+    color:#fff;
+    line-height:1.8;
+    overflow-x:hidden;
+}
+
+/* Animated background */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    background:
+        radial-gradient(circle at 15% 20%,rgba(120,70,255,.16),transparent 28%),
+        radial-gradient(circle at 85% 70%,rgba(0,220,255,.10),transparent 30%),
+        radial-gradient(circle at 50% 100%,rgba(255,0,110,.08),transparent 35%),
+        #080a10;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    opacity:.35;
+    background-image:
+        radial-gradient(#ffffff 1px,transparent 1px);
+    background-size:45px 45px;
+    animation:stars 35s linear infinite;
+}
+
+@keyframes stars{
+    from{transform:translateY(0)}
+    to{transform:translateY(45px)}
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    font-family:inherit;
+}
+
+.container{
+    width:min(1180px,92%);
+    margin:auto;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(8,10,16,.88);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.navbar{
+    min-height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:2px;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:#a855f7;
+    text-shadow:0 0 18px rgba(168,85,247,.65);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.nav-links a{
+    padding:9px 13px;
+    border-radius:10px;
+    color:#bbb;
+    transition:.25s;
+    font-size:14px;
+}
+
+.nav-links a:hover{
+    background:rgba(168,85,247,.12);
+    color:#fff;
+}
+
+.account-btn{
+    border:1px solid rgba(168,85,247,.5);
+    background:rgba(168,85,247,.12);
+    color:#fff;
+    padding:9px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.menu-btn{
+    display:none;
+    border:0;
+    background:none;
+    color:#fff;
+    font-size:27px;
+    cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+    padding:80px 0 55px;
+}
+
+.hero-box{
+    position:relative;
+    overflow:hidden;
+    min-height:430px;
+    border-radius:28px;
+    padding:55px;
+    display:flex;
+    align-items:center;
+    background:
+        linear-gradient(120deg,rgba(11,12,20,.97),rgba(29,16,48,.82)),
+        radial-gradient(circle at 80% 30%,#8b5cf6,transparent 30%);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 25px 70px rgba(0,0,0,.35);
+}
+
+.hero-box::before{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:#9333ea;
+    filter:blur(120px);
+    opacity:.25;
+    right:-80px;
+    top:-80px;
+}
+
+.hero-content{
+    position:relative;
+    max-width:720px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 13px;
+    border-radius:30px;
+    background:rgba(168,85,247,.13);
+    border:1px solid rgba(168,85,247,.35);
+    color:#c084fc;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(38px,7vw,75px);
+    line-height:1.1;
+    font-weight:900;
+    margin-bottom:18px;
+}
+
+.hero h1 span{
+    color:#a855f7;
+}
+
+.hero p{
+    color:#b9b9c3;
+    max-width:650px;
+    font-size:16px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    margin-top:28px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:0;
+    cursor:pointer;
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:700;
+    transition:.25s;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,#9333ea,#c026d3);
+    color:#fff;
+    box-shadow:0 8px 25px rgba(147,51,234,.3);
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+}
+
+.btn-secondary{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1);
+    color:#fff;
+}
+
+/* SECTIONS */
+
+section{
+    padding:35px 0;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.section-title h2{
+    font-size:25px;
+}
+
+.section-title span{
+    color:#a855f7;
+}
+
+.section-title a{
+    color:#999;
+    font-size:13px;
+}
+
+/* CARDS */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.card{
+    background:rgba(18,20,29,.82);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(168,85,247,.4);
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.card-img{
+    height:190px;
+    background-size:cover;
+    background-position:center;
+    position:relative;
+}
+
+.card-img::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(transparent,rgba(0,0,0,.8));
+}
+
+.card-body{
+    padding:17px;
+}
+
+.tag{
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:7px;
+    background:rgba(168,85,247,.12);
+    color:#c084fc;
+    font-size:11px;
+    margin-bottom:8px;
+}
+
+.card h3{
+    font-size:17px;
+    margin-bottom:8px;
+}
+
+.card p{
+    color:#9d9da8;
+    font-size:13px;
+    margin-bottom:14px;
+}
+
+.read-more{
+    color:#c084fc;
+    font-size:13px;
+    cursor:pointer;
+}
+
+/* LATEST GAMES */
+
+.latest{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.feature-card{
+    min-height:320px;
+    border-radius:20px;
+    padding:28px;
+    display:flex;
+    align-items:flex-end;
+    background:
+        linear-gradient(0deg,rgba(0,0,0,.9),rgba(0,0,0,.05)),
+        url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80")
+        center/cover;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.feature-card h3{
+    font-size:27px;
+}
+
+.side-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.side-item{
+    padding:15px;
+    border-radius:15px;
+    background:rgba(18,20,29,.82);
+    border:1px solid rgba(255,255,255,.07);
+    cursor:pointer;
+    transition:.25s;
+}
+
+.side-item:hover{
+    border-color:rgba(168,85,247,.4);
+}
+
+.side-item small{
+    color:#a855f7;
+}
+
+.side-item h3{
+    font-size:14px;
+    margin-top:4px;
+}
+
+/* SOFTWARE */
+
+.software-icon{
+    height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:65px;
+    background:linear-gradient(135deg,#111421,#201331);
+}
+
+.download-btn{
+    width:100%;
+    border:0;
+    border-radius:10px;
+    padding:10px;
+    background:#9333ea;
+    color:white;
+    cursor:pointer;
+    font-weight:700;
+}
+
+/* STORE */
+
+.store-box{
+    padding:35px;
+    border-radius:22px;
+    text-align:center;
+    background:
+        linear-gradient(135deg,rgba(147,51,234,.15),rgba(8,10,16,.9));
+    border:1px solid rgba(168,85,247,.22);
+}
+
+.store-box .icon{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+.store-box h2{
+    margin-bottom:8px;
+}
+
+.store-box p{
+    color:#999;
+    margin-bottom:20px;
+}
+
+/* FOOTER */
+
+footer{
+    margin-top:50px;
+    padding:35px 0;
+    border-top:1px solid rgba(255,255,255,.07);
+    background:rgba(4,5,8,.7);
+}
+
+.footer-content{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.footer-content p{
+    color:#777;
+    font-size:13px;
+}
+
+.social{
+    display:flex;
+    gap:10px;
+}
+
+.social a{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:rgba(255,255,255,.06);
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(8px);
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:min(650px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#11131c;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    padding:25px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    top:12px;
+    left:15px;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    border:0;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+.modal-box p{
+    color:#aaa;
+}
+
+.login-form{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:15px;
+}
+
+.login-form input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#0a0c12;
+    color:#fff;
+    font-family:inherit;
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+        position:absolute;
+        top:75px;
+        right:4%;
+        left:4%;
+        padding:12px;
+        flex-direction:column;
+        align-items:stretch;
+        background:#11131c;
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:15px;
+    }
+
+    .nav-links.show{
+        display:flex;
+    }
+
+    .nav-links a,
+    .account-btn{
+        width:100%;
+        text-align:center;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .hero{
+        padding-top:35px;
+    }
+
+    .hero-box{
+        padding:30px 22px;
+        min-height:390px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .latest{
+        grid-template-columns:1fr;
+    }
+
+    .feature-card{
+        min-height:270px;
+    }
+
+    .section-title h2{
+        font-size:21px;
+    }
+
+    .footer-content{
+        flex-direction:column;
+        text-align:center;
+        align-items:center;
+    }
+}
+
+@media(min-width:851px) and (max-width:1050px){
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+</style>
 </head>
 
-<body style="background:#080a10;color:white;text-align:center;font-family:Arial;padding-top:100px">
+<body>
 
-    <h1 style="font-size:50px;color:#a855f7;">
-        PERSIAN STARK
-    </h1>
+<!-- HEADER -->
 
-    <h2>سایت با موفقیت آنلاین شد 🎮🔥</h2>
+<header>
+<div class="container navbar">
 
-    <p>اگر این صفحه را می‌بینی، GitHub Pages درست کار می‌کند.</p>
+    <a href="#" class="logo">
+        <span>PERSIAN</span> STARK
+    </a>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <nav class="nav-links" id="navLinks">
+        <a href="#home">خانه</a>
+        <a href="#news">اخبار گیم</a>
+        <a href="#games">معرفی بازی‌ها</a>
+        <a href="#software">نرم‌افزارها</a>
+        <a href="#store">فروشگاه</a>
+
+        <button class="account-btn" onclick="openLogin()">
+            👤 حساب کاربری
+        </button>
+    </nav>
+
+</div>
+</header>
+
+
+<!-- HERO -->
+
+<main id="home">
+
+<section class="hero">
+<div class="container">
+
+<div class="hero-box">
+
+<div class="hero-content">
+
+<span class="badge">🎮 دنیای گیم در یکجا</span>
+
+<h1>
+به <span>PERSIAN STARK</span><br>
+خوش آمدید
+</h1>
+
+<p>
+اخبار گیم، معرفی بازی‌های جدید، نرم‌افزارهای کاربردی
+و مطالب جذاب دنیای بازی را در PERSIAN STARK دنبال کنید.
+</p>
+
+<div class="hero-buttons">
+
+<a href="#news" class="btn btn-primary">
+مشاهده اخبار
+</a>
+
+<a href="#games" class="btn btn-secondary">
+معرفی بازی‌ها
+</a>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- LATEST GAME -->
+
+<section id="games">
+<div class="container">
+
+<div class="section-title">
+<h2>🎮 آخرین <span>معرفی بازی‌ها</span></h2>
+<a href="#games">مشاهده همه</a>
+</div>
+
+<div class="latest">
+
+<div class="feature-card" onclick="openGame('Silent Hill: Townfall')">
+
+<div>
+<span class="tag">معرفی بازی</span>
+
+<h3>
+SILENT HILL: Townfall
+</h3>
+
+<p>
+بازگشت به دنیای ترسناک Silent Hill
+با فضایی مرموز و داستانی متفاوت.
+</p>
+
+</div>
+
+</div>
+
+<div class="side-list">
+
+<div class="side-item" onclick="openGame('Onimusha: Way of the Sword')">
+<small>CAPCOM</small>
+<h3>Onimusha: Way of the Sword</h3>
+</div>
+
+<div class="side-item" onclick="openGame('Cyberpunk 2077')">
+<small>OPEN WORLD</small>
+<h3>Cyberpunk 2077</h3>
+</div>
+
+<div class="side-item" onclick="openGame('Red Dead Redemption 2')">
+<small>ROCKSTAR</small>
+<h3>Red Dead Redemption 2</h3>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- NEWS -->
+
+<section id="news">
+<div class="container">
+
+<div class="section-title">
+<h2>📰 آخرین <span>اخبار گیم</span></h2>
+<a href="#news">همه اخبار</a>
+</div>
+
+<div class="grid">
+
+<article class="card">
+
+<div class="card-img"
+style="background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80')">
+</div>
+
+<div class="card-body">
+
+<span class="tag">خبر</span>
+
+<h3>
+تخفیف جذاب بازی‌های Steam
+</h3>
+
+<p>
+جدیدترین تخفیف‌ها و پیشنهادهای جذاب
+برای گیمرهای PC.
+</p>
+
+<span class="read-more"
+onclick="openNews('تخفیف جذاب بازی‌های Steam')">
+ادامه مطلب ←
+</span>
+
+</div>
+</article>
+
+
+<article class="card">
+
+<div class="card-img"
+style="background-image:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80')">
+</div>
+
+<div class="card-body">
+
+<span class="tag">گیم</span>
+
+<h3>
+بازی‌های مورد انتظار
+</h3>
+
+<p>
+نگاهی به بازی‌هایی که گیمرها
+منتظر تجربه آن‌ها هستند.
+</p>
+
+<span class="read-more"
+onclick="openNews('بازی‌های مورد انتظار')">
+ادامه مطلب ←
+</span>
+
+</div>
+</article>
+
+
+<article class="card">
+
+<div class="card-img"
+style="background-image:url('https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=900&q=80')">
+</div>
+
+<div class="card-body">
+
+<span class="tag">PC</span>
+
+<h3>
+بهترین بازی‌های PC
+</h3>
+
+<p>
+چند عنوان جذاب که ارزش تجربه
+کردن روی کامپیوتر را دارند.
+</p>
+
+<span class="read-more"
+onclick="openNews('بهترین بازی‌های PC')">
+ادامه مطلب ←
+</span>
+
+</div>
+</article>
+
+</div>
+</div>
+</section>
+
+
+<!-- SOFTWARE -->
+
+<section id="software">
+<div class="container">
+
+<div class="section-title">
+<h2>💻 <span>نرم‌افزارهای کاربردی</span></h2>
+<a href="#software">مشاهده همه</a>
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="software-icon">
+🎬
+</div>
+
+<div class="card-body">
+
+<span class="tag">Media Player</span>
+
+<h3>VLC Media Player</h3>
+
+<p>
+پخش‌کننده قدرتمند و رایگان
+برای انواع فایل‌های صوتی و تصویری.
+</p>
+
+<button class="download-btn"
+onclick="openSoftware('VLC Media Player')">
+مشاهده و دانلود
+</button>
+
+</div>
+</div>
+
+
+<div class="card">
+
+<div class="software-icon">
+📦
+</div>
+
+<div class="card-body">
+
+<span class="tag">Utility</span>
+
+<h3>7-Zip</h3>
+
+<p>
+ابزار سبک و رایگان برای فشرده‌سازی
+و استخراج فایل‌ها.
+</p>
+
+<button class="download-btn"
+onclick="openSoftware('7-Zip')">
+مشاهده و دانلود
+</button>
+
+</div>
+</div>
+
+
+<div class="card">
+
+<div class="software-icon">
+🎮
+</div>
+
+<div class="card-body">
+
+<span class="tag">Gaming</span>
+
+<h3>Gaming Tools</h3>
+
+<p>
+به‌زودی مجموعه‌ای از ابزارهای کاربردی
+برای گیمرها.
+</p>
+
+<button class="download-btn"
+onclick="openSoftware('Gaming Tools')">
+مشاهده
+</button>
+
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+
+<!-- STORE -->
+
+<section id="store">
+<div class="container">
+
+<div class="store-box">
+
+<div class="icon">🛒</div>
+
+<h2>فروشگاه PERSIAN STARK</h2>
+
+<p>
+فروشگاه اختصاصی اسکین‌های CS2
+</p>
+
+<button class="btn btn-primary"
+onclick="openStore()">
+مشاهده فروشگاه
+</button>
+
+</div>
+
+</div>
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="container footer-content">
+
+<div>
+<div class="logo">
+<span>PERSIAN</span> STARK
+</div>
+
+<p>
+دنیای گیم، اخبار، معرفی بازی و نرم‌افزار
+</p>
+</div>
+
+<div class="social">
+
+<a href="#">🎮</a>
+<a href="#">📱</a>
+<a href="#">▶️</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeModal()">×</button>
+
+<div id="modalContent"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const modal = document.getElementById("modal");
+const modalContent = document.getElementById("modalContent");
+const navLinks = document.getElementById("navLinks");
+
+
+function toggleMenu(){
+    navLinks.classList.toggle("show");
+}
+
+
+function closeModal(){
+    modal.classList.remove("active");
+}
+
+
+modal.addEventListener("click",function(e){
+    if(e.target === modal){
+        closeModal();
+    }
+});
+
+
+function showModal(title,text){
+
+    modalContent.innerHTML = `
+        <span class="tag">PERSIAN STARK</span>
+        <h2>${title}</h2>
+        <p>${text}</p>
+    `;
+
+    modal.classList.add("active");
+}
+
+
+function openNews(title){
+
+    showModal(
+        title,
+        "این بخش فعلاً نسخه نمایشی سایت است. در مرحله بعد اخبار واقعی را از پنل مدیریت PERSIAN STARK اضافه می‌کنیم."
+    );
+
+}
+
+
+function openGame(title){
+
+    showModal(
+        title,
+        "صفحه معرفی کامل این بازی در نسخه نهایی شامل داستان، ویژگی‌ها، سیستم مورد نیاز، تصاویر، امتیاز و بخش نظرات کاربران خواهد بود."
+    );
+
+}
+
+
+function openSoftware(title){
+
+    showModal(
+        title,
+        "صفحه نرم‌افزار در نسخه نهایی شامل توضیحات، نسخه نرم‌افزار، سیستم مورد نیاز و لینک دانلود خواهد بود."
+    );
+
+}
+
+
+function openStore(){
+
+    showModal(
+        "فروشگاه CS2",
+        "🛒 فروشگاه اسکین‌های CS2 به‌زودی فعال می‌شود."
+    );
+
+}
+
+
+function openLogin(){
+
+    modalContent.innerHTML = `
+
+        <span class="tag">حساب کاربری</span>
+
+        <h2>ورود به PERSIAN STARK</h2>
+
+        <p>
+        سیستم ورود و ثبت‌نام واقعی را در مرحله اتصال
+        سایت به دیتابیس فعال می‌کنیم.
+        </p>
+
+        <div class="login-form">
+
+            <input
+            type="email"
+            placeholder="ایمیل"
+            >
+
+            <input
+            type="password"
+            placeholder="رمز عبور"
+            >
+
+            <button
+            class="btn btn-primary"
+            onclick="demoLogin()">
+            ورود
+            </button>
+
+        </div>
+
+    `;
+
+    modal.classList.add("active");
+
+}
+
+
+function demoLogin(){
+
+    alert("سیستم ورود واقعی در مرحله بعد با دیتابیس فعال می‌شود.");
+
+}
+
+</script>
 
 </body>
 </html>
