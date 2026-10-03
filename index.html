@@ -1,1402 +1,1716 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PERSIAN STARK | Gaming</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:"Vazirmatn",Arial,sans-serif;
-    background:#050509;
-    color:#fff;
-    min-height:100vh;
-    overflow-x:hidden;
-}
-
-/* =========================
-   Animated Background
-========================= */
-
-.bg{
-    position:fixed;
-    inset:0;
-    z-index:-5;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 20% 20%,rgba(168,85,247,.22),transparent 30%),
-        radial-gradient(circle at 80% 30%,rgba(59,130,246,.16),transparent 28%),
-        radial-gradient(circle at 50% 90%,rgba(236,72,153,.13),transparent 30%),
-        #050509;
-}
-
-.bg::before,
-.bg::after{
-    content:"";
-    position:absolute;
-    width:500px;
-    height:500px;
-    border-radius:50%;
-    filter:blur(100px);
-    animation:float 12s infinite alternate ease-in-out;
-}
-
-.bg::before{
-    background:#7c3aed;
-    opacity:.18;
-    top:-180px;
-    right:-150px;
-}
-
-.bg::after{
-    background:#2563eb;
-    opacity:.13;
-    bottom:-200px;
-    left:-150px;
-    animation-delay:-5s;
-}
-
-@keyframes float{
-    from{
-        transform:translate(0,0) scale(1);
-    }
-    to{
-        transform:translate(100px,60px) scale(1.25);
-    }
-}
-
-/* stars */
-
-.stars{
-    position:absolute;
-    inset:0;
-    background-image:
-        radial-gradient(circle,rgba(255,255,255,.65) 1px,transparent 1px),
-        radial-gradient(circle,rgba(255,255,255,.3) 1px,transparent 1px);
-    background-size:90px 90px,140px 140px;
-    animation:starsMove 18s linear infinite;
-    opacity:.3;
-}
-
-@keyframes starsMove{
-    from{
-        transform:translateY(0);
-    }
-    to{
-        transform:translateY(90px);
-    }
-}
-
-/* =========================
-   Header
-========================= */
-
-header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    backdrop-filter:blur(18px);
-    background:rgba(5,5,9,.78);
-    border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.nav{
-    max-width:1200px;
-    margin:auto;
-    min-height:72px;
-    padding:10px 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:900;
-    letter-spacing:1px;
-    color:#fff;
-    text-decoration:none;
-}
-
-.logo span{
-    color:#a855f7;
-}
-
-nav{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-nav a,
-.nav-btn{
-    border:0;
-    background:transparent;
-    color:#ddd;
-    padding:10px 13px;
-    border-radius:10px;
-    cursor:pointer;
-    font-family:inherit;
-    font-size:14px;
-    text-decoration:none;
-}
-
-nav a:hover,
-.nav-btn:hover{
-    background:rgba(168,85,247,.14);
-    color:#fff;
-}
-
-.login-btn{
-    background:linear-gradient(135deg,#7c3aed,#a855f7);
-    color:#fff!important;
-    font-weight:700;
-}
-
-.menu{
-    display:none;
-    font-size:25px;
-    cursor:pointer;
-}
-
-/* =========================
-   Container
-========================= */
-
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:0 20px;
-}
-
-/* =========================
-   Hero
-========================= */
-
-.hero{
-    min-height:600px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:80px 20px;
-    position:relative;
-}
-
-.hero-content{
-    max-width:850px;
-}
-
-.badge{
-    display:inline-block;
-    padding:8px 15px;
-    border:1px solid rgba(168,85,247,.35);
-    border-radius:30px;
-    background:rgba(168,85,247,.08);
-    color:#c084fc;
-    margin-bottom:20px;
-    font-size:13px;
-}
-
-.hero h1{
-    font-size:clamp(45px,8vw,90px);
-    line-height:1;
-    font-weight:900;
-    margin-bottom:25px;
-    text-shadow:0 0 40px rgba(168,85,247,.25);
-}
-
-.hero h1 span{
-    color:#a855f7;
-}
-
-.hero p{
-    color:#aaa;
-    font-size:18px;
-    line-height:2;
-    margin-bottom:30px;
-}
-
-.hero-buttons{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    flex-wrap:wrap;
-}
-
-.btn{
-    border:0;
-    padding:13px 22px;
-    border-radius:12px;
-    font-family:inherit;
-    font-weight:700;
-    cursor:pointer;
-    text-decoration:none;
-    display:inline-block;
-}
-
-.btn-primary{
-    background:linear-gradient(135deg,#7c3aed,#a855f7);
-    color:#fff;
-}
-
-.btn-secondary{
-    background:rgba(255,255,255,.07);
-    color:#fff;
-    border:1px solid rgba(255,255,255,.1);
-}
-
-/* =========================
-   Sections
-========================= */
-
-section{
-    padding:60px 0;
-}
-
-.section-title{
-    margin-bottom:25px;
-}
-
-.section-title h2{
-    font-size:28px;
-    margin-bottom:7px;
-}
-
-.section-title p{
-    color:#888;
-    font-size:14px;
-}
-
-/* =========================
-   Cards
-========================= */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-}
-
-.card{
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(255,255,255,.045);
-    border-radius:18px;
-    backdrop-filter:blur(10px);
-    transition:.25s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-    border-color:rgba(168,85,247,.4);
-}
-
-.card-image{
-    width:100%;
-    height:210px;
-    object-fit:cover;
-    display:block;
-}
-
-.card-body{
-    padding:18px;
-}
-
-.card-body h3{
-    margin-bottom:8px;
-}
-
-.card-body p{
-    color:#999;
-    font-size:13px;
-    line-height:1.9;
-    margin-bottom:15px;
-}
-
-.card-actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.small-btn{
-    border:0;
-    background:rgba(168,85,247,.15);
-    color:#d8b4fe;
-    border-radius:9px;
-    padding:9px 13px;
-    cursor:pointer;
-    font-family:inherit;
-}
-
-/* =========================
-   Store
-========================= */
-
-.coming{
-    text-align:center;
-    padding:60px 20px;
-    border:1px solid rgba(168,85,247,.2);
-    background:rgba(168,85,247,.05);
-    border-radius:20px;
-}
-
-.coming h2{
-    font-size:35px;
-    margin-bottom:10px;
-}
-
-.coming p{
-    color:#999;
-}
-
-/* =========================
-   Footer
-========================= */
-
-footer{
-    border-top:1px solid rgba(255,255,255,.08);
-    padding:30px 20px;
-    text-align:center;
-    color:#777;
-}
-
-/* =========================
-   Modal
-========================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:2000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.75);
-    backdrop-filter:blur(8px);
-}
-
-.modal.active{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:440px;
-    background:#101016;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:20px;
-    padding:25px;
-    position:relative;
-}
-
-.close{
-    position:absolute;
-    top:12px;
-    left:15px;
-    border:0;
-    background:none;
-    color:#aaa;
-    font-size:25px;
-    cursor:pointer;
-}
-
-.modal-box h2{
-    margin-bottom:20px;
-}
-
-.input{
-    width:100%;
-    margin-bottom:12px;
-    padding:13px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,.1);
-    background:#08080c;
-    color:#fff;
-    outline:none;
-    font-family:inherit;
-}
-
-.input:focus{
-    border-color:#a855f7;
-}
-
-.form-btn{
-    width:100%;
-    margin-top:5px;
-}
-
-.switch{
-    margin-top:15px;
-    text-align:center;
-    color:#888;
-    font-size:13px;
-}
-
-.switch button{
-    border:0;
-    background:none;
-    color:#c084fc;
-    cursor:pointer;
-    font-family:inherit;
-}
-
-.message{
-    margin-top:12px;
-    font-size:13px;
-    text-align:center;
-}
-
-/* =========================
-   User
-========================= */
-
-.user-box{
-    display:none;
-    align-items:center;
-    gap:8px;
-}
-
-.user-name{
-    color:#c084fc;
-    font-size:13px;
-}
-
-.logout{
-    border:0;
-    background:rgba(239,68,68,.12);
-    color:#fca5a5;
-    padding:8px 10px;
-    border-radius:8px;
-    cursor:pointer;
-    font-family:inherit;
-}
-
-/* =========================
-   Responsive
-========================= */
-
-@media(max-width:850px){
-
-    nav{
-        display:none;
-        position:absolute;
-        top:72px;
-        right:15px;
-        left:15px;
-        padding:12px;
-        background:#101016;
-        border:1px solid rgba(255,255,255,.1);
-        border-radius:15px;
-        flex-direction:column;
-        align-items:stretch;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PERSIAN STARK | Gaming</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    nav.open{
-        display:flex;
+    html {
+      scroll-behavior: smooth;
     }
 
-    nav a,
-    .nav-btn{
-        text-align:center;
-        width:100%;
+    body {
+      font-family: "Vazirmatn", sans-serif;
+      background: #05070d;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .menu{
-        display:block;
+    /* =========================
+       ANIMATED BACKGROUND
+    ========================= */
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0, 170, 255, .15), transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(130, 0, 255, .13), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(0, 255, 170, .08), transparent 30%),
+        #05070d;
     }
 
-    .grid{
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-@media(max-width:550px){
-
-    .nav{
-        min-height:65px;
-    }
-
-    .hero{
-        min-height:520px;
-        padding-top:50px;
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -100%;
+      z-index: -2;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1px);
+      background-size: 90px 90px;
+      animation: starsMove 35s linear infinite;
+      opacity: .25;
     }
 
-    .hero p{
-        font-size:15px;
+    @keyframes starsMove {
+      from {
+        transform: translate(0, 0);
+      }
+      to {
+        transform: translate(90px, 90px);
+      }
     }
 
-    .grid{
-        grid-template-columns:1fr;
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(18px);
+      background: rgba(5, 7, 13, .82);
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
-    section{
-        padding:45px 0;
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      min-height: 72px;
+      padding: 12px 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
-    .card-image{
-        height:220px;
+    .logo {
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      white-space: nowrap;
+
+      background: linear-gradient(
+        90deg,
+        #00d9ff,
+        #7b2cff,
+        #00ffa2
+      );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-}
-</style>
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      list-style: none;
+    }
+
+    .menu a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 14px;
+      transition: .2s;
+    }
+
+    .menu a:hover {
+      color: #00d9ff;
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: white;
+      font-size: 27px;
+      cursor: pointer;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 90px 18px 70px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 15px;
+      border: 1px solid rgba(0,217,255,.3);
+      background: rgba(0,217,255,.07);
+      border-radius: 999px;
+      color: #00d9ff;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 8vw, 78px);
+      font-weight: 900;
+      line-height: 1.1;
+      background: linear-gradient(
+        90deg,
+        #fff,
+        #00d9ff,
+        #a855f7,
+        #fff
+      );
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 6s linear infinite;
+    }
+
+    @keyframes gradientText {
+      to {
+        background-position: 300% center;
+      }
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 22px auto 0;
+      color: #aeb5c2;
+      line-height: 2;
+      font-size: 15px;
+    }
+
+    .hero-buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 0;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 700;
+      transition: .2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg,#00d9ff,#7b2cff);
+      color: white;
+      box-shadow: 0 10px 30px rgba(0,170,255,.18);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+       CONTAINER / SECTIONS
+    ========================= */
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 18px;
+    }
+
+    section {
+      padding: 55px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .section-title span {
+      color: #00d9ff;
+    }
+
+    .section-desc {
+      color: #8f98a8;
+      font-size: 13px;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      overflow: hidden;
+      border-radius: 18px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0,217,255,.3);
+      box-shadow: 0 18px 50px rgba(0,0,0,.25);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background: #10131b;
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+
+    .category {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(0,217,255,.09);
+      color: #00d9ff;
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 9px;
+      line-height: 1.6;
+    }
+
+    .card p {
+      color: #9ba3b2;
+      font-size: 13px;
+      line-height: 1.9;
+      min-height: 50px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 17px;
+    }
+
+    .date {
+      color: #737c8c;
+      font-size: 11px;
+    }
+
+    .small-btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 8px 12px;
+      font-family: inherit;
+      cursor: pointer;
+      background: rgba(0,217,255,.1);
+      color: #00d9ff;
+    }
+
+    /* =========================
+       EMPTY / LOADING
+    ========================= */
+
+    .loading,
+    .empty {
+      grid-column: 1 / -1;
+      padding: 35px;
+      text-align: center;
+      color: #858e9d;
+      border: 1px dashed rgba(255,255,255,.1);
+      border-radius: 15px;
+    }
+
+    /* =========================
+       STORE
+    ========================= */
+
+    .store-box {
+      border-radius: 22px;
+      padding: 40px 20px;
+      text-align: center;
+      border: 1px solid rgba(123,44,255,.25);
+      background:
+        radial-gradient(circle at center, rgba(123,44,255,.13), transparent 55%),
+        rgba(255,255,255,.03);
+    }
+
+    .store-box h3 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .store-box p {
+      color: #929aaa;
+      line-height: 2;
+    }
+
+    .coming {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(168,85,247,.13);
+      color: #c084fc;
+      border: 1px solid rgba(168,85,247,.25);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      margin-top: 40px;
+      padding: 35px 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      text-align: center;
+      color: #737c8c;
+      font-size: 13px;
+    }
+
+    footer strong {
+      color: #00d9ff;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      padding: 18px;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(700px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+
+      border-radius: 20px;
+      background: #0b0e16;
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 25px;
+    }
+
+    .modal-close {
+      float: left;
+      background: rgba(255,255,255,.08);
+      border: 0;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .modal-image {
+      width: 100%;
+      max-height: 350px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin: 10px 0 20px;
+    }
+
+    .modal h2 {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .modal-content {
+      color: #b7beca;
+      line-height: 2.2;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+
+    .modal-actions {
+      margin-top: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    .auth-box {
+      width: min(430px, 100%);
+    }
+
+    .auth-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 13px 14px;
+      margin-bottom: 12px;
+
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.1);
+      outline: none;
+
+      background: rgba(255,255,255,.05);
+      color: white;
+      font-family: inherit;
+    }
+
+    .input:focus {
+      border-color: #00d9ff;
+    }
+
+    .auth-message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 13px;
+      color: #8f98a8;
+      line-height: 1.8;
+    }
+
+    /* =========================
+       USER AREA
+    ========================= */
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-name {
+      font-size: 12px;
+      color: #00d9ff;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 850px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .menu {
+        position: absolute;
+        top: 72px;
+        right: 12px;
+        left: 12px;
+
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+
+        padding: 15px;
+        border-radius: 15px;
+
+        background: rgba(8,10,16,.97);
+        border: 1px solid rgba(255,255,255,.1);
+      }
+
+      .menu.active {
+        display: flex;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding-top: 60px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-image {
+        height: 210px;
+      }
+
+      .section-title {
+        font-size: 22px;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      .user-name {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="bg">
-    <div class="stars"></div>
-</div>
+  <!-- =========================
+       HEADER
+  ========================= -->
 
-<!-- ================= HEADER ================= -->
+  <header>
+    <nav class="nav">
 
-<header>
-    <div class="nav">
+      <div class="logo">
+        PERSIAN STARK
+      </div>
 
-        <a href="#" class="logo">
-            PERSIAN <span>STARK</span>
+      <button class="menu-btn" onclick="toggleMenu()">
+        ☰
+      </button>
+
+      <ul class="menu" id="menu">
+
+        <li>
+          <a href="#home" onclick="closeMenu()">خانه</a>
+        </li>
+
+        <li>
+          <a href="#news" onclick="closeMenu()">اخبار</a>
+        </li>
+
+        <li>
+          <a href="#games" onclick="closeMenu()">معرفی بازی</a>
+        </li>
+
+        <li>
+          <a href="#software" onclick="closeMenu()">نرم‌افزار</a>
+        </li>
+
+        <li>
+          <a href="#store" onclick="closeMenu()">فروشگاه CS2</a>
+        </li>
+
+        <li id="authMenu">
+          <a href="#" onclick="openAuth(); return false;">
+            ورود / ثبت‌نام
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <main id="home">
+
+    <section class="hero">
+
+      <div class="hero-badge">
+        🎮 Gaming • News • Software
+      </div>
+
+      <h1>
+        PERSIAN STARK
+      </h1>
+
+      <p>
+        دنیای گیم، اخبار، معرفی بازی‌ها و نرم‌افزارهای کاربردی
+        در یکجا.
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#news" class="btn btn-primary">
+          📰 مشاهده اخبار
         </a>
 
-        <div class="menu" onclick="toggleMenu()">☰</div>
+        <a href="#games" class="btn btn-secondary">
+          🎮 معرفی بازی‌ها
+        </a>
 
-        <nav id="navMenu">
-            <a href="#home">خانه</a>
-            <a href="#news">اخبار گیم</a>
-            <a href="#games">معرفی بازی‌ها</a>
-            <a href="#software">نرم‌افزارها</a>
-            <a href="#store">فروشگاه</a>
+      </div>
 
-            <button class="nav-btn login-btn" id="loginButton" onclick="openAuth()">
-                ورود / ثبت‌نام
-            </button>
+    </section>
 
-            <div class="user-box" id="userBox">
-                <span class="user-name" id="userName"></span>
-                <button class="logout" onclick="logout()">خروج</button>
-            </div>
-        </nav>
 
-    </div>
-</header>
+    <!-- =========================
+         NEWS
+    ========================= -->
 
-<!-- ================= HERO ================= -->
+    <section id="news">
 
-<main id="home">
+      <div class="container">
 
-<section class="hero">
-    <div class="hero-content">
+        <div class="section-head">
 
-        <div class="badge">🎮 دنیای گیم و تکنولوژی</div>
+          <div>
+            <h2 class="section-title">
+              آخرین <span>اخبار</span>
+            </h2>
 
-        <h1>
-            PERSIAN <span>STARK</span>
-        </h1>
-
-        <p>
-            اخبار گیم، معرفی بازی‌ها، نرم‌افزارهای کاربردی
-            و دنیای تکنولوژی در یک جا.
-        </p>
-
-        <div class="hero-buttons">
-            <a href="#games" class="btn btn-primary">
-                🎮 معرفی بازی‌ها
-            </a>
-
-            <a href="#news" class="btn btn-secondary">
-                📰 آخرین اخبار
-            </a>
-        </div>
-
-    </div>
-</section>
-
-<!-- ================= NEWS ================= -->
-
-<section id="news">
-
-<div class="container">
-
-    <div class="section-title">
-        <h2>📰 آخرین اخبار گیم</h2>
-        <p>جدیدترین مطالب PERSIAN STARK</p>
-    </div>
-
-    <div class="grid">
-
-        <article class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80"
-                alt="Gaming">
-
-            <div class="card-body">
-
-                <h3>خبرهای جدید دنیای گیم</h3>
-
-                <p>
-                    این قسمت برای انتشار اخبار جدید بازی‌ها استفاده می‌شود.
-                </p>
-
-                <div class="card-actions">
-                    <button class="small-btn"
-                    onclick="showArticle('خبر گیم','اینجا متن کامل خبر قرار می‌گیرد. بعداً این بخش را به دیتابیس Supabase وصل می‌کنیم.')">
-                        ادامه مطلب
-                    </button>
-                </div>
-
-            </div>
-        </article>
-
-        <article class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80"
-                alt="Gaming">
-
-            <div class="card-body">
-
-                <h3>اخبار بازی‌های جدید</h3>
-
-                <p>
-                    اخبار، تخفیف‌ها و اتفاقات مهم دنیای بازی.
-                </p>
-
-                <div class="card-actions">
-                    <button class="small-btn"
-                    onclick="showArticle('اخبار بازی','متن کامل مقاله در اینجا نمایش داده می‌شود.')">
-                        ادامه مطلب
-                    </button>
-                </div>
-
-            </div>
-        </article>
-
-        <article class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=900&q=80"
-                alt="PC Gaming">
-
-            <div class="card-body">
-
-                <h3>دنیای PC Gaming</h3>
-
-                <p>
-                    سخت‌افزار، بازی‌های PC و اخبار مرتبط.
-                </p>
-
-                <div class="card-actions">
-                    <button class="small-btn"
-                    onclick="showArticle('PC Gaming','مقاله کامل در نسخه متصل به دیتابیس قرار خواهد گرفت.')">
-                        ادامه مطلب
-                    </button>
-                </div>
-
-            </div>
-        </article>
-
-    </div>
-
-</div>
-
-</section>
-
-<!-- ================= GAMES ================= -->
-
-<section id="games">
-
-<div class="container">
-
-    <div class="section-title">
-        <h2>🎮 معرفی بازی‌ها</h2>
-        <p>بازی‌هایی که در PERSIAN STARK معرفی می‌شوند</p>
-    </div>
-
-    <div class="grid">
-
-        <article class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=900&q=80"
-                alt="Cyberpunk">
-
-            <div class="card-body">
-
-                <h3>Cyberpunk 2077</h3>
-
-                <p>
-                    دنیایی عظیم، داستانی آینده‌نگر و شهر Night City.
-                </p>
-
-                <div class="card-actions">
-                    <button class="small-btn"
-                    onclick="showArticle('Cyberpunk 2077','اطلاعات کامل بازی، داستان، سیستم مورد نیاز و تصاویر بازی در این بخش قرار می‌گیرد.')">
-                        مشاهده
-                    </button>
-                </div>
-
-            </div>
-        </article>
-
-        <article class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80"
-                alt="Game">
-
-            <div class="card-body">
-
-                <h3>Red Dead Redemption 2</h3>
-
-                <p>
-                    ماجراجویی در غرب وحشی با Arthur Morgan.
-                </p>
-
-                <div class="card-actions">
-                    <button class="small-btn"
-                    onclick="showArticle('Red Dead Redemption 2','اطلاعات کامل بازی و سیستم مورد نیاز اینجا قرار می‌گیرد.')">
-                        مشاهده
-                    </button>
-                </div>
-
-            </div>
-        </article>
-
-        <article class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80"
-                alt="Gaming">
-
-            <div class="card-body">
-
-                <h3>Silent Hill: Townfall</h3>
-
-                <p>
-                    معرفی بازی و اطلاعات مربوط به آن.
-                </p>
-
-                <div class="card-actions">
-                    <button class="small-btn"
-                    onclick="showArticle('Silent Hill: Townfall','معرفی کامل بازی، ویژگی‌ها و اطلاعات آن در این قسمت قرار خواهد گرفت.')">
-                        مشاهده
-                    </button>
-                </div>
-
-            </div>
-        </article>
-
-    </div>
-
-</div>
-
-</section>
-
-<!-- ================= SOFTWARE ================= -->
-
-<section id="software">
-
-<div class="container">
-
-    <div class="section-title">
-        <h2>💻 نرم‌افزارها</h2>
-        <p>نرم‌افزارهای کاربردی برای دانلود</p>
-    </div>
-
-    <div class="grid">
-
-        <article class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80"
-                alt="Software">
-
-            <div class="card-body">
-
-                <h3>7-Zip</h3>
-
-                <p>
-                    ابزار فشرده‌سازی فایل‌ها.
-                </p>
-
-                <div class="card-actions">
-
-                    <!-- لینک دانلود را بعداً اینجا قرار می‌دهیم -->
-
-                    <a
-                    href="#"
-                    class="small-btn"
-                    onclick="downloadDemo(event)">
-                        📥 دانلود
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-        <article class="card">
-
-            <img
-                class="card-image"
-                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
-                alt="Software">
-
-            <div class="card-body">
-
-                <h3>نرم‌افزار جدید</h3>
-
-                <p>
-                    توضیحات نرم‌افزار در اینجا قرار می‌گیرد.
-                </p>
-
-                <div class="card-actions">
-
-                    <a
-                    href="#"
-                    class="small-btn"
-                    onclick="downloadDemo(event)">
-                        📥 دانلود
-                    </a>
-
-                </div>
-
-            </div>
-        </article>
-
-    </div>
-
-</div>
-
-</section>
-
-<!-- ================= STORE ================= -->
-
-<section id="store">
-
-<div class="container">
-
-    <div class="section-title">
-        <h2>🛒 فروشگاه PERSIAN STARK</h2>
-        <p>بخش فروش اسکین‌های CS2</p>
-    </div>
-
-    <div class="coming">
-
-        <h2>🚧 به‌زودی</h2>
-
-        <p>
-            فروشگاه اسکین‌های CS2 به‌زودی فعال خواهد شد.
-        </p>
-
-    </div>
-
-</div>
-
-</section>
-
-</main>
-
-<!-- ================= FOOTER ================= -->
-
-<footer>
-    <p>© 2026 PERSIAN STARK — All Rights Reserved 🎮</p>
-</footer>
-
-
-<!-- ================= AUTH MODAL ================= -->
-
-<div class="modal" id="authModal">
-
-    <div class="modal-box">
-
-        <button class="close" onclick="closeAuth()">×</button>
-
-        <h2 id="authTitle">ورود به حساب</h2>
-
-        <input
-            id="authEmail"
-            class="input"
-            type="email"
-            placeholder="ایمیل">
-
-        <input
-            id="authPassword"
-            class="input"
-            type="password"
-            placeholder="رمز عبور">
-
-        <input
-            id="authUsername"
-            class="input"
-            type="text"
-            placeholder="نام کاربری"
-            style="display:none;">
-
-        <button
-            class="btn btn-primary form-btn"
-            id="authSubmit"
-            onclick="handleAuth()">
-            ورود
-        </button>
-
-        <div class="switch">
-
-            <span id="switchText">
-                حساب نداری؟
-            </span>
-
-            <button onclick="switchAuth()">
-                <span id="switchButton">
-                    ثبت‌نام
-                </span>
-            </button>
+            <p class="section-desc">
+              جدیدترین مطالب PERSIAN STARK
+            </p>
+          </div>
 
         </div>
 
         <div
-            class="message"
-            id="authMessage">
+          class="grid"
+          id="newsGrid"
+        >
+          <div class="loading">
+            در حال دریافت اخبار...
+          </div>
         </div>
 
-    </div>
+      </div>
 
-</div>
+    </section>
 
 
-<!-- ================= ARTICLE MODAL ================= -->
+    <!-- =========================
+         GAMES
+    ========================= -->
 
-<div class="modal" id="articleModal">
+    <section id="games">
+
+      <div class="container">
+
+        <div class="section-head">
+
+          <div>
+            <h2 class="section-title">
+              معرفی <span>بازی‌ها</span>
+            </h2>
+
+            <p class="section-desc">
+              بازی‌های جدید و جذاب
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          class="grid"
+          id="gamesGrid"
+        >
+          <div class="loading">
+            در حال دریافت بازی‌ها...
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SOFTWARE
+    ========================= -->
+
+    <section id="software">
+
+      <div class="container">
+
+        <div class="section-head">
+
+          <div>
+            <h2 class="section-title">
+              <span>نرم‌افزار</span> ها
+            </h2>
+
+            <p class="section-desc">
+              نرم‌افزارهای کاربردی برای گیمرها
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          class="grid"
+          id="softwareGrid"
+        >
+          <div class="loading">
+            در حال دریافت نرم‌افزارها...
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         STORE
+    ========================= -->
+
+    <section id="store">
+
+      <div class="container">
+
+        <div class="store-box">
+
+          <h3>
+            🛒 فروشگاه CS2
+          </h3>
+
+          <p>
+            بخش فروش اسکین‌های CS2 به‌زودی در PERSIAN STARK فعال می‌شود.
+          </p>
+
+          <span class="coming">
+            به‌زودی
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       CONTENT MODAL
+  ========================= -->
+
+  <div
+    class="modal"
+    id="contentModal"
+    onclick="closeModalOutside(event)"
+  >
 
     <div class="modal-box">
 
-        <button class="close" onclick="closeArticle()">×</button>
+      <button
+        class="modal-close"
+        onclick="closeContentModal()"
+      >
+        ×
+      </button>
 
-        <h2 id="articleTitle"></h2>
+      <img
+        id="modalImage"
+        class="modal-image"
+        src=""
+        alt=""
+        style="display:none;"
+      >
 
-        <p
-            id="articleText"
-            style="color:#aaa;line-height:2;">
-        </p>
+      <span
+        id="modalCategory"
+        class="category"
+      ></span>
+
+      <h2 id="modalTitle"></h2>
+
+      <div
+        id="modalContent"
+        class="modal-content"
+      ></div>
+
+      <div
+        id="modalActions"
+        class="modal-actions"
+      ></div>
 
     </div>
 
-</div>
+  </div>
 
 
-<script>
+  <!-- =========================
+       AUTH MODAL
+  ========================= -->
 
-/* =========================================
-   SUPABASE CONNECTION
-========================================= */
+  <div
+    class="modal"
+    id="authModal"
+    onclick="closeAuthOutside(event)"
+  >
 
-const SUPABASE_URL =
-"https://jmdoxofcyoxdrtxvvuiu.supabase.co";
+    <div class="modal-box auth-box">
 
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
+      <button
+        class="modal-close"
+        onclick="closeAuth()"
+      >
+        ×
+      </button>
 
-const supabaseClient =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
+      <h2>
+        ورود / ثبت‌نام
+      </h2>
 
-console.log("PERSIAN STARK → Supabase connected");
+      <input
+        id="authUsername"
+        class="input"
+        type="text"
+        placeholder="نام کاربری"
+      >
+
+      <input
+        id="authEmail"
+        class="input"
+        type="email"
+        placeholder="ایمیل"
+      >
+
+      <input
+        id="authPassword"
+        class="input"
+        type="password"
+        placeholder="رمز عبور"
+      >
+
+      <button
+        class="btn btn-primary"
+        style="width:100%;"
+        onclick="signUp()"
+      >
+        ثبت‌نام
+      </button>
+
+      <div style="height:10px;"></div>
+
+      <button
+        class="btn btn-secondary"
+        style="width:100%;"
+        onclick="signIn()"
+      >
+        ورود
+      </button>
+
+      <div
+        class="auth-message"
+        id="authMessage"
+      >
+        برای ثبت‌نام ایمیل، نام کاربری و رمز عبور را وارد کنید.
+      </div>
+
+    </div>
+
+  </div>
 
 
-/* =========================================
-   MOBILE MENU
-========================================= */
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
-function toggleMenu(){
-
-    document
-        .getElementById("navMenu")
-        .classList.toggle("open");
-
-}
+  <footer>
+    © 2026 <strong>PERSIAN STARK</strong>
+    — تمامی حقوق محفوظ است.
+  </footer>
 
 
-/* =========================================
-   AUTH
-========================================= */
+  <!-- SUPABASE -->
 
-let registerMode = false;
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <script>
 
-function openAuth(){
+    /* ==================================================
+       SUPABASE
+    ================================================== */
 
-    document
-        .getElementById("authModal")
-        .classList.add("active");
+    const SUPABASE_URL =
+      "https://jmdoxofcyoxdrtxvvuiu.supabase.co";
 
-}
+    const SUPABASE_KEY =
+      "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
 
-
-function closeAuth(){
-
-    document
-        .getElementById("authModal")
-        .classList.remove("active");
-
-}
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
 
-function switchAuth(){
+    /* ==================================================
+       MENU
+    ================================================== */
 
-    registerMode = !registerMode;
+    function toggleMenu() {
 
-    const title =
-        document.getElementById("authTitle");
+      const menu =
+        document.getElementById("menu");
 
-    const submit =
-        document.getElementById("authSubmit");
-
-    const username =
-        document.getElementById("authUsername");
-
-    const switchText =
-        document.getElementById("switchText");
-
-    const switchButton =
-        document.getElementById("switchButton");
-
-    const message =
-        document.getElementById("authMessage");
-
-    message.textContent = "";
-
-    if(registerMode){
-
-        title.textContent = "ساخت حساب";
-
-        submit.textContent = "ثبت‌نام";
-
-        username.style.display = "block";
-
-        switchText.textContent =
-            "قبلاً حساب داری؟";
-
-        switchButton.textContent =
-            "ورود";
-
-    }else{
-
-        title.textContent = "ورود به حساب";
-
-        submit.textContent = "ورود";
-
-        username.style.display = "none";
-
-        switchText.textContent =
-            "حساب نداری؟";
-
-        switchButton.textContent =
-            "ثبت‌نام";
+      menu.classList.toggle("active");
 
     }
 
-}
+
+    function closeMenu() {
+
+      const menu =
+        document.getElementById("menu");
+
+      menu.classList.remove("active");
+
+    }
 
 
-async function handleAuth(){
+    /* ==================================================
+       ESCAPE HTML
+    ================================================== */
 
-    const email =
-        document
-        .getElementById("authEmail")
-        .value
-        .trim();
+    function escapeHTML(value) {
 
-    const password =
-        document
-        .getElementById("authPassword")
-        .value;
+      if (value === null || value === undefined) {
+        return "";
+      }
 
-    const username =
-        document
-        .getElementById("authUsername")
-        .value
-        .trim();
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
-    const message =
-        document.getElementById("authMessage");
+    }
 
 
-    if(!email || !password){
+    /* ==================================================
+       DATE
+    ================================================== */
 
-        message.textContent =
-            "ایمیل و رمز عبور را وارد کن.";
+    function formatDate(date) {
+
+      if (!date) {
+        return "";
+      }
+
+      try {
+
+        return new Date(date).toLocaleDateString(
+          "fa-IR",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          }
+        );
+
+      } catch {
+
+        return "";
+
+      }
+
+    }
+
+
+    /* ==================================================
+       GET POSTS
+    ================================================== */
+
+    async function getPosts(category) {
+
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("posts")
+        .select("*")
+        .eq("category", category)
+        .order("created_at", {
+          ascending: false
+        });
+
+      if (error) {
+
+        console.error(
+          "Supabase error:",
+          error
+        );
+
+        return [];
+
+      }
+
+      return data || [];
+
+    }
+
+
+    /* ==================================================
+       CREATE CARD
+    ================================================== */
+
+    function createCard(post) {
+
+      const title =
+        escapeHTML(post.title);
+
+      const description =
+        escapeHTML(
+          post.description || ""
+        );
+
+      const image =
+        post.image_url
+          ? escapeHTML(post.image_url)
+          : "";
+
+      const date =
+        formatDate(post.created_at);
+
+      const imageHTML =
+        image
+          ? `
+            <img
+              class="card-image"
+              src="${image}"
+              alt="${title}"
+              loading="lazy"
+            >
+          `
+          : `
+            <div
+              class="card-image"
+              style="
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                color:#555;
+              "
+            >
+              PERSIAN STARK
+            </div>
+          `;
+
+      return `
+
+        <article class="card">
+
+          ${imageHTML}
+
+          <div class="card-body">
+
+            <span class="category">
+              ${escapeHTML(post.category)}
+            </span>
+
+            <h3>
+              ${title}
+            </h3>
+
+            <p>
+              ${description}
+            </p>
+
+            <div class="card-footer">
+
+              <span class="date">
+                ${date}
+              </span>
+
+              <button
+                class="small-btn"
+                onclick="openPost(${Number(post.id)})"
+              >
+                ادامه مطلب
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* ==================================================
+       RENDER POSTS
+    ================================================== */
+
+    async function loadCategory(
+      category,
+      elementId
+    ) {
+
+      const container =
+        document.getElementById(elementId);
+
+      container.innerHTML = `
+        <div class="loading">
+          در حال دریافت محتوا...
+        </div>
+      `;
+
+      const posts =
+        await getPosts(category);
+
+      if (!posts.length) {
+
+        container.innerHTML = `
+          <div class="empty">
+            هنوز محتوایی در این بخش منتشر نشده است.
+          </div>
+        `;
 
         return;
-    }
 
+      }
 
-    if(registerMode){
-
-        if(!username){
-
-            message.textContent =
-                "نام کاربری را وارد کن.";
-
-            return;
-        }
-
-
-        const { data, error } =
-            await supabaseClient.auth.signUp({
-
-                email: email,
-
-                password: password,
-
-                options:{
-
-                    data:{
-                        username:username
-                    },
-
-                    emailRedirectTo:
-                        window.location.origin
-                }
-
-            });
-
-
-        if(error){
-
-            message.textContent =
-                "خطا: " + error.message;
-
-            return;
-        }
-
-
-        message.textContent =
-            "ثبت‌نام انجام شد. اگر تأیید ایمیل فعال باشد، ایمیلت را بررسی کن.";
-
-    }else{
-
-
-        const { data, error } =
-            await supabaseClient.auth.signInWithPassword({
-
-                email:email,
-
-                password:password
-
-            });
-
-
-        if(error){
-
-            message.textContent =
-                "ایمیل یا رمز عبور اشتباه است.";
-
-            console.error(error);
-
-            return;
-        }
-
-
-        message.textContent =
-            "ورود موفق بود.";
-
-        setTimeout(() => {
-
-            closeAuth();
-
-        },700);
+      container.innerHTML =
+        posts
+          .map(post => createCard(post))
+          .join("");
 
     }
 
-}
 
+    /* ==================================================
+       LOAD ALL
+    ================================================== */
 
-/* =========================================
-   CHECK USER
-========================================= */
+    async function loadAllContent() {
 
-async function loadUser(){
+      await Promise.all([
 
-    const {
-        data
-    } =
-    await supabaseClient.auth.getUser();
+        loadCategory(
+          "news",
+          "newsGrid"
+        ),
 
+        loadCategory(
+          "game",
+          "gamesGrid"
+        ),
 
-    const user = data.user;
+        loadCategory(
+          "software",
+          "softwareGrid"
+        )
 
-
-    const loginButton =
-        document.getElementById("loginButton");
-
-    const userBox =
-        document.getElementById("userBox");
-
-    const userName =
-        document.getElementById("userName");
-
-
-    if(user){
-
-        loginButton.style.display =
-            "none";
-
-        userBox.style.display =
-            "flex";
-
-
-        const username =
-            user.user_metadata?.username;
-
-
-        userName.textContent =
-            username ||
-            user.email.split("@")[0];
-
-    }else{
-
-        loginButton.style.display =
-            "block";
-
-        userBox.style.display =
-            "none";
+      ]);
 
     }
 
-}
+
+    /* ==================================================
+       OPEN POST
+    ================================================== */
+
+    async function openPost(id) {
+
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("posts")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+
+        alert(
+          "خطا در دریافت مطلب"
+        );
+
+        console.error(error);
+
+        return;
+
+      }
+
+      const modal =
+        document.getElementById(
+          "contentModal"
+        );
+
+      const image =
+        document.getElementById(
+          "modalImage"
+        );
+
+      const category =
+        document.getElementById(
+          "modalCategory"
+        );
+
+      const title =
+        document.getElementById(
+          "modalTitle"
+        );
+
+      const content =
+        document.getElementById(
+          "modalContent"
+        );
+
+      const actions =
+        document.getElementById(
+          "modalActions"
+        );
 
 
-async function logout(){
-
-    await supabaseClient.auth.signOut();
-
-    loadUser();
-
-}
+      title.textContent =
+        data.title || "";
 
 
-supabaseClient.auth.onAuthStateChange(
+      category.textContent =
+        data.category || "";
 
-    (event, session) => {
 
-        loadUser();
+      content.textContent =
+        data.content ||
+        data.description ||
+        "محتوایی برای این مطلب ثبت نشده است.";
+
+
+      if (data.image_url) {
+
+        image.src =
+          data.image_url;
+
+        image.alt =
+          data.title || "";
+
+        image.style.display =
+          "block";
+
+      } else {
+
+        image.style.display =
+          "none";
+
+      }
+
+
+      actions.innerHTML = "";
+
+
+      if (data.download_url) {
+
+        const link =
+          document.createElement("a");
+
+        link.href =
+          data.download_url;
+
+        link.target =
+          "_blank";
+
+        link.rel =
+          "noopener noreferrer";
+
+        link.className =
+          "btn btn-primary";
+
+        link.textContent =
+          "⬇️ دانلود";
+
+        actions.appendChild(link);
+
+      }
+
+
+      modal.classList.add("active");
 
     }
 
-);
 
+    /* ==================================================
+       CLOSE CONTENT MODAL
+    ================================================== */
 
-/* =========================================
-   ARTICLE
-========================================= */
+    function closeContentModal() {
 
-function showArticle(title,text){
-
-    document
-        .getElementById("articleTitle")
-        .textContent = title;
-
-    document
-        .getElementById("articleText")
-        .textContent = text;
-
-    document
-        .getElementById("articleModal")
-        .classList.add("active");
-
-}
-
-
-function closeArticle(){
-
-    document
-        .getElementById("articleModal")
+      document
+        .getElementById("contentModal")
         .classList.remove("active");
 
-}
+    }
 
 
-/* =========================================
-   DOWNLOAD DEMO
-========================================= */
+    function closeModalOutside(event) {
 
-function downloadDemo(event){
+      if (
+        event.target.id ===
+        "contentModal"
+      ) {
 
-    event.preventDefault();
+        closeContentModal();
 
-    alert(
-        "لینک دانلود هنوز از پنل مدیریت اضافه نشده است.\n\nدر مرحله بعد لینک دانلود واقعی را به Supabase وصل می‌کنیم."
+      }
+
+    }
+
+
+    /* ==================================================
+       AUTH
+    ================================================== */
+
+    function openAuth() {
+
+      document
+        .getElementById("authModal")
+        .classList.add("active");
+
+    }
+
+
+    function closeAuth() {
+
+      document
+        .getElementById("authModal")
+        .classList.remove("active");
+
+    }
+
+
+    function closeAuthOutside(event) {
+
+      if (
+        event.target.id ===
+        "authModal"
+      ) {
+
+        closeAuth();
+
+      }
+
+    }
+
+
+    /* ==================================================
+       SIGN UP
+    ================================================== */
+
+    async function signUp() {
+
+      const username =
+        document
+          .getElementById("authUsername")
+          .value
+          .trim();
+
+      const email =
+        document
+          .getElementById("authEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("authPassword")
+          .value;
+
+
+      const message =
+        document.getElementById(
+          "authMessage"
+        );
+
+
+      if (
+        !username ||
+        !email ||
+        !password
+      ) {
+
+        message.textContent =
+          "لطفاً همه فیلدها را پر کنید.";
+
+        return;
+
+      }
+
+
+      message.textContent =
+        "در حال ثبت‌نام...";
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.signUp({
+
+          email,
+
+          password,
+
+          options: {
+
+            data: {
+              username: username
+            }
+
+          }
+
+        });
+
+
+      if (error) {
+
+        message.textContent =
+          "خطا: " + error.message;
+
+        return;
+
+      }
+
+
+      if (
+        data.user &&
+        !data.session
+      ) {
+
+        message.textContent =
+          "ثبت‌نام انجام شد. ایمیل خود را برای تأیید بررسی کنید.";
+
+      } else {
+
+        message.textContent =
+          "ثبت‌نام با موفقیت انجام شد.";
+
+      }
+
+    }
+
+
+    /* ==================================================
+       SIGN IN
+    ================================================== */
+
+    async function signIn() {
+
+      const email =
+        document
+          .getElementById("authEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("authPassword")
+          .value;
+
+
+      const message =
+        document.getElementById(
+          "authMessage"
+        );
+
+
+      if (!email || !password) {
+
+        message.textContent =
+          "ایمیل و رمز عبور را وارد کنید.";
+
+        return;
+
+      }
+
+
+      message.textContent =
+        "در حال ورود...";
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth
+          .signInWithPassword({
+
+            email,
+
+            password
+
+          });
+
+
+      if (error) {
+
+        message.textContent =
+          "خطا: " + error.message;
+
+        return;
+
+      }
+
+
+      message.textContent =
+        "با موفقیت وارد شدید.";
+
+      setTimeout(
+        closeAuth,
+        800
+      );
+
+    }
+
+
+    /* ==================================================
+       UPDATE USER UI
+    ================================================== */
+
+    async function updateAuthUI() {
+
+      const {
+        data
+      } =
+        await supabaseClient.auth
+          .getUser();
+
+
+      const authMenu =
+        document.getElementById(
+          "authMenu"
+        );
+
+
+      if (data.user) {
+
+        const username =
+          data.user.user_metadata?.username ||
+          data.user.email ||
+          "کاربر";
+
+
+        authMenu.innerHTML = `
+
+          <div class="user-area">
+
+            <span class="user-name">
+              👤 ${escapeHTML(username)}
+            </span>
+
+            <a
+              href="#"
+              onclick="logout(); return false;"
+            >
+              خروج
+            </a>
+
+          </div>
+
+        `;
+
+      } else {
+
+        authMenu.innerHTML = `
+
+          <a
+            href="#"
+            onclick="openAuth(); return false;"
+          >
+            ورود / ثبت‌نام
+          </a>
+
+        `;
+
+      }
+
+    }
+
+
+    /* ==================================================
+       LOGOUT
+    ================================================== */
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      updateAuthUI();
+
+    }
+
+
+    /* ==================================================
+       AUTH STATE
+    ================================================== */
+
+    supabaseClient.auth
+      .onAuthStateChange(
+        function() {
+
+          updateAuthUI();
+
+        }
+      );
+
+
+    /* ==================================================
+       START
+    ================================================== */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function() {
+
+        loadAllContent();
+
+        updateAuthUI();
+
+      }
     );
 
-}
-
-
-/* =========================================
-   INITIALIZE
-========================================= */
-
-loadUser();
-
-
-/* =========================================
-   CLOSE MODAL BY BACKGROUND
-========================================= */
-
-document
-    .getElementById("authModal")
-    .addEventListener("click",function(e){
-
-        if(e.target === this){
-
-            closeAuth();
-
-        }
-
-    });
-
-
-document
-    .getElementById("articleModal")
-    .addEventListener("click",function(e){
-
-        if(e.target === this){
-
-            closeArticle();
-
-        }
-
-    });
-
-</script>
+  </script>
 
 </body>
 </html>
