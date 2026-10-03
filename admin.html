@@ -2,109 +2,132 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>PERSIAN STARK | Admin</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  font-family:Arial,Tahoma,sans-serif;
-  background:#080b12;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#070a10;
   color:#fff;
   min-height:100vh;
 }
 
 header{
-  background:#101522;
-  border-bottom:1px solid #20283a;
-  padding:18px;
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#0d121d;
+  border-bottom:1px solid #202b3d;
+  padding:15px;
+}
+
+.header-inner{
+  max-width:1100px;
+  margin:auto;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
+  gap:10px;
 }
 
 .logo{
-  font-size:22px;
-  font-weight:900;
   color:#00e5ff;
+  font-size:21px;
+  font-weight:900;
 }
 
-.admin{
-  font-size:13px;
-  color:#aaa;
+.admin-info{
+  color:#9ba7b8;
+  font-size:12px;
 }
 
 .container{
-  max-width:1000px;
+  width:100%;
+  max-width:1100px;
   margin:auto;
-  padding:20px;
+  padding:18px;
 }
 
-.login,
-.panel{
-  background:#101522;
-  border:1px solid #20283a;
+.card{
+  background:#0e141f;
+  border:1px solid #202b3d;
   border-radius:16px;
-  padding:20px;
-  margin-top:20px;
+  padding:18px;
+  margin-bottom:18px;
 }
 
 h2{
-  margin-bottom:18px;
+  font-size:19px;
+  margin-bottom:16px;
+}
+
+h3{
+  margin-bottom:8px;
 }
 
 input,
 textarea,
 select{
   width:100%;
-  background:#080b12;
-  color:#fff;
-  border:1px solid #293247;
-  border-radius:10px;
   padding:13px;
   margin-bottom:12px;
-  font-size:14px;
+  border-radius:10px;
+  border:1px solid #2b374b;
+  background:#080c13;
+  color:#fff;
+  outline:none;
+  font-family:inherit;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#00e5ff;
 }
 
 textarea{
-  min-height:140px;
+  min-height:150px;
   resize:vertical;
 }
 
 button{
   border:0;
   border-radius:10px;
-  padding:13px 18px;
-  cursor:pointer;
+  padding:12px 16px;
+  font-family:inherit;
   font-weight:bold;
+  cursor:pointer;
 }
 
-.btn{
+.primary{
   background:#00e5ff;
-  color:#001016;
+  color:#001014;
 }
 
-.logout{
-  background:#ff3d71;
-  color:white;
+.danger{
+  background:#ff315f;
+  color:#fff;
+}
+
+.secondary{
+  background:#273246;
+  color:#fff;
 }
 
 .hidden{
-  display:none;
+  display:none!important;
 }
 
 .status{
-  margin-top:12px;
-  padding:12px;
+  background:#080c13;
+  border:1px solid #202b3d;
   border-radius:10px;
-  background:#080b12;
-  color:#aaa;
+  padding:12px;
+  margin-top:12px;
+  color:#aeb8c7;
   font-size:13px;
 }
 
@@ -113,49 +136,95 @@ button{
   max-height:300px;
   object-fit:cover;
   border-radius:12px;
-  margin-top:10px;
+  margin:5px 0 15px;
   display:none;
 }
 
-.posts{
-  margin-top:25px;
+.posts-list{
+  display:grid;
+  gap:14px;
 }
 
 .post{
-  background:#080b12;
-  border:1px solid #20283a;
-  border-radius:12px;
-  padding:15px;
-  margin-top:10px;
+  background:#080c13;
+  border:1px solid #202b3d;
+  border-radius:14px;
+  overflow:hidden;
 }
 
-.post img{
+.post-image{
   width:100%;
-  max-height:220px;
+  max-height:260px;
   object-fit:cover;
-  border-radius:10px;
+  display:block;
+}
+
+.post-body{
+  padding:15px;
+}
+
+.post-title{
+  font-size:17px;
+  margin-bottom:8px;
+}
+
+.post-meta{
+  color:#8491a5;
+  font-size:12px;
   margin-bottom:10px;
 }
 
-.post h3{
-  margin-bottom:7px;
+.post-description{
+  color:#aeb8c7;
+  font-size:13px;
+  line-height:1.8;
+  margin-bottom:14px;
 }
 
-.post small{
-  color:#888;
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.actions button{
+  flex:1;
+  min-width:100px;
+}
+
+.top-actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.count{
+  color:#7e8da4;
+  font-size:13px;
 }
 
 @media(max-width:600px){
+
   .container{
     padding:12px;
   }
 
-  header{
-    padding:15px 12px;
+  .card{
+    padding:14px;
   }
 
   .logo{
-    font-size:18px;
+    font-size:17px;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
+
+  .actions button{
+    width:100%;
   }
 }
 </style>
@@ -164,124 +233,194 @@ button{
 <body>
 
 <header>
-  <div class="logo">PERSIAN STARK</div>
-  <div class="admin" id="adminInfo">در حال بررسی...</div>
+  <div class="header-inner">
+    <div class="logo">PERSIAN STARK</div>
+    <div class="admin-info" id="adminInfo">
+      در حال بررسی...
+    </div>
+  </div>
 </header>
+
 
 <div class="container">
 
-  <!-- LOGIN -->
-  <div class="login" id="loginBox">
 
-    <h2>🔐 ورود به پنل مدیریت</h2>
+<!-- LOGIN -->
 
-    <input
-      type="email"
-      id="email"
-      placeholder="ایمیل"
-    >
+<div class="card" id="loginBox">
 
-    <input
-      type="password"
-      id="password"
-      placeholder="رمز عبور"
-    >
+  <h2>🔐 ورود به پنل مدیریت</h2>
 
-    <button class="btn" onclick="login()">
-      ورود
-    </button>
+  <input
+    type="email"
+    id="email"
+    placeholder="ایمیل"
+  >
 
-    <div class="status" id="loginStatus"></div>
+  <input
+    type="password"
+    id="password"
+    placeholder="رمز عبور"
+  >
 
-  </div>
+  <button class="primary" onclick="login()">
+    ورود
+  </button>
 
+  <div class="status" id="loginStatus"></div>
 
-  <!-- ADMIN PANEL -->
-  <div class="panel hidden" id="adminPanel">
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
-
-      <h2>⚡ پنل مدیریت</h2>
-
-      <button class="logout" onclick="logout()">
-        خروج
-      </button>
-
-    </div>
+</div>
 
 
-    <hr style="border-color:#20283a;margin:20px 0;">
+<!-- ADMIN -->
+
+<div id="adminPanel" class="hidden">
 
 
-    <h2>➕ افزودن مطلب جدید</h2>
+<!-- ADD / EDIT -->
 
-    <input
-      type="text"
-      id="title"
-      placeholder="عنوان مطلب"
-    >
+<div class="card">
 
-    <select id="category">
-      <option value="news">📰 خبر</option>
-      <option value="game">🎮 معرفی بازی</option>
-      <option value="software">💾 نرم‌افزار</option>
-    </select>
+  <div class="top-actions">
 
-    <input
-      type="text"
-      id="description"
-      placeholder="توضیح کوتاه"
-    >
-
-    <textarea
-      id="content"
-      placeholder="متن کامل مطلب"
-    ></textarea>
-
-    <input
-      type="text"
-      id="downloadUrl"
-      placeholder="لینک دانلود - اختیاری"
-    >
-
-    <label style="display:block;margin-bottom:8px;">
-      🖼️ تصویر مطلب
-    </label>
-
-    <input
-      type="file"
-      id="imageFile"
-      accept="image/*"
-      onchange="previewImage()"
-    >
-
-    <img
-      id="preview"
-      class="preview"
-    >
+    <h2 id="formTitle">
+      ➕ افزودن مطلب جدید
+    </h2>
 
     <button
-      class="btn"
-      onclick="addPost()"
-      style="margin-top:12px;"
+      class="secondary hidden"
+      id="cancelEditBtn"
+      onclick="cancelEdit()"
     >
-      🚀 انتشار مطلب
+      لغو ویرایش
     </button>
 
-    <div class="status" id="postStatus"></div>
+  </div>
 
 
-    <div class="posts">
+  <input
+    type="text"
+    id="title"
+    placeholder="عنوان مطلب"
+  >
 
-      <h2>📚 مطالب سایت</h2>
 
-      <div id="postsList">
-        در حال بارگذاری...
-      </div>
+  <select id="category">
 
-    </div>
+    <option value="news">
+      📰 خبر
+    </option>
+
+    <option value="game">
+      🎮 معرفی بازی
+    </option>
+
+    <option value="software">
+      💾 نرم‌افزار
+    </option>
+
+  </select>
+
+
+  <input
+    type="text"
+    id="description"
+    placeholder="توضیح کوتاه"
+  >
+
+
+  <textarea
+    id="content"
+    placeholder="متن کامل مطلب"
+  ></textarea>
+
+
+  <input
+    type="url"
+    id="downloadUrl"
+    placeholder="لینک دانلود - اختیاری"
+  >
+
+
+  <label style="display:block;margin-bottom:8px">
+    🖼️ تصویر مطلب
+  </label>
+
+
+  <input
+    type="file"
+    id="imageFile"
+    accept="image/*"
+    onchange="previewImage()"
+  >
+
+
+  <img
+    id="preview"
+    class="preview"
+  >
+
+
+  <button
+    class="primary"
+    id="submitBtn"
+    onclick="savePost()"
+  >
+    🚀 انتشار مطلب
+  </button>
+
+
+  <div
+    class="status"
+    id="postStatus"
+  ></div>
+
+</div>
+
+
+<!-- POSTS -->
+
+<div class="card">
+
+  <div class="top-actions">
+
+    <h2>📚 مطالب سایت</h2>
+
+    <span
+      class="count"
+      id="postCount"
+    >
+      0 مطلب
+    </span>
 
   </div>
+
+
+  <div
+    class="posts-list"
+    id="postsList"
+  >
+    در حال بارگذاری...
+  </div>
+
+</div>
+
+
+<!-- LOGOUT -->
+
+<div style="text-align:center;margin-bottom:30px">
+
+  <button
+    class="danger"
+    onclick="logout()"
+  >
+    🚪 خروج از حساب
+  </button>
+
+</div>
+
+
+</div>
 
 </div>
 
@@ -303,54 +442,53 @@ window.supabase.createClient(
 );
 
 
-// --------------------------------
+let editingId = null;
+
+
+// ===============================
 // CHECK ADMIN
-// --------------------------------
+// ===============================
 
 async function checkAdmin(){
 
-  const {
-    data:{
-      user
-    }
-  } = await supabaseClient.auth.getUser();
+  const result =
+    await supabaseClient.auth.getUser();
+
+  const user =
+    result.data.user;
+
 
   if(!user){
 
-    document.getElementById("loginBox")
-      .classList.remove("hidden");
-
-    document.getElementById("adminPanel")
-      .classList.add("hidden");
-
-    document.getElementById("adminInfo").innerText =
-      "وارد نشده";
+    showLogin();
 
     return;
 
   }
 
 
-  const {
-    data:profile,
-    error
-  } = await supabaseClient
-    .from("profiles")
-    .select("username,is_admin")
-    .eq("id",user.id)
-    .single();
+  const profileResult =
+    await supabaseClient
+      .from("profiles")
+      .select("username,is_admin")
+      .eq("id",user.id)
+      .single();
 
 
-  if(error || !profile || !profile.is_admin){
+  const profile =
+    profileResult.data;
 
-    document.getElementById("loginBox")
-      .classList.remove("hidden");
 
-    document.getElementById("adminPanel")
-      .classList.add("hidden");
+  if(
+    profileResult.error ||
+    !profile ||
+    profile.is_admin !== true
+  ){
 
-    document.getElementById("adminInfo").innerText =
-      "دسترسی غیرمجاز";
+    showLogin();
+
+    document.getElementById("loginStatus").innerText =
+      "این حساب دسترسی ادمین ندارد.";
 
     return;
 
@@ -363,30 +501,58 @@ async function checkAdmin(){
   document.getElementById("adminPanel")
     .classList.remove("hidden");
 
+
   document.getElementById("adminInfo").innerText =
-    "ادمین: " + (profile.username || user.email);
+    "ادمین: " +
+    (profile.username || user.email);
+
 
   loadPosts();
 
 }
 
 
-// --------------------------------
+// ===============================
+// SHOW LOGIN
+// ===============================
+
+function showLogin(){
+
+  document.getElementById("loginBox")
+    .classList.remove("hidden");
+
+  document.getElementById("adminPanel")
+    .classList.add("hidden");
+
+  document.getElementById("adminInfo").innerText =
+    "وارد نشده";
+
+}
+
+
+// ===============================
 // LOGIN
-// --------------------------------
+// ===============================
 
 async function login(){
 
   const email =
-    document.getElementById("email").value.trim();
+    document.getElementById("email")
+      .value
+      .trim();
 
   const password =
-    document.getElementById("password").value;
+    document.getElementById("password")
+      .value;
+
+
+  const status =
+    document.getElementById("loginStatus");
 
 
   if(!email || !password){
 
-    document.getElementById("loginStatus").innerText =
+    status.innerText =
       "ایمیل و رمز عبور را وارد کن.";
 
     return;
@@ -394,39 +560,40 @@ async function login(){
   }
 
 
-  document.getElementById("loginStatus").innerText =
+  status.innerText =
     "در حال ورود...";
 
 
-  const {
-    error
-  } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
+  const result =
+    await supabaseClient.auth
+      .signInWithPassword({
+        email,
+        password
+      });
 
 
-  if(error){
+  if(result.error){
 
-    document.getElementById("loginStatus").innerText =
-      error.message;
+    status.innerText =
+      result.error.message;
 
     return;
 
   }
 
 
-  document.getElementById("loginStatus").innerText =
+  status.innerText =
     "ورود موفق بود.";
 
-  checkAdmin();
+
+  await checkAdmin();
 
 }
 
 
-// --------------------------------
+// ===============================
 // LOGOUT
-// --------------------------------
+// ===============================
 
 async function logout(){
 
@@ -437,14 +604,15 @@ async function logout(){
 }
 
 
-// --------------------------------
+// ===============================
 // IMAGE PREVIEW
-// --------------------------------
+// ===============================
 
 function previewImage(){
 
   const file =
-    document.getElementById("imageFile").files[0];
+    document.getElementById("imageFile")
+      .files[0];
 
   const preview =
     document.getElementById("preview");
@@ -452,7 +620,9 @@ function previewImage(){
 
   if(!file){
 
+    preview.src = "";
     preview.style.display = "none";
+
     return;
 
   }
@@ -461,35 +631,46 @@ function previewImage(){
   preview.src =
     URL.createObjectURL(file);
 
-  preview.style.display = "block";
+  preview.style.display =
+    "block";
 
 }
 
 
-// --------------------------------
-// ADD POST
-// --------------------------------
+// ===============================
+// SAVE POST
+// ADD OR UPDATE
+// ===============================
 
-async function addPost(){
+async function savePost(){
 
   const title =
-    document.getElementById("title").value.trim();
+    document.getElementById("title")
+      .value
+      .trim();
 
   const category =
-    document.getElementById("category").value;
+    document.getElementById("category")
+      .value;
 
   const description =
-    document.getElementById("description").value.trim();
+    document.getElementById("description")
+      .value
+      .trim();
 
   const content =
-    document.getElementById("content").value.trim();
+    document.getElementById("content")
+      .value
+      .trim();
 
   const downloadUrl =
-    document.getElementById("downloadUrl").value.trim();
+    document.getElementById("downloadUrl")
+      .value
+      .trim();
 
   const file =
-    document.getElementById("imageFile").files[0];
-
+    document.getElementById("imageFile")
+      .files[0];
 
   const status =
     document.getElementById("postStatus");
@@ -506,120 +687,179 @@ async function addPost(){
 
 
   status.innerText =
-    "در حال انتشار...";
+    editingId
+    ? "در حال ذخیره تغییرات..."
+    : "در حال انتشار...";
 
 
   let imageUrl = null;
 
 
-  // -------------------------------
-  // UPLOAD IMAGE
-  // -------------------------------
+  // -------------------------
+  // NEW IMAGE
+  // -------------------------
 
   if(file){
 
     const extension =
-      file.name.split(".").pop();
+      file.name
+        .split(".")
+        .pop()
+        .toLowerCase();
+
 
     const fileName =
-      Date.now() + "-" +
-      Math.random().toString(36).substring(2) +
-      "." + extension;
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2) +
+      "." +
+      extension;
 
 
-    const {
-      error:uploadError
-    } = await supabaseClient
-      .storage
-      .from("images")
-      .upload(fileName,file);
+    const upload =
+      await supabaseClient
+        .storage
+        .from("images")
+        .upload(
+          fileName,
+          file
+        );
 
 
-    if(uploadError){
+    if(upload.error){
 
       status.innerText =
-        "خطا در آپلود تصویر: " +
-        uploadError.message;
+        "خطا در آپلود عکس: " +
+        upload.error.message;
 
       return;
 
     }
 
 
-    const {
-      data:publicData
-    } =
+    const publicResult =
       supabaseClient
-      .storage
-      .from("images")
-      .getPublicUrl(fileName);
+        .storage
+        .from("images")
+        .getPublicUrl(fileName);
 
 
     imageUrl =
-      publicData.publicUrl;
+      publicResult.data.publicUrl;
 
   }
 
 
-  // -------------------------------
-  // INSERT POST
-  // -------------------------------
+  // =========================
+  // UPDATE
+  // =========================
 
-  const {
-    error
-  } = await supabaseClient
-    .from("posts")
-    .insert({
+  if(editingId){
+
+    const updateData = {
 
       title:title,
+
+      category:category,
 
       description:description,
 
       content:content,
 
-      image_url:imageUrl,
-
       download_url:
-        downloadUrl || null,
+        downloadUrl || null
 
-      category:category
-
-    });
+    };
 
 
-  if(error){
+    if(imageUrl){
+
+      updateData.image_url =
+        imageUrl;
+
+    }
+
+
+    const result =
+      await supabaseClient
+        .from("posts")
+        .update(updateData)
+        .eq("id",editingId);
+
+
+    if(result.error){
+
+      status.innerText =
+        "خطا در ویرایش: " +
+        result.error.message;
+
+      return;
+
+    }
+
 
     status.innerText =
-      "خطا در ذخیره مطلب: " +
-      error.message;
-
-    return;
+      "✅ مطلب با موفقیت ویرایش شد.";
 
   }
 
 
-  status.innerText =
-    "✅ مطلب با موفقیت منتشر شد.";
+  // =========================
+  // INSERT
+  // =========================
+
+  else{
+
+    const result =
+      await supabaseClient
+        .from("posts")
+        .insert({
+
+          title:title,
+
+          category:category,
+
+          description:description,
+
+          content:content,
+
+          image_url:imageUrl,
+
+          download_url:
+            downloadUrl || null
+
+        });
 
 
-  document.getElementById("title").value = "";
-  document.getElementById("description").value = "";
-  document.getElementById("content").value = "";
-  document.getElementById("downloadUrl").value = "";
-  document.getElementById("imageFile").value = "";
+    if(result.error){
 
-  document.getElementById("preview").style.display =
-    "none";
+      status.innerText =
+        "خطا در انتشار: " +
+        result.error.message;
 
+      return;
+
+    }
+
+
+    status.innerText =
+      "✅ مطلب با موفقیت منتشر شد.";
+
+  }
+
+
+  resetForm();
 
   loadPosts();
 
 }
 
 
-// --------------------------------
+// ===============================
 // LOAD POSTS
-// --------------------------------
+// ===============================
 
 async function loadPosts(){
 
@@ -627,26 +867,43 @@ async function loadPosts(){
     document.getElementById("postsList");
 
 
-  const {
-    data,
-    error
-  } = await supabaseClient
-    .from("posts")
-    .select("*")
-    .order("created_at",{ascending:false});
+  container.innerHTML =
+    "در حال بارگذاری...";
 
 
-  if(error){
+  const result =
+    await supabaseClient
+      .from("posts")
+      .select("*")
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
+
+  if(result.error){
 
     container.innerHTML =
-      "خطا: " + error.message;
+      "خطا: " +
+      escapeHtml(
+        result.error.message
+      );
 
     return;
 
   }
 
 
-  if(!data || data.length === 0){
+  const posts =
+    result.data || [];
+
+
+  document.getElementById("postCount")
+    .innerText =
+      posts.length + " مطلب";
+
+
+  if(posts.length === 0){
 
     container.innerHTML =
       "هنوز مطلبی وجود ندارد.";
@@ -657,34 +914,64 @@ async function loadPosts(){
 
 
   container.innerHTML =
-    data.map(post => {
+    posts.map(post => {
 
       const image =
         post.image_url
-        ? `<img src="${post.image_url}">`
+        ? `
+          <img
+            class="post-image"
+            src="${escapeAttr(post.image_url)}"
+            alt=""
+          >
+        `
         : "";
 
 
       return `
 
-        <div class="post">
+        <article class="post">
 
           ${image}
 
-          <h3>
-            ${escapeHtml(post.title)}
-          </h3>
+          <div class="post-body">
 
-          <small>
-            دسته:
-            ${escapeHtml(post.category)}
-          </small>
+            <div class="post-title">
+              ${escapeHtml(post.title)}
+            </div>
 
-          <p style="margin-top:10px;color:#aaa;">
-            ${escapeHtml(post.description || "")}
-          </p>
+            <div class="post-meta">
+              دسته:
+              ${escapeHtml(post.category)}
+            </div>
 
-        </div>
+            <div class="post-description">
+              ${escapeHtml(
+                post.description || ""
+              )}
+            </div>
+
+            <div class="actions">
+
+              <button
+                class="secondary"
+                onclick="editPost(${post.id})"
+              >
+                ✏️ ویرایش
+              </button>
+
+              <button
+                class="danger"
+                onclick="deletePost(${post.id})"
+              >
+                🗑️ حذف
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
 
       `;
 
@@ -693,9 +980,226 @@ async function loadPosts(){
 }
 
 
-// --------------------------------
-// ESCAPE HTML
-// --------------------------------
+// ===============================
+// EDIT POST
+// ===============================
+
+async function editPost(id){
+
+  const result =
+    await supabaseClient
+      .from("posts")
+      .select("*")
+      .eq("id",id)
+      .single();
+
+
+  if(result.error){
+
+    alert(
+      "خطا در دریافت مطلب: " +
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  const post =
+    result.data;
+
+
+  editingId =
+    id;
+
+
+  document.getElementById("title")
+    .value =
+      post.title || "";
+
+
+  document.getElementById("category")
+    .value =
+      post.category || "news";
+
+
+  document.getElementById("description")
+    .value =
+      post.description || "";
+
+
+  document.getElementById("content")
+    .value =
+      post.content || "";
+
+
+  document.getElementById("downloadUrl")
+    .value =
+      post.download_url || "";
+
+
+  document.getElementById("formTitle")
+    .innerText =
+      "✏️ ویرایش مطلب";
+
+
+  document.getElementById("submitBtn")
+    .innerText =
+      "💾 ذخیره تغییرات";
+
+
+  document.getElementById("cancelEditBtn")
+    .classList.remove("hidden");
+
+
+  const preview =
+    document.getElementById("preview");
+
+
+  if(post.image_url){
+
+    preview.src =
+      post.image_url;
+
+    preview.style.display =
+      "block";
+
+  }
+  else{
+
+    preview.style.display =
+      "none";
+
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+// ===============================
+// DELETE POST
+// ===============================
+
+async function deletePost(id){
+
+  const confirmed =
+    confirm(
+      "آیا مطمئنی می‌خواهی این مطلب حذف شود؟"
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  const result =
+    await supabaseClient
+      .from("posts")
+      .delete()
+      .eq("id",id);
+
+
+  if(result.error){
+
+    alert(
+      "❌ حذف انجام نشد:\n" +
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "✅ مطلب حذف شد."
+  );
+
+
+  loadPosts();
+
+}
+
+
+// ===============================
+// CANCEL EDIT
+// ===============================
+
+function cancelEdit(){
+
+  resetForm();
+
+}
+
+
+// ===============================
+// RESET FORM
+// ===============================
+
+function resetForm(){
+
+  editingId = null;
+
+
+  document.getElementById("title")
+    .value = "";
+
+  document.getElementById("description")
+    .value = "";
+
+  document.getElementById("content")
+    .value = "";
+
+  document.getElementById("downloadUrl")
+    .value = "";
+
+  document.getElementById("imageFile")
+    .value = "";
+
+
+  document.getElementById("category")
+    .value = "news";
+
+
+  document.getElementById("preview")
+    .src = "";
+
+  document.getElementById("preview")
+    .style.display = "none";
+
+
+  document.getElementById("formTitle")
+    .innerText =
+      "➕ افزودن مطلب جدید";
+
+
+  document.getElementById("submitBtn")
+    .innerText =
+      "🚀 انتشار مطلب";
+
+
+  document.getElementById("cancelEditBtn")
+    .classList.add("hidden");
+
+
+  document.getElementById("postStatus")
+    .innerText = "";
+
+}
+
+
+// ===============================
+// ESCAPE
+// ===============================
 
 function escapeHtml(text){
 
@@ -709,9 +1213,20 @@ function escapeHtml(text){
 }
 
 
-// --------------------------------
+function escapeAttr(text){
+
+  return String(text || "")
+    .replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+
+}
+
+
+// ===============================
 // AUTH STATE
-// --------------------------------
+// ===============================
 
 supabaseClient.auth.onAuthStateChange(
   function(){
@@ -722,7 +1237,9 @@ supabaseClient.auth.onAuthStateChange(
 );
 
 
+// ===============================
 // START
+// ===============================
 
 checkAdmin();
 
