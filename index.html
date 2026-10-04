@@ -1,1899 +1,2402 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PERSIAN STARK</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-margin:0;
-min-height:100vh;
-font-family:Vazirmatn,sans-serif;
-background:#070a11;
-color:#fff;
-overflow-x:hidden;
-transition:.3s;
-}
-
-body.light{
-background:#f3f5f9;
-color:#111827;
-}
-
-#background{
-position:fixed;
-inset:0;
-z-index:-10;
-background:
-radial-gradient(circle at 15% 20%,#17345d 0,transparent 34%),
-radial-gradient(circle at 85% 70%,#3b1257 0,transparent 34%),
-linear-gradient(120deg,#05070c,#101827,#060912);
-animation:bgMove 14s ease-in-out infinite alternate;
-}
-
-@keyframes bgMove{
-from{transform:scale(1)}
-to{transform:scale(1.12) translate(1%,1%)}
-}
-
-#overlay{
-position:fixed;
-inset:0;
-background:#000;
-z-index:-9;
-pointer-events:none;
-}
-
-.container{
-width:min(1200px,92%);
-margin:auto;
-}
-
-/* HEADER */
-
-header{
-position:sticky;
-top:0;
-z-index:100;
-background:rgba(5,8,15,.82);
-backdrop-filter:blur(16px);
-border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-body.light header{
-background:rgba(255,255,255,.86);
-border-color:#ddd;
-}
-
-.nav{
-min-height:70px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-}
-
-.logo{
-font-size:23px;
-font-weight:900;
-letter-spacing:2px;
-color:#fff;
-text-shadow:0 0 20px #8b5cf6;
-cursor:pointer;
-white-space:nowrap;
-}
-
-body.light .logo{
-color:#111827;
-}
-
-nav{
-display:flex;
-align-items:center;
-gap:7px;
-}
-
-nav button{
-background:transparent;
-color:#dce2ef;
-border:1px solid transparent;
-padding:9px 12px;
-border-radius:10px;
-font-family:inherit;
-font-weight:700;
-cursor:pointer;
-transition:.2s;
-}
-
-nav button:hover{
-background:rgba(124,58,237,.16);
-border-color:rgba(124,58,237,.3);
-color:#fff;
-}
-
-body.light nav button{
-color:#374151;
-}
-
-body.light nav button:hover{
-color:#111827;
-}
-
-.mobile-menu{
-display:none;
-background:#7c3aed;
-border:0;
-color:white;
-width:42px;
-height:42px;
-border-radius:11px;
-font-size:22px;
-cursor:pointer;
-}
-
-/* MOBILE MENU */
-
-.mobile-panel{
-position:fixed;
-top:70px;
-right:0;
-left:0;
-z-index:99;
-display:none;
-padding:12px;
-background:rgba(7,10,17,.97);
-border-bottom:1px solid rgba(255,255,255,.1);
-box-shadow:0 20px 40px rgba(0,0,0,.3);
-}
-
-.mobile-panel.show{
-display:block;
-}
-
-.mobile-panel button{
-width:100%;
-margin:4px 0;
-padding:13px;
-border:0;
-border-radius:12px;
-background:#151c2b;
-color:white;
-font-family:inherit;
-font-weight:700;
-text-align:right;
-cursor:pointer;
-}
-
-body.light .mobile-panel{
-background:rgba(255,255,255,.98);
-}
-
-body.light .mobile-panel button{
-background:#f1f3f7;
-color:#111827;
-}
-
-/* HERO */
-
-.hero{
-padding:65px 0 20px;
-text-align:center;
-}
-
-.hero h1{
-margin:0;
-font-size:clamp(38px,7vw,72px);
-font-weight:900;
-text-shadow:0 0 35px #7c3aed;
-}
-
-.hero p{
-max-width:700px;
-margin:15px auto 25px;
-line-height:2;
-color:#aeb7ca;
-}
-
-body.light .hero p{
-color:#5b6475;
-}
-
-/* STATS */
-
-.stats{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:18px;
-margin:12px auto 28px;
-padding:8px 16px;
-width:max-content;
-max-width:96%;
-border-radius:30px;
-background:rgba(255,255,255,.045);
-border:1px solid rgba(255,255,255,.07);
-backdrop-filter:blur(12px);
-}
-
-.stat{
-display:flex;
-align-items:center;
-gap:5px;
-padding:0;
-background:transparent;
-border:0;
-box-shadow:none;
-text-align:center;
-}
-
-.stat strong{
-display:inline;
-font-size:13px;
-margin:0;
-color:#a78bfa;
-}
-
-.stat span{
-color:#929bad;
-font-size:11px;
-}
-
-/* SECTIONS */
-
-.section{
-padding-top:20px;
-scroll-margin-top:90px;
-}
-
-.section-title{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin:25px 0 17px;
-}
-
-.section-title h2{
-margin:0;
-font-size:24px;
-}
-
-/* CARDS */
-
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-padding-bottom:35px;
-}
-
-.card{
-overflow:hidden;
-border-radius:18px;
-background:rgba(14,19,31,.88);
-border:1px solid rgba(255,255,255,.08);
-box-shadow:0 15px 40px rgba(0,0,0,.18);
-}
-
-body.light .card{
-background:#fff;
-border-color:#e3e6ec;
-}
-
-.card img{
-display:block;
-width:100%;
-height:190px;
-object-fit:cover;
-}
-
-.card-body{
-padding:17px;
-}
-
-.card h3{
-margin:0 0 8px;
-font-size:19px;
-}
-
-.card p{
-min-height:50px;
-margin:0;
-color:#aeb7ca;
-font-size:14px;
-line-height:1.9;
-}
-
-body.light .card p{
-color:#5b6475;
-}
-
-.badge{
-display:inline-block;
-padding:4px 9px;
-border-radius:20px;
-background:#7c3aed;
-font-size:11px;
-margin-bottom:9px;
-}
-
-.card-actions{
-display:flex;
-gap:8px;
-margin-top:15px;
-}
-
-.card-actions button{
-flex:1;
-}
-
-.btn{
-border:0;
-border-radius:11px;
-padding:10px 14px;
-font-family:inherit;
-font-weight:700;
-cursor:pointer;
-background:#7c3aed;
-color:white;
-}
-
-.btn.secondary{
-background:#222c3f;
-}
-
-.btn.danger{
-background:#dc2626;
-}
-
-.empty{
-grid-column:1/-1;
-text-align:center;
-padding:45px;
-color:#8f98aa;
-}
-
-/* ARTICLE */
-
-.article-title{
-font-size:clamp(25px,5vw,42px);
-font-weight:900;
-line-height:1.5;
-margin:8px 0 20px;
-}
-
-.article-cover{
-width:100%;
-max-height:480px;
-object-fit:cover;
-border-radius:16px;
-margin-bottom:22px;
-}
-
-.block-text{
-font-size:17px;
-line-height:2.25;
-white-space:pre-wrap;
-margin:22px 0;
-}
-
-.block-image{
-display:block;
-width:100%;
-max-height:700px;
-object-fit:contain;
-border-radius:15px;
-margin:20px 0;
-background:#05070b;
-}
-
-.block-video{
-display:block;
-width:100%;
-max-height:650px;
-border-radius:15px;
-margin:20px 0;
-background:#000;
-}
-
-/* MODAL */
-
-.modal{
-display:none;
-position:fixed;
-inset:0;
-z-index:200;
-padding:15px;
-background:rgba(0,0,0,.78);
-overflow:auto;
-}
-
-.modal.show{
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.modal-box{
-position:relative;
-width:min(900px,100%);
-max-height:94vh;
-overflow:auto;
-padding:25px;
-border-radius:22px;
-background:#111827;
-border:1px solid #30394d;
-}
-
-body.light .modal-box{
-background:#fff;
-border-color:#ddd;
-color:#111827;
-}
-
-.close{
-position:absolute;
-left:13px;
-top:13px;
-width:38px;
-height:38px;
-padding:0;
-border:0;
-border-radius:50%;
-background:#dc2626;
-color:#fff;
-font-size:23px;
-cursor:pointer;
-}
-
-/* AUTH */
-
-.auth{
-width:min(430px,100%);
-}
-
-.auth h2{
-text-align:center;
-margin-top:5px;
-}
-
-.auth input{
-width:100%;
-padding:13px;
-margin:7px 0;
-border-radius:11px;
-border:1px solid #374151;
-background:#0b1220;
-color:white;
-font-family:inherit;
-outline:none;
-}
-
-body.light .auth input{
-background:#f8fafc;
-color:#111827;
-border-color:#d1d5db;
-}
-
-.auth>button:not(.close){
-width:100%;
-margin-top:8px;
-}
-
-/* FOOTER */
-
-footer{
-margin-top:20px;
-padding:35px 0;
-text-align:center;
-color:#8f98aa;
-border-top:1px solid rgba(255,255,255,.08);
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px){
-
-nav{
-display:none;
-}
-
-.mobile-menu{
-display:block;
-}
-
-.grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-}
-
-@media(max-width:600px){
-
-.container{
-width:94%;
-}
-
-.nav{
-min-height:62px;
-}
-
-.logo{
-font-size:18px;
-}
-
-.hero{
-padding-top:48px;
-}
-
-.hero h1{
-font-size:42px;
-}
-
-.stats{
-gap:8px;
-padding:7px 10px;
-width:96%;
-}
-
-.stat{
-gap:3px;
-}
-
-.stat strong{
-font-size:11px;
-}
-
-.stat span{
-font-size:9px;
-}
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.card img{
-height:210px;
-}
-
-.modal{
-padding:7px;
-}
-
-.modal-box{
-padding:18px;
-border-radius:17px;
-}
-
-.block-text{
-font-size:15px;
-line-height:2.15;
-}
-
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PERSIAN STARK | رسانه گیمینگ</title>
+  <meta name="description" content="PERSIAN STARK؛ اخبار، معرفی بازی، نرم‌افزار و مطالب دنیای گیم">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #08090d;
+      --bg2: #0e1017;
+      --card: #12141c;
+      --card2: #171a23;
+      --border: rgba(255,255,255,.08);
+      --text: #f4f5f7;
+      --muted: #969aa8;
+      --accent: #8b5cf6;
+      --accent2: #a855f7;
+      --danger: #ef4444;
+      --max: 1240px;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Vazirmatn", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(139,92,246,.10), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(168,85,247,.07), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body.light {
+      --bg: #f4f5f8;
+      --bg2: #ffffff;
+      --card: #ffffff;
+      --card2: #f1f2f6;
+      --border: rgba(0,0,0,.08);
+      --text: #111318;
+      --muted: #656b78;
+      --shadow: 0 20px 60px rgba(0,0,0,.08);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: auto;
+    }
+
+    /* ================= HEADER ================= */
+
+    .topbar {
+      height: 76px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,9,13,.78);
+      backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    body.light .topbar {
+      background: rgba(255,255,255,.82);
+    }
+
+    .topbar-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: max-content;
+    }
+
+    .logo-mark {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), #5b21b6);
+      box-shadow: 0 10px 35px rgba(139,92,246,.30);
+    }
+
+    .logo-text strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: .8px;
+    }
+
+    .logo-text span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: -2px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .main-nav a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 14px;
+      border-radius: 10px;
+      transition: .2s;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--text);
+      background: var(--card2);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+    }
+
+    .account-btn {
+      border: 0;
+      background: linear-gradient(135deg, var(--accent), #6d28d9);
+      color: white;
+      padding: 11px 17px;
+      border-radius: 11px;
+      font-weight: 700;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      padding: 34px 0 20px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.65fr 1fr;
+      gap: 18px;
+    }
+
+    .hero-main {
+      position: relative;
+      min-height: 450px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.94), rgba(0,0,0,.05) 70%),
+        linear-gradient(90deg, rgba(0,0,0,.2), transparent);
+    }
+
+    .hero-content {
+      position: absolute;
+      z-index: 2;
+      right: 32px;
+      left: 32px;
+      bottom: 30px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 6px 11px;
+      border-radius: 7px;
+      background: rgba(139,92,246,.95);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .hero-content h1 {
+      max-width: 800px;
+      font-size: clamp(25px, 3vw, 42px);
+      line-height: 1.35;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .hero-meta {
+      color: #d5d5dc;
+      font-size: 12px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .hero-side {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .side-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 216px;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .side-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+    }
+
+    .side-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.9), transparent 75%);
+    }
+
+    .side-content {
+      position: absolute;
+      z-index: 2;
+      bottom: 18px;
+      right: 20px;
+      left: 20px;
+    }
+
+    .side-content h2 {
+      font-size: 18px;
+      line-height: 1.5;
+      font-weight: 800;
+    }
+
+    /* ================= SECTION ================= */
+
+    .section {
+      padding: 38px 0 15px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 19px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 5px;
+      height: 27px;
+      border-radius: 20px;
+      background: linear-gradient(var(--accent), var(--accent2));
+    }
+
+    .section-title h2 {
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    .section-link {
+      color: var(--accent2);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* ================= NEWS ================= */
+
+    .content-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 25px;
+      align-items: start;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 18px;
+    }
+
+    .post-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      overflow: hidden;
+      transition: .25s;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(139,92,246,.38);
+      box-shadow: var(--shadow);
+    }
+
+    .post-image {
+      height: 220px;
+      overflow: hidden;
+      background: var(--card2);
+    }
+
+    .post-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: .35s;
+    }
+
+    .post-card:hover .post-image img {
+      transform: scale(1.04);
+    }
+
+    .post-body {
+      padding: 18px;
+    }
+
+    .post-category {
+      color: var(--accent2);
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 9px;
+    }
+
+    .post-title {
+      font-size: 17px;
+      line-height: 1.65;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .post-description {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.9;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 13px;
+    }
+
+    .post-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .read-more {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+      position: sticky;
+      top: 95px;
+    }
+
+    .side-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 19px;
+      margin-bottom: 18px;
+    }
+
+    .side-box-title {
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 15px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .latest-item {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 11px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .latest-item:last-child {
+      border-bottom: 0;
+    }
+
+    .latest-item img {
+      width: 76px;
+      height: 60px;
+      border-radius: 9px;
+      object-fit: cover;
+      background: var(--card2);
+    }
+
+    .latest-item h3 {
+      font-size: 12px;
+      line-height: 1.65;
+      font-weight: 700;
+    }
+
+    .latest-item span {
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    /* ================= GAMES ================= */
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .game-card {
+      height: 300px;
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      transition: .35s;
+    }
+
+    .game-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .game-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.95), transparent 70%);
+    }
+
+    .game-info {
+      position: absolute;
+      z-index: 2;
+      bottom: 17px;
+      right: 17px;
+      left: 17px;
+    }
+
+    .game-info h3 {
+      font-size: 17px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .game-info span {
+      color: #c3c4ca;
+      font-size: 10px;
+    }
+
+    /* ================= SOFTWARE ================= */
+
+    .software-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .software-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .software-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: var(--card2);
+      font-size: 23px;
+      flex-shrink: 0;
+    }
+
+    .software-card h3 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .software-card p {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* ================= STATS ================= */
+
+    .stats-strip {
+      margin-top: 38px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      overflow: hidden;
+    }
+
+    .stat {
+      padding: 18px;
+      text-align: center;
+      border-left: 1px solid var(--border);
+    }
+
+    .stat:last-child {
+      border-left: 0;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      margin-top: 55px;
+      padding: 38px 0;
+      background: #050609;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand h2 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .footer-brand p,
+    .footer-links a {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .footer-links h3 {
+      font-size: 13px;
+      margin-bottom: 9px;
+    }
+
+    .footer-links a {
+      display: block;
+    }
+
+    .copyright {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 35px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ================= MODALS ================= */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(8px);
+      z-index: 3000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal.show {
+      display: grid;
+      place-items: center;
+    }
+
+    .modal-box {
+      width: min(460px,100%);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-head h2 {
+      font-size: 19px;
+    }
+
+    .close-btn {
+      border: 0;
+      background: var(--card2);
+      color: var(--text);
+      width: 35px;
+      height: 35px;
+      border-radius: 9px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .form-group input {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 12px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent);
+    }
+
+    .primary-btn {
+      width: 100%;
+      border: 0;
+      background: linear-gradient(135deg,var(--accent),#6d28d9);
+      color: white;
+      border-radius: 10px;
+      padding: 12px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .switch-auth {
+      border: 0;
+      background: none;
+      color: var(--accent2);
+      margin-top: 15px;
+      font-size: 11px;
+    }
+
+    /* ================= ARTICLE ================= */
+
+    .article-page {
+      display: none;
+      padding: 35px 0 70px;
+    }
+
+    .article-page.active {
+      display: block;
+    }
+
+    .home-page.hidden {
+      display: none;
+    }
+
+    .article-wrap {
+      width: min(1000px,100%);
+      margin: auto;
+    }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 18px;
+    }
+
+    .article-category {
+      display: inline-block;
+      color: var(--accent2);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .article-title {
+      font-size: clamp(28px,4vw,46px);
+      line-height: 1.45;
+      font-weight: 900;
+      margin-bottom: 15px;
+    }
+
+    .article-meta {
+      color: var(--muted);
+      font-size: 11px;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-cover {
+      width: 100%;
+      max-height: 570px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin: 25px 0 35px;
+      border: 1px solid var(--border);
+    }
+
+    .article-body {
+      font-size: 17px;
+      line-height: 2.25;
+      color: var(--text);
+    }
+
+    .article-body p {
+      margin: 0 0 24px;
+    }
+
+    .article-body img {
+      width: 100%;
+      max-height: 700px;
+      object-fit: contain;
+      background: #050609;
+      border-radius: 16px;
+      display: block;
+      margin: 30px auto;
+      border: 1px solid var(--border);
+    }
+
+    .article-body video {
+      width: 100%;
+      border-radius: 16px;
+      display: block;
+      margin: 30px auto;
+      background: #000;
+    }
+
+    .article-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 20px;
+      color: var(--accent2);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .empty {
+      padding: 45px 20px;
+      text-align: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--muted);
+      grid-column: 1/-1;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 950px) {
+      .main-nav {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: grid;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-side {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .games-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .software-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        width: min(var(--max), calc(100% - 20px));
+      }
+
+      .topbar {
+        height: 67px;
+      }
+
+      .logo-mark {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+      }
+
+      .logo-text strong {
+        font-size: 15px;
+      }
+
+      .account-btn {
+        padding: 9px 11px;
+        font-size: 11px;
+      }
+
+      .hero {
+        padding-top: 15px;
+      }
+
+      .hero-main {
+        min-height: 370px;
+        border-radius: 17px;
+      }
+
+      .hero-content {
+        right: 19px;
+        left: 19px;
+        bottom: 20px;
+      }
+
+      .hero-content h1 {
+        font-size: 24px;
+      }
+
+      .hero-side {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .side-card {
+        min-height: 150px;
+        border-radius: 14px;
+      }
+
+      .side-content {
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+      }
+
+      .side-content h2 {
+        font-size: 12px;
+      }
+
+      .posts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .post-image {
+        height: 205px;
+      }
+
+      .games-grid {
+        grid-template-columns: repeat(2,1fr);
+        gap: 9px;
+      }
+
+      .game-card {
+        height: 235px;
+        border-radius: 13px;
+      }
+
+      .game-info {
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+      }
+
+      .game-info h3 {
+        font-size: 13px;
+      }
+
+      .software-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-strip {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .stat {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .stat:nth-child(2) {
+        border-left: 0;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .article-title {
+        font-size: 27px;
+      }
+
+      .article-body {
+        font-size: 15px;
+        line-height: 2.15;
+      }
+
+      .article-cover {
+        border-radius: 13px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="background"></div>
-<div id="overlay"></div>
+<header class="topbar">
+  <div class="container topbar-inner">
 
-<header>
-<div class="container nav">
+    <a href="#" class="logo" onclick="goHome();return false;">
+      <div class="logo-mark">PS</div>
+      <div class="logo-text">
+        <strong>PERSIAN STARK</strong>
+        <span>GAMING MEDIA</span>
+      </div>
+    </a>
 
-<div class="logo" onclick="goHome()">
-PERSIAN STARK
-</div>
+    <nav class="main-nav">
+      <a href="#news" class="active">اخبار گیم</a>
+      <a href="#games">معرفی بازی</a>
+      <a href="#software">نرم‌افزار</a>
+      <a href="#store">فروشگاه CS2</a>
+      <a href="#about">درباره ما</a>
+    </nav>
 
-<nav>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="toggleTheme()" title="تغییر حالت">◐</button>
+      <button class="account-btn" onclick="openAuth()">ورود / ثبت‌نام</button>
+      <button class="icon-btn mobile-menu" onclick="toggleMobileNav()">☰</button>
+    </div>
 
-<button onclick="goHome()">🏠 خانه</button>
-
-<button onclick="scrollToSection('news')">
-📰 اخبار
-</button>
-
-<button onclick="scrollToSection('games')">
-🎮 معرفی بازی
-</button>
-
-<button onclick="scrollToSection('software')">
-💻 نرم‌افزار
-</button>
-
-<button onclick="openAuth()">
-👤 حساب کاربری
-</button>
-
-<button onclick="openStore()">
-🛒 فروشگاه
-</button>
-
-</nav>
-
-<button class="mobile-menu" onclick="toggleMobileMenu()">
-☰
-</button>
-
-</div>
+  </div>
 </header>
 
-<div id="mobilePanel" class="mobile-panel">
-
-<button onclick="mobileGo('home')">
-🏠 خانه
-</button>
-
-<button onclick="mobileGo('news')">
-📰 اخبار
-</button>
-
-<button onclick="mobileGo('games')">
-🎮 معرفی بازی
-</button>
-
-<button onclick="mobileGo('software')">
-💻 نرم‌افزار
-</button>
-
-<button onclick="mobileAuth()">
-👤 حساب کاربری
-</button>
-
-<button onclick="mobileStore()">
-🛒 فروشگاه
-</button>
-
+<!-- موبایل منو -->
+<div id="mobileNav" style="
+  display:none;
+  position:fixed;
+  top:67px;
+  right:10px;
+  left:10px;
+  z-index:2000;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:10px;
+  box-shadow:var(--shadow);
+">
+  <a href="#news" onclick="closeMobileNav()" style="display:block;padding:13px;border-bottom:1px solid var(--border)">📰 اخبار گیم</a>
+  <a href="#games" onclick="closeMobileNav()" style="display:block;padding:13px;border-bottom:1px solid var(--border)">🎮 معرفی بازی</a>
+  <a href="#software" onclick="closeMobileNav()" style="display:block;padding:13px;border-bottom:1px solid var(--border)">💻 نرم‌افزار</a>
+  <a href="#store" onclick="closeMobileNav()" style="display:block;padding:13px;border-bottom:1px solid var(--border)">🛒 فروشگاه CS2</a>
+  <a href="#about" onclick="closeMobileNav()" style="display:block;padding:13px">ℹ️ درباره ما</a>
 </div>
+
 
 <main>
 
-<section class="hero">
+  <!-- ================= HOME ================= -->
 
-<div class="container">
+  <div id="homePage" class="home-page">
 
-<h1>PERSIAN STARK</h1>
+    <section class="hero">
+      <div class="container">
 
-<p>
-دنیای بازی، اخبار گیم، معرفی بازی‌ها و نرم‌افزارهای کاربردی
-در یکجا.
-</p>
+        <div class="hero-grid">
 
-<div class="stats">
+          <a id="heroMain" class="hero-main" href="#">
+            <img id="heroImage" src="" alt="">
+            <div class="hero-content">
+              <span id="heroCategory" class="tag">اخبار گیم</span>
+              <h1 id="heroTitle">در حال دریافت جدیدترین مطالب...</h1>
+              <div class="hero-meta">
+                <span id="heroDate">PERSIAN STARK</span>
+                <span>●</span>
+                <span>ادامه مطلب ←</span>
+              </div>
+            </div>
+          </a>
 
-<div class="stat">
-<strong id="membersCount">0</strong>
-<span>👥 عضو</span>
-</div>
+          <div class="hero-side">
 
-<div class="stat">
-<strong id="onlineCount">0</strong>
-<span>🟢 آنلاین</span>
-</div>
+            <a id="side1" class="side-card" href="#">
+              <img id="sideImage1" src="" alt="">
+              <div class="side-content">
+                <span class="tag">جدیدترین</span>
+                <h2 id="sideTitle1">...</h2>
+              </div>
+            </a>
 
-<div class="stat">
-<strong id="todayVisits">0</strong>
-<span>👀 امروز</span>
-</div>
+            <a id="side2" class="side-card" href="#">
+              <img id="sideImage2" src="" alt="">
+              <div class="side-content">
+                <span class="tag">پیشنهاد سردبیر</span>
+                <h2 id="sideTitle2">...</h2>
+              </div>
+            </a>
 
-<div class="stat">
-<strong id="totalVisits">0</strong>
-<span>📊 کل</span>
-</div>
+          </div>
 
-</div>
+        </div>
 
-</div>
+      </div>
+    </section>
 
-</section>
 
-<section id="news" class="container section">
+    <!-- اخبار -->
 
-<div class="section-title">
-<h2>📰 آخرین اخبار</h2>
-</div>
+    <section id="news" class="section">
+      <div class="container">
 
-<div id="newsGrid" class="grid"></div>
+        <div class="section-head">
+          <div class="section-title">
+            <h2>آخرین اخبار و مطالب</h2>
+          </div>
+          <a class="section-link" href="#news">مشاهده همه ←</a>
+        </div>
 
-</section>
+        <div class="content-layout">
 
-<section id="games" class="container section">
+          <div id="postsGrid" class="posts-grid">
+            <div class="empty">در حال دریافت مطالب...</div>
+          </div>
 
-<div class="section-title">
-<h2>🎮 معرفی بازی‌ها</h2>
-</div>
+          <aside class="sidebar">
 
-<div id="gamesGrid" class="grid"></div>
+            <div class="side-box">
+              <div class="side-box-title">🔥 تازه‌ترین مطالب</div>
+              <div id="latestList">
+                <div style="color:var(--muted);font-size:11px">در حال بارگذاری...</div>
+              </div>
+            </div>
 
-</section>
+            <div class="side-box">
+              <div class="side-box-title">🎮 PERSIAN STARK</div>
+              <p style="font-size:12px;color:var(--muted);line-height:2">
+                اخبار، معرفی بازی، نرم‌افزار و محتوای دنیای گیم؛
+                با تمرکز روی گیمرهای فارسی‌زبان.
+              </p>
+            </div>
 
-<section id="software" class="container section">
+          </aside>
 
-<div class="section-title">
-<h2>💻 نرم‌افزار</h2>
-</div>
+        </div>
 
-<div id="softwareGrid" class="grid"></div>
+      </div>
+    </section>
 
-</section>
+
+    <!-- بازی ها -->
+
+    <section id="games" class="section">
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-title">
+            <h2>🎮 معرفی بازی‌ها</h2>
+          </div>
+          <a class="section-link" href="#games">مشاهده همه ←</a>
+        </div>
+
+        <div id="gamesGrid" class="games-grid">
+
+          <a class="game-card" href="#">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80">
+            <div class="game-info">
+              <h3>معرفی بازی‌ها</h3>
+              <span>PERSIAN STARK</span>
+            </div>
+          </a>
+
+          <a class="game-card" href="#">
+            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80">
+            <div class="game-info">
+              <h3>دنیای گیم</h3>
+              <span>Game Introduction</span>
+            </div>
+          </a>
+
+          <a class="game-card" href="#">
+            <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=900&q=80">
+            <div class="game-info">
+              <h3>بازی‌های جدید</h3>
+              <span>Latest Games</span>
+            </div>
+          </a>
+
+          <a class="game-card" href="#">
+            <img src="https://images.unsplash.com/photo-1603481546238-487240415921?auto=format&fit=crop&w=900&q=80">
+            <div class="game-info">
+              <h3>بازی‌های محبوب</h3>
+              <span>Popular Games</span>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- نرم افزار -->
+
+    <section id="software" class="section">
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-title">
+            <h2>💻 نرم‌افزارهای کاربردی</h2>
+          </div>
+          <a class="section-link" href="#software">مشاهده همه ←</a>
+        </div>
+
+        <div class="software-grid">
+
+          <div class="software-card">
+            <div class="software-icon">🎮</div>
+            <div>
+              <h3>نرم‌افزارهای گیمینگ</h3>
+              <p>ابزارهای کاربردی برای گیمرها</p>
+            </div>
+          </div>
+
+          <div class="software-card">
+            <div class="software-icon">⚡</div>
+            <div>
+              <h3>ابزارهای کاربردی</h3>
+              <p>دانلود نرم‌افزارهای منتخب</p>
+            </div>
+          </div>
+
+          <div class="software-card">
+            <div class="software-icon">🛠️</div>
+            <div>
+              <h3>ابزار سیستم</h3>
+              <p>برنامه‌های ضروری ویندوز</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- فروشگاه -->
+
+    <section id="store" class="section">
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-title">
+            <h2>🛒 فروشگاه CS2</h2>
+          </div>
+        </div>
+
+        <div style="
+          background:linear-gradient(135deg,#171323,#11121a);
+          border:1px solid rgba(139,92,246,.25);
+          border-radius:20px;
+          padding:45px 25px;
+          text-align:center;
+        ">
+          <div style="font-size:42px;margin-bottom:12px">🔒</div>
+          <h2 style="font-size:23px;margin-bottom:8px">فروشگاه PERSIAN STARK</h2>
+          <p style="color:var(--muted);font-size:12px;margin-bottom:18px">
+            فروشگاه اسکین‌های CS2 به‌زودی فعال خواهد شد.
+          </p>
+          <button
+            onclick="alert('فروشگاه به‌زودی فعال می‌شود.')"
+            style="
+              border:0;
+              background:var(--accent);
+              color:white;
+              padding:11px 20px;
+              border-radius:10px;
+              font-weight:800;
+            "
+          >
+            به‌زودی
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- آمار -->
+
+    <section class="container">
+      <div class="stats-strip">
+
+        <div class="stat">
+          <strong id="statMembers">۰</strong>
+          <span>اعضای سایت</span>
+        </div>
+
+        <div class="stat">
+          <strong id="statOnline">۰</strong>
+          <span>کاربران آنلاین</span>
+        </div>
+
+        <div class="stat">
+          <strong id="statToday">۰</strong>
+          <span>بازدید امروز</span>
+        </div>
+
+        <div class="stat">
+          <strong id="statTotal">۰</strong>
+          <span>بازدید کل</span>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- درباره -->
+
+    <section id="about" class="section">
+      <div class="container">
+
+        <div style="
+          background:var(--card);
+          border:1px solid var(--border);
+          border-radius:20px;
+          padding:30px;
+        ">
+
+          <div class="section-title" style="margin-bottom:15px">
+            <h2>درباره PERSIAN STARK</h2>
+          </div>
+
+          <p style="
+            color:var(--muted);
+            font-size:13px;
+            line-height:2.2;
+            max-width:900px;
+          ">
+            PERSIAN STARK یک رسانه مستقل برای علاقه‌مندان دنیای بازی است.
+            هدف ما ارائه اخبار، معرفی بازی‌ها، آموزش‌ها و ابزارهای کاربردی
+            برای جامعه گیمرهای فارسی‌زبان است.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+
+  <!-- ================= ARTICLE ================= -->
+
+  <section id="articlePage" class="article-page">
+
+    <div class="container article-wrap">
+
+      <a class="article-back" href="#" onclick="goHome();return false;">
+        ← بازگشت به صفحه اصلی
+      </a>
+
+      <div class="breadcrumb">
+        PERSIAN STARK / مطالب / مقاله
+      </div>
+
+      <div id="articleCategory" class="article-category">اخبار گیم</div>
+
+      <h1 id="articleTitle" class="article-title">
+        عنوان مطلب
+      </h1>
+
+      <div class="article-meta">
+        <span id="articleDate">تاریخ انتشار</span>
+        <span>●</span>
+        <span>PERSIAN STARK</span>
+      </div>
+
+      <img
+        id="articleCover"
+        class="article-cover"
+        src=""
+        alt=""
+      >
+
+      <article id="articleBody" class="article-body">
+      </article>
+
+    </div>
+
+  </section>
 
 </main>
 
+
 <footer>
-<div class="container">
-PERSIAN STARK © 2026
-</div>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <h2>PERSIAN STARK</h2>
+        <p>
+          رسانه‌ای برای گیمرهای فارسی‌زبان.
+          اخبار، معرفی بازی و محتوای گیمینگ.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h3>دسترسی سریع</h3>
+        <a href="#news">اخبار گیم</a>
+        <a href="#games">معرفی بازی</a>
+        <a href="#software">نرم‌افزار</a>
+        <a href="#store">فروشگاه</a>
+      </div>
+
+      <div class="footer-links">
+        <h3>حساب کاربری</h3>
+        <a href="#" onclick="openAuth();return false;">ورود</a>
+        <a href="#" onclick="openAuth('register');return false;">ثبت‌نام</a>
+      </div>
+
+    </div>
+
+    <div class="copyright">
+      © 2026 PERSIAN STARK — تمامی حقوق محفوظ است.
+    </div>
+
+  </div>
+
 </footer>
 
 
-<!-- ARTICLE -->
-
-<div id="articleModal" class="modal">
-
-<div class="modal-box">
-
-<button class="close" onclick="closeModal('articleModal')">×</button>
-
-<div id="articleContent"></div>
-
-</div>
-
-</div>
-
-
-<!-- AUTH -->
+<!-- ================= AUTH MODAL ================= -->
 
 <div id="authModal" class="modal">
 
-<div class="modal-box auth">
+  <div class="modal-box">
 
-<button class="close" onclick="closeModal('authModal')">×</button>
+    <div class="modal-head">
+      <h2 id="authTitle">ورود به حساب</h2>
+      <button class="close-btn" onclick="closeAuth()">×</button>
+    </div>
 
-<h2 id="authTitle">ورود به حساب</h2>
+    <div id="registerUsernameGroup" class="form-group" style="display:none">
+      <label>نام کاربری</label>
+      <input id="authUsername" type="text" placeholder="نام کاربری">
+    </div>
 
-<input
-id="usernameInput"
-placeholder="نام کاربری"
->
+    <div class="form-group">
+      <label>ایمیل</label>
+      <input id="authEmail" type="email" placeholder="example@email.com">
+    </div>
 
-<input
-id="emailInput"
-type="email"
-placeholder="ایمیل"
->
+    <div class="form-group">
+      <label>رمز عبور</label>
+      <input id="authPassword" type="password" placeholder="رمز عبور">
+    </div>
 
-<input
-id="passwordInput"
-type="password"
-placeholder="رمز عبور"
->
+    <button class="primary-btn" onclick="submitAuth()" id="authSubmit">
+      ورود
+    </button>
 
-<button onclick="submitAuth()" id="authButton">
-ورود
-</button>
+    <div style="text-align:center">
+      <button class="switch-auth" onclick="switchAuthMode()" id="authSwitch">
+        حساب ندارید؟ ثبت‌نام کنید
+      </button>
+    </div>
 
-<button
-class="btn secondary"
-onclick="toggleAuth()"
-id="switchAuth"
->
-ساخت حساب جدید
-</button>
+    <p id="authMessage"
+       style="font-size:11px;text-align:center;color:var(--muted);margin-top:12px">
+    </p>
 
-<p id="authStatus"
-style="text-align:center;color:#a78bfa">
-</p>
-
-</div>
-
-</div>
-
-
-<!-- USER -->
-
-<div id="userModal" class="modal">
-
-<div class="modal-box auth">
-
-<button class="close" onclick="closeModal('userModal')">×</button>
-
-<h2>👤 حساب کاربری</h2>
-
-<p id="userEmail"></p>
-<p id="userName"></p>
-
-<button onclick="logout()">
-خروج از حساب
-</button>
-
-</div>
-
-</div>
-
-
-<!-- STORE -->
-
-<div id="storeModal" class="modal">
-
-<div class="modal-box auth">
-
-<button class="close" onclick="closeModal('storeModal')">×</button>
-
-<h2 style="text-align:center">
-🛒 فروشگاه PERSIAN STARK
-</h2>
-
-<p style="text-align:center">
-فروشگاه اسکین‌های CS2
-</p>
-
-<h3 style="text-align:center;color:#a78bfa">
-به‌زودی...
-</h3>
-
-</div>
+  </div>
 
 </div>
 
 
 <script>
 
-const SUPABASE_URL =
-"https://jmdoxofcyoxdrtxvvuiu.supabase.co";
+  /* ================= SUPABASE ================= */
 
-const SUPABASE_KEY =
-"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
+  const SUPABASE_URL =
+    "https://jmdoxofcyoxdrtxvvuiu.supabase.co";
 
-const supabaseClient =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
+  const SUPABASE_KEY =
+    "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
 
+  const db =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-// SESSION
 
-let sessionId =
-localStorage.getItem("ps_session_id");
+  /* ================= HELPERS ================= */
 
-if(!sessionId){
+  const $ = id => document.getElementById(id);
 
-sessionId =
-crypto.randomUUID();
+  function formatDate(date) {
 
-localStorage.setItem(
-"ps_session_id",
-sessionId
-);
+    if (!date) return "";
 
-}
+    try {
 
+      return new Intl.DateTimeFormat(
+        "fa-IR",
+        {
+          year:"numeric",
+          month:"long",
+          day:"numeric"
+        }
+      ).format(new Date(date));
 
-// MOBILE MENU
+    } catch {
+      return "";
+    }
 
-function toggleMobileMenu(){
+  }
 
-document
-.getElementById("mobilePanel")
-.classList.toggle("show");
+  function escapeHTML(value) {
 
-}
+    if (value === null || value === undefined) return "";
 
-function closeMobileMenu(){
+    return String(value)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
 
-document
-.getElementById("mobilePanel")
-.classList.remove("show");
+  }
 
-}
+  function placeholderImage() {
 
-function mobileGo(section){
+    return "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80";
 
-closeMobileMenu();
+  }
 
-if(section==="home"){
-goHome();
-return;
-}
 
-scrollToSection(section);
+  /* ================= THEME ================= */
 
-}
+  function toggleTheme() {
 
-function mobileAuth(){
+    document.body.classList.toggle("light");
 
-closeMobileMenu();
-openAuth();
+    localStorage.setItem(
+      "ps_theme",
+      document.body.classList.contains("light")
+        ? "light"
+        : "dark"
+    );
 
-}
+  }
 
-function mobileStore(){
+  if (localStorage.getItem("ps_theme") === "light") {
+    document.body.classList.add("light");
+  }
 
-closeMobileMenu();
-openStore();
 
-}
+  /* ================= MOBILE MENU ================= */
 
+  function toggleMobileNav() {
 
-// HOME
+    const nav = $("mobileNav");
 
-function goHome(){
+    nav.style.display =
+      nav.style.display === "block"
+        ? "none"
+        : "block";
 
-closeMobileMenu();
+  }
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+  function closeMobileNav() {
+    $("mobileNav").style.display = "none";
+  }
 
-}
 
+  /* ================= POSTS ================= */
 
-// SCROLL
+  let posts = [];
 
-function scrollToSection(id){
+  async function loadPosts() {
 
-closeMobileMenu();
+    const grid = $("postsGrid");
 
-const el =
-document.getElementById(id);
+    grid.innerHTML =
+      '<div class="empty">در حال دریافت مطالب...</div>';
 
-if(el){
+    const { data, error } = await db
+      .from("posts")
+      .select("*")
+      .order("created_at",{ascending:false});
 
-el.scrollIntoView({
-behavior:"smooth"
-});
+    if (error) {
 
-}
+      console.error(error);
 
-}
+      grid.innerHTML =
+        '<div class="empty">خطا در دریافت مطالب</div>';
 
+      return;
 
-// SETTINGS
+    }
 
-async function loadSettings(){
+    posts = data || [];
 
-const {data,error} =
-await supabaseClient
-.from("site_settings")
-.select("*")
-.limit(1)
-.maybeSingle();
+    renderPosts();
 
-if(error || !data){
+    renderHero();
 
-return;
+    renderLatest();
 
-}
+  }
 
 
-// THEME
+  function renderPosts() {
 
-if(data.theme==="light"){
+    const grid = $("postsGrid");
 
-document.body.classList.add("light");
+    if (!posts.length) {
 
-}
+      grid.innerHTML =
+        '<div class="empty">هنوز مطلبی منتشر نشده است.</div>';
 
-else{
+      return;
 
-document.body.classList.remove("light");
+    }
 
-}
+    grid.innerHTML =
+      posts.map(post => {
 
+        const image =
+          post.image_url || placeholderImage();
 
-// OVERLAY
+        return `
 
-document.getElementById("overlay")
-.style.opacity =
-(data.background_overlay || 55)/100;
+          <a class="post-card"
+             href="#article-${post.id}"
+             onclick="openArticle(${post.id});return false;">
 
+            <div class="post-image">
+              <img
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(post.title)}"
+                loading="lazy"
+              >
+            </div>
 
-// BACKGROUND
+            <div class="post-body">
 
-const bg =
-document.getElementById("background");
+              <div class="post-category">
+                ${escapeHTML(post.category || "اخبار گیم")}
+              </div>
 
-if(!data.background_enabled ||
-data.background_type==="none"){
+              <h3 class="post-title">
+                ${escapeHTML(post.title)}
+              </h3>
 
-bg.style.display="none";
-return;
+              <p class="post-description">
+                ${escapeHTML(post.description || post.content || "")}
+              </p>
 
-}
+              <div class="post-footer">
 
-bg.style.display="block";
+                <span>
+                  ${formatDate(post.created_at)}
+                </span>
 
+                <span class="read-more">
+                  ادامه مطلب ←
+                </span>
 
-if(
-data.background_type==="image" &&
-data.background_url
-){
+              </div>
 
-bg.innerHTML="";
+            </div>
 
-bg.style.backgroundImage =
-`url("${data.background_url}")`;
+          </a>
 
-bg.style.backgroundSize="cover";
-bg.style.backgroundPosition="center";
-bg.style.animation="none";
+        `;
 
-}
+      }).join("");
 
+  }
 
-else if(
-data.background_type==="video" &&
-data.background_url
-){
 
-bg.innerHTML=`
+  /* ================= HERO ================= */
 
-<video
-autoplay
-loop
-playsinline
-${data.background_muted ? "muted":""}
-style="
-width:100%;
-height:100%;
-object-fit:cover;
-">
+  function renderHero() {
 
-<source src="${escapeAttr(data.background_url)}">
+    if (!posts.length) return;
 
-</video>
-`;
+    const first = posts[0];
+    const second = posts[1] || posts[0];
+    const third = posts[2] || posts[0];
 
-bg.style.animation="none";
+    $("heroImage").src =
+      first.image_url || placeholderImage();
 
-}
+    $("heroTitle").textContent =
+      first.title || "جدیدترین مطلب PERSIAN STARK";
 
-else{
+    $("heroCategory").textContent =
+      first.category || "اخبار گیم";
 
-bg.innerHTML="";
+    $("heroDate").textContent =
+      formatDate(first.created_at);
 
-bg.style.backgroundImage="";
+    $("heroMain").onclick = function(e) {
 
-}
+      e.preventDefault();
 
-}
+      openArticle(first.id);
 
+    };
 
-// POSTS
 
-async function loadPosts(){
+    $("sideImage1").src =
+      second.image_url || placeholderImage();
 
-const {data,error} =
-await supabaseClient
-.from("posts")
-.select("*")
-.order("created_at",{ascending:false});
+    $("sideTitle1").textContent =
+      second.title || "جدیدترین مطالب";
 
-if(error){
+    $("side1").onclick = function(e) {
 
-console.error(error);
+      e.preventDefault();
 
-return;
+      openArticle(second.id);
 
-}
+    };
 
-const news =
-document.getElementById("newsGrid");
 
-const games =
-document.getElementById("gamesGrid");
+    $("sideImage2").src =
+      third.image_url || placeholderImage();
 
-const software =
-document.getElementById("softwareGrid");
+    $("sideTitle2").textContent =
+      third.title || "مطالب منتخب";
 
-news.innerHTML="";
-games.innerHTML="";
-software.innerHTML="";
+    $("side2").onclick = function(e) {
 
+      e.preventDefault();
 
-if(!data || !data.length){
+      openArticle(third.id);
 
-news.innerHTML =
-`<div class="empty">
-هنوز مطلبی منتشر نشده است.
-</div>`;
+    };
 
-return;
+  }
 
-}
 
+  /* ================= LATEST ================= */
 
-data.forEach(post=>{
+  function renderLatest() {
 
-const card =
-createCard(post);
+    const list = $("latestList");
 
-const category =
-String(post.category || "")
-.toLowerCase();
+    if (!posts.length) {
 
+      list.innerHTML =
+        '<span style="color:var(--muted);font-size:11px">مطلبی وجود ندارد.</span>';
 
-if(
-category==="game" ||
-category==="games"
-){
+      return;
 
-games.innerHTML += card;
+    }
 
-}
+    list.innerHTML =
+      posts.slice(0,5).map(post => {
 
-else if(
-category==="software"
-){
+        return `
 
-software.innerHTML += card;
+          <a
+            class="latest-item"
+            href="#article-${post.id}"
+            onclick="openArticle(${post.id});return false;"
+          >
 
-}
+            <img
+              src="${escapeHTML(post.image_url || placeholderImage())}"
+              alt=""
+              loading="lazy"
+            >
 
-else{
+            <div>
 
-news.innerHTML += card;
+              <h3>
+                ${escapeHTML(post.title)}
+              </h3>
 
-}
+              <span>
+                ${formatDate(post.created_at)}
+              </span>
 
-});
+            </div>
 
-}
+          </a>
 
+        `;
 
-// CARD
+      }).join("");
 
-function createCard(post){
+  }
 
-const image =
-post.image_url ||
-"https://images.unsplash.com/photo-1542751371-adc38448a05e";
 
-return `
+  /* ================= ARTICLE ================= */
 
-<article class="card">
+  async function openArticle(postId) {
 
-<img
-src="${escapeAttr(image)}"
-loading="lazy"
-alt=""
->
+    const post =
+      posts.find(p => Number(p.id) === Number(postId));
 
-<div class="card-body">
+    if (!post) {
 
-<span class="badge">
-${escapeHTML(post.category || "news")}
-</span>
+      const {data,error} =
+        await db
+          .from("posts")
+          .select("*")
+          .eq("id",postId)
+          .single();
 
-<h3>
-${escapeHTML(post.title || "بدون عنوان")}
-</h3>
+      if (error || !data) {
 
-<p>
-${escapeHTML(post.description || "")}
-</p>
+        alert("مطلب پیدا نشد.");
 
-<div class="card-actions">
+        return;
 
-<button
-onclick="openArticle(${post.id})"
->
-ادامه مطلب
-</button>
+      }
 
-${
-post.download_url
-?
-`
-<button
-class="btn secondary"
-onclick="window.open('${escapeAttr(post.download_url)}','_blank')"
->
-دانلود
-</button>
-`
-:
-""
-}
+      showArticle(data);
 
-</div>
+      return;
 
-</div>
+    }
 
-</article>
+    showArticle(post);
 
-`;
+  }
 
-}
 
+  async function showArticle(post) {
 
-// ARTICLE
+    $("homePage").classList.add("hidden");
 
-async function openArticle(postId){
+    $("articlePage").classList.add("active");
 
-document
-.getElementById("articleModal")
-.classList.add("show");
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
 
-const box =
-document.getElementById("articleContent");
 
-box.innerHTML =
-`<p style="text-align:center">
-در حال بارگذاری مطلب...
-</p>`;
+    $("articleCategory").textContent =
+      post.category || "اخبار گیم";
 
+    $("articleTitle").textContent =
+      post.title || "";
 
-const {
-data:post,
-error:postError
-} =
-await supabaseClient
-.from("posts")
-.select("*")
-.eq("id",postId)
-.single();
+    $("articleDate").textContent =
+      formatDate(post.created_at);
 
+    const cover =
+      post.image_url || placeholderImage();
 
-if(postError){
+    $("articleCover").src = cover;
 
-box.innerHTML =
-`<p>خطا در دریافت مطلب.</p>`;
+    $("articleCover").style.display =
+      cover ? "block" : "none";
 
-return;
 
-}
+    const body =
+      $("articleBody");
 
+    body.innerHTML =
+      '<p style="color:var(--muted)">در حال دریافت محتوای مطلب...</p>';
 
-const {
-data:blocks,
-error:blockError
-} =
-await supabaseClient
-.from("post_blocks")
-.select("*")
-.eq("post_id",postId)
-.order("sort_order",{ascending:true});
 
+    const {data:blocks,error} =
+      await db
+        .from("post_blocks")
+        .select("*")
+        .eq("post_id",post.id)
+        .order("sort_order",{ascending:true});
 
-if(blockError){
 
-console.error(blockError);
+    if (error) {
 
-box.innerHTML = `
+      console.error(error);
 
-<h1 class="article-title">
-${escapeHTML(post.title)}
-</h1>
+      body.innerHTML =
+        `<p>${escapeHTML(post.content || post.description || "")}</p>`;
 
-<div class="block-text">
-${escapeHTML(
-post.content ||
-post.description ||
-""
-)}
-</div>
+      history.pushState(
+        {},
+        "",
+        "#article-"+post.id
+      );
 
-<p style="color:#f87171">
-بخش‌های چندرسانه‌ای مقاله بارگذاری نشد.
-</p>
+      return;
 
-`;
+    }
 
-return;
 
-}
+    let html = "";
 
+    if (
+      post.description &&
+      !blocks?.some(b =>
+        b.type === "text" &&
+        b.content === post.description
+      )
+    ) {
 
-let html = `
+      html +=
+        `<p>${escapeHTML(post.description)}</p>`;
 
-<span class="badge">
-${escapeHTML(post.category || "news")}
-</span>
+    }
 
-<h1 class="article-title">
-${escapeHTML(post.title || "")}
-</h1>
 
-`;
+    if (blocks && blocks.length) {
 
+      blocks.forEach(block => {
 
-if(post.image_url){
+        if (block.type === "text") {
 
-html += `
+          html +=
+            `<p>${escapeHTML(block.content).replace(/\n/g,"<br>")}</p>`;
 
-<img
-class="article-cover"
-src="${escapeAttr(post.image_url)}"
-loading="lazy"
->
+        }
 
-`;
+        else if (block.type === "image") {
 
-}
+          html +=
+            `
+            <img
+              src="${escapeHTML(block.content)}"
+              alt=""
+              loading="lazy"
+            >
+            `;
 
+        }
 
-// BLOCKS
+        else if (block.type === "video") {
 
-if(!blocks || !blocks.length){
+          html +=
+            `
+            <video
+              src="${escapeHTML(block.content)}"
+              controls
+              preload="metadata"
+            ></video>
+            `;
 
-html += `
+        }
 
-<div class="block-text">
-${escapeHTML(
-post.content ||
-post.description ||
-""
-)}
-</div>
+      });
 
-`;
+    }
 
-}
+    else if (post.content) {
 
-else{
+      html +=
+        `<p>${escapeHTML(post.content).replace(/\n/g,"<br>")}</p>`;
 
-blocks.forEach(block=>{
+    }
 
-if(block.type==="text"){
 
-html += `
+    if (!html) {
 
-<div class="block-text">
-${escapeHTML(block.content || "")}
-</div>
+      html =
+        `<p style="color:var(--muted)">محتوای این مطلب هنوز اضافه نشده است.</p>`;
 
-`;
+    }
 
-}
 
-else if(block.type==="image"){
+    body.innerHTML = html;
 
-html += `
+    history.pushState(
+      {},
+      "",
+      "#article-"+post.id
+    );
 
-<img
-class="block-image"
-src="${escapeAttr(block.content)}"
-loading="lazy"
-alt=""
->
+  }
 
-`;
 
-}
+  function goHome() {
 
-else if(block.type==="video"){
+    $("articlePage").classList.remove("active");
 
-html += `
+    $("homePage").classList.remove("hidden");
 
-<video
-class="block-video"
-controls
-preload="metadata"
-playsinline
->
+    history.pushState(
+      {},
+      "",
+      window.location.pathname
+    );
 
-<source
-src="${escapeAttr(block.content)}"
->
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
 
-مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+  }
 
-</video>
 
-`;
+  /* ================= STATS ================= */
 
-}
+  function getSessionId() {
 
-});
+    let id =
+      localStorage.getItem("ps_session");
 
-}
+    if (!id) {
 
+      id =
+        "ps_" +
+        Date.now() +
+        "_" +
+        Math.random()
+          .toString(36)
+          .substring(2,12);
 
-if(post.download_url){
+      localStorage.setItem(
+        "ps_session",
+        id
+      );
 
-html += `
+    }
 
-<div style="
-text-align:center;
-margin-top:30px;
-">
+    return id;
 
-<a
-class="btn"
-href="${escapeAttr(post.download_url)}"
-target="_blank"
-rel="noopener"
->
-⬇️ دانلود
-</a>
+  }
 
-</div>
 
-`;
+  async function updateStats() {
 
-}
+    const session =
+      getSessionId();
 
+    try {
 
-box.innerHTML=html;
+      await db.rpc(
+        "record_site_visit",
+        {
+          p_session_id: session
+        }
+      );
 
-}
+      await db.rpc(
+        "update_presence",
+        {
+          p_session_id: session
+        }
+      );
 
+      const {data,error} =
+        await db.rpc("get_site_stats");
 
-// AUTH
+      if (error) {
 
-let isSignup=false;
+        console.error(error);
 
+        return;
 
-function openAuth(){
+      }
 
-supabaseClient.auth.getSession()
-.then(({data})=>{
+      if (!data) return;
 
-if(data.session){
+      $("statMembers").textContent =
+        Number(data.members || 0).toLocaleString("fa-IR");
 
-showUser();
+      $("statOnline").textContent =
+        Number(data.online || 0).toLocaleString("fa-IR");
 
-}
+      $("statToday").textContent =
+        Number(data.today_visits || 0).toLocaleString("fa-IR");
 
-else{
+      $("statTotal").textContent =
+        Number(data.total_visits || 0).toLocaleString("fa-IR");
 
-isSignup=false;
+    } catch(error) {
 
-updateAuthUI();
+      console.error(error);
 
-document
-.getElementById("authModal")
-.classList.add("show");
+    }
 
-}
+  }
 
-});
 
-}
+  setInterval(
+    updateStats,
+    60000
+  );
 
 
-function toggleAuth(){
+  /* ================= AUTH ================= */
 
-isSignup=!isSignup;
+  let authMode = "login";
 
-updateAuthUI();
 
-}
+  function openAuth(mode="login") {
 
+    authMode = mode;
 
-function updateAuthUI(){
+    $("authModal").classList.add("show");
 
-document
-.getElementById("authTitle")
-.textContent =
-isSignup
-?
-"ساخت حساب"
-:
-"ورود به حساب";
+    updateAuthUI();
 
+  }
 
-document
-.getElementById("authButton")
-.textContent =
-isSignup
-?
-"ثبت نام"
-:
-"ورود";
 
+  function closeAuth() {
 
-document
-.getElementById("switchAuth")
-.textContent =
-isSignup
-?
-"قبلاً حساب دارم"
-:
-"ساخت حساب جدید";
+    $("authModal").classList.remove("show");
 
+    $("authMessage").textContent = "";
 
-document
-.getElementById("usernameInput")
-.style.display =
-isSignup
-?
-"block"
-:
-"none";
+  }
 
-}
 
+  function switchAuthMode() {
 
-async function submitAuth(){
+    authMode =
+      authMode === "login"
+        ? "register"
+        : "login";
 
-const email =
-document
-.getElementById("emailInput")
-.value
-.trim();
+    updateAuthUI();
 
-const password =
-document
-.getElementById("passwordInput")
-.value;
+  }
 
-const username =
-document
-.getElementById("usernameInput")
-.value
-.trim();
 
-const status =
-document.getElementById("authStatus");
+  function updateAuthUI() {
 
+    const register =
+      authMode === "register";
 
-status.textContent =
-"در حال انجام...";
+    $("authTitle").textContent =
+      register
+        ? "ساخت حساب کاربری"
+        : "ورود به حساب";
 
+    $("authSubmit").textContent =
+      register
+        ? "ثبت‌نام"
+        : "ورود";
 
-if(!email || !password){
+    $("authSwitch").textContent =
+      register
+        ? "قبلاً حساب ساخته‌اید؟ وارد شوید"
+        : "حساب ندارید؟ ثبت‌نام کنید";
 
-status.textContent =
-"ایمیل و رمز عبور را وارد کن.";
+    $("registerUsernameGroup").style.display =
+      register
+        ? "block"
+        : "none";
 
-return;
+  }
 
-}
 
+  async function submitAuth() {
 
-if(isSignup){
+    const email =
+      $("authEmail").value.trim();
 
-if(!username){
+    const password =
+      $("authPassword").value;
 
-status.textContent =
-"نام کاربری را وارد کن.";
+    const username =
+      $("authUsername").value.trim();
 
-return;
+    const message =
+      $("authMessage");
 
-}
 
+    if (!email || !password) {
 
-const {
-data,
-error
-} =
-await supabaseClient.auth.signUp({
+      message.textContent =
+        "ایمیل و رمز عبور را وارد کنید.";
 
-email,
-password,
+      return;
 
-options:{
-data:{
-username:username
-}
-}
+    }
 
-});
 
+    message.textContent =
+      "لطفاً صبر کنید...";
 
-if(error){
 
-status.textContent =
-error.message;
+    if (authMode === "register") {
 
-return;
+      const {data,error} =
+        await db.auth.signUp({
+          email,
+          password
+        });
 
-}
+      if (error) {
 
+        message.textContent =
+          error.message;
 
-if(data.session){
+        return;
 
-status.textContent =
-"ثبت نام با موفقیت انجام شد.";
+      }
 
-setTimeout(()=>{
 
-closeModal("authModal");
+      if (data.user && username) {
 
-},500);
+        await db
+          .from("profiles")
+          .upsert({
+            id:data.user.id,
+            username:username
+          });
 
-}
+      }
 
-else{
 
-status.textContent =
-"حساب ساخته شد. اگر تأیید ایمیل فعال است، ایمیلت را بررسی کن.";
+      message.textContent =
+        "ثبت‌نام انجام شد. اگر تأیید ایمیل فعال باشد، ایمیل خود را بررسی کنید.";
 
-}
+      return;
 
-}
+    }
 
-else{
 
-const {
-data,
-error
-} =
-await supabaseClient.auth.signInWithPassword({
+    const {error} =
+      await db.auth.signInWithPassword({
+        email,
+        password
+      });
 
-email,
-password
 
-});
+    if (error) {
 
+      message.textContent =
+        "ورود ناموفق بود: " + error.message;
 
-if(error){
+      return;
 
-status.textContent =
-error.message;
+    }
 
-return;
 
-}
+    message.textContent =
+      "ورود موفق بود.";
 
+    setTimeout(
+      closeAuth,
+      700
+    );
 
-status.textContent =
-"ورود موفق بود.";
+  }
 
-setTimeout(()=>{
 
-closeModal("authModal");
-loadStats();
+  /* ================= AUTH STATE ================= */
 
-},500);
+  db.auth.onAuthStateChange(
+    (event,session) => {
 
-}
+      if (session?.user) {
 
-}
+        const email =
+          session.user.email || "";
 
+        document.querySelector(".account-btn")
+          .textContent =
+          "حساب من";
 
-// USER
+      }
 
-async function showUser(){
+    }
+  );
 
-const {
-data
-} =
-await supabaseClient.auth.getUser();
 
-if(!data.user)return;
+  /* ================= SETTINGS ================= */
 
+  async function loadSettings() {
 
-document
-.getElementById("userEmail")
-.textContent =
-"ایمیل: "+
-(data.user.email || "");
+    try {
 
+      const {data,error} =
+        await db
+          .from("site_settings")
+          .select("*")
+          .limit(1)
+          .maybeSingle();
 
-document
-.getElementById("userName")
-.textContent =
-"نام کاربری: "+
-(
-data.user.user_metadata?.username ||
-"کاربر PERSIAN STARK"
-);
+      if (error || !data) return;
 
 
-document
-.getElementById("userModal")
-.classList.add("show");
+      if (
+        data.theme === "light" ||
+        (
+          data.theme === "system" &&
+          window.matchMedia(
+            "(prefers-color-scheme:light)"
+          ).matches
+        )
+      ) {
 
-}
+        document.body.classList.add("light");
 
+      }
 
-async function logout(){
 
-await supabaseClient.auth.signOut();
+      if (
+        data.background_enabled &&
+        data.background_type === "image" &&
+        data.background_url
+      ) {
 
-closeModal("userModal");
+        document.body.style.backgroundImage =
+          `linear-gradient(
+            rgba(8,9,13,${Number(data.background_overlay || 55)/100}),
+            rgba(8,9,13,${Number(data.background_overlay || 55)/100})
+          ),
+          url("${data.background_url}")`;
 
-loadStats();
+        document.body.style.backgroundSize =
+          "cover";
 
-}
+        document.body.style.backgroundAttachment =
+          "fixed";
 
+      }
 
-// PRESENCE
+    } catch(error) {
 
-async function updatePresence(){
+      console.error(error);
 
-try{
+    }
 
-await supabaseClient.rpc(
-"update_presence",
-{
-p_session_id:sessionId
-}
-);
+  }
 
-}
-catch(error){
 
-console.error(
-"presence:",
-error
-);
+  /* ================= INIT ================= */
 
-}
+  async function init() {
 
-}
+    await loadSettings();
 
+    await loadPosts();
 
-// VISIT
+    await updateStats();
 
-async function recordVisit(){
 
-try{
+    if (
+      location.hash.startsWith("#article-")
+    ) {
 
-await supabaseClient.rpc(
-"record_site_visit",
-{
-p_session_id:sessionId
-}
-);
+      const id =
+        location.hash.replace(
+          "#article-",
+          ""
+        );
 
-}
-catch(error){
+      if (id) {
 
-console.error(
-"visit:",
-error
-);
+        setTimeout(
+          () => openArticle(id),
+          300
+        );
 
-}
+      }
 
-}
+    }
 
+  }
 
-// STATS
 
-async function loadStats(){
-
-try{
-
-const {
-data,
-error
-} =
-await supabaseClient.rpc(
-"get_site_stats"
-);
-
-if(error){
-
-console.error(
-"stats:",
-error
-);
-
-return;
-
-}
-
-
-document
-.getElementById("membersCount")
-.textContent =
-data?.members ?? 0;
-
-
-document
-.getElementById("onlineCount")
-.textContent =
-data?.online ?? 0;
-
-
-document
-.getElementById("todayVisits")
-.textContent =
-data?.today_visits ?? 0;
-
-
-document
-.getElementById("totalVisits")
-.textContent =
-data?.total_visits ?? 0;
-
-}
-catch(error){
-
-console.error(error);
-
-}
-
-}
-
-
-// MODALS
-
-function openStore(){
-
-document
-.getElementById("storeModal")
-.classList.add("show");
-
-}
-
-function closeModal(id){
-
-document
-.getElementById(id)
-.classList.remove("show");
-
-}
-
-
-// ESCAPE
-
-function escapeHTML(value){
-
-return String(value ?? "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-function escapeAttr(value){
-
-return String(value ?? "")
-.replace(/"/g,"%22")
-.replace(/'/g,"%27");
-
-}
-
-
-// AUTH STATE
-
-supabaseClient.auth.onAuthStateChange(
-(event,session)=>{
-
-if(session){
-
-updatePresence();
-
-}
-
-}
-);
-
-
-// START
-
-async function start(){
-
-await loadSettings();
-
-await loadPosts();
-
-await recordVisit();
-
-await updatePresence();
-
-await loadStats();
-
-setInterval(async()=>{
-
-await updatePresence();
-
-await loadStats();
-
-},30000);
-
-}
-
-start();
+  init();
 
 </script>
 
