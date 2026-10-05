@@ -3,947 +3,2242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PERSIAN STARK | پنل مدیریت</title>
+<title>پنل مدیریت | PERSIAN STARK</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
-
-:root{
-  --bg:#080b12;
-  --panel:#101520;
-  --panel2:#141b28;
-  --border:#202a3a;
-  --text:#f4f7fb;
-  --muted:#8d99ab;
-  --accent:#7c5cff;
-  --accent2:#9b87ff;
-  --green:#22c55e;
-  --red:#ef4444;
-  --orange:#f59e0b;
-  --shadow:0 20px 60px rgba(0,0,0,.30);
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+:root{
+    --bg:#07111f;
+    --bg2:#0b1728;
+    --card:rgba(12,27,45,.90);
+    --card2:#102238;
+    --text:#f5f9ff;
+    --muted:#9eafc4;
+    --line:rgba(255,255,255,.09);
+    --accent:#00c8ff;
+    --accent2:#18e0c1;
+    --orange:#ff9d42;
+    --danger:#ff5577;
+    --success:#20d7a4;
+    --header:rgba(5,14,26,.86);
+    --shadow:0 20px 60px rgba(0,0,0,.28);
+    --radius:22px;
+}
+
+html.light{
+    --bg:#f3f7fb;
+    --bg2:#eaf1f7;
+    --card:#ffffff;
+    --card2:#f7faff;
+    --text:#132238;
+    --muted:#607087;
+    --line:rgba(19,34,56,.12);
+    --accent:#008bc7;
+    --accent2:#009e89;
+    --orange:#e87516;
+    --danger:#d93458;
+    --success:#079c7d;
+    --header:rgba(255,255,255,.90);
+    --shadow:0 18px 45px rgba(30,55,80,.12);
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-  font-family:'Vazirmatn',sans-serif;
-  background:
-    radial-gradient(circle at 80% 0%,rgba(124,92,255,.10),transparent 28%),
-    radial-gradient(circle at 0% 100%,rgba(30,144,255,.07),transparent 25%),
-    var(--bg);
-  color:var(--text);
-  min-height:100vh;
+    font-family:
+        Tahoma,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(0,200,255,.08),transparent 28%),
+        radial-gradient(circle at 90% 20%,rgba(24,224,193,.07),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
-button,input,textarea,select{
-  font-family:inherit;
+button,
+input,
+textarea,
+select{
+    font-family:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
-.hidden{
-  display:none!important;
+a{
+    color:inherit;
+    text-decoration:none;
 }
 
-/* LOGIN */
+/* =========================
+   LOADING
+========================= */
 
-#loginScreen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+#loadingScreen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:var(--bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.3s;
 }
 
-.login-box{
-  width:100%;
-  max-width:430px;
-  background:rgba(16,21,32,.92);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:34px;
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(20px);
+.loading-box{
+    text-align:center;
 }
 
-.logo{
-  text-align:center;
-  margin-bottom:30px;
+.loading-logo{
+    width:72px;
+    height:72px;
+    margin:auto auto 18px;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    font-weight:900;
+    color:#fff;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 15px 40px rgba(0,200,255,.22);
 }
 
-.logo strong{
-  font-size:27px;
-  font-weight:900;
-  letter-spacing:2px;
+.spinner{
+    width:32px;
+    height:32px;
+    border:3px solid var(--line);
+    border-top-color:var(--accent);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+    margin:20px auto 0;
 }
 
-.logo span{
-  display:block;
-  color:var(--muted);
-  font-size:13px;
-  margin-top:5px;
+@keyframes spin{
+    to{transform:rotate(360deg)}
 }
 
-.field{
-  margin-bottom:17px;
+/* =========================
+   ACCESS
+========================= */
+
+#accessDenied{
+    display:none;
+    min-height:100vh;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
 }
 
-.field label{
-  display:block;
-  font-size:13px;
-  color:#b9c2d0;
-  margin-bottom:8px;
+.access-card{
+    width:min(520px,100%);
+    padding:40px;
+    text-align:center;
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:28px;
+    box-shadow:var(--shadow);
 }
 
-.field input,
-.field textarea,
-.field select{
-  width:100%;
-  background:#0b1019;
-  color:var(--text);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:13px 14px;
-  outline:none;
-  transition:.2s;
+.access-icon{
+    font-size:55px;
+    margin-bottom:15px;
 }
 
-.field textarea{
-  min-height:130px;
-  resize:vertical;
+.access-card h1{
+    margin-bottom:12px;
 }
 
-.field input:focus,
-.field textarea:focus,
-.field select:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(124,92,255,.12);
+.access-card p{
+    color:var(--muted);
+    line-height:1.9;
+    margin-bottom:25px;
 }
 
-.btn{
-  border:0;
-  border-radius:12px;
-  padding:12px 17px;
-  font-weight:700;
-  transition:.2s;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-}
-
-.btn-primary{
-  background:linear-gradient(135deg,var(--accent),#6244ed);
-  color:white;
-}
-
-.btn-dark{
-  background:#192130;
-  color:white;
-  border:1px solid var(--border);
-}
-
-.btn-danger{
-  background:rgba(239,68,68,.12);
-  color:#ff7070;
-  border:1px solid rgba(239,68,68,.25);
-}
-
-.btn-success{
-  background:rgba(34,197,94,.12);
-  color:#50e681;
-  border:1px solid rgba(34,197,94,.25);
-}
-
-/* APP */
+/* =========================
+   APP
+========================= */
 
 #app{
-  min-height:100vh;
-  display:flex;
+    display:none;
 }
 
-/* SIDEBAR */
+.app{
+    min-height:100vh;
+    display:flex;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
-  width:260px;
-  flex-shrink:0;
-  background:rgba(10,14,22,.96);
-  border-left:1px solid var(--border);
-  min-height:100vh;
-  position:sticky;
-  top:0;
-  height:100vh;
-  padding:22px 15px;
-  z-index:50;
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    width:280px;
+    z-index:1000;
+    background:var(--header);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-left:1px solid var(--line);
+    padding:22px 16px;
+    display:flex;
+    flex-direction:column;
+    transition:.3s ease;
 }
 
 .brand{
-  padding:10px 12px 24px;
-  border-bottom:1px solid var(--border);
-  margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:4px 8px 24px;
 }
 
-.brand-title{
-  font-size:21px;
-  font-weight:900;
-  letter-spacing:1.5px;
+.brand-logo{
+    width:50px;
+    height:50px;
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    color:#fff;
+    font-weight:1000;
+    font-size:19px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 12px 30px rgba(0,200,255,.2);
 }
 
-.brand-sub{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:4px;
+.brand-text strong{
+    display:block;
+    font-size:16px;
+    letter-spacing:.5px;
 }
 
-.menu-title{
-  color:#697589;
-  font-size:11px;
-  font-weight:700;
-  margin:15px 12px 8px;
+.brand-text span{
+    display:block;
+    font-size:11px;
+    color:var(--muted);
+    margin-top:5px;
+}
+
+.nav-title{
+    color:var(--muted);
+    font-size:11px;
+    padding:14px 13px 8px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
 }
 
 .nav-btn{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#aeb8c8;
-  padding:12px 13px;
-  border-radius:11px;
-  text-align:right;
-  display:flex;
-  align-items:center;
-  gap:11px;
-  margin-bottom:4px;
-  transition:.2s;
+    border:0;
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 14px;
+    border-radius:14px;
+    background:transparent;
+    color:var(--muted);
+    text-align:right;
+    font-size:13px;
+    transition:.2s;
 }
 
 .nav-btn:hover{
-  background:#151d2b;
-  color:white;
+    background:var(--card2);
+    color:var(--text);
+    transform:translateX(-2px);
 }
 
 .nav-btn.active{
-  background:linear-gradient(135deg,rgba(124,92,255,.20),rgba(124,92,255,.07));
-  color:white;
-  border:1px solid rgba(124,92,255,.20);
+    color:#fff;
+    background:linear-gradient(
+        135deg,
+        rgba(0,200,255,.18),
+        rgba(24,224,193,.10)
+    );
+    border:1px solid rgba(0,200,255,.15);
 }
 
 .nav-icon{
-  width:28px;
-  text-align:center;
-  font-size:17px;
+    width:27px;
+    text-align:center;
+    font-size:18px;
 }
 
 .sidebar-bottom{
-  position:absolute;
-  left:15px;
-  right:15px;
-  bottom:18px;
+    margin-top:auto;
 }
 
-/* MAIN */
+.admin-mini{
+    padding:14px;
+    border:1px solid var(--line);
+    border-radius:17px;
+    background:var(--card2);
+    margin-bottom:10px;
+}
+
+.admin-mini-name{
+    font-size:13px;
+    font-weight:700;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.admin-mini-role{
+    color:var(--accent2);
+    font-size:10px;
+    margin-top:5px;
+}
+
+.logout-btn{
+    width:100%;
+    border:1px solid rgba(255,85,119,.15);
+    background:rgba(255,85,119,.07);
+    color:var(--danger);
+    padding:12px;
+    border-radius:13px;
+    font-size:12px;
+}
+
+/* =========================
+   MAIN
+========================= */
 
 .main{
-  flex:1;
-  min-width:0;
+    width:calc(100% - 280px);
+    margin-right:280px;
+    min-height:100vh;
 }
 
 .topbar{
-  height:74px;
-  border-bottom:1px solid var(--border);
-  background:rgba(8,11,18,.82);
-  backdrop-filter:blur(15px);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 28px;
-  position:sticky;
-  top:0;
-  z-index:40;
+    height:78px;
+    position:sticky;
+    top:0;
+    z-index:800;
+    background:var(--header);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
 }
 
-.top-title{
-  font-size:19px;
-  font-weight:800;
-}
-
-.top-right{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.admin-user{
-  background:#111927;
-  border:1px solid var(--border);
-  padding:8px 13px;
-  border-radius:11px;
-  color:#b9c2d0;
-  font-size:12px;
+.topbar-right,
+.topbar-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .mobile-menu{
-  display:none;
+    display:none;
+    width:42px;
+    height:42px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--text);
+    border-radius:13px;
+    font-size:20px;
 }
+
+.page-title h1{
+    font-size:19px;
+}
+
+.page-title p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    transition:.2s;
+}
+
+.icon-btn:hover{
+    border-color:var(--accent);
+    transform:translateY(-2px);
+}
+
+.site-btn{
+    height:42px;
+    padding:0 15px;
+    border-radius:13px;
+    border:1px solid rgba(0,200,255,.2);
+    background:rgba(0,200,255,.08);
+    color:var(--accent);
+    font-size:12px;
+}
+
+/* =========================
+   IRAN CLOCK
+========================= */
+
+.iran-clock{
+    min-width:220px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:8px 13px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background:var(--card);
+}
+
+.clock-icon{
+    width:39px;
+    height:39px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:linear-gradient(
+        135deg,
+        rgba(0,200,255,.15),
+        rgba(24,224,193,.12)
+    );
+    font-size:19px;
+}
+
+.clock-info{
+    min-width:0;
+}
+
+.clock-time{
+    direction:ltr;
+    text-align:right;
+    font-size:17px;
+    font-weight:900;
+    letter-spacing:1px;
+    color:var(--text);
+}
+
+.clock-date{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+    white-space:nowrap;
+}
+
+/* =========================
+   CONTENT
+========================= */
 
 .content{
-  padding:28px;
-  max-width:1500px;
-  margin:auto;
+    padding:30px;
+    max-width:1600px;
+    margin:auto;
 }
 
-/* DASHBOARD */
-
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-  margin-bottom:24px;
+.section{
+    display:none;
 }
 
-.stat{
-  background:linear-gradient(145deg,#111824,#0d131e);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-  position:relative;
-  overflow:hidden;
-}
-
-.stat:after{
-  content:"";
-  position:absolute;
-  width:90px;
-  height:90px;
-  background:rgba(124,92,255,.09);
-  border-radius:50%;
-  left:-30px;
-  bottom:-35px;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.stat-number{
-  font-size:30px;
-  font-weight:900;
-  margin-top:8px;
-}
-
-.section-box{
-  background:rgba(14,20,30,.9);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:21px;
-  margin-bottom:20px;
+.section.active{
+    display:block;
 }
 
 .section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:20px;
 }
 
 .section-head h2{
-  font-size:17px;
+    font-size:21px;
 }
 
 .section-head p{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:3px;
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
 }
 
-/* POSTS */
+/* =========================
+   CARDS
+========================= */
 
-.toolbar{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
+.card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
 }
 
-.toolbar select,
-.toolbar input{
-  background:#0b1019;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:11px 13px;
-  outline:none;
+.card-pad{
+    padding:22px;
 }
 
-.posts-list{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+/* =========================
+   STATS
+========================= */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
 }
 
-.post-row{
-  background:#0c121c;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  gap:15px;
+.stat-card{
+    padding:19px;
+    min-height:125px;
+    position:relative;
+    overflow:hidden;
 }
 
-.post-image{
-  width:78px;
-  height:58px;
-  border-radius:10px;
-  object-fit:cover;
-  background:#151d29;
-  flex-shrink:0;
+.stat-card::after{
+    content:"";
+    position:absolute;
+    width:90px;
+    height:90px;
+    left:-30px;
+    bottom:-40px;
+    border-radius:50%;
+    background:rgba(0,200,255,.06);
 }
 
-.post-info{
-  flex:1;
-  min-width:0;
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.post-title{
-  font-weight:800;
-  font-size:14px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+.stat-icon{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:rgba(0,200,255,.10);
+    font-size:18px;
 }
 
-.post-meta{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  margin-top:7px;
-  flex-wrap:wrap;
+.stat-number{
+    font-size:27px;
+    font-weight:900;
+    margin-top:12px;
 }
 
-.badge{
-  display:inline-flex;
-  align-items:center;
-  border-radius:20px;
-  padding:4px 9px;
-  font-size:10px;
-  font-weight:700;
+.stat-label{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:3px;
 }
 
-.badge-news{
-  background:rgba(59,130,246,.12);
-  color:#60a5fa;
+/* =========================
+   DASHBOARD GRID
+========================= */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.45fr .9fr;
+    gap:20px;
 }
 
-.badge-game{
-  background:rgba(168,85,247,.12);
-  color:#c084fc;
+.recent-list{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
 }
 
-.badge-software{
-  background:rgba(34,197,94,.12);
-  color:#4ade80;
+.recent-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:15px;
+    border:1px solid var(--line);
+    background:var(--card2);
 }
 
-.badge-store{
-  background:rgba(245,158,11,.12);
-  color:#fbbf24;
+.recent-image{
+    width:58px;
+    height:48px;
+    object-fit:cover;
+    border-radius:11px;
+    background:var(--bg2);
+    flex:none;
 }
 
-.actions{
-  display:flex;
-  gap:7px;
-  flex-shrink:0;
+.recent-info{
+    min-width:0;
+    flex:1;
+}
+
+.recent-title{
+    font-size:12px;
+    font-weight:700;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.recent-meta{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:5px;
+}
+
+.category-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:5px 9px;
+    border-radius:999px;
+    font-size:9px;
+    background:rgba(0,200,255,.09);
+    color:var(--accent);
+    border:1px solid rgba(0,200,255,.12);
+}
+
+.quick-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.quick-btn{
+    min-height:90px;
+    border:1px solid var(--line);
+    background:var(--card2);
+    color:var(--text);
+    border-radius:16px;
+    padding:14px;
+    text-align:right;
+    transition:.2s;
+}
+
+.quick-btn:hover{
+    transform:translateY(-3px);
+    border-color:rgba(0,200,255,.35);
+}
+
+.quick-btn span{
+    display:block;
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.quick-btn strong{
+    font-size:11px;
+}
+
+.quick-btn small{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:5px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary-btn,
+.secondary-btn,
+.danger-btn{
+    min-height:42px;
+    border-radius:12px;
+    padding:0 16px;
+    border:1px solid transparent;
+    font-size:12px;
+    transition:.2s;
+}
+
+.primary-btn{
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#03121c;
+    font-weight:900;
+}
+
+.primary-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(0,200,255,.18);
+}
+
+.secondary-btn{
+    background:var(--card2);
+    border-color:var(--line);
+    color:var(--text);
+}
+
+.secondary-btn:hover{
+    border-color:var(--accent);
+}
+
+.danger-btn{
+    background:rgba(255,85,119,.08);
+    border-color:rgba(255,85,119,.15);
+    color:var(--danger);
 }
 
 .small-btn{
-  border:1px solid var(--border);
-  background:#141c29;
-  color:#d9dfeb;
-  border-radius:9px;
-  padding:8px 11px;
-  font-size:11px;
+    min-height:34px;
+    padding:0 11px;
+    font-size:10px;
+    border-radius:9px;
 }
 
-.small-btn:hover{
-  border-color:#39465d;
+/* =========================
+   POSTS
+========================= */
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-bottom:15px;
 }
 
-/* EDITOR */
-
-.editor-grid{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 320px;
-  gap:20px;
+.input,
+.textarea,
+.select{
+    width:100%;
+    border:1px solid var(--line);
+    outline:none;
+    background:var(--card2);
+    color:var(--text);
+    border-radius:12px;
+    padding:12px 13px;
+    font-size:12px;
+    transition:.2s;
 }
 
-.editor-main,
-.editor-side{
-  min-width:0;
+.input:focus,
+.textarea:focus,
+.select:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(0,200,255,.06);
 }
 
-.card{
-  background:#0d141f;
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:20px;
-  margin-bottom:18px;
+.textarea{
+    min-height:130px;
+    resize:vertical;
+    line-height:1.9;
 }
 
-.card h3{
-  font-size:15px;
-  margin-bottom:17px;
+.search-box{
+    flex:1;
+    min-width:220px;
+}
+
+.posts-table-wrap{
+    overflow:auto;
+}
+
+.posts-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:780px;
+}
+
+.posts-table th{
+    color:var(--muted);
+    font-size:10px;
+    font-weight:500;
+    text-align:right;
+    padding:14px 12px;
+    border-bottom:1px solid var(--line);
+}
+
+.posts-table td{
+    padding:12px;
+    border-bottom:1px solid var(--line);
+    font-size:11px;
+}
+
+.posts-table tr:last-child td{
+    border-bottom:0;
+}
+
+.post-row-title{
+    max-width:330px;
+    font-weight:700;
+}
+
+.post-row-desc{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.cover-mini{
+    width:55px;
+    height:42px;
+    object-fit:cover;
+    border-radius:9px;
+    background:var(--bg2);
+}
+
+.actions{
+    display:flex;
+    gap:6px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-layout{
+    display:grid;
+    grid-template-columns:1fr 360px;
+    gap:20px;
+    align-items:start;
+}
+
+.form-card{
+    padding:23px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+.form-group label{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:7px;
 }
 
 .form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
 }
 
-.full{
-  grid-column:1/-1;
-}
-
-.category-preview{
-  border:1px solid var(--border);
-  background:#111927;
-  border-radius:13px;
-  padding:14px;
-}
-
-.category-preview strong{
-  display:block;
-  margin-bottom:5px;
-}
-
-.category-preview span{
-  color:var(--muted);
-  font-size:12px;
+.form-actions{
+    display:flex;
+    gap:8px;
+    margin-top:20px;
+    flex-wrap:wrap;
 }
 
 .cover-preview{
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:#080c13;
-  display:block;
-  margin-top:10px;
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    border-radius:15px;
+    background:var(--bg2);
+    border:1px solid var(--line);
+    margin-bottom:12px;
+    display:none;
 }
 
-/* BLOCKS */
-
-.blocks{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+.file-input{
+    display:none;
 }
 
-.block{
-  background:#0a1019;
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:14px;
+.upload-box{
+    border:1px dashed rgba(0,200,255,.35);
+    background:rgba(0,200,255,.04);
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
 }
 
-.block-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:10px;
+.upload-box strong{
+    display:block;
+    font-size:12px;
+    margin-bottom:6px;
 }
 
-.block-label{
-  font-size:12px;
-  font-weight:800;
+.upload-box span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    line-height:1.8;
+    margin-bottom:12px;
 }
 
-.block textarea{
-  width:100%;
-  min-height:110px;
-  background:#0d141f;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px;
-  outline:none;
-  resize:vertical;
+.url-preview{
+    direction:ltr;
+    text-align:left;
+    word-break:break-all;
+    color:var(--accent);
+    font-size:9px;
+    margin-top:10px;
 }
 
-.block input{
-  width:100%;
-  background:#0d141f;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:11px;
-  outline:none;
+/* =========================
+   BLOCK EDITOR
+========================= */
+
+.blocks-card{
+    margin-top:20px;
 }
 
-.add-blocks{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+.blocks-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
 }
 
-/* UPLOAD */
-
-.upload-area{
-  border:1px dashed #354156;
-  border-radius:14px;
-  padding:22px;
-  text-align:center;
-  background:#0a1019;
+.blocks-head h3{
+    font-size:14px;
 }
 
-.upload-area p{
-  color:var(--muted);
-  font-size:12px;
-  margin:6px 0 15px;
+.blocks-note{
+    color:var(--muted);
+    font-size:9px;
+    line-height:1.8;
 }
 
-/* EMPTY */
+.blocks-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.block-item{
+    border:1px solid var(--line);
+    background:var(--card2);
+    border-radius:15px;
+    padding:14px;
+}
+
+.block-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+.block-number{
+    font-size:10px;
+    color:var(--muted);
+}
+
+.block-type{
+    width:auto;
+    min-width:120px;
+    padding:8px 10px;
+}
+
+.block-content{
+    min-height:100px;
+}
+
+.block-actions{
+    display:flex;
+    justify-content:flex-start;
+    gap:6px;
+    margin-top:9px;
+}
+
+/* =========================
+   MEDIA
+========================= */
+
+.media-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.media-card{
+    overflow:hidden;
+    border-radius:17px;
+    border:1px solid var(--line);
+    background:var(--card);
+}
+
+.media-card img{
+    width:100%;
+    aspect-ratio:16/10;
+    object-fit:cover;
+    display:block;
+}
+
+.media-body{
+    padding:12px;
+}
+
+.media-name{
+    font-size:10px;
+    word-break:break-all;
+    color:var(--muted);
+    line-height:1.7;
+}
+
+/* =========================
+   COMMENTS
+========================= */
+
+.comment-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.comment-item{
+    padding:16px;
+    border:1px solid var(--line);
+    background:var(--card2);
+    border-radius:16px;
+}
+
+.comment-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:9px;
+}
+
+.comment-user{
+    font-weight:800;
+    font-size:11px;
+}
+
+.comment-date{
+    color:var(--muted);
+    font-size:9px;
+}
+
+.comment-text{
+    font-size:11px;
+    color:var(--muted);
+    line-height:1.9;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.setting-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid var(--line);
+}
+
+.setting-row:last-child{
+    border-bottom:0;
+}
+
+.setting-title{
+    font-size:12px;
+    font-weight:700;
+}
+
+.setting-desc{
+    font-size:9px;
+    color:var(--muted);
+    margin-top:4px;
+    line-height:1.7;
+}
+
+.toggle{
+    width:48px;
+    height:27px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--bg2);
+    padding:3px;
+    flex:none;
+}
+
+.toggle span{
+    display:block;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    background:var(--muted);
+    transition:.2s;
+}
+
+.toggle.active{
+    background:rgba(0,200,255,.16);
+    border-color:rgba(0,200,255,.3);
+}
+
+.toggle.active span{
+    transform:translateX(-21px);
+    background:var(--accent);
+}
+
+/* =========================
+   EMPTY
+========================= */
 
 .empty{
-  padding:50px 20px;
-  text-align:center;
-  color:var(--muted);
+    padding:45px 20px;
+    text-align:center;
+    color:var(--muted);
 }
 
 .empty-icon{
-  font-size:38px;
-  margin-bottom:10px;
+    font-size:38px;
+    margin-bottom:10px;
 }
 
-/* TOAST */
-
-#toast{
-  position:fixed;
-  bottom:25px;
-  left:25px;
-  z-index:9999;
-  background:#111927;
-  border:1px solid var(--border);
-  color:white;
-  padding:13px 17px;
-  border-radius:12px;
-  box-shadow:var(--shadow);
-  transform:translateY(25px);
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-  font-size:13px;
+.empty p{
+    font-size:11px;
 }
 
-#toast.show{
-  transform:translateY(0);
-  opacity:1;
-}
+/* =========================
+   TOAST
+========================= */
 
-#toast.success{
-  border-color:rgba(34,197,94,.35);
-}
-
-#toast.error{
-  border-color:rgba(239,68,68,.35);
-}
-
-/* RESPONSIVE */
-
-@media(max-width:1000px){
-  .sidebar{
-    width:220px;
-  }
-
-  .stats-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .editor-grid{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:760px){
-
-  #app{
-    display:block;
-  }
-
-  .sidebar{
+#toastBox{
     position:fixed;
-    top:0;
-    right:-280px;
-    width:260px;
-    transition:.3s;
-    box-shadow:0 0 50px rgba(0,0,0,.5);
-  }
-
-  .sidebar.open{
-    right:0;
-  }
-
-  .mobile-menu{
-    display:block;
-    border:1px solid var(--border);
-    background:#111927;
-    color:white;
-    width:42px;
-    height:42px;
-    border-radius:11px;
-    font-size:19px;
-  }
-
-  .topbar{
-    padding:0 14px;
-  }
-
-  .top-title{
-    font-size:16px;
-  }
-
-  .admin-user{
-    display:none;
-  }
-
-  .content{
-    padding:15px;
-  }
-
-  .stats-grid{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
-  .stat{
-    padding:15px;
-  }
-
-  .stat-number{
-    font-size:23px;
-  }
-
-  .post-row{
-    align-items:flex-start;
-  }
-
-  .post-image{
-    width:65px;
-    height:50px;
-  }
-
-  .actions{
+    left:22px;
+    bottom:22px;
+    z-index:99999;
+    display:flex;
     flex-direction:column;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .full{
-    grid-column:auto;
-  }
-
-  .section-box,
-  .card{
-    padding:15px;
-  }
+    gap:8px;
 }
 
-@media(max-width:450px){
-  .login-box{
-    padding:24px 18px;
-  }
+.toast{
+    max-width:340px;
+    padding:13px 16px;
+    border-radius:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    color:var(--text);
+    font-size:11px;
+    animation:toastIn .25s ease;
+}
 
-  .stats-grid{
-    grid-template-columns:1fr 1fr;
-  }
+.toast.success{
+    border-color:rgba(32,215,164,.3);
+}
 
-  .post-title{
-    white-space:normal;
-  }
+.toast.error{
+    border-color:rgba(255,85,119,.3);
+}
 
-  .post-row{
-    flex-wrap:wrap;
-  }
+@keyframes toastIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
 
-  .actions{
-    width:100%;
-    flex-direction:row;
-  }
+/* =========================
+   MOBILE OVERLAY
+========================= */
 
-  .actions button{
-    flex:1;
-  }
+.sidebar-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:900;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1200px){
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-layout{
+        grid-template-columns:1fr;
+    }
+
+    .media-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:900px){
+
+    .sidebar{
+        transform:translateX(105%);
+        box-shadow:0 0 50px rgba(0,0,0,.35);
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .sidebar-overlay.show{
+        display:block;
+    }
+
+    .main{
+        width:100%;
+        margin-right:0;
+    }
+
+    .mobile-menu{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .topbar{
+        padding:0 18px;
+    }
+
+    .content{
+        padding:20px 16px;
+    }
+
+    .iran-clock{
+        min-width:195px;
+    }
+
+    .settings-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:650px){
+
+    .topbar{
+        height:auto;
+        min-height:70px;
+        padding:12px 14px;
+        gap:8px;
+    }
+
+    .page-title p{
+        display:none;
+    }
+
+    .page-title h1{
+        font-size:15px;
+    }
+
+    .site-btn{
+        display:none;
+    }
+
+    .iran-clock{
+        min-width:0;
+        padding:6px 9px;
+    }
+
+    .clock-icon{
+        display:none;
+    }
+
+    .clock-time{
+        font-size:13px;
+    }
+
+    .clock-date{
+        font-size:8px;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat-card{
+        min-height:105px;
+        padding:14px;
+    }
+
+    .stat-number{
+        font-size:22px;
+    }
+
+    .stat-icon{
+        width:34px;
+        height:34px;
+        font-size:15px;
+    }
+
+    .section-head{
+        align-items:flex-start;
+    }
+
+    .section-head h2{
+        font-size:18px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .media-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .quick-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .card-pad,
+    .form-card{
+        padding:16px;
+    }
+}
+
+@media(max-width:430px){
+
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .media-grid{
+        grid-template-columns:1fr;
+    }
+
+    .clock-date{
+        max-width:100px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<!-- =========================
+     LOADING
+========================= -->
 
-<div id="loginScreen">
-
-  <div class="login-box">
-
-    <div class="logo">
-      <strong>PERSIAN STARK</strong>
-      <span>پنل مدیریت سایت</span>
+<div id="loadingScreen">
+    <div class="loading-box">
+        <div class="loading-logo">PS</div>
+        <strong>PERSIAN STARK</strong>
+        <div class="spinner"></div>
     </div>
+</div>
 
-    <div class="field">
-      <label>ایمیل مدیر</label>
-      <input id="loginEmail" type="email" placeholder="admin@example.com">
+<!-- =========================
+     ACCESS DENIED
+========================= -->
+
+<div id="accessDenied">
+    <div class="access-card">
+        <div class="access-icon">🔒</div>
+        <h1>دسترسی محدود است</h1>
+        <p id="accessMessage">
+            برای ورود به پنل مدیریت باید با حساب مدیر سایت وارد شوید.
+        </p>
+        <a href="index.html?login=1" class="primary-btn"
+           style="display:inline-flex;align-items:center;justify-content:center;padding:0 22px;">
+            ورود به حساب
+        </a>
     </div>
+</div>
 
-    <div class="field">
-      <label>رمز عبور</label>
-      <input id="loginPassword" type="password" placeholder="••••••••">
-    </div>
+<!-- =========================
+     APP
+========================= -->
 
-    <button class="btn btn-primary" style="width:100%" onclick="loginAdmin()">
-      ورود به پنل
-    </button>
+<div id="app">
 
-  </div>
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-logo">PS</div>
+
+            <div class="brand-text">
+                <strong>PERSIAN STARK</strong>
+                <span>پنل مدیریت سایت</span>
+            </div>
+        </div>
+
+        <div class="nav-title">مدیریت</div>
+
+        <nav class="nav">
+
+            <button class="nav-btn active" data-section="dashboard">
+                <span class="nav-icon">⌂</span>
+                <span>داشبورد</span>
+            </button>
+
+            <button class="nav-btn" data-section="posts">
+                <span class="nav-icon">▤</span>
+                <span>مطالب سایت</span>
+            </button>
+
+            <button class="nav-btn" data-section="editor">
+                <span class="nav-icon">＋</span>
+                <span>افزودن مطلب</span>
+            </button>
+
+            <button class="nav-btn" data-section="media">
+                <span class="nav-icon">▧</span>
+                <span>تصاویر</span>
+            </button>
+
+            <button class="nav-btn" data-section="comments">
+                <span class="nav-icon">☷</span>
+                <span>نظرات کاربران</span>
+            </button>
+
+        </nav>
+
+        <div class="nav-title">سایت</div>
+
+        <nav class="nav">
+
+            <button class="nav-btn" data-section="settings">
+                <span class="nav-icon">⚙</span>
+                <span>تنظیمات</span>
+            </button>
+
+            <a href="index.html" target="_blank" class="nav-btn">
+                <span class="nav-icon">↗</span>
+                <span>مشاهده سایت</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-mini">
+                <div class="admin-mini-name" id="sidebarAdminName">
+                    مدیر سایت
+                </div>
+
+                <div class="admin-mini-role">
+                    ● مدیر PERSIAN STARK
+                </div>
+            </div>
+
+            <button class="logout-btn" id="logoutBtn">
+                خروج از حساب
+            </button>
+
+        </div>
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-right">
+
+                <button class="mobile-menu" id="mobileMenu">
+                    ☰
+                </button>
+
+                <div class="page-title">
+                    <h1 id="pageTitle">داشبورد</h1>
+                    <p id="pageSubtitle">مدیریت PERSIAN STARK</p>
+                </div>
+
+            </div>
+
+            <div class="topbar-left">
+
+                <!-- IRAN CLOCK -->
+                <div class="iran-clock">
+
+                    <div class="clock-icon">
+                        🕐
+                    </div>
+
+                    <div class="clock-info">
+
+                        <div class="clock-time" id="iranTime">
+                            --:--:--
+                        </div>
+
+                        <div class="clock-date" id="iranDate">
+                            در حال دریافت تاریخ...
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button class="icon-btn" id="themeBtn" title="تغییر حالت">
+                    ☀
+                </button>
+
+                <a href="index.html" target="_blank" class="site-btn">
+                    مشاهده سایت ↗
+                </a>
+
+            </div>
+
+        </header>
+
+        <div class="content">
+
+            <!-- =========================
+                 DASHBOARD
+            ========================= -->
+
+            <section class="section active" id="section-dashboard">
+
+                <div class="section-head">
+                    <div>
+                        <h2>خوش اومدی 👋</h2>
+                        <p>
+                            اینجا مرکز مدیریت PERSIAN STARK است.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="card stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">▤</div>
+                        </div>
+
+                        <div class="stat-number" id="statPosts">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            کل مطالب
+                        </div>
+                    </div>
+
+                    <div class="card stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">◈</div>
+                        </div>
+
+                        <div class="stat-number" id="statNews">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            اخبار گیم
+                        </div>
+                    </div>
+
+                    <div class="card stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">🎮</div>
+                        </div>
+
+                        <div class="stat-number" id="statGames">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            معرفی بازی
+                        </div>
+                    </div>
+
+                    <div class="card stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">◫</div>
+                        </div>
+
+                        <div class="stat-number" id="statSoftware">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            نرم‌افزار
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <div class="card card-pad">
+
+                        <div class="section-head" style="margin-bottom:14px;">
+                            <div>
+                                <h2 style="font-size:15px;">
+                                    آخرین مطالب
+                                </h2>
+                                <p>
+                                    جدیدترین محتواهای منتشر شده
+                                </p>
+                            </div>
+
+                            <button class="secondary-btn small-btn"
+                                    onclick="openSection('posts')">
+                                همه مطالب
+                            </button>
+                        </div>
+
+                        <div class="recent-list" id="recentPosts">
+                            <div class="empty">
+                                در حال دریافت...
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card card-pad">
+
+                        <div class="section-head" style="margin-bottom:14px;">
+                            <div>
+                                <h2 style="font-size:15px;">
+                                    دسترسی سریع
+                                </h2>
+                                <p>
+                                    کارهای پرکاربرد
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="quick-grid">
+
+                            <button class="quick-btn"
+                                    onclick="openSection('editor')">
+                                <span>＋</span>
+                                <strong>مطلب جدید</strong>
+                                <small>ایجاد محتوای جدید</small>
+                            </button>
+
+                            <button class="quick-btn"
+                                    onclick="openSection('posts')">
+                                <span>▤</span>
+                                <strong>مطالب</strong>
+                                <small>ویرایش و مدیریت</small>
+                            </button>
+
+                            <button class="quick-btn"
+                                    onclick="openSection('media')">
+                                <span>▧</span>
+                                <strong>تصاویر</strong>
+                                <small>مدیریت رسانه</small>
+                            </button>
+
+                            <button class="quick-btn"
+                                    onclick="openSection('comments')">
+                                <span>☷</span>
+                                <strong>نظرات</strong>
+                                <small>دیدن نظرات کاربران</small>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =========================
+                 POSTS
+            ========================= -->
+
+            <section class="section" id="section-posts">
+
+                <div class="section-head">
+
+                    <div>
+                        <h2>مطالب سایت</h2>
+                        <p>
+                            همه مطالب PERSIAN STARK را از اینجا مدیریت کن.
+                        </p>
+                    </div>
+
+                    <button class="primary-btn"
+                            onclick="newPost()">
+                        ＋ مطلب جدید
+                    </button>
+
+                </div>
+
+                <div class="card card-pad">
+
+                    <div class="toolbar">
+
+                        <input
+                            class="input search-box"
+                            id="postSearch"
+                            placeholder="جستجوی عنوان مطلب..."
+                        >
+
+                        <select class="select"
+                                id="postFilter"
+                                style="width:180px;">
+                            <option value="all">همه دسته‌ها</option>
+                            <option value="news">اخبار گیم</option>
+                            <option value="game">معرفی بازی</option>
+                            <option value="software">نرم‌افزار</option>
+                            <option value="store">فروشگاه CS2</option>
+                        </select>
+
+                    </div>
+
+                    <div class="posts-table-wrap">
+
+                        <table class="posts-table">
+
+                            <thead>
+                                <tr>
+                                    <th>تصویر</th>
+                                    <th>عنوان</th>
+                                    <th>دسته‌بندی</th>
+                                    <th>تاریخ</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="postsTableBody"></tbody>
+
+                        </table>
+
+                    </div>
+
+                    <div class="empty" id="postsEmpty" style="display:none;">
+                        <div class="empty-icon">▤</div>
+                        <p>هنوز مطلبی پیدا نشد.</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =========================
+                 EDITOR
+            ========================= -->
+
+            <section class="section" id="section-editor">
+
+                <div class="section-head">
+
+                    <div>
+                        <h2 id="editorTitle">
+                            افزودن مطلب جدید
+                        </h2>
+
+                        <p>
+                            این فرم مستقیماً با ساختار مطالب سایت هماهنگ است.
+                        </p>
+                    </div>
+
+                    <button class="secondary-btn"
+                            onclick="openSection('posts')">
+                        بازگشت به مطالب
+                    </button>
+
+                </div>
+
+                <div class="form-layout">
+
+                    <!-- MAIN FORM -->
+
+                    <div>
+
+                        <div class="card form-card">
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label>
+                                        عنوان مطلب *
+                                    </label>
+
+                                    <input
+                                        class="input"
+                                        id="postTitle"
+                                        placeholder="مثلاً معرفی بازی..."
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        دسته‌بندی *
+                                    </label>
+
+                                    <!-- EXACT CATEGORY VALUES -->
+                                    <select
+                                        class="select"
+                                        id="postCategory"
+                                    >
+                                        <option value="news">
+                                            اخبار گیم
+                                        </option>
+
+                                        <option value="game">
+                                            معرفی بازی
+                                        </option>
+
+                                        <option value="software">
+                                            نرم‌افزار
+                                        </option>
+
+                                        <option value="store">
+                                            فروشگاه CS2
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>
+                                    توضیح کوتاه
+                                </label>
+
+                                <textarea
+                                    class="textarea"
+                                    id="postDescription"
+                                    style="min-height:95px;"
+                                    placeholder="توضیح کوتاهی که در کارت مطلب سایت نمایش داده می‌شود..."
+                                ></textarea>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>
+                                    متن اصلی مطلب
+                                </label>
+
+                                <textarea
+                                    class="textarea"
+                                    id="postContent"
+                                    style="min-height:240px;"
+                                    placeholder="متن اصلی مطلب را اینجا بنویس..."
+                                ></textarea>
+
+                            </div>
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        لینک دانلود
+                                    </label>
+
+                                    <input
+                                        class="input"
+                                        id="postDownload"
+                                        dir="ltr"
+                                        placeholder="https://..."
+                                    >
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label>
+                                        آدرس تصویر کاور
+                                    </label>
+
+                                    <input
+                                        class="input"
+                                        id="postImageUrl"
+                                        dir="ltr"
+                                        placeholder="https://..."
+                                    >
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-actions">
+
+                                <button
+                                    class="primary-btn"
+                                    id="savePostBtn"
+                                    onclick="savePost()"
+                                >
+                                    ذخیره مطلب
+                                </button>
+
+                                <button
+                                    class="secondary-btn"
+                                    onclick="newPost()"
+                                >
+                                    پاک کردن فرم
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- BLOCKS -->
+
+                        <div class="card form-card blocks-card">
+
+                            <div class="blocks-head">
+
+                                <div>
+                                    <h3>
+                                        بخش‌های بیشتر مطلب
+                                    </h3>
+
+                                    <div class="blocks-note">
+                                        برای قرار دادن متن، تصویر یا ویدیو داخل صفحه مطلب.
+                                    </div>
+                                </div>
+
+                                <button
+                                    class="primary-btn small-btn"
+                                    onclick="addBlock()"
+                                >
+                                    ＋ افزودن بخش
+                                </button>
+
+                            </div>
+
+                            <div id="blocksList">
+
+                                <div class="empty">
+                                    <div class="empty-icon">＋</div>
+                                    <p>
+                                        برای اضافه کردن بخش، ابتدا مطلب را ذخیره کن.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- SIDE -->
+
+                    <div>
+
+                        <div class="card form-card">
+
+                            <div class="section-head"
+                                 style="margin-bottom:15px;">
+
+                                <div>
+                                    <h2 style="font-size:15px;">
+                                        تصویر کاور
+                                    </h2>
+
+                                    <p>
+                                        تصویر اصلی مطلب
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <img
+                                id="coverPreview"
+                                class="cover-preview"
+                                alt="پیش‌نمایش"
+                            >
+
+                            <div class="upload-box">
+
+                                <strong>
+                                    آپلود تصویر
+                                </strong>
+
+                                <span>
+                                    تصویر را انتخاب کن تا داخل Storage فعلی سایت آپلود شود.
+                                </span>
+
+                                <input
+                                    type="file"
+                                    id="coverFile"
+                                    class="file-input"
+                                    accept="image/*"
+                                >
+
+                                <button
+                                    class="secondary-btn"
+                                    onclick="document.getElementById('coverFile').click()"
+                                >
+                                    انتخاب تصویر
+                                </button>
+
+                            </div>
+
+                            <div
+                                class="url-preview"
+                                id="imageUrlPreview"
+                            ></div>
+
+                        </div>
+
+                        <div class="card form-card"
+                             style="margin-top:20px;">
+
+                            <h3 style="font-size:14px;margin-bottom:10px;">
+                                نکته مهم
+                            </h3>
+
+                            <p style="font-size:10px;color:var(--muted);line-height:2;">
+                                این پنل از همان جدول <b>posts</b> سایت استفاده می‌کند.
+                                بنابراین مطلبی که اینجا ذخیره می‌کنی مستقیماً در سایت نمایش داده می‌شود.
+                            </p>
+
+                            <p style="font-size:10px;color:var(--muted);line-height:2;margin-top:8px;">
+                                دسته‌بندی‌ها نیز دقیقاً با سایت هماهنگ هستند:
+                                اخبار گیم، معرفی بازی، نرم‌افزار و فروشگاه CS2.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =========================
+                 MEDIA
+            ========================= -->
+
+            <section class="section" id="section-media">
+
+                <div class="section-head">
+
+                    <div>
+                        <h2>تصاویر</h2>
+                        <p>
+                            تصاویر آپلودشده در Storage سایت.
+                        </p>
+                    </div>
+
+                    <button class="primary-btn"
+                            onclick="document.getElementById('mediaUpload').click()">
+                        ＋ آپلود تصویر
+                    </button>
+
+                    <input
+                        type="file"
+                        id="mediaUpload"
+                        class="file-input"
+                        accept="image/*"
+                        multiple
+                    >
+
+                </div>
+
+                <div class="card card-pad">
+
+                    <div class="media-grid" id="mediaGrid">
+
+                        <div class="empty">
+                            <div class="empty-icon">▧</div>
+                            <p>در حال دریافت تصاویر...</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =========================
+                 COMMENTS
+            ========================= -->
+
+            <section class="section" id="section-comments">
+
+                <div class="section-head">
+
+                    <div>
+                        <h2>نظرات کاربران</h2>
+                        <p>
+                            نظرات ثبت‌شده روی مطالب سایت.
+                        </p>
+                    </div>
+
+                    <button class="secondary-btn"
+                            onclick="loadComments()">
+                        بروزرسانی
+                    </button>
+
+                </div>
+
+                <div class="card card-pad">
+
+                    <div class="comment-list" id="commentsList">
+
+                        <div class="empty">
+                            <div class="empty-icon">☷</div>
+                            <p>در حال دریافت نظرات...</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =========================
+                 SETTINGS
+            ========================= -->
+
+            <section class="section" id="section-settings">
+
+                <div class="section-head">
+
+                    <div>
+                        <h2>تنظیمات پنل</h2>
+                        <p>
+                            تنظیمات ظاهری پنل مدیریت.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="settings-grid">
+
+                    <div class="card card-pad">
+
+                        <h3 style="font-size:14px;margin-bottom:4px;">
+                            ظاهر پنل
+                        </h3>
+
+                        <p style="font-size:10px;color:var(--muted);margin-bottom:10px;">
+                            تنظیمات این بخش روی پنل مدیریت اعمال می‌شود.
+                        </p>
+
+                        <div class="setting-row">
+
+                            <div>
+                                <div class="setting-title">
+                                    حالت تاریک
+                                </div>
+
+                                <div class="setting-desc">
+                                    استفاده از ظاهر تیره PERSIAN STARK
+                                </div>
+                            </div>
+
+                            <button
+                                class="toggle"
+                                id="darkToggle"
+                                onclick="toggleDarkSetting()"
+                            >
+                                <span></span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card card-pad">
+
+                        <h3 style="font-size:14px;margin-bottom:4px;">
+                            اطلاعات پنل
+                        </h3>
+
+                        <p style="font-size:10px;color:var(--muted);line-height:2;">
+                            پنل مدیریت PERSIAN STARK
+                            <br>
+                            متصل به Supabase
+                            <br>
+                            نسخه مدیریت: 2.0
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
 
 </div>
 
-
-<!-- APP -->
-
-<div id="app" class="hidden">
-
-  <!-- SIDEBAR -->
-
-  <aside class="sidebar" id="sidebar">
-
-    <div class="brand">
-      <div class="brand-title">PERSIAN STARK</div>
-      <div class="brand-sub">CONTROL PANEL</div>
-    </div>
-
-    <div class="menu-title">مدیریت</div>
-
-    <button class="nav-btn active" data-page="dashboard" onclick="showPage('dashboard')">
-      <span class="nav-icon">⌂</span>
-      داشبورد
-    </button>
-
-    <button class="nav-btn" data-page="posts" onclick="showPage('posts')">
-      <span class="nav-icon">▤</span>
-      مطالب سایت
-    </button>
-
-    <button class="nav-btn" data-page="editor" onclick="newPost()">
-      <span class="nav-icon">＋</span>
-      مطلب جدید
-    </button>
-
-    <div class="menu-title">دسته‌ها</div>
-
-    <button class="nav-btn" data-page="news" onclick="showCategory('news')">
-      <span class="nav-icon">◈</span>
-      اخبار گیم
-    </button>
-
-    <button class="nav-btn" data-page="game" onclick="showCategory('game')">
-      <span class="nav-icon">◉</span>
-      معرفی بازی
-    </button>
-
-    <button class="nav-btn" data-page="software" onclick="showCategory('software')">
-      <span class="nav-icon">▣</span>
-      نرم‌افزار
-    </button>
-
-    <button class="nav-btn" data-page="store" onclick="showCategory('store')">
-      <span class="nav-icon">◇</span>
-      فروشگاه CS2
-    </button>
-
-    <div class="sidebar-bottom">
-
-      <button class="nav-btn" onclick="openSite()">
-        <span class="nav-icon">↗</span>
-        مشاهده سایت
-      </button>
-
-      <button class="nav-btn" onclick="logoutAdmin()">
-        <span class="nav-icon">⇥</span>
-        خروج
-      </button>
-
-    </div>
-
-  </aside>
-
-
-  <!-- MAIN -->
-
-  <main class="main">
-
-    <header class="topbar">
-
-      <div class="top-right">
-        <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
-        <div class="top-title" id="pageTitle">داشبورد</div>
-      </div>
-
-      <div class="admin-user" id="adminUser">
-        مدیر سایت
-      </div>
-
-    </header>
-
-    <div class="content" id="content"></div>
-
-  </main>
-
 </div>
 
-
-<div id="toast"></div>
-
+<div id="toastBox"></div>
 
 <script>
-
 /* =========================================================
    SUPABASE
 ========================================================= */
 
 const SUPABASE_URL =
-"https://jmdoxofcyoxdrtxvvuiu.supabase.co";
+    "https://jmdoxofcyoxdrtxvvuiu.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
+    "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
 
 const { createClient } = supabase;
 
 const db = createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY,
-  {
-    auth:{
-      persistSession:true,
-      autoRefreshToken:true,
-      detectSessionInUrl:true,
-      storageKey:"persian-stark-admin-auth"
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+        auth:{
+            persistSession:true,
+            autoRefreshToken:true,
+            detectSessionInUrl:true,
+            storageKey:"persian-stark-auth"
+        }
     }
-  }
 );
 
 
@@ -952,9 +2247,28 @@ const db = createClient(
 ========================================================= */
 
 let currentUser = null;
+let currentProfile = null;
+
 let posts = [];
-let editingPostId = null;
+let currentPostId = null;
+
 let blocks = [];
+
+let currentSection = "dashboard";
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loadingScreen =
+    document.getElementById("loadingScreen");
+
+const accessDenied =
+    document.getElementById("accessDenied");
+
+const app =
+    document.getElementById("app");
 
 
 /* =========================================================
@@ -963,223 +2277,531 @@ let blocks = [];
 
 function toast(message,type="success"){
 
-  const el = document.getElementById("toast");
+    const box =
+        document.getElementById("toastBox");
 
-  el.textContent = message;
+    const el =
+        document.createElement("div");
 
-  el.className = "";
-  el.id = "toast";
-  el.classList.add("show",type);
+    el.className =
+        "toast " + type;
 
-  setTimeout(()=>{
-    el.classList.remove("show");
-  },3000);
+    el.textContent =
+        message;
+
+    box.appendChild(el);
+
+    setTimeout(()=>{
+        el.remove();
+    },3500);
 }
 
 
 /* =========================================================
-   AUTH
+   THEME
 ========================================================= */
 
-async function checkAuth(){
+function applyTheme(){
 
-  const {
-    data:{session}
-  } = await db.auth.getSession();
+    const theme =
+        localStorage.getItem(
+            "persian-stark-theme"
+        ) || "dark";
 
-  if(!session){
-    showLogin();
-    return;
-  }
+    if(theme === "light"){
 
-  const user = session.user;
+        document.documentElement
+            .classList.add("light");
 
-  const {
-    data:profile,
-    error
-  } = await db
-    .from("profiles")
-    .select("id,username,is_admin")
-    .eq("id",user.id)
-    .maybeSingle();
+        document.getElementById("themeBtn")
+            .textContent = "☾";
 
-  if(error){
-    console.error(error);
-    showLogin();
-    toast("خطا در بررسی حساب مدیر","error");
-    return;
-  }
+        document.getElementById("darkToggle")
+            ?.classList.remove("active");
 
-  if(!profile || profile.is_admin !== true){
+    }else{
 
-    await db.auth.signOut();
+        document.documentElement
+            .classList.remove("light");
 
-    showLogin();
+        document.getElementById("themeBtn")
+            .textContent = "☀";
 
-    toast("این حساب دسترسی مدیر ندارد","error");
-
-    return;
-  }
-
-  currentUser = user;
-
-  document.getElementById("adminUser").textContent =
-    profile.username || user.email;
-
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-
-  await loadPosts();
-
-  showPage("dashboard");
+        document.getElementById("darkToggle")
+            ?.classList.add("active");
+    }
 }
 
 
-db.auth.onAuthStateChange((event,session)=>{
+document.getElementById("themeBtn")
+    .addEventListener("click",()=>{
 
-  if(event === "SIGNED_OUT"){
+        const light =
+            document.documentElement
+                .classList.contains("light");
 
-    currentUser = null;
+        localStorage.setItem(
+            "persian-stark-theme",
+            light ? "dark" : "light"
+        );
 
-    showLogin();
-  }
-
-});
-
-
-async function loginAdmin(){
-
-  const email =
-    document.getElementById("loginEmail").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
-
-  if(!email || !password){
-
-    toast("ایمیل و رمز عبور را وارد کن","error");
-
-    return;
-  }
-
-  const {
-    data,
-    error
-  } = await db.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if(error){
-
-    toast(error.message,"error");
-
-    return;
-  }
-
-  currentUser = data.user;
-
-  await checkAuth();
-}
+        applyTheme();
+    });
 
 
-async function logoutAdmin(){
+function toggleDarkSetting(){
 
-  await db.auth.signOut();
+    const light =
+        document.documentElement
+            .classList.contains("light");
 
-  showLogin();
+    localStorage.setItem(
+        "persian-stark-theme",
+        light ? "dark" : "light"
+    );
 
-  toast("از پنل خارج شدی");
-}
-
-
-function showLogin(){
-
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("loginScreen").classList.remove("hidden");
+    applyTheme();
 }
 
 
 /* =========================================================
-   POSTS
+   IRAN CLOCK + PERSIAN CALENDAR
+========================================================= */
+
+function updateIranClock(){
+
+    const now =
+        new Date();
+
+    const iranFormatter =
+        new Intl.DateTimeFormat(
+            "fa-IR-u-ca-persian",
+            {
+                timeZone:"Asia/Tehran",
+                weekday:"long",
+                year:"numeric",
+                month:"long",
+                day:"numeric"
+            }
+        );
+
+    const timeFormatter =
+        new Intl.DateTimeFormat(
+            "fa-IR",
+            {
+                timeZone:"Asia/Tehran",
+                hour:"2-digit",
+                minute:"2-digit",
+                second:"2-digit",
+                hour12:false
+            }
+        );
+
+    document.getElementById("iranTime")
+        .textContent =
+        timeFormatter.format(now);
+
+    document.getElementById("iranDate")
+        .textContent =
+        iranFormatter.format(now);
+}
+
+updateIranClock();
+
+setInterval(
+    updateIranClock,
+    1000
+);
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const sectionNames = {
+
+    dashboard:{
+        title:"داشبورد",
+        subtitle:"مدیریت PERSIAN STARK"
+    },
+
+    posts:{
+        title:"مطالب سایت",
+        subtitle:"مدیریت اخبار، بازی‌ها و نرم‌افزارها"
+    },
+
+    editor:{
+        title:"ویرایشگر مطلب",
+        subtitle:"ایجاد و ویرایش محتوای سایت"
+    },
+
+    media:{
+        title:"تصاویر",
+        subtitle:"مدیریت تصاویر سایت"
+    },
+
+    comments:{
+        title:"نظرات کاربران",
+        subtitle:"مشاهده نظرات ثبت‌شده"
+    },
+
+    settings:{
+        title:"تنظیمات",
+        subtitle:"تنظیمات پنل مدیریت"
+    }
+
+};
+
+
+document.querySelectorAll(".nav-btn[data-section]")
+    .forEach(btn=>{
+
+        btn.addEventListener("click",()=>{
+
+            openSection(
+                btn.dataset.section
+            );
+
+            closeSidebar();
+        });
+
+    });
+
+
+function openSection(section){
+
+    currentSection = section;
+
+    document.querySelectorAll(".section")
+        .forEach(el=>{
+            el.classList.remove("active");
+        });
+
+    const target =
+        document.getElementById(
+            "section-" + section
+        );
+
+    if(target){
+        target.classList.add("active");
+    }
+
+    document.querySelectorAll(
+        ".nav-btn[data-section]"
+    ).forEach(btn=>{
+
+        btn.classList.toggle(
+            "active",
+            btn.dataset.section === section
+        );
+
+    });
+
+    const info =
+        sectionNames[section];
+
+    if(info){
+
+        document.getElementById("pageTitle")
+            .textContent = info.title;
+
+        document.getElementById("pageSubtitle")
+            .textContent = info.subtitle;
+    }
+
+    if(section === "posts"){
+        renderPosts();
+    }
+
+    if(section === "media"){
+        loadMedia();
+    }
+
+    if(section === "comments"){
+        loadComments();
+    }
+
+    if(section === "dashboard"){
+        loadDashboard();
+    }
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+document.getElementById("mobileMenu")
+    .addEventListener("click",()=>{
+
+        document.getElementById("sidebar")
+            .classList.add("open");
+
+        document.getElementById("sidebarOverlay")
+            .classList.add("show");
+
+    });
+
+
+document.getElementById("sidebarOverlay")
+    .addEventListener("click",closeSidebar);
+
+
+function closeSidebar(){
+
+    document.getElementById("sidebar")
+        .classList.remove("open");
+
+    document.getElementById("sidebarOverlay")
+        .classList.remove("show");
+}
+
+
+/* =========================================================
+   AUTH / ADMIN CHECK
+========================================================= */
+
+async function init(){
+
+    applyTheme();
+
+    try{
+
+        const {
+            data:{
+                session
+            }
+        } = await db.auth.getSession();
+
+        if(!session){
+
+            showDenied(
+                "برای ورود به پنل مدیریت، ابتدا وارد حساب کاربری خود شوید."
+            );
+
+            return;
+        }
+
+        currentUser =
+            session.user;
+
+        const {
+            data:profile,
+            error
+        } = await db
+            .from("profiles")
+            .select(
+                "id,username,is_admin"
+            )
+            .eq(
+                "id",
+                currentUser.id
+            )
+            .maybeSingle();
+
+        if(error){
+
+            console.error(error);
+
+            showDenied(
+                "خطا در دریافت اطلاعات حساب مدیر."
+            );
+
+            return;
+        }
+
+        if(!profile || profile.is_admin !== true){
+
+            showDenied(
+                "این حساب دسترسی مدیر سایت را ندارد."
+            );
+
+            return;
+        }
+
+        currentProfile =
+            profile;
+
+        document.getElementById(
+            "sidebarAdminName"
+        ).textContent =
+            profile.username ||
+            currentUser.email ||
+            "مدیر سایت";
+
+        loadingScreen.style.display =
+            "none";
+
+        app.style.display =
+            "block";
+
+        await loadDashboard();
+
+    }catch(error){
+
+        console.error(error);
+
+        showDenied(
+            "خطایی هنگام اتصال به پنل رخ داد."
+        );
+
+    }
+
+}
+
+
+function showDenied(message){
+
+    loadingScreen.style.display =
+        "none";
+
+    app.style.display =
+        "none";
+
+    accessDenied.style.display =
+        "flex";
+
+    document.getElementById(
+        "accessMessage"
+    ).textContent = message;
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+db.auth.onAuthStateChange(
+    async(event,session)=>{
+
+        if(event === "SIGNED_OUT"){
+
+            window.location.href =
+                "index.html?login=1";
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document.getElementById("logoutBtn")
+    .addEventListener("click",async()=>{
+
+        const {
+            error
+        } = await db.auth.signOut();
+
+        if(error){
+
+            toast(
+                "خروج انجام نشد.",
+                "error"
+            );
+
+            return;
+        }
+
+        window.location.href =
+            "index.html";
+
+    });
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+function categoryLabel(category){
+
+    const map = {
+
+        news:"اخبار گیم",
+
+        game:"معرفی بازی",
+
+        software:"نرم‌افزار",
+
+        store:"فروشگاه CS2"
+
+    };
+
+    return map[category] || "بدون دسته";
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(date){
+
+    if(!date){
+        return "—";
+    }
+
+    try{
+
+        return new Intl.DateTimeFormat(
+            "fa-IR-u-ca-persian",
+            {
+                year:"numeric",
+                month:"short",
+                day:"numeric"
+            }
+        ).format(
+            new Date(date)
+        );
+
+    }catch{
+
+        return new Date(date)
+            .toLocaleDateString("fa-IR");
+    }
+}
+
+
+/* =========================================================
+   LOAD POSTS
 ========================================================= */
 
 async function loadPosts(){
 
-  const {
-    data,
-    error
-  } = await db
-    .from("posts")
-    .select("*")
-    .order("created_at",{ascending:false});
+    const {
+        data,
+        error
+    } = await db
+        .from("posts")
+        .select(
+            "id,title,description,content,image_url,download_url,category,created_at"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
 
-  if(error){
+    if(error){
 
-    console.error(error);
+        console.error(error);
 
-    toast("خطا در دریافت مطالب","error");
+        toast(
+            "دریافت مطالب انجام نشد.",
+            "error"
+        );
 
-    return;
-  }
+        return [];
 
-  posts = data || [];
-}
+    }
 
+    posts =
+        data || [];
 
-/* =========================================================
-   PAGE SYSTEM
-========================================================= */
-
-function setActive(page){
-
-  document
-    .querySelectorAll(".nav-btn[data-page]")
-    .forEach(btn=>{
-      btn.classList.toggle(
-        "active",
-        btn.dataset.page === page
-      );
-    });
-}
-
-
-function pageTitle(title){
-
-  document.getElementById("pageTitle").textContent = title;
-}
-
-
-function showPage(page){
-
-  closeSidebar();
-
-  setActive(page);
-
-  if(page === "dashboard"){
-    renderDashboard();
-    return;
-  }
-
-  if(page === "posts"){
-    renderPostsPage();
-    return;
-  }
-
-  if(page === "editor"){
-    renderEditor();
-    return;
-  }
-}
-
-
-function showCategory(category){
-
-  closeSidebar();
-
-  setActive(category);
-
-  renderPostsPage(category);
+    return posts;
 }
 
 
@@ -1187,843 +2809,462 @@ function showCategory(category){
    DASHBOARD
 ========================================================= */
 
-async function renderDashboard(){
+async function loadDashboard(){
 
-  pageTitle("داشبورد");
+    await loadPosts();
 
-  const news =
-    posts.filter(p=>p.category==="news").length;
+    const total =
+        posts.length;
 
-  const games =
-    posts.filter(p=>p.category==="game").length;
+    const news =
+        posts.filter(
+            p=>p.category==="news"
+        ).length;
 
-  const software =
-    posts.filter(p=>p.category==="software").length;
+    const games =
+        posts.filter(
+            p=>p.category==="game"
+        ).length;
 
-  const store =
-    posts.filter(p=>p.category==="store").length;
+    const software =
+        posts.filter(
+            p=>p.category==="software"
+        ).length;
 
-  document.getElementById("content").innerHTML = `
+    document.getElementById(
+        "statPosts"
+    ).textContent = total;
 
-    <div class="stats-grid">
+    document.getElementById(
+        "statNews"
+    ).textContent = news;
 
-      <div class="stat">
-        <div class="stat-label">کل مطالب</div>
-        <div class="stat-number">${posts.length}</div>
-      </div>
+    document.getElementById(
+        "statGames"
+    ).textContent = games;
 
-      <div class="stat">
-        <div class="stat-label">اخبار گیم</div>
-        <div class="stat-number">${news}</div>
-      </div>
+    document.getElementById(
+        "statSoftware"
+    ).textContent = software;
 
-      <div class="stat">
-        <div class="stat-label">معرفی بازی</div>
-        <div class="stat-number">${games}</div>
-      </div>
+    renderRecentPosts();
 
-      <div class="stat">
-        <div class="stat-label">نرم‌افزار</div>
-        <div class="stat-number">${software}</div>
-      </div>
-
-    </div>
-
-
-    <div class="section-box">
-
-      <div class="section-head">
-
-        <div>
-          <h2>مدیریت سریع</h2>
-          <p>از اینجا محتوای جدید سایت را بساز</p>
-        </div>
-
-        <button class="btn btn-primary" onclick="newPost()">
-          ＋ مطلب جدید
-        </button>
-
-      </div>
-
-
-      <div class="stats-grid">
-
-        <div class="stat" style="cursor:pointer" onclick="showCategory('news')">
-          <div class="stat-label">اخبار گیم</div>
-          <div class="stat-number">${news}</div>
-        </div>
-
-        <div class="stat" style="cursor:pointer" onclick="showCategory('game')">
-          <div class="stat-label">معرفی بازی</div>
-          <div class="stat-number">${games}</div>
-        </div>
-
-        <div class="stat" style="cursor:pointer" onclick="showCategory('software')">
-          <div class="stat-label">نرم‌افزار</div>
-          <div class="stat-number">${software}</div>
-        </div>
-
-        <div class="stat" style="cursor:pointer" onclick="showCategory('store')">
-          <div class="stat-label">فروشگاه CS2</div>
-          <div class="stat-number">${store}</div>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="section-box">
-
-      <div class="section-head">
-
-        <div>
-          <h2>آخرین مطالب</h2>
-          <p>آخرین محتوایی که در سایت ثبت شده</p>
-        </div>
-
-        <button class="btn btn-dark" onclick="showPage('posts')">
-          مشاهده همه
-        </button>
-
-      </div>
-
-      <div id="dashboardPosts"></div>
-
-    </div>
-  `;
-
-  renderSmallPosts();
-}
-
-
-function renderSmallPosts(){
-
-  const box =
-    document.getElementById("dashboardPosts");
-
-  const latest =
-    posts.slice(0,5);
-
-  if(!latest.length){
-
-    box.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">▤</div>
-        هنوز مطلبی ساخته نشده
-      </div>
-    `;
-
-    return;
-  }
-
-  box.innerHTML =
-    latest.map(postRowHTML).join("");
 }
 
 
 /* =========================================================
-   POSTS PAGE
+   RECENT POSTS
 ========================================================= */
 
-function renderPostsPage(filter=null){
+function renderRecentPosts(){
 
-  const titles = {
-    news:"اخبار گیم",
-    game:"معرفی بازی",
-    software:"نرم‌افزار",
-    store:"فروشگاه CS2"
-  };
+    const box =
+        document.getElementById(
+            "recentPosts"
+        );
 
-  pageTitle(
-    filter ? titles[filter] : "مطالب سایت"
-  );
+    if(!posts.length){
 
-  let list = filter
-    ? posts.filter(p=>p.category===filter)
-    : posts;
+        box.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">▤</div>
+                <p>هنوز مطلبی منتشر نشده.</p>
+            </div>
+        `;
 
-  document.getElementById("content").innerHTML = `
+        return;
+    }
 
-    <div class="section-box">
+    box.innerHTML =
+        posts.slice(0,6)
+        .map(post=>`
 
-      <div class="section-head">
+            <div class="recent-item">
 
-        <div>
-          <h2>
-            ${filter ? titles[filter] : "همه مطالب"}
-          </h2>
+                <img
+                    class="recent-image"
+                    src="${escapeAttr(
+                        post.image_url ||
+                        ""
+                    )}"
+                    onerror="this.style.display='none'"
+                >
 
-          <p>
-            ${list.length} مطلب
-          </p>
-        </div>
+                <div class="recent-info">
 
-        <button class="btn btn-primary" onclick="newPost()">
-          ＋ مطلب جدید
-        </button>
+                    <div class="recent-title">
+                        ${escapeHtml(
+                            post.title ||
+                            "بدون عنوان"
+                        )}
+                    </div>
 
-      </div>
+                    <div class="recent-meta">
 
+                        ${escapeHtml(
+                            categoryLabel(
+                                post.category
+                            )
+                        )}
 
-      <div class="toolbar">
+                        ·
 
-        <select id="categoryFilter" onchange="applyFilter()">
+                        ${formatDate(
+                            post.created_at
+                        )}
 
-          <option value="">همه دسته‌ها</option>
+                    </div>
 
-          <option value="news"
-            ${filter==="news"?"selected":""}>
-            اخبار گیم
-          </option>
+                </div>
 
-          <option value="game"
-            ${filter==="game"?"selected":""}>
-            معرفی بازی
-          </option>
+                <span class="category-badge">
+                    ${escapeHtml(
+                        categoryLabel(
+                            post.category
+                        )
+                    )}
+                </span>
 
-          <option value="software"
-            ${filter==="software"?"selected":""}>
-            نرم‌افزار
-          </option>
+            </div>
 
-          <option value="store"
-            ${filter==="store"?"selected":""}>
-            فروشگاه CS2
-          </option>
+        `)
+        .join("");
 
-        </select>
-
-        <input
-          id="searchPosts"
-          placeholder="جستجو بین مطالب..."
-          oninput="applyFilter()"
-        >
-
-      </div>
-
-
-      <div class="posts-list" id="postsList">
-
-        ${
-          list.length
-          ? list.map(postRowHTML).join("")
-          : emptyPostsHTML()
-        }
-
-      </div>
-
-    </div>
-  `;
-}
-
-
-function applyFilter(){
-
-  const category =
-    document.getElementById("categoryFilter").value;
-
-  const query =
-    document.getElementById("searchPosts").value
-      .trim()
-      .toLowerCase();
-
-  let list = category
-    ? posts.filter(p=>p.category===category)
-    : [...posts];
-
-  if(query){
-
-    list =
-      list.filter(p=>
-        (p.title||"").toLowerCase().includes(query) ||
-        (p.description||"").toLowerCase().includes(query)
-      );
-  }
-
-  document.getElementById("postsList").innerHTML =
-    list.length
-    ? list.map(postRowHTML).join("")
-    : emptyPostsHTML();
-}
-
-
-function emptyPostsHTML(){
-
-  return `
-    <div class="empty">
-      <div class="empty-icon">⌁</div>
-      مطلبی پیدا نشد
-    </div>
-  `;
-}
-
-
-function postRowHTML(post){
-
-  const cat = post.category || "news";
-
-  const categoryNames = {
-    news:"اخبار گیم",
-    game:"معرفی بازی",
-    software:"نرم‌افزار",
-    store:"فروشگاه CS2"
-  };
-
-  const categoryClass = {
-    news:"badge-news",
-    game:"badge-game",
-    software:"badge-software",
-    store:"badge-store"
-  };
-
-  return `
-
-    <div class="post-row">
-
-      <img
-        class="post-image"
-        src="${escapeHTML(post.image_url || "")}"
-        onerror="this.style.visibility='hidden'"
-      >
-
-      <div class="post-info">
-
-        <div class="post-title">
-          ${escapeHTML(post.title || "بدون عنوان")}
-        </div>
-
-        <div class="post-meta">
-
-          <span class="badge ${categoryClass[cat] || "badge-news"}">
-            ${categoryNames[cat] || cat}
-          </span>
-
-          <span style="color:#68758a;font-size:10px">
-            ${formatDate(post.created_at)}
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="actions">
-
-        <button
-          class="small-btn"
-          onclick="editPost('${post.id}')">
-          ویرایش
-        </button>
-
-        <button
-          class="small-btn"
-          onclick="deletePost('${post.id}')">
-          حذف
-        </button>
-
-      </div>
-
-    </div>
-  `;
 }
 
 
 /* =========================================================
-   EDITOR
+   POSTS TABLE
+========================================================= */
+
+document.getElementById("postSearch")
+    .addEventListener("input",renderPosts);
+
+document.getElementById("postFilter")
+    .addEventListener("change",renderPosts);
+
+
+async function renderPosts(){
+
+    if(!posts.length){
+        await loadPosts();
+    }
+
+    const search =
+        (
+            document.getElementById(
+                "postSearch"
+            ).value || ""
+        )
+        .trim()
+        .toLowerCase();
+
+    const filter =
+        document.getElementById(
+            "postFilter"
+        ).value;
+
+    const filtered =
+        posts.filter(post=>{
+
+            const title =
+                (
+                    post.title || ""
+                ).toLowerCase();
+
+            const matchSearch =
+                !search ||
+                title.includes(search);
+
+            const matchCategory =
+                filter === "all" ||
+                post.category === filter;
+
+            return matchSearch &&
+                   matchCategory;
+
+        });
+
+    const tbody =
+        document.getElementById(
+            "postsTableBody"
+        );
+
+    const empty =
+        document.getElementById(
+            "postsEmpty"
+        );
+
+    if(!filtered.length){
+
+        tbody.innerHTML = "";
+
+        empty.style.display =
+            "block";
+
+        return;
+    }
+
+    empty.style.display =
+        "none";
+
+    tbody.innerHTML =
+        filtered.map(post=>`
+
+            <tr>
+
+                <td>
+                    ${
+                        post.image_url
+                        ?
+                        `
+                        <img
+                            class="cover-mini"
+                            src="${escapeAttr(
+                                post.image_url
+                            )}"
+                            onerror="this.style.visibility='hidden'"
+                        >
+                        `
+                        :
+                        `
+                        <div class="cover-mini"></div>
+                        `
+                    }
+                </td>
+
+                <td>
+
+                    <div class="post-row-title">
+                        ${escapeHtml(
+                            post.title ||
+                            "بدون عنوان"
+                        )}
+                    </div>
+
+                    <div class="post-row-desc">
+                        ${escapeHtml(
+                            post.description ||
+                            ""
+                        )}
+                    </div>
+
+                </td>
+
+                <td>
+
+                    <span class="category-badge">
+                        ${escapeHtml(
+                            categoryLabel(
+                                post.category
+                            )
+                        )}
+                    </span>
+
+                </td>
+
+                <td>
+                    ${formatDate(
+                        post.created_at
+                    )}
+                </td>
+
+                <td>
+
+                    <div class="actions">
+
+                        <button
+                            class="secondary-btn small-btn"
+                            onclick="editPost(${post.id})"
+                        >
+                            ویرایش
+                        </button>
+
+                        <button
+                            class="secondary-btn small-btn"
+                            onclick="viewPost(${post.id})"
+                        >
+                            مشاهده
+                        </button>
+
+                        <button
+                            class="danger-btn small-btn"
+                            onclick="deletePost(${post.id})"
+                        >
+                            حذف
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `).join("");
+
+}
+
+
+/* =========================================================
+   NEW POST
 ========================================================= */
 
 function newPost(){
 
-  editingPostId = null;
-  blocks = [];
+    currentPostId = null;
 
-  closeSidebar();
+    document.getElementById(
+        "editorTitle"
+    ).textContent =
+        "افزودن مطلب جدید";
 
-  setActive("editor");
+    document.getElementById(
+        "savePostBtn"
+    ).textContent =
+        "ذخیره مطلب";
 
-  renderEditor();
+    document.getElementById(
+        "postTitle"
+    ).value = "";
+
+    document.getElementById(
+        "postDescription"
+    ).value = "";
+
+    document.getElementById(
+        "postContent"
+    ).value = "";
+
+    document.getElementById(
+        "postDownload"
+    ).value = "";
+
+    document.getElementById(
+        "postImageUrl"
+    ).value = "";
+
+    document.getElementById(
+        "postCategory"
+    ).value = "news";
+
+    document.getElementById(
+        "coverPreview"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "coverPreview"
+    ).src = "";
+
+    document.getElementById(
+        "imageUrlPreview"
+    ).textContent = "";
+
+    blocks = [];
+
+    renderBlocks();
+
+    openSection("editor");
 }
 
+
+/* =========================================================
+   EDIT POST
+========================================================= */
 
 async function editPost(id){
 
-  const post =
-    posts.find(p=>String(p.id)===String(id));
-
-  if(!post) return;
-
-  editingPostId = id;
-
-  const {
-    data,
-    error
-  } = await db
-    .from("post_blocks")
-    .select("*")
-    .eq("post_id",id)
-    .order("sort_order",{ascending:true});
-
-  if(error){
-
-    console.error(error);
-
-    toast("خطا در دریافت بلوک‌های مقاله","error");
-
-    return;
-  }
-
-  blocks = data || [];
-
-  setActive("editor");
-
-  renderEditor(post);
-}
-
-
-function renderEditor(post=null){
-
-  pageTitle(
-    post
-      ? "ویرایش مطلب"
-      : "ساخت مطلب جدید"
-  );
-
-  const category =
-    post?.category || "news";
-
-  document.getElementById("content").innerHTML = `
-
-    <div class="editor-grid">
-
-      <div class="editor-main">
-
-        <div class="card">
-
-          <h3>
-            ${post ? "ویرایش اطلاعات مطلب" : "اطلاعات اصلی مطلب"}
-          </h3>
-
-
-          <div class="form-grid">
-
-            <div class="field full">
-
-              <label>عنوان مطلب</label>
-
-              <input
-                id="postTitle"
-                value="${escapeAttr(post?.title || "")}"
-                placeholder="مثلاً بررسی بازی جدید..."
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>دسته‌بندی</label>
-
-              <select id="postCategory"
-                onchange="updateCategoryPreview()">
-
-                <option value="news"
-                  ${category==="news"?"selected":""}>
-                  اخبار گیم
-                </option>
-
-                <option value="game"
-                  ${category==="game"?"selected":""}>
-                  معرفی بازی
-                </option>
-
-                <option value="software"
-                  ${category==="software"?"selected":""}>
-                  نرم‌افزار
-                </option>
-
-                <option value="store"
-                  ${category==="store"?"selected":""}>
-                  فروشگاه CS2
-                </option>
-
-              </select>
-
-            </div>
-
-
-            <div class="field">
-
-              <label>لینک دانلود</label>
-
-              <input
-                id="postDownload"
-                value="${escapeAttr(post?.download_url || "")}"
-                placeholder="https://..."
-              >
-
-            </div>
-
-
-            <div class="field full">
-
-              <label>توضیح کوتاه</label>
-
-              <textarea
-                id="postDescription"
-                placeholder="توضیحی که روی کارت مطلب نمایش داده می‌شود..."
-              >${escapeHTML(post?.description || "")}</textarea>
-
-            </div>
-
-
-            <div class="field full">
-
-              <label>تصویر اصلی مطلب</label>
-
-              <input
-                id="postImage"
-                value="${escapeAttr(post?.image_url || "")}"
-                placeholder="لینک تصویر یا از آپلودر پایین استفاده کن"
-                oninput="updateCoverPreview()"
-              >
-
-              <img
-                id="coverPreview"
-                class="cover-preview"
-                src="${escapeAttr(post?.image_url || "")}"
-                onerror="this.style.display='none'"
-                ${post?.image_url ? "" : "style='display:none'"}
-              >
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>متن اصلی</h3>
-
-          <div class="field">
-
-            <textarea
-              id="postContent"
-              style="min-height:260px"
-              placeholder="متن اصلی مطلب را اینجا بنویس..."
-            >${escapeHTML(post?.content || "")}</textarea>
-
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="section-head">
-
-            <div>
-              <h3 style="margin:0">
-                محتوای مقاله
-              </h3>
-
-              <p>
-                می‌توانی متن، عکس و ویدیو را به ترتیب دلخواه بچینی.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="add-blocks">
-
-            <button
-              class="btn btn-dark"
-              onclick="addBlock('text')">
-              ＋ متن
-            </button>
-
-            <button
-              class="btn btn-dark"
-              onclick="addBlock('image')">
-              ＋ تصویر
-            </button>
-
-            <button
-              class="btn btn-dark"
-              onclick="addBlock('video')">
-              ＋ ویدیو
-            </button>
-
-          </div>
-
-
-          <div
-            class="blocks"
-            id="blocksContainer"
-            style="margin-top:15px">
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-
-            <button
-              class="btn btn-primary"
-              onclick="savePost()">
-              ${post ? "ذخیره تغییرات" : "انتشار مطلب"}
-            </button>
-
-            <button
-              class="btn btn-dark"
-              onclick="showPage('posts')">
-              انصراف
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="editor-side">
-
-        <div class="card">
-
-          <h3>مقصد مطلب</h3>
-
-          <div
-            id="categoryPreview"
-            class="category-preview">
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>آپلود تصویر</h3>
-
-          <div class="upload-area">
-
-            <div style="font-size:30px">
-              ⬆
-            </div>
-
-            <p>
-              تصویر را انتخاب کن تا داخل Storage آپلود شود.
-            </p>
-
-            <input
-              type="file"
-              id="imageUpload"
-              accept="image/*"
-              onchange="uploadImage()"
-            >
-
-            <div
-              id="uploadStatus"
-              style="font-size:11px;margin-top:10px">
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>نکته</h3>
-
-          <p style="color:#8d99ab;font-size:12px;line-height:2">
-
-            دسته‌بندی را همینجا انتخاب کن.
-            <br><br>
-
-            مثلاً اگر «نرم‌افزار» را انتخاب کنی،
-            مطلب در صفحه نرم‌افزار سایت نمایش داده می‌شود.
-
-            <br><br>
-
-            دیگر لازم نیست برای هر نرم‌افزار صفحه جدا بسازی.
-
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
-
-  renderBlocks();
-  updateCategoryPreview();
-}
-
-
-/* =========================================================
-   CATEGORY PREVIEW
-========================================================= */
-
-function updateCategoryPreview(){
-
-  const select =
-    document.getElementById("postCategory");
-
-  if(!select) return;
-
-  const value = select.value;
-
-  const info = {
-
-    news:{
-      title:"اخبار گیم",
-      text:"این مطلب در بخش اخبار گیم سایت نمایش داده می‌شود."
-    },
-
-    game:{
-      title:"معرفی بازی",
-      text:"این مطلب در بخش معرفی بازی‌های سایت نمایش داده می‌شود."
-    },
-
-    software:{
-      title:"نرم‌افزار",
-      text:"این مطلب در بخش دانلود نرم‌افزار سایت نمایش داده می‌شود."
-    },
-
-    store:{
-      title:"فروشگاه CS2",
-      text:"این مطلب در بخش فروشگاه CS2 قرار می‌گیرد."
+    const post =
+        posts.find(
+            p=>Number(p.id) === Number(id)
+        );
+
+    if(!post){
+
+        toast(
+            "مطلب پیدا نشد.",
+            "error"
+        );
+
+        return;
     }
 
-  };
+    currentPostId =
+        post.id;
 
-  const item = info[value];
+    document.getElementById(
+        "editorTitle"
+    ).textContent =
+        "ویرایش مطلب";
 
-  document.getElementById("categoryPreview").innerHTML = `
-    <strong>${item.title}</strong>
-    <span>${item.text}</span>
-  `;
-}
+    document.getElementById(
+        "savePostBtn"
+    ).textContent =
+        "ذخیره تغییرات";
 
+    document.getElementById(
+        "postTitle"
+    ).value =
+        post.title || "";
 
-/* =========================================================
-   BLOCKS
-========================================================= */
+    document.getElementById(
+        "postDescription"
+    ).value =
+        post.description || "";
 
-function addBlock(type){
+    document.getElementById(
+        "postContent"
+    ).value =
+        post.content || "";
 
-  blocks.push({
-    id:null,
-    type,
-    content:"",
-    sort_order:blocks.length
-  });
+    document.getElementById(
+        "postDownload"
+    ).value =
+        post.download_url || "";
 
-  renderBlocks();
-}
+    document.getElementById(
+        "postImageUrl"
+    ).value =
+        post.image_url || "";
 
+    document.getElementById(
+        "postCategory"
+    ).value =
+        [
+            "news",
+            "game",
+            "software",
+            "store"
+        ].includes(post.category)
+        ?
+        post.category
+        :
+        "news";
 
-function renderBlocks(){
+    if(post.image_url){
 
-  const container =
-    document.getElementById("blocksContainer");
+        const preview =
+            document.getElementById(
+                "coverPreview"
+            );
 
-  if(!container) return;
+        preview.src =
+            post.image_url;
 
-  if(!blocks.length){
+        preview.style.display =
+            "block";
 
-    container.innerHTML = `
-      <div class="empty" style="padding:30px">
-        هنوز بلوکی اضافه نشده
-      </div>
-    `;
+        document.getElementById(
+            "imageUrlPreview"
+        ).textContent =
+            post.image_url;
+    }
 
-    return;
-  }
+    await loadBlocks(
+        post.id
+    );
 
-  container.innerHTML =
-    blocks.map((block,index)=>{
-
-      let content = "";
-
-      if(block.type === "text"){
-
-        content = `
-          <textarea
-            oninput="blocks[${index}].content=this.value"
-            placeholder="متن این بخش..."
-          >${escapeHTML(block.content || "")}</textarea>
-        `;
-
-      }
-
-      if(block.type === "image"){
-
-        content = `
-          <input
-            value="${escapeAttr(block.content || "")}"
-            oninput="blocks[${index}].content=this.value"
-            placeholder="لینک تصویر..."
-          >
-        `;
-      }
-
-      if(block.type === "video"){
-
-        content = `
-          <input
-            value="${escapeAttr(block.content || "")}"
-            oninput="blocks[${index}].content=this.value"
-            placeholder="لینک ویدیو..."
-          >
-        `;
-      }
-
-      const labels = {
-        text:"متن",
-        image:"تصویر",
-        video:"ویدیو"
-      };
-
-      return `
-
-        <div class="block">
-
-          <div class="block-head">
-
-            <div class="block-label">
-              ${index+1}. ${labels[block.type]}
-            </div>
-
-            <button
-              class="small-btn"
-              onclick="removeBlock(${index})">
-              حذف
-            </button>
-
-          </div>
-
-          ${content}
-
-        </div>
-      `;
-
-    }).join("");
-}
-
-
-function removeBlock(index){
-
-  blocks.splice(index,1);
-
-  renderBlocks();
+    openSection("editor");
 }
 
 
@@ -2033,392 +3274,1332 @@ function removeBlock(index){
 
 async function savePost(){
 
-  const title =
-    document.getElementById("postTitle").value.trim();
+    const title =
+        document.getElementById(
+            "postTitle"
+        ).value.trim();
 
-  const category =
-    document.getElementById("postCategory").value;
+    const description =
+        document.getElementById(
+            "postDescription"
+        ).value.trim();
 
-  const description =
-    document.getElementById("postDescription").value.trim();
+    const content =
+        document.getElementById(
+            "postContent"
+        ).value.trim();
 
-  const content =
-    document.getElementById("postContent").value.trim();
+    const image_url =
+        document.getElementById(
+            "postImageUrl"
+        ).value.trim();
 
-  const image_url =
-    document.getElementById("postImage").value.trim();
+    const download_url =
+        document.getElementById(
+            "postDownload"
+        ).value.trim();
 
-  const download_url =
-    document.getElementById("postDownload").value.trim();
+    const category =
+        document.getElementById(
+            "postCategory"
+        ).value;
 
-  if(!title){
+    if(!title){
 
-    toast("عنوان مطلب را وارد کن","error");
+        toast(
+            "عنوان مطلب را وارد کن.",
+            "error"
+        );
 
-    return;
-  }
-
-  if(!category){
-
-    toast("دسته‌بندی را انتخاب کن","error");
-
-    return;
-  }
-
-  const payload = {
-
-    title,
-    category,
-    description,
-    content,
-    image_url,
-    download_url
-
-  };
-
-
-  let postId = editingPostId;
-
-
-  if(editingPostId){
-
-    const {
-      error
-    } = await db
-      .from("posts")
-      .update(payload)
-      .eq("id",editingPostId);
-
-    if(error){
-
-      console.error(error);
-
-      toast("خطا در ویرایش مطلب","error");
-
-      return;
+        return;
     }
 
-  }else{
+    if(
+        ![
+            "news",
+            "game",
+            "software",
+            "store"
+        ].includes(category)
+    ){
 
-    const {
-      data,
-      error
-    } = await db
-      .from("posts")
-      .insert(payload)
-      .select()
-      .single();
+        toast(
+            "دسته‌بندی نامعتبر است.",
+            "error"
+        );
 
-    if(error){
-
-      console.error(error);
-
-      toast("خطا در ساخت مطلب","error");
-
-      return;
+        return;
     }
 
-    postId = data.id;
-  }
+    const payload = {
 
+        title,
 
-  /* DELETE OLD BLOCKS */
+        description,
 
-  if(editingPostId){
+        content,
 
-    const {
-      error
-    } = await db
-      .from("post_blocks")
-      .delete()
-      .eq("post_id",editingPostId);
+        image_url,
 
-    if(error){
+        download_url,
 
-      console.error(error);
+        category
 
-      toast("خطا در بروزرسانی بلوک‌ها","error");
+    };
 
-      return;
+    const button =
+        document.getElementById(
+            "savePostBtn"
+        );
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "در حال ذخیره...";
+
+    try{
+
+        let savedPost = null;
+
+        if(currentPostId){
+
+            const {
+                data,
+                error
+            } = await db
+                .from("posts")
+                .update(payload)
+                .eq(
+                    "id",
+                    currentPostId
+                )
+                .select()
+                .single();
+
+            if(error){
+                throw error;
+            }
+
+            savedPost =
+                data;
+
+            toast(
+                "مطلب با موفقیت ویرایش شد."
+            );
+
+        }else{
+
+            const {
+                data,
+                error
+            } = await db
+                .from("posts")
+                .insert(payload)
+                .select()
+                .single();
+
+            if(error){
+                throw error;
+            }
+
+            savedPost =
+                data;
+
+            currentPostId =
+                data.id;
+
+            toast(
+                "مطلب جدید با موفقیت ساخته شد."
+            );
+
+        }
+
+        await loadPosts();
+
+        await loadBlocks(
+            savedPost.id
+        );
+
+        document.getElementById(
+            "editorTitle"
+        ).textContent =
+            "ویرایش مطلب";
+
+        document.getElementById(
+            "savePostBtn"
+        ).textContent =
+            "ذخیره تغییرات";
+
+        renderPosts();
+
+        loadDashboard();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            error.message ||
+            "ذخیره مطلب انجام نشد.",
+            "error"
+        );
+
+    }finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            currentPostId
+            ?
+            "ذخیره تغییرات"
+            :
+            "ذخیره مطلب";
     }
-  }
 
-
-  /* INSERT BLOCKS */
-
-  if(blocks.length){
-
-    const rows =
-      blocks.map((block,index)=>({
-
-        post_id:postId,
-        type:block.type,
-        content:block.content || "",
-        sort_order:index
-
-      }));
-
-    const {
-      error
-    } = await db
-      .from("post_blocks")
-      .insert(rows);
-
-    if(error){
-
-      console.error(error);
-
-      toast("مطلب ذخیره شد ولی بلوک‌ها ذخیره نشدند","error");
-
-      await loadPosts();
-
-      showPage("posts");
-
-      return;
-    }
-  }
-
-
-  await loadPosts();
-
-  toast(
-    editingPostId
-      ? "مطلب با موفقیت ویرایش شد ✓"
-      : "مطلب با موفقیت منتشر شد ✓"
-  );
-
-  editingPostId = null;
-  blocks = [];
-
-  setTimeout(()=>{
-    showPage("posts");
-  },500);
 }
 
 
 /* =========================================================
-   DELETE
+   DELETE POST
 ========================================================= */
 
 async function deletePost(id){
 
-  const post =
-    posts.find(p=>String(p.id)===String(id));
+    const post =
+        posts.find(
+            p=>Number(p.id) === Number(id)
+        );
 
-  if(!post) return;
+    if(!post){
+        return;
+    }
 
-  const ok =
-    confirm(
-      `مطلب «${post.title}» حذف شود؟\n\nاین کار قابل برگشت نیست.`
-    );
+    const yes =
+        confirm(
+            `مطلب «${post.title}» حذف شود؟\n\nاین عملیات خود مطلب را از سایت حذف می‌کند.`
+        );
 
-  if(!ok) return;
+    if(!yes){
+        return;
+    }
 
+    try{
 
-  const {
-    error
-  } = await db
-    .from("posts")
-    .delete()
-    .eq("id",id);
+        const {
+            error
+        } = await db
+            .from("posts")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
 
-  if(error){
+        if(error){
+            throw error;
+        }
 
-    console.error(error);
+        toast(
+            "مطلب حذف شد."
+        );
 
-    toast("حذف انجام نشد","error");
+        if(
+            Number(currentPostId) ===
+            Number(id)
+        ){
 
-    return;
-  }
+            newPost();
+        }
 
+        await loadPosts();
 
-  await loadPosts();
+        renderPosts();
 
-  toast("مطلب حذف شد");
+        loadDashboard();
 
-  showPage("posts");
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            error.message ||
+            "حذف مطلب انجام نشد. ممکن است دسترسی حذف برای مدیر فعال نشده باشد.",
+            "error"
+        );
+
+    }
+
 }
 
 
 /* =========================================================
-   IMAGE UPLOAD
+   VIEW POST
 ========================================================= */
 
-async function uploadImage(){
+function viewPost(id){
 
-  const file =
-    document.getElementById("imageUpload").files[0];
+    window.open(
+        "article.html?id=" +
+        encodeURIComponent(id),
+        "_blank"
+    );
 
-  if(!file) return;
-
-  const status =
-    document.getElementById("uploadStatus");
-
-  status.textContent =
-    "در حال آپلود...";
-
-  const safeName =
-    file.name
-      .replace(/[^\w.\-]+/g,"-")
-      .toLowerCase();
-
-  const path =
-    `${Date.now()}-${safeName}`;
+}
 
 
-  const {
-    error
-  } = await db
-    .storage
-    .from("images")
-    .upload(path,file,{
-      cacheControl:"3600",
-      upsert:false
+/* =========================================================
+   COVER UPLOAD
+========================================================= */
+
+document.getElementById("coverFile")
+    .addEventListener(
+        "change",
+        async function(){
+
+            const file =
+                this.files?.[0];
+
+            if(!file){
+                return;
+            }
+
+            await uploadImage(
+                file,
+                true
+            );
+
+        }
+    );
+
+
+async function uploadImage(
+    file,
+    isCover=false
+){
+
+    if(!file.type.startsWith("image/")){
+
+        toast(
+            "فایل انتخاب‌شده تصویر نیست.",
+            "error"
+        );
+
+        return null;
+    }
+
+    try{
+
+        const ext =
+            file.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+        const safeName =
+            file.name
+                .replace(
+                    /[^a-zA-Z0-9._-]/g,
+                    "-"
+                );
+
+        const path =
+            "admin/" +
+            Date.now() +
+            "-" +
+            safeName;
+
+        const {
+            error
+        } = await db
+            .storage
+            .from("images")
+            .upload(
+                path,
+                file,
+                {
+                    upsert:false,
+                    contentType:file.type
+                }
+            );
+
+        if(error){
+            throw error;
+        }
+
+        const {
+            data
+        } = db
+            .storage
+            .from("images")
+            .getPublicUrl(path);
+
+        const url =
+            data.publicUrl;
+
+        if(isCover){
+
+            document.getElementById(
+                "postImageUrl"
+            ).value = url;
+
+            document.getElementById(
+                "imageUrlPreview"
+            ).textContent = url;
+
+            const preview =
+                document.getElementById(
+                    "coverPreview"
+                );
+
+            preview.src =
+                url;
+
+            preview.style.display =
+                "block";
+
+            toast(
+                "تصویر کاور آپلود شد."
+            );
+
+        }
+
+        return url;
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            error.message ||
+            "آپلود تصویر انجام نشد.",
+            "error"
+        );
+
+        return null;
+    }
+
+}
+
+
+/* =========================================================
+   POST BLOCKS
+========================================================= */
+
+async function loadBlocks(postId){
+
+    currentPostId =
+        postId;
+
+    const {
+        data,
+        error
+    } = await db
+        .from("post_blocks")
+        .select(
+            "id,post_id,type,content,sort_order,created_at"
+        )
+        .eq(
+            "post_id",
+            postId
+        )
+        .order(
+            "sort_order",
+            {
+                ascending:true
+            }
+        );
+
+    if(error){
+
+        console.error(error);
+
+        blocks = [];
+
+        renderBlocks();
+
+        return;
+    }
+
+    blocks =
+        data || [];
+
+    renderBlocks();
+}
+
+
+/* =========================================================
+   ADD BLOCK
+========================================================= */
+
+function addBlock(){
+
+    if(!currentPostId){
+
+        toast(
+            "ابتدا خود مطلب را ذخیره کن.",
+            "error"
+        );
+
+        return;
+    }
+
+    blocks.push({
+
+        id:null,
+
+        post_id:
+            currentPostId,
+
+        type:"text",
+
+        content:"",
+
+        sort_order:
+            blocks.length
+
     });
 
+    renderBlocks();
+}
 
-  if(error){
 
-    console.error(error);
+/* =========================================================
+   RENDER BLOCKS
+========================================================= */
 
-    status.textContent =
-      "آپلود ناموفق بود.";
+function renderBlocks(){
 
-    toast(
-      "آپلود تصویر انجام نشد. دسترسی Storage را بررسی کن.",
-      "error"
+    const box =
+        document.getElementById(
+            "blocksList"
+        );
+
+    if(!currentPostId){
+
+        box.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">＋</div>
+                <p>
+                    برای اضافه کردن بخش، ابتدا مطلب را ذخیره کن.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    if(!blocks.length){
+
+        box.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">▤</div>
+                <p>
+                    هنوز بخش اضافه‌ای برای این مطلب وجود ندارد.
+                </p>
+            </div>
+        `;
+
+        return;
+    }
+
+    box.innerHTML =
+        blocks.map(
+            (block,index)=>`
+
+            <div
+                class="block-item"
+                data-block-index="${index}"
+            >
+
+                <div class="block-top">
+
+                    <span class="block-number">
+                        بخش ${index+1}
+                    </span>
+
+                    <select
+                        class="select block-type"
+                        onchange="changeBlockType(${index},this.value)"
+                    >
+
+                        <option
+                            value="text"
+                            ${block.type==="text"?"selected":""}
+                        >
+                            متن
+                        </option>
+
+                        <option
+                            value="image"
+                            ${block.type==="image"?"selected":""}
+                        >
+                            تصویر
+                        </option>
+
+                        <option
+                            value="video"
+                            ${block.type==="video"?"selected":""}
+                        >
+                            ویدیو
+                        </option>
+
+                    </select>
+
+                </div>
+
+                ${
+                    block.type === "text"
+                    ?
+                    `
+                    <textarea
+                        class="textarea block-content"
+                        placeholder="متن این بخش..."
+                        oninput="updateBlockContent(${index},this.value)"
+                    >${escapeHtml(
+                        block.content || ""
+                    )}</textarea>
+                    `
+                    :
+                    `
+                    <input
+                        class="input block-content"
+                        dir="ltr"
+                        value="${escapeAttr(
+                            block.content || ""
+                        )}"
+                        placeholder="${
+                            block.type === "image"
+                            ?
+                            "آدرس تصویر..."
+                            :
+                            "لینک ویدیو یا YouTube..."
+                        }"
+                        oninput="updateBlockContent(${index},this.value)"
+                    >
+
+                    ${
+                        block.type === "image"
+                        ?
+                        `
+                        <div
+                            style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;"
+                        >
+
+                            <button
+                                class="secondary-btn small-btn"
+                                onclick="uploadBlockImage(${index})"
+                            >
+                                آپلود تصویر
+                            </button>
+
+                            ${
+                                block.content
+                                ?
+                                `
+                                <a
+                                    href="${escapeAttr(block.content)}"
+                                    target="_blank"
+                                    class="secondary-btn small-btn"
+                                >
+                                    مشاهده تصویر
+                                </a>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+                    `
+                }
+
+                <div class="block-actions">
+
+                    <button
+                        class="primary-btn small-btn"
+                        onclick="saveBlock(${index})"
+                    >
+                        ذخیره بخش
+                    </button>
+
+                    <button
+                        class="secondary-btn small-btn"
+                        onclick="moveBlock(${index},-1)"
+                    >
+                        ↑
+                    </button>
+
+                    <button
+                        class="secondary-btn small-btn"
+                        onclick="moveBlock(${index},1)"
+                    >
+                        ↓
+                    </button>
+
+                    <button
+                        class="danger-btn small-btn"
+                        onclick="removeBlock(${index})"
+                    >
+                        حذف
+                    </button>
+
+                </div>
+
+            </div>
+
+        `
+        ).join("");
+
+}
+
+
+/* =========================================================
+   BLOCK HELPERS
+========================================================= */
+
+function changeBlockType(index,type){
+
+    blocks[index].type =
+        type;
+
+    renderBlocks();
+}
+
+
+function updateBlockContent(
+    index,
+    content
+){
+
+    if(blocks[index]){
+        blocks[index].content =
+            content;
+    }
+}
+
+
+function moveBlock(
+    index,
+    direction
+){
+
+    const target =
+        index + direction;
+
+    if(
+        target < 0 ||
+        target >= blocks.length
+    ){
+        return;
+    }
+
+    [
+        blocks[index],
+        blocks[target]
+    ] = [
+        blocks[target],
+        blocks[index]
+    ];
+
+    blocks.forEach(
+        (block,i)=>{
+            block.sort_order =
+                i;
+        }
     );
 
-    return;
-  }
+    renderBlocks();
+}
 
 
-  const {
-    data
-  } = db
-    .storage
-    .from("images")
-    .getPublicUrl(path);
+async function removeBlock(index){
 
+    const block =
+        blocks[index];
 
-  document.getElementById("postImage").value =
-    data.publicUrl;
+    if(!block){
+        return;
+    }
 
-  updateCoverPreview();
+    if(block.id){
 
-  status.textContent =
-    "تصویر با موفقیت آپلود شد ✓";
+        const yes =
+            confirm(
+                "این بخش از مطلب حذف شود؟"
+            );
 
-  toast("تصویر آپلود شد ✓");
+        if(!yes){
+            return;
+        }
+
+        const {
+            error
+        } = await db
+            .from("post_blocks")
+            .delete()
+            .eq(
+                "id",
+                block.id
+            );
+
+        if(error){
+
+            toast(
+                error.message ||
+                "حذف بخش انجام نشد.",
+                "error"
+            );
+
+            return;
+        }
+    }
+
+    blocks.splice(
+        index,
+        1
+    );
+
+    blocks.forEach(
+        (item,i)=>{
+            item.sort_order =
+                i;
+        }
+    );
+
+    renderBlocks();
+
+    toast(
+        "بخش حذف شد."
+    );
 }
 
 
 /* =========================================================
-   PREVIEW
+   SAVE SINGLE BLOCK
 ========================================================= */
 
-function updateCoverPreview(){
+async function saveBlock(index){
 
-  const url =
-    document.getElementById("postImage").value.trim();
+    const block =
+        blocks[index];
 
-  const img =
-    document.getElementById("coverPreview");
+    if(!block){
+        return;
+    }
 
-  if(!url){
+    if(!currentPostId){
 
-    img.style.display="none";
+        toast(
+            "ابتدا مطلب را ذخیره کن.",
+            "error"
+        );
 
-    return;
-  }
+        return;
+    }
 
-  img.src=url;
-  img.style.display="block";
+    if(!block.content.trim()){
+
+        toast(
+            "محتوای این بخش خالی است.",
+            "error"
+        );
+
+        return;
+    }
+
+    try{
+
+        let saved;
+
+        const payload = {
+
+            post_id:
+                currentPostId,
+
+            type:
+                block.type,
+
+            content:
+                block.content.trim(),
+
+            sort_order:
+                index
+
+        };
+
+        if(block.id){
+
+            const {
+                data,
+                error
+            } = await db
+                .from("post_blocks")
+                .update(payload)
+                .eq(
+                    "id",
+                    block.id
+                )
+                .select()
+                .single();
+
+            if(error){
+                throw error;
+            }
+
+            saved =
+                data;
+
+        }else{
+
+            const {
+                data,
+                error
+            } = await db
+                .from("post_blocks")
+                .insert(payload)
+                .select()
+                .single();
+
+            if(error){
+                throw error;
+            }
+
+            saved =
+                data;
+        }
+
+        blocks[index] =
+            saved;
+
+        renderBlocks();
+
+        toast(
+            "بخش مطلب ذخیره شد."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            error.message ||
+            "ذخیره بخش انجام نشد.",
+            "error"
+        );
+
+    }
+
 }
 
 
 /* =========================================================
-   HELPERS
+   UPLOAD BLOCK IMAGE
 ========================================================= */
 
-function escapeHTML(value){
+async function uploadBlockImage(index){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    const input =
+        document.createElement("input");
+
+    input.type =
+        "file";
+
+    input.accept =
+        "image/*";
+
+    input.onchange =
+        async()=>{
+
+            const file =
+                input.files?.[0];
+
+            if(!file){
+                return;
+            }
+
+            const url =
+                await uploadImage(
+                    file,
+                    false
+                );
+
+            if(url){
+
+                blocks[index].content =
+                    url;
+
+                renderBlocks();
+
+                toast(
+                    "تصویر بخش آپلود شد؛ حالا ذخیره بخش را بزن."
+                );
+            }
+
+        };
+
+    input.click();
+}
+
+
+/* =========================================================
+   MEDIA
+========================================================= */
+
+document.getElementById("mediaUpload")
+    .addEventListener(
+        "change",
+        async function(){
+
+            const files =
+                Array.from(
+                    this.files || []
+                );
+
+            if(!files.length){
+                return;
+            }
+
+            let count = 0;
+
+            for(const file of files){
+
+                const url =
+                    await uploadImage(
+                        file,
+                        false
+                    );
+
+                if(url){
+                    count++;
+                }
+            }
+
+            if(count){
+
+                toast(
+                    `${count} تصویر با موفقیت آپلود شد.`
+                );
+
+                await loadMedia();
+            }
+
+            this.value = "";
+
+        }
+    );
+
+
+async function loadMedia(){
+
+    const grid =
+        document.getElementById(
+            "mediaGrid"
+        );
+
+    grid.innerHTML = `
+        <div class="empty">
+            <div class="empty-icon">⏳</div>
+            <p>در حال دریافت تصاویر...</p>
+        </div>
+    `;
+
+    try{
+
+        const {
+            data,
+            error
+        } = await db
+            .storage
+            .from("images")
+            .list(
+                "admin",
+                {
+                    limit:100,
+                    sortBy:{
+                        column:"created_at",
+                        order:"desc"
+                    }
+                }
+            );
+
+        if(error){
+            throw error;
+        }
+
+        if(!data || !data.length){
+
+            grid.innerHTML = `
+                <div class="empty">
+                    <div class="empty-icon">▧</div>
+                    <p>هنوز تصویری در پوشه مدیریت نیست.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        grid.innerHTML =
+            data.map(file=>{
+
+                const {
+                    data:urlData
+                } =
+                    db
+                    .storage
+                    .from("images")
+                    .getPublicUrl(
+                        "admin/" +
+                        file.name
+                    );
+
+                return `
+
+                    <div class="media-card">
+
+                        <img
+                            src="${escapeAttr(
+                                urlData.publicUrl
+                            )}"
+                            alt=""
+                        >
+
+                        <div class="media-body">
+
+                            <div class="media-name">
+                                ${escapeHtml(
+                                    file.name
+                                )}
+                            </div>
+
+                            <button
+                                class="secondary-btn small-btn"
+                                style="margin-top:8px;width:100%;"
+                                onclick="copyText('${escapeAttr(
+                                    urlData.publicUrl
+                                )}')"
+                            >
+                                کپی لینک
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+    }catch(error){
+
+        console.error(error);
+
+        grid.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">⚠</div>
+                <p>
+                    دریافت تصاویر انجام نشد.
+                </p>
+            </div>
+        `;
+    }
+
+}
+
+
+/* =========================================================
+   COMMENTS
+========================================================= */
+
+async function loadComments(){
+
+    const box =
+        document.getElementById(
+            "commentsList"
+        );
+
+    box.innerHTML = `
+        <div class="empty">
+            <div class="empty-icon">⏳</div>
+            <p>در حال دریافت نظرات...</p>
+        </div>
+    `;
+
+    try{
+
+        const {
+            data,
+            error
+        } = await db
+            .from("comments")
+            .select(
+                `
+                id,
+                post_id,
+                user_id,
+                content,
+                created_at,
+                posts(title),
+                profiles(username)
+                `
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
+
+        if(error){
+            throw error;
+        }
+
+        if(!data || !data.length){
+
+            box.innerHTML = `
+                <div class="empty">
+                    <div class="empty-icon">☷</div>
+                    <p>هنوز نظری ثبت نشده است.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        box.innerHTML =
+            data.map(comment=>`
+
+                <div class="comment-item">
+
+                    <div class="comment-top">
+
+                        <div>
+                            <div class="comment-user">
+                                ${escapeHtml(
+                                    comment.profiles?.username ||
+                                    "کاربر"
+                                )}
+                            </div>
+
+                            <div class="comment-date">
+                                ${escapeHtml(
+                                    comment.posts?.title ||
+                                    "مطلب حذف‌شده"
+                                )}
+                            </div>
+                        </div>
+
+                        <div class="comment-date">
+                            ${formatDate(
+                                comment.created_at
+                            )}
+                        </div>
+
+                    </div>
+
+                    <div class="comment-text">
+                        ${escapeHtml(
+                            comment.content
+                        )}
+                    </div>
+
+                </div>
+
+            `).join("");
+
+    }catch(error){
+
+        console.error(error);
+
+        box.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">⚠</div>
+                <p>
+                    دریافت نظرات انجام نشد.
+                </p>
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyText(text){
+
+    try{
+
+        await navigator.clipboard.writeText(
+            text
+        );
+
+        toast(
+            "لینک کپی شد."
+        );
+
+    }catch{
+
+        toast(
+            "کپی خودکار انجام نشد.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
 function escapeAttr(value){
 
-  return escapeHTML(value)
-    .replace(/\n/g,"&#10;");
-}
-
-
-function formatDate(date){
-
-  if(!date) return "";
-
-  try{
-
-    return new Date(date).toLocaleDateString(
-      "fa-IR",
-      {
-        year:"numeric",
-        month:"short",
-        day:"numeric"
-      }
+    return escapeHtml(
+        value
     );
-
-  }catch{
-
-    return "";
-  }
 }
 
 
 /* =========================================================
-   MOBILE
+   INIT
 ========================================================= */
 
-function toggleSidebar(){
-
-  document
-    .getElementById("sidebar")
-    .classList.toggle("open");
-}
-
-
-function closeSidebar(){
-
-  document
-    .getElementById("sidebar")
-    .classList.remove("open");
-}
-
-
-/* =========================================================
-   OPEN SITE
-========================================================= */
-
-function openSite(){
-
-  window.open(
-    "https://hadi2006-hub.github.io/",
-    "_blank"
-  );
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-checkAuth();
+init();
 
 </script>
 
