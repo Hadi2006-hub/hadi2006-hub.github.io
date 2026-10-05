@@ -1,41 +1,38 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<title>PERSIAN STARK | اخبار و دنیای گیم</title>
+<meta name="description" content="PERSIAN STARK - اخبار بازی، معرفی بازی، نرم افزار و دنیای گیم">
 
-<meta name="theme-color"
-      content="#070910">
-
-<title>PERSIAN STARK</title>
-
-<link rel="preconnect"
-      href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <style>
 
-/* =====================================================
-   RESET
-===================================================== */
+:root{
+    --bg:#05070d;
+    --bg2:#080c15;
+    --card:rgba(13,17,28,.82);
+    --card2:#101522;
+    --text:#f4f7fb;
+    --muted:#9da8bb;
+    --line:rgba(255,255,255,.08);
+    --accent:#7c5cff;
+    --accent2:#00d4ff;
+    --danger:#ff426d;
+    --max:1380px;
+}
 
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
 }
 
 html{
@@ -44,2745 +41,914 @@ html{
 
 body{
     font-family:"Vazirmatn",sans-serif;
-    background:#070910;
-    color:#f5f7fb;
+    background:var(--bg);
+    color:var(--text);
     min-height:100vh;
     overflow-x:hidden;
-    transition:
-        background .6s ease,
-        color .6s ease;
 }
 
-body.light{
-    background:#f5f6fa;
-    color:#151821;
-}
-
-button,
-input{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-a{
-    color:inherit;
-    text-decoration:none;
-}
-
-
-/* =====================================================
-   BACKGROUND
-===================================================== */
+/* ================= BACKGROUND ================= */
 
 .background{
     position:fixed;
     inset:0;
-    z-index:-20;
+    z-index:-10;
     overflow:hidden;
-
     background:
-        radial-gradient(
-            circle at 15% 15%,
-            rgba(112,72,255,.14),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 85% 25%,
-            rgba(0,200,255,.09),
-            transparent 28%
-        ),
-        #070910;
-
-    transition:
-        background .7s ease;
+        radial-gradient(circle at 15% 20%,rgba(124,92,255,.16),transparent 30%),
+        radial-gradient(circle at 85% 30%,rgba(0,212,255,.12),transparent 30%),
+        radial-gradient(circle at 50% 90%,rgba(255,66,109,.08),transparent 30%),
+        #05070d;
 }
 
-body.light .background{
-    background:
-        radial-gradient(
-            circle at 15% 15%,
-            rgba(112,72,255,.08),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 85% 25%,
-            rgba(0,190,230,.06),
-            transparent 28%
-        ),
-        #f5f6fa;
-}
-
-.orb{
+.background::before{
+    content:"";
     position:absolute;
-    width:430px;
-    height:430px;
+    width:800px;
+    height:800px;
+    top:-250px;
+    right:-200px;
+    background:radial-gradient(circle,rgba(124,92,255,.22),transparent 65%);
+    filter:blur(20px);
+    animation:orb1 14s ease-in-out infinite alternate;
+}
+
+.background::after{
+    content:"";
+    position:absolute;
+    width:700px;
+    height:700px;
+    bottom:-300px;
+    left:-200px;
+    background:radial-gradient(circle,rgba(0,212,255,.15),transparent 65%);
+    filter:blur(20px);
+    animation:orb2 18s ease-in-out infinite alternate;
+}
+
+@keyframes orb1{
+    from{transform:translate(0,0) scale(1);}
+    to{transform:translate(-180px,180px) scale(1.25);}
+}
+
+@keyframes orb2{
+    from{transform:translate(0,0) scale(1);}
+    to{transform:translate(180px,-130px) scale(1.2);}
+}
+
+/* grid */
+
+.grid-bg{
+    position:absolute;
+    inset:-100px;
+    opacity:.22;
+    background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:55px 55px;
+    transform:perspective(500px) rotateX(55deg) scale(1.8);
+    transform-origin:center bottom;
+    animation:gridMove 18s linear infinite;
+}
+
+@keyframes gridMove{
+    from{background-position:0 0,0 0;}
+    to{background-position:0 550px,550px 0;}
+}
+
+/* floating lights */
+
+.light{
+    position:absolute;
+    width:5px;
+    height:5px;
     border-radius:50%;
-    filter:blur(100px);
-    opacity:.14;
-    animation:orbMove 16s ease-in-out infinite alternate;
+    background:#fff;
+    box-shadow:0 0 15px 4px rgba(124,92,255,.7);
+    opacity:.45;
+    animation:floatLight linear infinite;
 }
 
-.orb.one{
-    background:#754cff;
-    right:-150px;
-    top:-150px;
-}
+.light:nth-child(1){left:10%;animation-duration:14s;animation-delay:-3s}
+.light:nth-child(2){left:23%;animation-duration:20s;animation-delay:-8s}
+.light:nth-child(3){left:38%;animation-duration:17s;animation-delay:-4s}
+.light:nth-child(4){left:52%;animation-duration:22s;animation-delay:-12s}
+.light:nth-child(5){left:66%;animation-duration:15s;animation-delay:-5s}
+.light:nth-child(6){left:79%;animation-duration:19s;animation-delay:-10s}
+.light:nth-child(7){left:91%;animation-duration:24s;animation-delay:-7s}
 
-.orb.two{
-    background:#00bfe8;
-    left:-150px;
-    bottom:-170px;
-    animation-delay:-7s;
-}
-
-@keyframes orbMove{
-
-    from{
-        transform:translate(0,0) scale(1);
-    }
-
-    to{
-        transform:translate(60px,35px) scale(1.12);
-    }
-
-}
-
-
-/* =====================================================
-   CLASSIC PAGE TRANSITION
-===================================================== */
-
-/*
-   قبلاً یک صفحه بنفش می‌آمد روی صفحه.
-   حذف شد.
-
-   این transition فقط خود محتوا را Fade + Slide می‌کند.
-*/
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-    animation:
-        classicPageIn .38s
-        cubic-bezier(.22,.8,.25,1)
-        both;
-}
-
-@keyframes classicPageIn{
-
+@keyframes floatLight{
     0%{
+        top:110%;
+        transform:translateX(0) scale(.5);
         opacity:0;
-        transform:translateY(12px);
     }
-
+    15%{opacity:.5}
+    50%{transform:translateX(80px) scale(1)}
+    85%{opacity:.35}
     100%{
-        opacity:1;
-        transform:translateY(0);
+        top:-10%;
+        transform:translateX(-100px) scale(.4);
+        opacity:0;
     }
-
 }
 
+/* ================= HEADER ================= */
 
-/* =====================================================
-   CONTAINER
-===================================================== */
-
-.container{
-    width:min(1180px,calc(100% - 32px));
-    margin:auto;
-}
-
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-.header{
+header{
     position:sticky;
     top:0;
     z-index:1000;
-
-    background:rgba(7,9,16,.76);
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    border-bottom:
-        1px solid rgba(255,255,255,.06);
-
-    transition:.4s ease;
+    backdrop-filter:blur(18px);
+    background:rgba(5,7,13,.72);
+    border-bottom:1px solid var(--line);
 }
 
-body.light .header{
-    background:rgba(255,255,255,.78);
-    border-color:rgba(0,0,0,.07);
-}
-
-.header-inner{
+.nav{
+    max-width:var(--max);
     height:78px;
-
+    margin:auto;
+    padding:0 24px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-
-    gap:20px;
+    gap:25px;
 }
-
-
-/* LOGO */
 
 .logo{
     display:flex;
     align-items:center;
-    gap:11px;
-
-    border:0;
-    background:none;
-    color:inherit;
+    gap:12px;
+    text-decoration:none;
+    color:white;
+    flex-shrink:0;
 }
 
-.logo-icon{
-    width:43px;
-    height:43px;
-
-    border-radius:13px;
-
+.logo-mark{
+    width:42px;
+    height:42px;
+    border-radius:12px;
     display:grid;
     place-items:center;
-
-    font-size:13px;
+    font-size:20px;
     font-weight:900;
-
-    color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7148ff,
-            #00c8ff
-        );
-
-    box-shadow:
-        0 0 30px
-        rgba(112,72,255,.25);
-
-    transform:rotate(-4deg);
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 0 25px rgba(124,92,255,.25);
 }
 
 .logo-text{
-    font-size:18px;
+    font-size:20px;
     font-weight:900;
+    letter-spacing:1px;
 }
 
 .logo-text span{
-    color:#8065ff;
+    color:#9d8cff;
 }
 
-
-/* NAV */
-
-.nav{
+.menu{
     display:flex;
     align-items:center;
-    gap:5px;
-}
-
-.nav-btn{
-    position:relative;
-
-    border:0;
-
-    background:transparent;
-
-    color:#979faf;
-
-    padding:11px 14px;
-
-    border-radius:11px;
-
-    font-size:13px;
-    font-weight:600;
-
-    transition:.25s ease;
-}
-
-.nav-btn:hover{
-    color:white;
-    background:rgba(255,255,255,.05);
-}
-
-body.light .nav-btn:hover{
-    color:#161922;
-    background:rgba(0,0,0,.045);
-}
-
-.nav-btn.active{
-    color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(112,72,255,.23),
-            rgba(0,200,255,.07)
-        );
-}
-
-body.light .nav-btn.active{
-    color:#543ec6;
-}
-
-.nav-btn.active::after{
-    content:"";
-
-    position:absolute;
-
-    bottom:3px;
-    right:14px;
-    left:14px;
-
-    height:2px;
-
-    border-radius:10px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #7148ff,
-            #00c8ff
-        );
-}
-
-
-/* ACTIONS */
-
-.header-actions{
-    display:flex;
-    gap:8px;
-}
-
-.icon-btn{
-    width:42px;
-    height:42px;
-
-    border-radius:12px;
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    background:
-        rgba(255,255,255,.035);
-
-    color:#dfe3eb;
-
-    display:grid;
-    place-items:center;
-
-    font-size:18px;
-
-    transition:.3s ease;
-}
-
-body.light .icon-btn{
-    color:#222630;
-    border-color:rgba(0,0,0,.08);
-    background:rgba(0,0,0,.025);
-}
-
-.icon-btn:hover{
-    transform:translateY(-2px);
-    border-color:#7657ff;
-}
-
-
-/* =====================================================
-   MOBILE NAV
-===================================================== */
-
-.mobile-menu{
-    display:none;
-    padding:8px 0 12px;
-}
-
-.mobile-menu-grid{
-    display:grid;
-    grid-template-columns:
-        repeat(3,1fr);
     gap:6px;
 }
 
-.mobile-nav-btn{
-    border:0;
-
+.menu a{
+    color:#c9d0dc;
+    text-decoration:none;
+    padding:10px 14px;
     border-radius:10px;
-
-    padding:10px 4px;
-
-    background:
-        rgba(255,255,255,.04);
-
-    color:#aab0bd;
-
-    font-size:11px;
+    font-size:14px;
+    transition:.25s;
 }
 
-.mobile-nav-btn.active{
+.menu a:hover{
     color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7048ff,
-            #4b38aa
-        );
+    background:rgba(255,255,255,.07);
 }
 
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
 
-/* =====================================================
-   HERO
-===================================================== */
+.login-btn{
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.05);
+    color:white;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:inherit;
+}
+
+/* ================= HERO ================= */
+
+.hero-wrap{
+    max-width:var(--max);
+    margin:32px auto 0;
+    padding:0 24px;
+}
 
 .hero{
-    padding:40px 0 30px;
-}
-
-.hero-grid{
-    display:grid;
-    grid-template-columns:
-        1.7fr 1fr;
-
-    gap:16px;
-}
-
-.hero-main{
-    min-height:430px;
-
-    position:relative;
-
+    min-height:540px;
+    border:1px solid var(--line);
+    border-radius:28px;
     overflow:hidden;
-
-    border-radius:25px;
-
-    padding:35px;
-
+    position:relative;
     display:flex;
     align-items:flex-end;
-
     background:
-        linear-gradient(
-            to top,
-            rgba(3,5,10,.96),
-            rgba(3,5,10,.08)
-        ),
-        url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=85")
-        center/cover;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    box-shadow:
-        0 25px 70px
-        rgba(0,0,0,.25);
-
-    cursor:pointer;
-}
-
-.hero-main:hover{
-    box-shadow:
-        0 25px 90px
-        rgba(80,55,200,.20);
+        linear-gradient(0deg,rgba(3,5,10,.95),rgba(3,5,10,.05)),
+        radial-gradient(circle at 75% 30%,rgba(124,92,255,.28),transparent 35%);
 }
 
 .hero-content{
     position:relative;
     z-index:2;
+    width:min(750px,100%);
+    padding:55px;
 }
 
 .badge{
     display:inline-flex;
-    align-items:center;
-
-    width:max-content;
-
-    padding:6px 10px;
-
+    padding:7px 12px;
     border-radius:999px;
-
-    font-size:10px;
-    font-weight:800;
-
-    color:#ddd7ff;
-
-    background:
-        rgba(112,72,255,.18);
-
-    border:
-        1px solid
-        rgba(139,112,255,.18);
-}
-
-.hero-title{
-    font-size:
-        clamp(28px,4vw,46px);
-
-    line-height:1.35;
-
-    font-weight:900;
-
-    margin:14px 0 10px;
-}
-
-.hero-description{
-    max-width:720px;
-
-    color:#b6bdca;
-
-    font-size:14px;
-
-    line-height:2;
-}
-
-.hero-meta{
-    display:flex;
-    gap:12px;
-
-    color:#8991a3;
-
-    font-size:11px;
-
-    margin-top:16px;
-}
-
-
-/* SIDE */
-
-.hero-side{
-    display:grid;
-
-    grid-template-rows:
-        1fr 1fr;
-
-    gap:16px;
-}
-
-.side-card{
-    position:relative;
-
-    min-height:207px;
-
-    overflow:hidden;
-
-    border-radius:20px;
-
-    padding:22px;
-
-    display:flex;
-    align-items:flex-end;
-
-    background-size:cover;
-    background-position:center;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-}
-
-.side-card::before{
-    content:"";
-
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(3,5,10,.95),
-            rgba(3,5,10,.08)
-        );
-}
-
-.side-card-content{
-    position:relative;
-    z-index:2;
-}
-
-.side-card h3{
-    font-size:17px;
-    line-height:1.6;
-    margin:9px 0;
-}
-
-
-/* =====================================================
-   SECTIONS
-===================================================== */
-
-.section{
-    padding:36px 0;
-}
-
-.section-header{
-    display:flex;
-
-    align-items:flex-end;
-    justify-content:space-between;
-
-    gap:15px;
-
-    margin-bottom:20px;
-}
-
-.section-title{
-    font-size:24px;
-    font-weight:900;
-}
-
-.section-subtitle{
-    margin-top:5px;
-
-    color:#858da0;
-
+    background:rgba(124,92,255,.15);
+    border:1px solid rgba(124,92,255,.35);
+    color:#bdb0ff;
     font-size:12px;
-}
-
-.section-more{
-    border:0;
-    background:none;
-
-    color:#8065ff;
-
-    font-size:12px;
-    font-weight:800;
-}
-
-
-/* =====================================================
-   BUTTON
-===================================================== */
-
-.read-btn{
-    border:0;
-
-    color:white;
-
-    padding:8px 13px;
-
-    border-radius:9px;
-
-    font-size:11px;
-    font-weight:800;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7048ff,
-            #4e38bb
-        );
-
-    transition:.25s ease;
-}
-
-.read-btn:hover{
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 9px 25px
-        rgba(112,72,255,.25);
-}
-
-
-/* =====================================================
-   POSTS
-===================================================== */
-
-.posts-layout{
-    display:grid;
-
-    grid-template-columns:
-        1fr 300px;
-
-    gap:20px;
-}
-
-.posts-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:16px;
-}
-
-.card{
-    overflow:hidden;
-
-    border-radius:19px;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    background:
-        rgba(255,255,255,.035);
-
-    transition:.35s ease;
-}
-
-body.light .card{
-    background:
-        rgba(255,255,255,.75);
-
-    border-color:
-        rgba(0,0,0,.07);
-}
-
-.card:hover{
-    transform:translateY(-5px);
-
-    border-color:
-        rgba(121,91,255,.4);
-
-    box-shadow:
-        0 20px 45px
-        rgba(0,0,0,.14);
-}
-
-.card-image{
-    display:block;
-
-    width:100%;
-    height:205px;
-
-    object-fit:cover;
-}
-
-.card-body{
-    padding:17px;
-}
-
-.card-category{
-    color:#8065ff;
-
-    font-size:10px;
-    font-weight:900;
-}
-
-.card-title{
-    font-size:16px;
-
-    line-height:1.7;
-
-    margin:6px 0;
-
-    font-weight:800;
-}
-
-.card-description{
-    color:#8e96a7;
-
-    font-size:11px;
-
-    line-height:1.9;
-}
-
-.card-footer{
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    margin-top:15px;
-}
-
-.card-date{
-    color:#777f91;
-
-    font-size:10px;
-}
-
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
-
-.sidebar-box{
-    border-radius:19px;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    background:
-        rgba(255,255,255,.035);
-
-    padding:18px;
-}
-
-body.light .sidebar-box{
-    background:#fff;
-    border-color:rgba(0,0,0,.07);
-}
-
-.sidebar-title{
-    font-size:14px;
-    font-weight:900;
-
-    margin-bottom:12px;
-}
-
-.latest-item{
-    display:flex;
-
-    gap:10px;
-
-    padding:12px 0;
-
-    border-bottom:
-        1px solid rgba(255,255,255,.06);
-}
-
-body.light .latest-item{
-    border-color:
-        rgba(0,0,0,.06);
-}
-
-.latest-item:last-child{
-    border-bottom:0;
-}
-
-.latest-number{
-    width:28px;
-    height:28px;
-
-    flex-shrink:0;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:9px;
-
-    color:white;
-
-    font-size:10px;
-    font-weight:900;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7048ff,
-            #00aeda
-        );
-}
-
-.latest-item h4{
-    font-size:11px;
-    line-height:1.7;
-}
-
-
-/* =====================================================
-   GAME GRID
-===================================================== */
-
-.game-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap:15px;
-}
-
-.game-card{
-    position:relative;
-
-    min-height:245px;
-
-    overflow:hidden;
-
-    border-radius:18px;
-
-    background-size:cover;
-    background-position:center;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    transition:.35s ease;
-}
-
-.game-card::after{
-    content:"";
-
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(2,4,9,.95),
-            transparent 70%
-        );
-}
-
-.game-card:hover{
-    transform:
-        translateY(-5px)
-        scale(1.01);
-}
-
-.game-info{
-    position:absolute;
-
-    right:17px;
-    left:17px;
-    bottom:17px;
-
-    z-index:2;
-}
-
-.game-info h3{
-    font-size:14px;
-
-    line-height:1.6;
-
-    margin-top:7px;
-}
-
-
-/* =====================================================
-   SOFTWARE
-===================================================== */
-
-.software-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:16px;
-}
-
-.software-card{
-    padding:20px;
-
-    border-radius:18px;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    background:
-        rgba(255,255,255,.035);
-
-    transition:.3s ease;
-}
-
-body.light .software-card{
-    background:white;
-    border-color:rgba(0,0,0,.07);
-}
-
-.software-card:hover{
-    transform:translateY(-4px);
-}
-
-.software-icon{
-    width:54px;
-    height:54px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:15px;
-
-    color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7048ff,
-            #00bce8
-        );
-
-    font-size:23px;
-
-    margin-bottom:14px;
-}
-
-.software-card h3{
-    font-size:15px;
-}
-
-.software-card p{
-    color:#8c94a6;
-
-    font-size:11px;
-
-    line-height:1.9;
-
-    margin-top:7px;
-}
-
-.download-btn{
-    display:inline-block;
-
-    margin-top:14px;
-
-    padding:8px 13px;
-
-    border-radius:9px;
-
-    color:#927fff;
-
-    background:
-        rgba(112,72,255,.12);
-
-    font-size:10px;
-    font-weight:800;
-}
-
-
-/* =====================================================
-   ARTICLE
-===================================================== */
-
-.article-page{
-    padding:38px 0 70px;
-}
-
-.article-container{
-    width:min(900px,100%);
-    margin:auto;
-}
-
-.back-btn{
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:7px;
-
-    padding:9px 14px;
-
-    border-radius:10px;
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    background:
-        rgba(255,255,255,.035);
-
-    color:#b8bfcd;
-
-    font-size:11px;
-
-    transition:.25s ease;
-}
-
-body.light .back-btn{
-    color:#343944;
-
-    border-color:
-        rgba(0,0,0,.08);
-
-    background:#fff;
-}
-
-.back-btn:hover{
-    transform:translateX(4px);
-}
-
-.article-category{
-    margin-top:25px;
-
-    color:#8065ff;
-
-    font-size:11px;
-    font-weight:900;
-}
-
-.article-title{
-    font-size:
-        clamp(28px,5vw,48px);
-
-    line-height:1.45;
-
-    font-weight:900;
-
-    margin-top:10px;
-}
-
-.article-meta{
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:13px;
-
-    color:#858da0;
-
-    font-size:10px;
-
-    margin-top:12px;
-}
-
-.article-cover{
-    width:100%;
-
-    max-height:520px;
-
-    object-fit:cover;
-
-    border-radius:23px;
-
-    margin:23px 0;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-}
-
-.article-description{
-    padding:19px;
-
-    border-right:
-        3px solid #7554ff;
-
-    border-radius:
-        0 12px 12px 0;
-
-    background:
-        rgba(112,72,255,.07);
-
-    color:#b9bfcd;
-
-    font-size:14px;
-
-    line-height:2.2;
-}
-
-.article-content{
-    margin-top:30px;
-}
-
-.article-text{
-    color:#c3c9d4;
-
-    font-size:15px;
-
-    line-height:2.4;
-
-    margin:23px 0;
-
-    white-space:pre-wrap;
-}
-
-body.light .article-text{
-    color:#373c48;
-}
-
-.article-image{
-    display:block;
-
-    width:100%;
-
-    max-height:650px;
-
-    object-fit:cover;
-
-    border-radius:18px;
-
-    margin:25px 0;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-}
-
-.article-video{
-    display:block;
-
-    width:100%;
-
-    aspect-ratio:16/9;
-
-    border:0;
-
-    border-radius:18px;
-
-    background:#000;
-
-    margin:25px 0;
-}
-
-
-/* =====================================================
-   STORE
-===================================================== */
-
-.coming-soon{
-    min-height:440px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
-
-    border-radius:24px;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(112,72,255,.13),
-            transparent 45%
-        ),
-        rgba(255,255,255,.025);
-}
-
-.coming-icon{
-    width:85px;
-    height:85px;
-
-    display:grid;
-    place-items:center;
-
-    border-radius:25px;
-
-    font-size:36px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7048ff,
-            #00bde9
-        );
-
-    box-shadow:
-        0 20px 60px
-        rgba(112,72,255,.25);
-
-    margin-bottom:20px;
-}
-
-.coming-soon h2{
-    font-size:28px;
-}
-
-.coming-soon p{
-    color:#8991a3;
-
-    font-size:12px;
-
-    margin-top:8px;
-}
-
-
-/* =====================================================
-   ABOUT
-===================================================== */
-
-.about-box{
-    padding:35px;
-
-    border-radius:24px;
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    background:
-        rgba(255,255,255,.035);
-
-    color:#aab1c0;
-
-    line-height:2.25;
-}
-
-body.light .about-box{
-    background:white;
-    border-color:rgba(0,0,0,.07);
-}
-
-
-/* =====================================================
-   STATS
-===================================================== */
-
-.stats{
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap:8px;
-
-    margin:10px 0 5px;
-}
-
-.stat{
-    padding:12px 5px;
-
-    text-align:center;
-
-    border-radius:12px;
-
-    border:
-        1px solid rgba(255,255,255,.06);
-
-    background:
-        rgba(255,255,255,.025);
-}
-
-body.light .stat{
-    background:#fff;
-    border-color:rgba(0,0,0,.06);
-}
-
-.stat-number{
-    font-size:17px;
-    font-weight:900;
-}
-
-.stat-label{
-    color:#858da0;
-    font-size:9px;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-.footer{
-    margin-top:50px;
-
-    padding:35px 0;
-
-    border-top:
-        1px solid rgba(255,255,255,.06);
-
-    color:#747c8e;
-
-    font-size:11px;
-
-    text-align:center;
-}
-
-body.light .footer{
-    border-color:
-        rgba(0,0,0,.07);
-}
-
-
-/* =====================================================
-   AUTH
-===================================================== */
-
-.modal{
-    position:fixed;
-
-    inset:0;
-
-    z-index:3000;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-
-    background:
-        rgba(0,0,0,.72);
-
-    backdrop-filter:blur(12px);
-}
-
-.modal.show{
-    display:flex;
-
-    animation:
-        modalFade .25s ease;
-}
-
-@keyframes modalFade{
-
-    from{
-        opacity:0;
-    }
-
-    to{
-        opacity:1;
-    }
-
-}
-
-.modal-box{
-    width:min(430px,100%);
-
-    padding:25px;
-
-    border-radius:23px;
-
-    background:#10131d;
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.5);
-
-    animation:
-        modalBoxIn .35s ease;
-}
-
-body.light .modal-box{
-    background:white;
-
-    border-color:
-        rgba(0,0,0,.08);
-}
-
-@keyframes modalBoxIn{
-
-    from{
-        opacity:0;
-        transform:
-            translateY(20px)
-            scale(.97);
-    }
-
-    to{
-        opacity:1;
-        transform:none;
-    }
-
-}
-
-.modal-head{
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
     margin-bottom:18px;
 }
 
-.modal-head h2{
-    font-size:19px;
+.hero h1{
+    font-size:clamp(32px,5vw,64px);
+    line-height:1.15;
+    font-weight:900;
+    margin-bottom:18px;
 }
 
-.close-btn{
-    border:0;
-    background:none;
-
-    color:#8e96a7;
-
-    font-size:24px;
+.hero p{
+    color:#c1c8d4;
+    line-height:2;
+    font-size:16px;
+    max-width:680px;
 }
 
-.form-input{
-    width:100%;
-
-    height:48px;
-
+.hero-btn{
+    display:inline-flex;
+    margin-top:28px;
+    padding:13px 22px;
     border-radius:12px;
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    background:
-        rgba(255,255,255,.04);
-
+    background:linear-gradient(135deg,var(--accent),#6045e9);
     color:white;
-
-    padding:0 14px;
-
-    margin-bottom:10px;
-
-    outline:none;
-
-    transition:.25s ease;
+    text-decoration:none;
+    font-weight:700;
+    box-shadow:0 10px 30px rgba(124,92,255,.25);
 }
 
-body.light .form-input{
-    color:#111;
+/* ================= SECTIONS ================= */
 
-    background:#f4f5f8;
-
-    border-color:
-        rgba(0,0,0,.08);
+.container{
+    max-width:var(--max);
+    margin:auto;
+    padding:70px 24px;
 }
 
-.form-input:focus{
-    border-color:#7356ff;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(115,86,255,.1);
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:20px;
+    margin-bottom:25px;
 }
 
-.primary-btn{
-    width:100%;
-    height:48px;
-
-    border:0;
-
-    border-radius:12px;
-
-    color:white;
-
-    font-weight:800;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7048ff,
-            #00aeda
-        );
-
-    transition:.25s ease;
+.section-title{
+    font-size:28px;
+    font-weight:900;
 }
 
-.primary-btn:hover{
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 10px 30px
-        rgba(112,72,255,.25);
+.section-title span{
+    color:#8874ff;
 }
 
-.auth-switch{
-    width:100%;
-
-    border:0;
-
-    background:none;
-
-    color:#8065ff;
-
-    font-size:11px;
-
-    margin-top:14px;
+.section-sub{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:6px;
 }
 
-
-/* =====================================================
-   AUTH USER PANEL
-===================================================== */
-
-.user-box{
-    display:none;
-
-    margin-top:15px;
-
-    padding:14px;
-
-    border-radius:14px;
-
-    background:
-        rgba(112,72,255,.07);
-
-    border:
-        1px solid rgba(112,72,255,.14);
-}
-
-.user-box.show{
-    display:block;
-}
-
-.user-name{
-    font-weight:800;
+.more{
+    color:#a899ff;
+    text-decoration:none;
     font-size:13px;
 }
 
-.user-email{
-    color:#858da0;
-    font-size:10px;
-    margin-top:3px;
+/* ================= POSTS ================= */
+
+.posts-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
 }
 
-.logout-btn{
-    margin-top:11px;
+.post-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+    backdrop-filter:blur(12px);
+}
 
+.post-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(124,92,255,.35);
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+.post-image{
+    height:220px;
+    position:relative;
+    overflow:hidden;
+    background:#111827;
+}
+
+.post-image img{
     width:100%;
-
-    padding:9px;
-
-    border:0;
-
-    border-radius:9px;
-
-    background:
-        rgba(255,80,110,.1);
-
-    color:#ff7791;
-
-    font-size:10px;
-    font-weight:800;
+    height:100%;
+    object-fit:cover;
+    transition:.5s;
 }
 
-
-/* =====================================================
-   EMAIL VERIFIED
-===================================================== */
-
-.verify-success{
-    position:fixed;
-
-    top:90px;
-
-    right:20px;
-
-    z-index:5000;
-
-    width:min(390px,calc(100% - 40px));
-
-    padding:16px;
-
-    border-radius:15px;
-
-    background:
-        rgba(17,27,25,.95);
-
-    border:
-        1px solid
-        rgba(70,230,160,.25);
-
-    box-shadow:
-        0 20px 60px
-        rgba(0,0,0,.3);
-
-    transform:
-        translateX(calc(100% + 40px));
-
-    opacity:0;
-
-    transition:
-        .5s cubic-bezier(.22,.8,.25,1);
+.post-card:hover .post-image img{
+    transform:scale(1.06);
 }
 
-.verify-success.show{
-    transform:translateX(0);
-    opacity:1;
-}
-
-.verify-success strong{
-    display:block;
-
-    color:#57e5a1;
-
-    font-size:13px;
-
-    margin-bottom:4px;
-}
-
-.verify-success span{
-    color:#aeb8b4;
-
+.post-category{
+    position:absolute;
+    right:14px;
+    top:14px;
+    padding:6px 10px;
+    border-radius:8px;
+    background:rgba(5,7,13,.8);
+    backdrop-filter:blur(8px);
     font-size:11px;
+    color:#ddd;
 }
 
+.post-body{
+    padding:19px;
+}
 
-/* =====================================================
-   LOADING
-===================================================== */
+.post-body h3{
+    font-size:18px;
+    line-height:1.7;
+    margin-bottom:9px;
+}
 
-.loading{
-    padding:45px;
+.post-body p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.9;
+    min-height:49px;
+}
 
-    text-align:center;
+.post-footer{
+    margin-top:17px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-    color:#7f8798;
+.post-date{
+    font-size:11px;
+    color:#768196;
+}
 
+.read-more{
+    text-decoration:none;
+    color:#aa9cff;
     font-size:12px;
+    font-weight:700;
 }
+
+/* ================= CATEGORY ================= */
+
+.category-strip{
+    display:flex;
+    gap:10px;
+    overflow:auto;
+    padding-bottom:5px;
+    margin-bottom:25px;
+}
+
+.category-strip a{
+    white-space:nowrap;
+    text-decoration:none;
+    color:#b7c0d0;
+    border:1px solid var(--line);
+    padding:9px 16px;
+    border-radius:999px;
+    background:rgba(255,255,255,.025);
+    font-size:13px;
+}
+
+.category-strip a:hover,
+.category-strip a.active{
+    color:white;
+    background:rgba(124,92,255,.16);
+    border-color:rgba(124,92,255,.35);
+}
+
+/* ================= FEATURED ================= */
+
+.featured-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+}
+
+.featured-box{
+    min-height:310px;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    position:relative;
+    background:var(--card2);
+}
+
+.featured-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    position:absolute;
+    inset:0;
+}
+
+.featured-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(0deg,rgba(3,5,10,.95),rgba(3,5,10,.05));
+}
+
+.featured-content{
+    position:absolute;
+    bottom:0;
+    padding:27px;
+}
+
+.featured-content h3{
+    font-size:25px;
+    line-height:1.5;
+}
+
+/* ================= EMPTY ================= */
 
 .empty{
-    grid-column:1/-1;
-
-    padding:40px 20px;
-
-    text-align:center;
-
-    color:#7f8798;
-
-    border:
-        1px dashed
-        rgba(255,255,255,.1);
-
+    border:1px dashed var(--line);
     border-radius:18px;
+    padding:45px;
+    text-align:center;
+    color:var(--muted);
 }
 
+/* ================= FOOTER ================= */
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+footer{
+    border-top:1px solid var(--line);
+    background:rgba(3,5,10,.65);
+}
 
-@media(max-width:1000px){
+.footer-inner{
+    max-width:var(--max);
+    margin:auto;
+    padding:45px 24px;
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr;
+    gap:40px;
+}
 
-    .nav{
+.footer-title{
+    font-size:20px;
+    font-weight:900;
+    margin-bottom:12px;
+}
+
+.footer-text{
+    color:var(--muted);
+    font-size:13px;
+    line-height:2;
+}
+
+.footer-links{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.footer-links a{
+    color:#9da8bb;
+    text-decoration:none;
+    font-size:13px;
+}
+
+.footer-bottom{
+    max-width:var(--max);
+    margin:auto;
+    padding:18px 24px;
+    border-top:1px solid var(--line);
+    color:#677287;
+    font-size:11px;
+    text-align:center;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+    padding:50px;
+    color:var(--muted);
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px){
+
+    .menu{
         display:none;
     }
 
-    .mobile-menu{
-        display:block;
+    .hero{
+        min-height:470px;
     }
 
-    .hero-grid{
+    .hero-content{
+        padding:30px;
+    }
+
+    .posts-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .featured-grid{
         grid-template-columns:1fr;
     }
 
-    .hero-side{
+    .footer-inner{
         grid-template-columns:1fr 1fr;
-        grid-template-rows:auto;
     }
-
-    .posts-layout{
-        grid-template-columns:1fr;
-    }
-
-    .game-grid{
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .software-grid{
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
 }
 
-@media(max-width:650px){
+@media(max-width:600px){
 
-    .container{
-        width:
-            min(
-                calc(100% - 20px),
-                1180px
-            );
-    }
-
-    .header-inner{
+    .nav{
         height:68px;
+        padding:0 15px;
     }
 
     .logo-text{
-        font-size:15px;
+        font-size:16px;
     }
 
-    .logo-icon{
-        width:38px;
-        height:38px;
+    .logo-mark{
+        width:37px;
+        height:37px;
+    }
+
+    .hero-wrap{
+        margin-top:15px;
+        padding:0 12px;
     }
 
     .hero{
-        padding-top:20px;
+        min-height:470px;
+        border-radius:20px;
     }
 
-    .hero-main{
-        min-height:390px;
-
-        padding:22px;
-
-        border-radius:19px;
+    .hero-content{
+        padding:25px 20px;
     }
 
-    .hero-title{
-        font-size:27px;
+    .hero h1{
+        font-size:32px;
     }
 
-    .hero-side{
-        grid-template-columns:1fr;
-    }
-
-    .side-card{
-        min-height:180px;
-    }
-
-    .section{
-        padding:28px 0;
+    .container{
+        padding:45px 15px;
     }
 
     .section-title{
-        font-size:20px;
+        font-size:23px;
     }
 
     .posts-grid{
         grid-template-columns:1fr;
     }
 
-    .game-grid{
-        grid-template-columns:
-            1fr 1fr;
-
-        gap:10px;
+    .post-image{
+        height:210px;
     }
 
-    .game-card{
-        min-height:190px;
-    }
-
-    .software-grid{
+    .footer-inner{
         grid-template-columns:1fr;
+        padding:35px 20px;
     }
 
-    .article-title{
-        font-size:28px;
+    .header-actions .login-btn{
+        padding:8px 11px;
+        font-size:11px;
     }
-
-    .article-text{
-        font-size:14px;
-    }
-
-    .article-cover{
-        border-radius:17px;
-    }
-
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
+<!-- BACKGROUND -->
 <div class="background">
-
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-
+    <div class="grid-bg"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
 </div>
 
+<header>
+    <nav class="nav">
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+        <a class="logo" href="index.html">
+            <div class="logo-mark">PS</div>
+            <div class="logo-text">PERSIAN <span>STARK</span></div>
+        </a>
 
-<header class="header">
+        <div class="menu">
+            <a href="index.html">خانه</a>
+            <a href="#news">اخبار گیم</a>
+            <a href="#games">معرفی بازی</a>
+            <a href="#software">نرم‌افزار</a>
+            <a href="#store">فروشگاه</a>
+            <a href="#about">درباره ما</a>
+        </div>
 
-<div class="container header-inner">
+        <div class="header-actions">
+            <button class="login-btn" onclick="showLogin()">ورود / ثبت‌نام</button>
+        </div>
 
-
-<button
-    class="logo"
-    onclick="navigate('home')"
->
-
-    <div class="logo-icon">
-        PS
-    </div>
-
-    <div class="logo-text">
-        PERSIAN <span>STARK</span>
-    </div>
-
-</button>
-
-
-<nav class="nav">
-
-<button
-    class="nav-btn active"
-    data-page="home"
-    onclick="navigate('home')"
->
-خانه
-</button>
-
-<button
-    class="nav-btn"
-    data-page="news"
-    onclick="navigate('news')"
->
-اخبار گیم
-</button>
-
-<button
-    class="nav-btn"
-    data-page="games"
-    onclick="navigate('games')"
->
-معرفی بازی
-</button>
-
-<button
-    class="nav-btn"
-    data-page="software"
-    onclick="navigate('software')"
->
-نرم افزار
-</button>
-
-<button
-    class="nav-btn"
-    data-page="store"
-    onclick="navigate('store')"
->
-فروشگاه CS2
-</button>
-
-<button
-    class="nav-btn"
-    data-page="about"
-    onclick="navigate('about')"
->
-درباره ما
-</button>
-
-</nav>
-
-
-<div class="header-actions">
-
-<button
-    class="icon-btn"
-    id="themeButton"
-    onclick="toggleTheme()"
->
-☾
-</button>
-
-<button
-    class="icon-btn"
-    onclick="openAuth()"
->
-♙
-</button>
-
-</div>
-
-</div>
-
-
-<div class="container mobile-menu">
-
-<div class="mobile-menu-grid">
-
-<button
-    class="mobile-nav-btn active"
-    data-page="home"
-    onclick="navigate('home')"
->
-خانه
-</button>
-
-<button
-    class="mobile-nav-btn"
-    data-page="news"
-    onclick="navigate('news')"
->
-اخبار
-</button>
-
-<button
-    class="mobile-nav-btn"
-    data-page="games"
-    onclick="navigate('games')"
->
-بازی‌ها
-</button>
-
-<button
-    class="mobile-nav-btn"
-    data-page="software"
-    onclick="navigate('software')"
->
-نرم افزار
-</button>
-
-<button
-    class="mobile-nav-btn"
-    data-page="store"
-    onclick="navigate('store')"
->
-CS2
-</button>
-
-<button
-    class="mobile-nav-btn"
-    data-page="about"
-    onclick="navigate('about')"
->
-درباره ما
-</button>
-
-</div>
-
-</div>
-
+    </nav>
 </header>
-
 
 <main>
 
+    <!-- HERO -->
+    <section class="hero-wrap">
+        <div class="hero">
 
-<!-- =====================================================
-     HOME
-===================================================== -->
+            <div class="hero-content">
 
-<section
-    class="page active"
-    id="page-home"
->
+                <span class="badge">PERSIAN STARK • GAMING MEDIA</span>
 
-<div class="container">
+                <h1>
+                    دنیای بازی‌ها<br>
+                    از اینجا شروع میشه.
+                </h1>
 
+                <p>
+                    جدیدترین اخبار بازی، معرفی عناوین جذاب،
+                    نرم‌افزارهای کاربردی و اتفاقات دنیای گیم
+                    را در PERSIAN STARK دنبال کن.
+                </p>
 
-<div class="hero">
+                <a href="#news" class="hero-btn">
+                    مشاهده آخرین مطالب
+                </a>
 
-<div class="hero-grid">
+            </div>
 
+        </div>
+    </section>
 
-<article
-    class="hero-main"
-    id="heroMain"
->
 
-<div class="hero-content">
+    <!-- CATEGORY -->
+    <section class="container">
 
-<span class="badge">
-🔥 PERSIAN STARK
-</span>
+        <div class="category-strip">
 
-<h1
-    class="hero-title"
-    id="heroTitle"
->
-دنیای گیم را از زاویه‌ای متفاوت تجربه کن
-</h1>
+            <a href="index.html" class="active">همه</a>
 
-<p
-    class="hero-description"
-    id="heroDescription"
->
-جدیدترین اخبار، معرفی بازی‌ها و نرم افزارهای کاربردی.
-</p>
+            <a href="index.html?category=news">
+                اخبار گیم
+            </a>
 
-<div class="hero-meta">
+            <a href="index.html?category=game">
+                معرفی بازی
+            </a>
 
-<span id="heroDate">
-PERSIAN STARK
-</span>
+            <a href="index.html?category=software">
+                نرم‌افزار
+            </a>
 
-<span>•</span>
+            <a href="#store">
+                فروشگاه CS2
+            </a>
 
-<span>
-اخبار و گیم
-</span>
+        </div>
 
-</div>
+    </section>
 
-</div>
 
-</article>
+    <!-- LATEST -->
+    <section class="container" id="news">
 
+        <div class="section-head">
 
-<div class="hero-side">
+            <div>
+                <div class="section-title">
+                    آخرین <span>مطالب</span>
+                </div>
 
+                <div class="section-sub">
+                    تازه‌ترین مطالب منتشر شده در PERSIAN STARK
+                </div>
+            </div>
 
-<article
-    class="side-card"
-    style="
-        background-image:
-        url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=900&q=80')
-    "
->
+            <a href="index.html?category=news" class="more">
+                مشاهده همه →
+            </a>
 
-<div class="side-card-content">
+        </div>
 
-<span class="badge">
-🎮 بازی
-</span>
+        <div id="postsGrid" class="posts-grid">
+            <div class="loading">در حال دریافت مطالب...</div>
+        </div>
 
-<h3>
-معرفی بازی‌های جدید و جذاب
-</h3>
+    </section>
 
-<button
-    class="read-btn"
-    onclick="navigate('games')"
->
-مشاهده بازی‌ها
-</button>
 
-</div>
+    <!-- GAME INTRO -->
+    <section class="container" id="games">
 
-</article>
+        <div class="section-head">
 
+            <div>
+                <div class="section-title">
+                    معرفی <span>بازی‌ها</span>
+                </div>
 
-<article
-    class="side-card"
-    style="
-        background-image:
-        url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80')
-    "
->
+                <div class="section-sub">
+                    بازی‌هایی که ارزش تجربه کردن دارند
+                </div>
+            </div>
 
-<div class="side-card-content">
+            <a href="index.html?category=game" class="more">
+                همه معرفی‌ها →
+            </a>
 
-<span class="badge">
-💻 نرم افزار
-</span>
+        </div>
 
-<h3>
-دانلود نرم افزارهای کاربردی
-</h3>
+        <div id="gameGrid" class="posts-grid">
+            <div class="loading">در حال دریافت...</div>
+        </div>
 
-<button
-    class="read-btn"
-    onclick="navigate('software')"
->
-ورود به بخش نرم افزار
-</button>
+    </section>
 
-</div>
 
-</article>
+    <!-- SOFTWARE -->
+    <section class="container" id="software">
 
-</div>
+        <div class="section-head">
 
-</div>
+            <div>
+                <div class="section-title">
+                    نرم‌افزارهای <span>کاربردی</span>
+                </div>
 
-</div>
+                <div class="section-sub">
+                    نرم‌افزارها و ابزارهایی که در سایت منتشر می‌شوند
+                </div>
+            </div>
 
+            <a href="index.html?category=software" class="more">
+                همه نرم‌افزارها →
+            </a>
 
-<!-- POSTS -->
+        </div>
 
-<section class="section">
+        <div id="softwareGrid" class="posts-grid">
+            <div class="loading">در حال دریافت...</div>
+        </div>
 
-<div class="section-header">
+    </section>
 
-<div>
 
-<h2 class="section-title">
-آخرین مطالب
-</h2>
+    <!-- STORE -->
+    <section class="container" id="store">
 
-<p class="section-subtitle">
-جدیدترین محتوای PERSIAN STARK
-</p>
+        <div class="section-head">
 
-</div>
+            <div>
+                <div class="section-title">
+                    فروشگاه <span>CS2</span>
+                </div>
 
-<button
-    class="section-more"
-    onclick="navigate('news')"
->
-مشاهده همه ←
-</button>
+                <div class="section-sub">
+                    بخش فروش اسکین‌های Counter-Strike 2
+                </div>
+            </div>
 
-</div>
+        </div>
 
+        <div class="empty">
 
-<div class="posts-layout">
+            <h2 style="margin-bottom:10px;">
+                فروشگاه به‌زودی فعال می‌شود 🚀
+            </h2>
 
-<div
-    id="homePosts"
-    class="posts-grid"
->
+            <p>
+                این بخش در حال آماده‌سازی است.
+            </p>
 
-<div class="loading">
-در حال دریافت مطالب...
-</div>
+        </div>
 
-</div>
+    </section>
 
 
-<aside>
+    <!-- ABOUT -->
+    <section class="container" id="about">
 
-<div class="sidebar-box">
+        <div class="section-head">
+            <div>
+                <div class="section-title">
+                    درباره <span>PERSIAN STARK</span>
+                </div>
+            </div>
+        </div>
 
-<div class="sidebar-title">
-دسته‌بندی مطالب
-</div>
+        <div class="empty">
 
+            <p style="line-height:2.2;">
+                PERSIAN STARK یک رسانه مستقل برای علاقه‌مندان
+                به بازی‌های ویدیویی، اخبار گیم، معرفی بازی‌ها
+                و نرم‌افزارهای کاربردی است.
+            </p>
 
-<div
-    class="latest-item"
-    onclick="navigate('news')"
-    style="cursor:pointer"
->
+        </div>
 
-<div class="latest-number">
-01
-</div>
-
-<div>
-<h4>
-اخبار گیم
-</h4>
-</div>
-
-</div>
-
-
-<div
-    class="latest-item"
-    onclick="navigate('games')"
-    style="cursor:pointer"
->
-
-<div class="latest-number">
-02
-</div>
-
-<div>
-<h4>
-معرفی بازی
-</h4>
-</div>
-
-</div>
-
-
-<div
-    class="latest-item"
-    onclick="navigate('software')"
-    style="cursor:pointer"
->
-
-<div class="latest-number">
-03
-</div>
-
-<div>
-<h4>
-نرم افزار
-</h4>
-</div>
-
-</div>
-
-
-<div
-    class="latest-item"
-    onclick="navigate('store')"
-    style="cursor:pointer"
->
-
-<div class="latest-number">
-04
-</div>
-
-<div>
-<h4>
-فروشگاه CS2
-</h4>
-</div>
-
-</div>
-
-</div>
-
-</aside>
-
-</div>
-
-</section>
-
-
-<div class="stats">
-
-<div class="stat">
-<div
-    class="stat-number"
-    id="membersStat"
->
-—
-</div>
-<div class="stat-label">
-عضو
-</div>
-</div>
-
-<div class="stat">
-<div
-    class="stat-number"
-    id="onlineStat"
->
-—
-</div>
-<div class="stat-label">
-آنلاین
-</div>
-</div>
-
-<div class="stat">
-<div
-    class="stat-number"
-    id="todayStat"
->
-—
-</div>
-<div class="stat-label">
-بازدید امروز
-</div>
-</div>
-
-<div class="stat">
-<div
-    class="stat-number"
-    id="totalStat"
->
-—
-</div>
-<div class="stat-label">
-بازدید کل
-</div>
-</div>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     NEWS
-===================================================== -->
-
-<section
-    class="page"
-    id="page-news"
->
-
-<div class="container section">
-
-<div class="section-header">
-
-<div>
-
-<h1 class="section-title">
-اخبار گیم
-</h1>
-
-<p class="section-subtitle">
-مطالبی که در دسته اخبار گیم منتشر شده‌اند
-</p>
-
-</div>
-
-</div>
-
-
-<div
-    id="newsPosts"
-    class="posts-grid"
->
-<div class="loading">
-در حال دریافت اخبار...
-</div>
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     GAMES
-===================================================== -->
-
-<section
-    class="page"
-    id="page-games"
->
-
-<div class="container section">
-
-<div class="section-header">
-
-<div>
-
-<h1 class="section-title">
-معرفی بازی
-</h1>
-
-<p class="section-subtitle">
-معرفی بازی‌ها از داخل پنل مدیریت
-</p>
-
-</div>
-
-</div>
-
-
-<div
-    id="gamePosts"
-    class="posts-grid"
->
-
-<div class="loading">
-در حال دریافت معرفی بازی‌ها...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     SOFTWARE
-===================================================== -->
-
-<section
-    class="page"
-    id="page-software"
->
-
-<div class="container section">
-
-<div class="section-header">
-
-<div>
-
-<h1 class="section-title">
-نرم افزارهای کاربردی
-</h1>
-
-<p class="section-subtitle">
-نرم افزارهایی که از پنل مدیریت منتشر می‌شوند
-</p>
-
-</div>
-
-</div>
-
-
-<div
-    id="softwarePosts"
-    class="posts-grid"
->
-
-<div class="loading">
-در حال دریافت نرم افزارها...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     STORE
-===================================================== -->
-
-<section
-    class="page"
-    id="page-store"
->
-
-<div class="container section">
-
-<div class="coming-soon">
-
-<div class="coming-icon">
-🛒
-</div>
-
-<h2>
-فروشگاه CS2
-</h2>
-
-<p>
-فروشگاه اسکین‌های CS2 به‌زودی راه‌اندازی می‌شود.
-</p>
-
-<span
-    class="badge"
-    style="margin-top:18px"
->
-به‌زودی
-</span>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     ABOUT
-===================================================== -->
-
-<section
-    class="page"
-    id="page-about"
->
-
-<div class="container section">
-
-<div class="about-box">
-
-<h2>
-درباره PERSIAN STARK
-</h2>
-
-<br>
-
-<p>
-PERSIAN STARK یک پروژه گیمینگ برای اخبار،
-معرفی بازی‌ها، نرم افزارهای کاربردی و محتوای دنیای گیم است.
-</p>
-
-<br>
-
-<p>
-هدف ما ساخت یک مرجع مدرن، سریع و کاربردی
-برای گیمرهای فارسی‌زبان است.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     ARTICLE
-===================================================== -->
-
-<section
-    class="page"
-    id="page-article"
->
-
-<div class="container article-page">
-
-<div class="article-container">
-
-<button
-    class="back-btn"
-    onclick="goBackFromArticle()"
->
-← بازگشت به مطالب
-</button>
-
-
-<div id="articleArea">
-
-<div class="loading">
-در حال بارگذاری مقاله...
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
+    </section>
 
 </main>
 
 
-<footer class="footer">
+<footer>
 
-<div class="container">
+    <div class="footer-inner">
 
-© 2026 PERSIAN STARK
+        <div>
+            <div class="footer-title">
+                PERSIAN STARK
+            </div>
 
-</div>
+            <div class="footer-text">
+                دنیای گیم، اخبار، معرفی بازی و نرم‌افزار
+                در یک خانه.
+            </div>
+        </div>
+
+        <div>
+            <div class="footer-title">دسترسی سریع</div>
+
+            <div class="footer-links">
+                <a href="index.html">خانه</a>
+                <a href="#news">اخبار گیم</a>
+                <a href="#games">معرفی بازی</a>
+                <a href="#software">نرم‌افزار</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="footer-title">PERSIAN STARK</div>
+
+            <div class="footer-links">
+                <a href="#store">فروشگاه CS2</a>
+                <a href="#about">درباره ما</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 PERSIAN STARK — All Rights Reserved
+    </div>
 
 </footer>
 
 
-<!-- =====================================================
-     AUTH MODAL
-===================================================== -->
-
-<div
-    class="modal"
-    id="authModal"
->
-
-<div class="modal-box">
-
-
-<div class="modal-head">
-
-<h2 id="authTitle">
-ورود به حساب
-</h2>
-
-<button
-    class="close-btn"
-    onclick="closeAuth()"
->
-×
-</button>
-
-</div>
-
-
-<div id="loginForm">
-
-<input
-    class="form-input"
-    id="authEmail"
-    type="email"
-    placeholder="ایمیل"
->
-
-<input
-    class="form-input"
-    id="authPassword"
-    type="password"
-    placeholder="رمز عبور"
->
-
-
-<button
-    class="primary-btn"
-    onclick="submitLogin()"
->
-ورود
-</button>
-
-<button
-    class="auth-switch"
-    onclick="showSignup()"
->
-حساب ندارید؟ ثبت نام کنید
-</button>
-
-</div>
-
-
-<div
-    id="signupForm"
-    style="display:none"
->
-
-<input
-    class="form-input"
-    id="signupUsername"
-    placeholder="نام کاربری"
->
-
-<input
-    class="form-input"
-    id="signupEmail"
-    type="email"
-    placeholder="ایمیل"
->
-
-<input
-    class="form-input"
-    id="signupPassword"
-    type="password"
-    placeholder="رمز عبور"
->
-
-
-<button
-    class="primary-btn"
-    onclick="submitSignup()"
->
-ثبت نام
-</button>
-
-
-<button
-    class="auth-switch"
-    onclick="showLogin()"
->
-قبلاً ثبت نام کرده‌اید؟ ورود
-</button>
-
-</div>
-
-
-<div
-    id="userBox"
-    class="user-box"
->
-
-<div
-    class="user-name"
-    id="userName"
->
-کاربر
-</div>
-
-<div
-    class="user-email"
-    id="userEmail"
->
--
-</div>
-
-
-<button
-    class="logout-btn"
-    onclick="logout()"
->
-خروج از حساب
-</button>
-
-</div>
-
-
-<p
-    id="authMessage"
-    style="
-        color:#ff718c;
-        font-size:11px;
-        text-align:center;
-        margin-top:12px;
-        line-height:1.8;
-    "
-></p>
-
-
-</div>
-
-</div>
-
-
-<!-- EMAIL VERIFIED MESSAGE -->
-
-<div
-    class="verify-success"
-    id="verifySuccess"
->
-
-<strong>
-✓ ایمیل شما با موفقیت تأیید شد
-</strong>
-
-<span>
-حساب شما فعال شد. اکنون می‌توانید از سایت استفاده کنید.
-</span>
-
-</div>
-
-
 <script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
 
 const SUPABASE_URL =
 "https://jmdoxofcyoxdrtxvvuiu.supabase.co";
@@ -2790,44 +956,25 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
 
-const supabaseClient =
-supabase.createClient(
+const { createClient } = supabase;
+
+const db = createClient(
     SUPABASE_URL,
     SUPABASE_KEY,
     {
         auth:{
             persistSession:true,
             autoRefreshToken:true,
-            detectSessionInUrl:true
+            detectSessionInUrl:true,
+            storageKey:"persian-stark-auth"
         }
     }
 );
 
 
-/* =====================================================
-   STATE
-===================================================== */
+/* ================= HELPERS ================= */
 
-let posts = [];
-
-let currentArticleId = null;
-
-let currentUser = null;
-
-
-/* =====================================================
-   HTML ESCAPE
-===================================================== */
-
-function escapeHTML(value){
-
-    if(
-        value === null ||
-        value === undefined
-    ){
-        return "";
-    }
-
+function escapeHTML(value=""){
     return String(value)
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
@@ -2837,15 +984,22 @@ function escapeHTML(value){
 }
 
 
-/* =====================================================
-   DATE
-===================================================== */
+function categoryName(category){
+
+    const names = {
+        news:"اخبار گیم",
+        game:"معرفی بازی",
+        software:"نرم‌افزار",
+        store:"فروشگاه CS2"
+    };
+
+    return names[category] || "PERSIAN STARK";
+}
+
 
 function formatDate(date){
 
-    if(!date){
-        return "";
-    }
+    if(!date) return "";
 
     try{
 
@@ -2856,1936 +1010,217 @@ function formatDate(date){
                 month:"long",
                 day:"numeric"
             }
-        ).format(
-            new Date(date)
-        );
+        ).format(new Date(date));
 
-    }catch{
+    }catch(e){
 
         return "";
 
     }
-
 }
 
 
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-function navigate(page){
-
-    const current =
-        document.querySelector(
-            ".page.active"
-        );
-
-    const target =
-        document.getElementById(
-            "page-" + page
-        );
-
-    if(!target){
-        return;
-    }
-
-
-    if(
-        current &&
-        current.id ===
-        "page-" + page
-    ){
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
-
-        return;
-    }
-
-
-    document
-        .querySelectorAll(".page")
-        .forEach(
-            el =>
-            el.classList.remove("active")
-        );
-
-
-    target.classList.add("active");
-
-
-    document
-        .querySelectorAll("[data-page]")
-        .forEach(btn => {
-
-            btn.classList.toggle(
-                "active",
-                btn.dataset.page === page
-            );
-
-        });
-
-
-    history.pushState(
-        {page},
-        "",
-        "#" + page
-    );
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =====================================================
-   THEME
-===================================================== */
-
-function applyTheme(theme){
-
-    const light =
-        theme === "light";
-
-    document.body.classList.toggle(
-        "light",
-        light
-    );
-
-
-    document
-        .getElementById("themeButton")
-        .textContent =
-            light ? "☀" : "☾";
-
-
-    localStorage.setItem(
-        "persianStarkTheme",
-        light ? "light" : "dark"
-    );
-
-}
-
-
-function toggleTheme(){
-
-    const current =
-        localStorage.getItem(
-            "persianStarkTheme"
-        ) || "dark";
-
-
-    const next =
-        current === "dark"
-        ? "light"
-        : "dark";
-
-
-    const button =
-        document.getElementById(
-            "themeButton"
-        );
-
-
-    button.animate(
-        [
-            {
-                transform:
-                "rotate(0deg) scale(1)"
-            },
-            {
-                transform:
-                "rotate(180deg) scale(1.2)"
-            },
-            {
-                transform:
-                "rotate(360deg) scale(1)"
-            }
-        ],
-        {
-            duration:650,
-            easing:
-            "cubic-bezier(.2,.8,.2,1)"
-        }
-    );
-
-
-    applyTheme(next);
-
-}
-
-
-/* =====================================================
-   POSTS
-===================================================== */
-
-async function loadPosts(){
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("posts")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            );
-
-
-        if(error){
-            throw error;
-        }
-
-
-        posts =
-            data || [];
-
-
-        renderHome();
-
-        renderNews();
-
-        renderGames();
-
-        renderSoftware();
-
-        updateHero();
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-
-        document
-            .getElementById(
-                "homePosts"
-            )
-            .innerHTML = `
-                <div class="empty">
-                    دریافت مطالب با خطا مواجه شد.
-                </div>
-            `;
-
-    }
-
-}
-
-
-/* =====================================================
-   TYPE NORMALIZER
-===================================================== */
-
-function getType(post){
-
-    return String(
-        post.content_type ||
-        post.category ||
-        "news"
-    )
-    .trim()
-    .toLowerCase();
-
-}
-
-
-/* =====================================================
-   POST CARD
-===================================================== */
+/* ================= POST CARD ================= */
 
 function postCard(post){
 
     const image =
         post.image_url ||
-        "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80";
-
+        "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80";
 
     return `
 
-    <article class="card">
+        <article class="post-card">
 
-        <img
-            class="card-image"
-            src="${escapeHTML(image)}"
-            alt="${escapeHTML(post.title)}"
-            loading="lazy"
-        >
+            <a
+                href="article.html?id=${encodeURIComponent(post.id)}"
+                style="text-decoration:none;color:inherit;"
+            >
 
+                <div class="post-image">
 
-        <div class="card-body">
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(post.title || "")}"
+                        loading="lazy"
+                    >
 
-            <div class="card-category">
+                    <span class="post-category">
+                        ${escapeHTML(categoryName(post.category))}
+                    </span>
 
-                ${escapeHTML(
-                    getTypeLabel(
-                        getType(post)
-                    )
-                )}
+                </div>
 
-            </div>
+                <div class="post-body">
 
+                    <h3>
+                        ${escapeHTML(post.title || "بدون عنوان")}
+                    </h3>
 
-            <h3 class="card-title">
-                ${escapeHTML(post.title)}
-            </h3>
+                    <p>
+                        ${escapeHTML(
+                            post.description ||
+                            post.content ||
+                            "برای مشاهده کامل مطلب وارد صفحه مقاله شوید."
+                        ).slice(0,180)}
+                    </p>
 
+                    <div class="post-footer">
 
-            <p class="card-description">
+                        <span class="post-date">
+                            ${formatDate(post.created_at)}
+                        </span>
 
-                ${escapeHTML(
-                    post.description ||
-                    post.content ||
-                    ""
-                ).slice(0,170)}
+                        <span class="read-more">
+                            ادامه مطلب ←
+                        </span>
 
-            </p>
+                    </div>
 
+                </div>
 
-            <div class="card-footer">
+            </a>
 
-                <span class="card-date">
-
-                    ${formatDate(
-                        post.created_at
-                    )}
-
-                </span>
-
-
-                <button
-                    class="read-btn"
-                    onclick="openArticle(${Number(post.id)})"
-                >
-                    ادامه مطلب
-                </button>
-
-            </div>
-
-        </div>
-
-    </article>
+        </article>
 
     `;
-
 }
 
 
-/* =====================================================
-   CATEGORY LABEL
-===================================================== */
+/* ================= LOAD POSTS ================= */
 
-function getTypeLabel(type){
+async function loadPosts(){
 
-    const labels = {
+    const postsGrid =
+        document.getElementById("postsGrid");
 
-        news:"اخبار گیم",
+    const gameGrid =
+        document.getElementById("gameGrid");
 
-        game:"معرفی بازی",
-
-        software:"نرم افزار",
-
-        tutorial:"آموزش",
-
-        tech:"فناوری"
-
-    };
+    const softwareGrid =
+        document.getElementById("softwareGrid");
 
 
-    return labels[type] ||
-        "مطالب";
-
-}
-
-
-/* =====================================================
-   HOME
-===================================================== */
-
-function renderHome(){
-
-    const el =
-        document.getElementById(
-            "homePosts"
-        );
+    const {data,error} = await db
+        .from("posts")
+        .select("*")
+        .order("created_at",{ascending:false});
 
 
-    if(!posts.length){
+    if(error){
 
-        el.innerHTML = `
-            <div class="empty">
-                هنوز مطلبی منتشر نشده است.
-            </div>
-        `;
+        console.error(error);
+
+        postsGrid.innerHTML =
+            `<div class="empty">
+                خطا در دریافت مطالب
+            </div>`;
 
         return;
+
     }
 
 
-    el.innerHTML =
+    const posts = data || [];
+
+
+    /* URL CATEGORY FILTER */
+
+    const params =
+        new URLSearchParams(location.search);
+
+    const requestedCategory =
+        params.get("category");
+
+
+    let visiblePosts = posts;
+
+    if(requestedCategory){
+
+        visiblePosts =
+            posts.filter(
+                p => p.category === requestedCategory
+            );
+
+    }
+
+
+    if(visiblePosts.length){
+
+        postsGrid.innerHTML =
+            visiblePosts
+                .slice(0,6)
+                .map(postCard)
+                .join("");
+
+    }else{
+
+        postsGrid.innerHTML =
+            `<div class="empty">
+                هنوز مطلبی در این بخش منتشر نشده است.
+            </div>`;
+
+    }
+
+
+    const games =
         posts
-        .slice(0,6)
-        .map(postCard)
-        .join("");
-
-}
+            .filter(p => p.category === "game")
+            .slice(0,3);
 
 
-/* =====================================================
-   NEWS
-===================================================== */
+    if(games.length){
 
-function renderNews(){
+        gameGrid.innerHTML =
+            games.map(postCard).join("");
 
-    const el =
-        document.getElementById(
-            "newsPosts"
-        );
+    }else{
 
-
-    const items =
-        posts.filter(
-            post =>
-                getType(post) ===
-                "news"
-        );
-
-
-    if(!items.length){
-
-        el.innerHTML = `
-            <div class="empty">
-                هنوز خبری در این بخش منتشر نشده است.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    el.innerHTML =
-        items
-        .map(postCard)
-        .join("");
-
-}
-
-
-/* =====================================================
-   GAMES
-===================================================== */
-
-function renderGames(){
-
-    const el =
-        document.getElementById(
-            "gamePosts"
-        );
-
-
-    const items =
-        posts.filter(
-            post =>
-                getType(post) ===
-                "game"
-        );
-
-
-    if(!items.length){
-
-        el.innerHTML = `
-            <div class="empty">
+        gameGrid.innerHTML =
+            `<div class="empty">
                 هنوز معرفی بازی منتشر نشده است.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    el.innerHTML =
-        items
-        .map(postCard)
-        .join("");
-
-}
-
-
-/* =====================================================
-   SOFTWARE
-===================================================== */
-
-function renderSoftware(){
-
-    const el =
-        document.getElementById(
-            "softwarePosts"
-        );
-
-
-    const items =
-        posts.filter(
-            post =>
-                getType(post) ===
-                "software"
-        );
-
-
-    if(!items.length){
-
-        el.innerHTML = `
-            <div class="empty">
-                هنوز نرم افزاری منتشر نشده است.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    el.innerHTML =
-        items
-        .map(postCard)
-        .join("");
-
-}
-
-
-/* =====================================================
-   HERO
-===================================================== */
-
-function updateHero(){
-
-    if(!posts.length){
-        return;
-    }
-
-
-    const first =
-        posts[0];
-
-
-    document
-        .getElementById(
-            "heroTitle"
-        )
-        .textContent =
-            first.title ||
-            "جدیدترین مطالب PERSIAN STARK";
-
-
-    document
-        .getElementById(
-            "heroDescription"
-        )
-        .textContent =
-            first.description ||
-            first.content ||
-            "";
-
-
-    document
-        .getElementById(
-            "heroDate"
-        )
-        .textContent =
-            formatDate(
-                first.created_at
-            );
-
-
-    if(first.image_url){
-
-        document
-            .getElementById(
-                "heroMain"
-            )
-            .style.backgroundImage = `
-
-                linear-gradient(
-                    to top,
-                    rgba(3,5,10,.96),
-                    rgba(3,5,10,.08)
-                ),
-
-                url("${first.image_url}")
-
-            `;
+            </div>`;
 
     }
 
 
-    document
-        .getElementById(
-            "heroMain"
-        )
-        .onclick = () =>
-            openArticle(
-                first.id
-            );
+    const software =
+        posts
+            .filter(p => p.category === "software")
+            .slice(0,3);
 
-}
 
+    if(software.length){
 
-/* =====================================================
-   ARTICLE
-===================================================== */
-
-async function openArticle(id){
-
-    currentArticleId =
-        Number(id);
-
-
-    document
-        .querySelectorAll(".page")
-        .forEach(
-            el =>
-            el.classList.remove("active")
-        );
-
-
-    document
-        .getElementById(
-            "page-article"
-        )
-        .classList.add("active");
-
-
-    document
-        .querySelectorAll("[data-page]")
-        .forEach(
-            btn =>
-            btn.classList.remove("active")
-        );
-
-
-    history.pushState(
-        {
-            page:"article",
-            id:Number(id)
-        },
-        "",
-        "#article-" + id
-    );
-
-
-    document
-        .getElementById(
-            "articleArea"
-        )
-        .innerHTML = `
-            <div class="loading">
-                در حال بارگذاری مقاله...
-            </div>
-        `;
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-
-    await renderArticle(
-        Number(id)
-    );
-
-}
-
-
-/* =====================================================
-   RENDER ARTICLE
-===================================================== */
-
-async function renderArticle(id){
-
-    const article =
-        posts.find(
-            post =>
-                Number(post.id) ===
-                Number(id)
-        );
-
-
-    const area =
-        document.getElementById(
-            "articleArea"
-        );
-
-
-    if(!article){
-
-        area.innerHTML = `
-            <div class="empty">
-                مقاله پیدا نشد.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    let blocks = [];
-
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .from("post_blocks")
-            .select("*")
-            .eq(
-                "post_id",
-                id
-            )
-            .order(
-                "sort_order",
-                {
-                    ascending:true
-                }
-            );
-
-
-        if(!error){
-
-            blocks =
-                data || [];
-
-        }
-
-    }catch(error){
-
-        console.log(error);
-
-    }
-
-
-    let content = "";
-
-
-    if(blocks.length){
-
-        content =
-            blocks
-            .map(
-                block => {
-
-                    if(
-                        block.type ===
-                        "text"
-                    ){
-
-                        return `
-
-                        <div
-                            class="article-text"
-                        >
-                            ${escapeHTML(
-                                block.content
-                            )}
-                        </div>
-
-                        `;
-
-                    }
-
-
-                    if(
-                        block.type ===
-                        "image"
-                    ){
-
-                        return `
-
-                        <img
-                            class="article-image"
-                            src="${escapeHTML(
-                                block.content
-                            )}"
-                            loading="lazy"
-                            alt=""
-                        >
-
-                        `;
-
-                    }
-
-
-                    if(
-                        block.type ===
-                        "video"
-                    ){
-
-                        const url =
-                            String(
-                                block.content ||
-                                ""
-                            );
-
-
-                        if(
-                            url.includes(
-                                "youtube.com"
-                            ) ||
-                            url.includes(
-                                "youtu.be"
-                            )
-                        ){
-
-                            let videoId =
-                                "";
-
-
-                            try{
-
-                                if(
-                                    url.includes(
-                                        "youtu.be/"
-                                    )
-                                ){
-
-                                    videoId =
-                                        url
-                                        .split(
-                                            "youtu.be/"
-                                        )[1]
-                                        .split(
-                                            /[?&]/
-                                        )[0];
-
-                                }else{
-
-                                    videoId =
-                                        new URL(
-                                            url
-                                        )
-                                        .searchParams
-                                        .get(
-                                            "v"
-                                        ) ||
-                                        "";
-
-                                }
-
-                            }catch{}
-
-
-                            return `
-
-                            <iframe
-                                class="article-video"
-                                src="https://www.youtube.com/embed/${escapeHTML(videoId)}"
-                                allowfullscreen
-                                loading="lazy"
-                            ></iframe>
-
-                            `;
-
-                        }
-
-
-                        return `
-
-                        <video
-                            class="article-video"
-                            controls
-                            preload="metadata"
-                        >
-
-                            <source
-                                src="${escapeHTML(url)}"
-                            >
-
-                        </video>
-
-                        `;
-
-                    }
-
-
-                    return "";
-
-                }
-            )
-            .join("");
+        softwareGrid.innerHTML =
+            software.map(postCard).join("");
 
     }else{
 
-        content = `
-
-            <div
-                class="article-text"
-            >
-                ${escapeHTML(
-                    article.content ||
-                    ""
-                )}
-            </div>
-
-        `;
-
-    }
-
-
-    const image =
-        article.image_url ||
-        "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=85";
-
-
-    area.innerHTML = `
-
-        <div class="article-category">
-
-            ${escapeHTML(
-                getTypeLabel(
-                    getType(article)
-                )
-            )}
-
-        </div>
-
-
-        <h1 class="article-title">
-
-            ${escapeHTML(
-                article.title
-            )}
-
-        </h1>
-
-
-        <div class="article-meta">
-
-            <span>
-                📅 ${formatDate(
-                    article.created_at
-                )}
-            </span>
-
-            <span>
-                🎮 PERSIAN STARK
-            </span>
-
-        </div>
-
-
-        <img
-            class="article-cover"
-            src="${escapeHTML(image)}"
-            alt="${escapeHTML(article.title)}"
-        >
-
-
-        ${
-            article.description
-            ?
-            `
-            <div
-                class="article-description"
-            >
-                ${escapeHTML(
-                    article.description
-                )}
-            </div>
-            `
-            :
-            ""
-        }
-
-
-        <div
-            class="article-content"
-        >
-
-            ${content}
-
-        </div>
-
-
-        <div style="margin-top:40px">
-
-            <button
-                class="back-btn"
-                onclick="goBackFromArticle()"
-            >
-                ← بازگشت به مطالب
-            </button>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =====================================================
-   ARTICLE BACK
-===================================================== */
-
-function goBackFromArticle(){
-
-    const type =
-        currentArticleId
-        ? getType(
-            posts.find(
-                p =>
-                    Number(p.id) ===
-                    Number(currentArticleId)
-            ) || {}
-        )
-        : "news";
-
-
-    if(type === "software"){
-
-        navigate("software");
-
-    }else if(type === "game"){
-
-        navigate("games");
-
-    }else{
-
-        navigate("news");
+        softwareGrid.innerHTML =
+            `<div class="empty">
+                هنوز نرم‌افزاری منتشر نشده است.
+            </div>`;
 
     }
 
 }
 
 
-/* =====================================================
-   AUTH OPEN
-===================================================== */
-
-function openAuth(){
-
-    document
-        .getElementById(
-            "authModal"
-        )
-        .classList.add("show");
-
-
-    updateAuthUI();
-
-}
-
-
-function closeAuth(){
-
-    document
-        .getElementById(
-            "authModal"
-        )
-        .classList.remove("show");
-
-}
-
-
-/* =====================================================
-   AUTH FORMS
-===================================================== */
-
-function showSignup(){
-
-    document
-        .getElementById(
-            "loginForm"
-        )
-        .style.display =
-            "none";
-
-
-    document
-        .getElementById(
-            "signupForm"
-        )
-        .style.display =
-            "block";
-
-
-    document
-        .getElementById(
-            "authTitle"
-        )
-        .textContent =
-            "ساخت حساب کاربری";
-
-
-    clearAuthMessage();
-
-}
-
+/* ================= LOGIN ================= */
 
 function showLogin(){
 
-    document
-        .getElementById(
-            "loginForm"
-        )
-        .style.display =
-            "block";
-
-
-    document
-        .getElementById(
-            "signupForm"
-        )
-        .style.display =
-            "none";
-
-
-    document
-        .getElementById(
-            "authTitle"
-        )
-        .textContent =
-            "ورود به حساب";
-
-
-    clearAuthMessage();
-
-}
-
-
-function clearAuthMessage(){
-
-    document
-        .getElementById(
-            "authMessage"
-        )
-        .textContent = "";
-
-}
-
-
-/* =====================================================
-   SIGN UP
-===================================================== */
-
-async function submitSignup(){
-
-    const username =
-        document
-            .getElementById(
-                "signupUsername"
-            )
-            .value
-            .trim();
-
-
-    const email =
-        document
-            .getElementById(
-                "signupEmail"
-            )
-            .value
-            .trim();
-
-
-    const password =
-        document
-            .getElementById(
-                "signupPassword"
-            )
-            .value;
-
-
-    const message =
-        document.getElementById(
-            "authMessage"
-        );
-
-
-    message.style.color =
-        "#ff718c";
-
-
-    if(
-        !username ||
-        !email ||
-        !password
-    ){
-
-        message.textContent =
-            "همه فیلدها را کامل کنید.";
-
-        return;
-
-    }
-
-
-    if(password.length < 6){
-
-        message.textContent =
-            "رمز عبور باید حداقل ۶ کاراکتر باشد.";
-
-        return;
-
-    }
-
-
-    try{
-
-        const redirect =
-            window.location.origin +
-            window.location.pathname +
-            "#email-verified";
-
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.signUp({
-
-            email,
-            password,
-
-            options:{
-                emailRedirectTo:
-                    redirect,
-
-                data:{
-                    username
-                }
-
-            }
-
-        });
-
-
-        if(error){
-            throw error;
-        }
-
-
-        /*
-           اگر تأیید ایمیل فعال باشد،
-           session در این مرحله ممکن است null باشد.
-        */
-
-        if(data.user){
-
-            const {
-                error:profileError
-            } =
-            await supabaseClient
-                .from("profiles")
-                .upsert({
-
-                    id:data.user.id,
-
-                    username:username
-
-                });
-
-
-            if(profileError){
-
-                console.log(
-                    "Profile:",
-                    profileError.message
-                );
-
-            }
-
-        }
-
-
-        message.style.color =
-            "#57e5a1";
-
-
-        message.textContent =
-            "ثبت نام انجام شد. لینک تأیید به ایمیل شما ارسال شد. پس از تأیید، دوباره وارد سایت شوید.";
-
-    }catch(error){
-
-        message.style.color =
-            "#ff718c";
-
-        message.textContent =
-            error.message ||
-            "ثبت نام انجام نشد.";
-
-    }
-
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function submitLogin(){
-
-    const email =
-        document
-            .getElementById(
-                "authEmail"
-            )
-            .value
-            .trim();
-
-
-    const password =
-        document
-            .getElementById(
-                "authPassword"
-            )
-            .value;
-
-
-    const message =
-        document.getElementById(
-            "authMessage"
-        );
-
-
-    if(
-        !email ||
-        !password
-    ){
-
-        message.textContent =
-            "ایمیل و رمز عبور را وارد کنید.";
-
-        return;
-
-    }
-
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth
-            .signInWithPassword({
-
-                email,
-                password
-
-            });
-
-
-        if(error){
-            throw error;
-        }
-
-
-        currentUser =
-            data.user;
-
-
-        /*
-           پروفایل را هم در صورت نبودن ایجاد می‌کنیم.
-        */
-
-        const {
-            data:profile
-        } =
-        await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq(
-                "id",
-                currentUser.id
-            )
-            .maybeSingle();
-
-
-        if(!profile){
-
-            await supabaseClient
-                .from("profiles")
-                .insert({
-
-                    id:
-                        currentUser.id,
-
-                    username:
-                        currentUser.user_metadata
-                            ?.username ||
-                        currentUser.email
-                            ?.split("@")[0]
-
-                });
-
-        }
-
-
-        message.style.color =
-            "#57e5a1";
-
-
-        message.textContent =
-            "ورود با موفقیت انجام شد.";
-
-
-        updateAuthUI();
-
-
-        setTimeout(
-            () => {
-
-                closeAuth();
-
-            },
-            700
-        );
-
-
-    }catch(error){
-
-        message.style.color =
-            "#ff718c";
-
-        message.textContent =
-            error.message ||
-            "ورود انجام نشد.";
-
-    }
-
-}
-
-
-/* =====================================================
-   AUTH STATE
-===================================================== */
-
-supabaseClient.auth
-.onAuthStateChange(
-    async (
-        event,
-        session
-    ) => {
-
-        currentUser =
-            session?.user ||
-            null;
-
-
-        updateAuthUI();
-
-
-        /*
-           وقتی کاربر روی لینک تأیید ایمیل کلیک می‌کند،
-           Supabase خودش session را شناسایی می‌کند.
-        */
-
-        if(
-            event ===
-            "SIGNED_IN"
-        ){
-
-            const hash =
-                window.location.hash;
-
-
-            if(
-                hash ===
-                "#email-verified"
-            ){
-
-                showEmailVerified();
-
-                history.replaceState(
-                    {},
-                    "",
-                    window.location.pathname
-                );
-
-            }
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   AUTH UI
-===================================================== */
-
-function updateAuthUI(){
-
-    const loginForm =
-        document.getElementById(
-            "loginForm"
-        );
-
-
-    const signupForm =
-        document.getElementById(
-            "signupForm"
-        );
-
-
-    const userBox =
-        document.getElementById(
-            "userBox"
-        );
-
-
-    if(currentUser){
-
-        loginForm.style.display =
-            "none";
-
-        signupForm.style.display =
-            "none";
-
-        userBox.classList.add(
-            "show"
-        );
-
-
-        document
-            .getElementById(
-                "userEmail"
-            )
-            .textContent =
-                currentUser.email ||
-                "";
-
-
-        document
-            .getElementById(
-                "userName"
-            )
-            .textContent =
-                currentUser.user_metadata
-                    ?.username ||
-                currentUser.email
-                    ?.split("@")[0] ||
-                "کاربر";
-
-    }else{
-
-        userBox.classList.remove(
-            "show"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-async function logout(){
-
-    await supabaseClient
-        .auth
-        .signOut();
-
-
-    currentUser =
-        null;
-
-
-    showLogin();
-
-
-    document
-        .getElementById(
-            "authMessage"
-        )
-        .textContent =
-            "از حساب خارج شدید.";
-
-}
-
-
-/* =====================================================
-   EMAIL VERIFIED
-===================================================== */
-
-function showEmailVerified(){
-
-    const box =
-        document.getElementById(
-            "verifySuccess"
-        );
-
-
-    box.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        () => {
-
-            box.classList.remove(
-                "show"
-            );
-
-        },
-        6000
+    alert(
+        "سیستم ورود و ثبت‌نام را بعد از نهایی شدن ظاهر سایت به همین دکمه وصل می‌کنیم."
     );
 
 }
 
 
-/* =====================================================
-   CHECK EMAIL CONFIRMATION
-===================================================== */
+/* ================= START ================= */
 
-async function checkEmailVerification(){
-
-    const {
-        data
-    } =
-    await supabaseClient.auth
-        .getSession();
-
-
-    currentUser =
-        data?.session?.user ||
-        null;
-
-
-    updateAuthUI();
-
-
-    /*
-       اگر لینک تأیید با hash مخصوص ما برگشته باشد.
-    */
-
-    if(
-        window.location.hash ===
-        "#email-verified"
-    ){
-
-        showEmailVerified();
-
-        history.replaceState(
-            {},
-            "",
-            window.location.pathname
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   STATS
-===================================================== */
-
-function getSessionId(){
-
-    let id =
-        localStorage.getItem(
-            "persianStarkSession"
-        );
-
-
-    if(!id){
-
-        id =
-            crypto.randomUUID();
-
-        localStorage.setItem(
-            "persianStarkSession",
-            id
-        );
-
-    }
-
-
-    return id;
-
-}
-
-
-async function recordVisit(){
-
-    const session =
-        getSessionId();
-
-
-    try{
-
-        await supabaseClient
-            .rpc(
-                "record_site_visit",
-                {
-                    p_session_id:
-                        session
-                }
-            );
-
-
-        await supabaseClient
-            .rpc(
-                "update_presence",
-                {
-                    p_session_id:
-                        session
-                }
-            );
-
-    }catch(error){
-
-        console.log(
-            "visit",
-            error.message
-        );
-
-    }
-
-}
-
-
-async function loadStats(){
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-            .rpc(
-                "get_site_stats"
-            );
-
-
-        if(error){
-            throw error;
-        }
-
-
-        if(!data){
-            return;
-        }
-
-
-        document
-            .getElementById(
-                "membersStat"
-            )
-            .textContent =
-                data.members ?? 0;
-
-
-        document
-            .getElementById(
-                "onlineStat"
-            )
-            .textContent =
-                data.online ?? 0;
-
-
-        document
-            .getElementById(
-                "todayStat"
-            )
-            .textContent =
-                data.today_visits ?? 0;
-
-
-        document
-            .getElementById(
-                "totalStat"
-            )
-            .textContent =
-                data.total_visits ?? 0;
-
-    }catch(error){
-
-        console.log(
-            "stats",
-            error.message
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   ROUTER
-===================================================== */
-
-function loadRoute(){
-
-    const hash =
-        window.location.hash
-            .replace(
-                "#",
-                ""
-            );
-
-
-    if(
-        hash.startsWith(
-            "article-"
-        )
-    ){
-
-        const id =
-            Number(
-                hash.replace(
-                    "article-",
-                    ""
-                )
-            );
-
-
-        if(id){
-
-            openArticle(id);
-
-            return;
-
-        }
-
-    }
-
-
-    const allowed = [
-
-        "home",
-        "news",
-        "games",
-        "software",
-        "store",
-        "about"
-
-    ];
-
-
-    if(
-        allowed.includes(
-            hash
-        )
-    ){
-
-        navigate(
-            hash
-        );
-
-    }else{
-
-        navigate(
-            "home"
-        );
-
-    }
-
-}
-
-
-window.addEventListener(
-    "popstate",
-    loadRoute
-);
-
-
-/* =====================================================
-   MODAL CLICK
-===================================================== */
-
-document
-    .getElementById(
-        "authModal"
-    )
-    .addEventListener(
-        "click",
-        event => {
-
-            if(
-                event.target.id ===
-                "authModal"
-            ){
-
-                closeAuth();
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   ESC
-===================================================== */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if(
-            event.key ===
-            "Escape"
-        ){
-
-            closeAuth();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INIT
-===================================================== */
-
-async function init(){
-
-    const savedTheme =
-        localStorage.getItem(
-            "persianStarkTheme"
-        );
-
-
-    applyTheme(
-        savedTheme ||
-        "dark"
-    );
-
-
-    await checkEmailVerification();
-
-    await recordVisit();
-
-    await loadPosts();
-
-    await loadStats();
-
-    loadRoute();
-
-}
-
-
-init();
+loadPosts();
 
 </script>
 
