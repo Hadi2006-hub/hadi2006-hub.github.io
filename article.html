@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>مطلب | PERSIAN STARK</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+:root{
+    --bg:#05070d;
+    --card:#0c111c;
+    --text:#f5f7fb;
+    --muted:#9da8bb;
+    --line:rgba(255,255,255,.08);
+    --accent:#8066ff;
+    --accent2:#00d4ff;
+    --max:1380px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Vazirmatn",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.9;
+}
+
+
+/* BACKGROUND */
+
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    background:
+        radial-gradient(circle at 20% 10%,rgba(128,102,255,.13),transparent 30%),
+        radial-gradient(circle at 80% 20%,rgba(0,212,255,.08),transparent 30%),
+        #05070d;
+}
+
+.bg::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:linear-gradient(to bottom,black,transparent 85%);
+    animation:grid 20s linear infinite;
+}
+
+@keyframes grid{
+    from{
+        background-position:0 0,0 0;
+    }
+    to{
+        background-position:0 600px,600px 0;
+    }
+}
+
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid var(--line);
+    background:rgba(5,7,13,.78);
+    backdrop-filter:blur(18px);
+}
+
+.nav{
+    max-width:var(--max);
+    margin:auto;
+    height:76px;
+    padding:0 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    color:white;
+    text-decoration:none;
+    font-weight:900;
+    font-size:20px;
+}
+
+.logo span{
+    color:#9885ff;
+}
+
+.back{
+    color:#aeb8ca;
+    text-decoration:none;
+    font-size:13px;
+}
+
+.back:hover{
+    color:white;
+}
+
+
+/* MAIN */
+
+.page{
+    max-width:var(--max);
+    margin:auto;
+    padding:50px 24px 90px;
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 320px;
+    gap:35px;
+}
+
+
+/* ARTICLE */
+
+.article{
+    min-width:0;
+}
+
+.category{
+    display:inline-flex;
+    padding:7px 12px;
+    border-radius:999px;
+    background:rgba(128,102,255,.13);
+    border:1px solid rgba(128,102,255,.28);
+    color:#b9adff;
+    font-size:12px;
+    margin-bottom:18px;
+}
+
+.article h1{
+    font-size:clamp(32px,5vw,62px);
+    line-height:1.25;
+    font-weight:900;
+    letter-spacing:-1px;
+    margin-bottom:18px;
+}
+
+.subtitle{
+    font-size:18px;
+    color:#b8c1d0;
+    line-height:2;
+    max-width:900px;
+    margin-bottom:20px;
+}
+
+.meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    color:#7e8a9e;
+    font-size:12px;
+    margin-bottom:30px;
+}
+
+.cover{
+    width:100%;
+    max-height:620px;
+    object-fit:cover;
+    border-radius:24px;
+    display:block;
+    border:1px solid var(--line);
+    margin-bottom:40px;
+}
+
+
+/* CONTENT */
+
+.content{
+    font-size:17px;
+    color:#d7dce5;
+}
+
+.content p{
+    margin:0 0 28px;
+}
+
+.content h2{
+    font-size:30px;
+    color:white;
+    margin:55px 0 22px;
+}
+
+.content h3{
+    font-size:23px;
+    color:white;
+    margin:42px 0 18px;
+}
+
+.content img{
+    display:block;
+    width:100%;
+    max-height:700px;
+    object-fit:cover;
+    border-radius:18px;
+    border:1px solid var(--line);
+    margin:35px 0;
+}
+
+.content video{
+    display:block;
+    width:100%;
+    border-radius:18px;
+    background:#000;
+    margin:35px 0;
+}
+
+.content iframe{
+    width:100%;
+    min-height:500px;
+    border:0;
+    border-radius:18px;
+    margin:35px 0;
+}
+
+.block-image{
+    margin:35px 0;
+}
+
+.block-image img{
+    margin:0;
+}
+
+.block-video{
+    margin:35px 0;
+}
+
+.block-text{
+    white-space:pre-line;
+}
+
+
+/* SIDEBAR */
+
+.sidebar{
+    position:sticky;
+    top:105px;
+    align-self:start;
+}
+
+.sidebar-box{
+    background:rgba(12,17,28,.78);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:18px;
+    backdrop-filter:blur(15px);
+}
+
+.sidebar-title{
+    font-weight:800;
+    font-size:16px;
+    margin-bottom:18px;
+}
+
+.related{
+    display:flex;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+    text-decoration:none;
+    color:white;
+}
+
+.related:last-child{
+    border-bottom:0;
+}
+
+.related img{
+    width:82px;
+    height:62px;
+    object-fit:cover;
+    border-radius:9px;
+    flex-shrink:0;
+}
+
+.related-title{
+    font-size:12px;
+    line-height:1.7;
+}
+
+.related-date{
+    color:#68748a;
+    font-size:10px;
+    margin-top:5px;
+}
+
+
+/* RELATED */
+
+.related-section{
+    margin-top:70px;
+    padding-top:35px;
+    border-top:1px solid var(--line);
+}
+
+.related-section h2{
+    font-size:25px;
+    margin-bottom:20px;
+}
+
+.related-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.related-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    text-decoration:none;
+    color:white;
+}
+
+.related-card img{
+    width:100%;
+    height:170px;
+    object-fit:cover;
+}
+
+.related-card div{
+    padding:15px;
+    font-size:14px;
+    line-height:1.7;
+}
+
+
+/* LOADING */
+
+.loading{
+    text-align:center;
+    padding:100px 20px;
+    color:#8e99ab;
+}
+
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid var(--line);
+    padding:35px 20px;
+    text-align:center;
+    color:#68748a;
+    font-size:11px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:static;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .page{
+        padding:30px 15px 60px;
+    }
+
+    .nav{
+        padding:0 15px;
+        height:68px;
+    }
+
+    .article h1{
+        font-size:34px;
+    }
+
+    .subtitle{
+        font-size:15px;
+    }
+
+    .content{
+        font-size:16px;
+    }
+
+    .content h2{
+        font-size:25px;
+    }
+
+    .content iframe{
+        min-height:220px;
+    }
+
+    .related-grid{
+        grid-template-columns:1fr;
+    }
+
+    .cover{
+        border-radius:16px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<header>
+
+    <nav class="nav">
+
+        <a href="index.html" class="logo">
+            PERSIAN <span>STARK</span>
+        </a>
+
+        <a href="index.html" class="back">
+            ← بازگشت به سایت
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    <div id="loading" class="loading">
+        در حال بارگذاری مطلب...
+    </div>
+
+
+    <div id="articlePage" style="display:none;">
+
+        <div class="layout">
+
+            <article class="article">
+
+                <span id="category" class="category"></span>
+
+                <h1 id="title"></h1>
+
+                <div id="subtitle" class="subtitle"></div>
+
+                <div class="meta">
+
+                    <span>
+                        ✦ PERSIAN STARK
+                    </span>
+
+                    <span id="date"></span>
+
+                </div>
+
+                <img
+                    id="cover"
+                    class="cover"
+                    src=""
+                    alt=""
+                >
+
+                <div id="content" class="content"></div>
+
+
+                <!-- RELATED -->
+                <section class="related-section">
+
+                    <h2>
+                        مطالب مرتبط
+                    </h2>
+
+                    <div
+                        id="relatedGrid"
+                        class="related-grid"
+                    ></div>
+
+                </section>
+
+            </article>
+
+
+            <!-- SIDEBAR -->
+
+            <aside class="sidebar">
+
+                <div class="sidebar-box">
+
+                    <div class="sidebar-title">
+                        آخرین مطالب
+                    </div>
+
+                    <div id="latest"></div>
+
+                </div>
+
+
+                <div class="sidebar-box">
+
+                    <div class="sidebar-title">
+                        PERSIAN STARK
+                    </div>
+
+                    <p style="font-size:12px;color:#8994a7;line-height:2;">
+                        اخبار گیم، معرفی بازی و مطالب کاربردی
+                        دنیای تکنولوژی و گیم.
+                    </p>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+    © 2026 PERSIAN STARK — All Rights Reserved
+</footer>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://jmdoxofcyoxdrtxvvuiu.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
+
+const { createClient } = supabase;
+
+const db = createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+        auth:{
+            persistSession:true,
+            autoRefreshToken:true,
+            detectSessionInUrl:true,
+            storageKey:"persian-stark-auth"
+        }
+    }
+);
+
+
+/* ================= HELPERS ================= */
+
+function escapeHTML(value=""){
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+function categoryName(category){
+
+    const names={
+        news:"اخبار گیم",
+        game:"معرفی بازی",
+        software:"نرم‌افزار",
+        store:"فروشگاه CS2"
+    };
+
+    return names[category] || "PERSIAN STARK";
+}
+
+
+function formatDate(date){
+
+    if(!date) return "";
+
+    try{
+
+        return new Intl.DateTimeFormat(
+            "fa-IR",
+            {
+                year:"numeric",
+                month:"long",
+                day:"numeric"
+            }
+        ).format(new Date(date));
+
+    }catch(e){
+
+        return "";
+
+    }
+}
+
+
+/* ================= YOUTUBE ================= */
+
+function youtubeId(url){
+
+    if(!url) return null;
+
+    const match =
+        url.match(
+            /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/]+)/
+        );
+
+    return match ? match[1] : null;
+}
+
+
+/* ================= LOAD ARTICLE ================= */
+
+async function loadArticle(){
+
+    const params =
+        new URLSearchParams(location.search);
+
+    const id =
+        params.get("id");
+
+
+    if(!id){
+
+        document.getElementById("loading").innerHTML =
+            "شناسه مطلب پیدا نشد.";
+
+        return;
+
+    }
+
+
+    const {data:post,error} =
+        await db
+            .from("posts")
+            .select("*")
+            .eq("id",id)
+            .single();
+
+
+    if(error || !post){
+
+        console.error(error);
+
+        document.getElementById("loading").innerHTML =
+            "این مطلب پیدا نشد.";
+
+        return;
+
+    }
+
+
+    document.title =
+        `${post.title} | PERSIAN STARK`;
+
+
+    document.getElementById("category").textContent =
+        categoryName(post.category);
+
+
+    document.getElementById("title").textContent =
+        post.title || "";
+
+
+    document.getElementById("subtitle").textContent =
+        post.description || "";
+
+
+    document.getElementById("date").textContent =
+        formatDate(post.created_at);
+
+
+    const cover =
+        document.getElementById("cover");
+
+
+    if(post.image_url){
+
+        cover.src = post.image_url;
+
+    }else{
+
+        cover.style.display="none";
+
+    }
+
+
+    /* MAIN CONTENT */
+
+    let html="";
+
+
+    if(post.content){
+
+        html += `
+            <div class="block-text">
+                ${escapeHTML(post.content)}
+            </div>
+        `;
+
+    }
+
+
+    /* BLOCKS */
+
+    const {data:blocks,error:blockError} =
+        await db
+            .from("post_blocks")
+            .select("*")
+            .eq("post_id",id)
+            .order("sort_order",{ascending:true});
+
+
+    if(!blockError && blocks){
+
+        for(const block of blocks){
+
+            if(block.type === "text"){
+
+                html += `
+                    <div class="block-text">
+                        ${escapeHTML(block.content || "")}
+                    </div>
+                `;
+
+            }
+
+
+            if(block.type === "image"){
+
+                html += `
+
+                    <div class="block-image">
+
+                        <img
+                            src="${escapeHTML(block.content || "")}"
+                            alt=""
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if(block.type === "video"){
+
+                const yt =
+                    youtubeId(block.content);
+
+
+                if(yt){
+
+                    html += `
+
+                        <iframe
+                            src="https://www.youtube.com/embed/${escapeHTML(yt)}"
+                            title="Video"
+                            allowfullscreen
+                        ></iframe>
+
+                    `;
+
+                }else{
+
+                    html += `
+
+                        <div class="block-video">
+
+                            <video
+                                src="${escapeHTML(block.content || "")}"
+                                controls
+                                preload="metadata"
+                            ></video>
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    if(!html){
+
+        html =
+            `<p>
+                محتوایی برای این مطلب ثبت نشده است.
+            </p>`;
+
+    }
+
+
+    document.getElementById("content").innerHTML =
+        html;
+
+
+    await loadLatest(post.id);
+
+    await loadRelated(post);
+
+
+    document.getElementById("loading").style.display =
+        "none";
+
+    document.getElementById("articlePage").style.display =
+        "block";
+
+}
+
+
+/* ================= LATEST ================= */
+
+async function loadLatest(currentId){
+
+    const {data} =
+        await db
+            .from("posts")
+            .select("*")
+            .neq("id",currentId)
+            .order("created_at",{ascending:false})
+            .limit(5);
+
+
+    const box =
+        document.getElementById("latest");
+
+
+    if(!data || !data.length){
+
+        box.innerHTML =
+            `<p style="color:#778398;font-size:12px;">
+                مطلب دیگری وجود ندارد.
+            </p>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        data.map(post => {
+
+            const image =
+                post.image_url ||
+                "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80";
+
+            return `
+
+                <a
+                    class="related"
+                    href="article.html?id=${encodeURIComponent(post.id)}"
+                >
+
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt=""
+                    >
+
+                    <div>
+
+                        <div class="related-title">
+                            ${escapeHTML(post.title)}
+                        </div>
+
+                        <div class="related-date">
+                            ${formatDate(post.created_at)}
+                        </div>
+
+                    </div>
+
+                </a>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ================= RELATED ================= */
+
+async function loadRelated(post){
+
+    const grid =
+        document.getElementById("relatedGrid");
+
+
+    const {data} =
+        await db
+            .from("posts")
+            .select("*")
+            .eq("category",post.category)
+            .neq("id",post.id)
+            .order("created_at",{ascending:false})
+            .limit(3);
+
+
+    if(!data || !data.length){
+
+        grid.innerHTML =
+            `<p style="color:#778398;">
+                مطلب مرتبطی پیدا نشد.
+            </p>`;
+
+        return;
+
+    }
+
+
+    grid.innerHTML =
+        data.map(item => {
+
+            const image =
+                item.image_url ||
+                "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80";
+
+
+            return `
+
+                <a
+                    class="related-card"
+                    href="article.html?id=${encodeURIComponent(item.id)}"
+                >
+
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt=""
+                        loading="lazy"
+                    >
+
+                    <div>
+                        ${escapeHTML(item.title)}
+                    </div>
+
+                </a>
+
+            `;
+
+        }).join("");
+
+}
+
+
+loadArticle();
+
+</script>
+
+</body>
+</html>
