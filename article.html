@@ -1,984 +1,114 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>مطلب | PERSIAN STARK</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-
-:root{
-    --bg:#05070d;
-    --card:#0c111c;
-    --text:#f5f7fb;
-    --muted:#9da8bb;
-    --line:rgba(255,255,255,.08);
-    --accent:#8066ff;
-    --accent2:#00d4ff;
-    --max:1380px;
-}
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:"Vazirmatn",sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    line-height:1.9;
-}
-
-
-/* BACKGROUND */
-
-.bg{
-    position:fixed;
-    inset:0;
-    z-index:-5;
-    background:
-        radial-gradient(circle at 20% 10%,rgba(128,102,255,.13),transparent 30%),
-        radial-gradient(circle at 80% 20%,rgba(0,212,255,.08),transparent 30%),
-        #05070d;
-}
-
-.bg::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-    background-size:60px 60px;
-    mask-image:linear-gradient(to bottom,black,transparent 85%);
-    animation:grid 20s linear infinite;
-}
-
-@keyframes grid{
-    from{
-        background-position:0 0,0 0;
-    }
-    to{
-        background-position:0 600px,600px 0;
-    }
-}
-
-
-/* HEADER */
-
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    border-bottom:1px solid var(--line);
-    background:rgba(5,7,13,.78);
-    backdrop-filter:blur(18px);
-}
-
-.nav{
-    max-width:var(--max);
-    margin:auto;
-    height:76px;
-    padding:0 24px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.logo{
-    color:white;
-    text-decoration:none;
-    font-weight:900;
-    font-size:20px;
-}
-
-.logo span{
-    color:#9885ff;
-}
-
-.back{
-    color:#aeb8ca;
-    text-decoration:none;
-    font-size:13px;
-}
-
-.back:hover{
-    color:white;
-}
-
-
-/* MAIN */
-
-.page{
-    max-width:var(--max);
-    margin:auto;
-    padding:50px 24px 90px;
-}
-
-.layout{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) 320px;
-    gap:35px;
-}
-
-
-/* ARTICLE */
-
-.article{
-    min-width:0;
-}
-
-.category{
-    display:inline-flex;
-    padding:7px 12px;
-    border-radius:999px;
-    background:rgba(128,102,255,.13);
-    border:1px solid rgba(128,102,255,.28);
-    color:#b9adff;
-    font-size:12px;
-    margin-bottom:18px;
-}
-
-.article h1{
-    font-size:clamp(32px,5vw,62px);
-    line-height:1.25;
-    font-weight:900;
-    letter-spacing:-1px;
-    margin-bottom:18px;
-}
-
-.subtitle{
-    font-size:18px;
-    color:#b8c1d0;
-    line-height:2;
-    max-width:900px;
-    margin-bottom:20px;
-}
-
-.meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:15px;
-    color:#7e8a9e;
-    font-size:12px;
-    margin-bottom:30px;
-}
-
-.cover{
-    width:100%;
-    max-height:620px;
-    object-fit:cover;
-    border-radius:24px;
-    display:block;
-    border:1px solid var(--line);
-    margin-bottom:40px;
-}
-
-
-/* CONTENT */
-
-.content{
-    font-size:17px;
-    color:#d7dce5;
-}
-
-.content p{
-    margin:0 0 28px;
-}
-
-.content h2{
-    font-size:30px;
-    color:white;
-    margin:55px 0 22px;
-}
-
-.content h3{
-    font-size:23px;
-    color:white;
-    margin:42px 0 18px;
-}
-
-.content img{
-    display:block;
-    width:100%;
-    max-height:700px;
-    object-fit:cover;
-    border-radius:18px;
-    border:1px solid var(--line);
-    margin:35px 0;
-}
-
-.content video{
-    display:block;
-    width:100%;
-    border-radius:18px;
-    background:#000;
-    margin:35px 0;
-}
-
-.content iframe{
-    width:100%;
-    min-height:500px;
-    border:0;
-    border-radius:18px;
-    margin:35px 0;
-}
-
-.block-image{
-    margin:35px 0;
-}
-
-.block-image img{
-    margin:0;
-}
-
-.block-video{
-    margin:35px 0;
-}
-
-.block-text{
-    white-space:pre-line;
-}
-
-
-/* SIDEBAR */
-
-.sidebar{
-    position:sticky;
-    top:105px;
-    align-self:start;
-}
-
-.sidebar-box{
-    background:rgba(12,17,28,.78);
-    border:1px solid var(--line);
-    border-radius:18px;
-    padding:20px;
-    margin-bottom:18px;
-    backdrop-filter:blur(15px);
-}
-
-.sidebar-title{
-    font-weight:800;
-    font-size:16px;
-    margin-bottom:18px;
-}
-
-.related{
-    display:flex;
-    gap:12px;
-    padding:12px 0;
-    border-bottom:1px solid var(--line);
-    text-decoration:none;
-    color:white;
-}
-
-.related:last-child{
-    border-bottom:0;
-}
-
-.related img{
-    width:82px;
-    height:62px;
-    object-fit:cover;
-    border-radius:9px;
-    flex-shrink:0;
-}
-
-.related-title{
-    font-size:12px;
-    line-height:1.7;
-}
-
-.related-date{
-    color:#68748a;
-    font-size:10px;
-    margin-top:5px;
-}
-
-
-/* RELATED */
-
-.related-section{
-    margin-top:70px;
-    padding-top:35px;
-    border-top:1px solid var(--line);
-}
-
-.related-section h2{
-    font-size:25px;
-    margin-bottom:20px;
-}
-
-.related-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-}
-
-.related-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:16px;
-    overflow:hidden;
-    text-decoration:none;
-    color:white;
-}
-
-.related-card img{
-    width:100%;
-    height:170px;
-    object-fit:cover;
-}
-
-.related-card div{
-    padding:15px;
-    font-size:14px;
-    line-height:1.7;
-}
-
-
-/* LOADING */
-
-.loading{
-    text-align:center;
-    padding:100px 20px;
-    color:#8e99ab;
-}
-
-
-/* FOOTER */
-
-footer{
-    border-top:1px solid var(--line);
-    padding:35px 20px;
-    text-align:center;
-    color:#68748a;
-    font-size:11px;
-}
-
-
-/* MOBILE */
-
-@media(max-width:1000px){
-
-    .layout{
-        grid-template-columns:1fr;
-    }
-
-    .sidebar{
-        position:static;
-    }
-
-}
-
-@media(max-width:650px){
-
-    .page{
-        padding:30px 15px 60px;
-    }
-
-    .nav{
-        padding:0 15px;
-        height:68px;
-    }
-
-    .article h1{
-        font-size:34px;
-    }
-
-    .subtitle{
-        font-size:15px;
-    }
-
-    .content{
-        font-size:16px;
-    }
-
-    .content h2{
-        font-size:25px;
-    }
-
-    .content iframe{
-        min-height:220px;
-    }
-
-    .related-grid{
-        grid-template-columns:1fr;
-    }
-
-    .cover{
-        border-radius:16px;
-    }
-
-}
-
+:root{--bg:#07111b;--bg2:#0b1724;--card:rgba(14,28,42,.9);--text:#f4f8fb;--muted:#93a7b8;--line:rgba(255,255,255,.09);--primary:#00b8d9;--primary2:#18d7c2;--accent:#ff7a45}
+body.light{--bg:#f3f7fa;--bg2:#eaf1f5;--card:#fff;--text:#172536;--muted:#667789;--line:rgba(23,37,54,.10);--primary:#008eae;--primary2:#00a993;--accent:#ed6535}
+*{box-sizing:border-box}body{margin:0;font-family:Vazirmatn,sans-serif;background:var(--bg);color:var(--text);line-height:1.9;transition:.3s}a{color:inherit}.bg{position:fixed;inset:0;z-index:-5;background:radial-gradient(circle at 15% 10%,color-mix(in srgb,var(--primary) 13%,transparent),transparent 30%),var(--bg)}.bg:after{content:"";position:absolute;inset:0;background-image:linear-gradient(color-mix(in srgb,var(--text) 4%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--text) 4%,transparent) 1px,transparent 1px);background-size:60px 60px;transform:perspective(700px) rotateX(55deg);transform-origin:center bottom;animation:grid 22s linear infinite;opacity:.4}@keyframes grid{to{background-position:0 600px,600px 0}}body.light .bg:after{opacity:.12}
+header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav{height:72px;max-width:1380px;margin:auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between}.logo{text-decoration:none;font-weight:900;font-size:20px}.logo span{color:var(--primary)}.tools{display:flex;gap:8px;align-items:center}.btn{border:1px solid var(--line);background:color-mix(in srgb,var(--text) 5%,transparent);color:var(--text);border-radius:10px;padding:8px 11px;font-family:inherit;cursor:pointer;text-decoration:none;font-size:12px}
+.page{max-width:1380px;margin:auto;padding:50px 22px 90px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:34px}.article{min-width:0}.category{display:inline-block;padding:6px 11px;border-radius:99px;color:var(--primary);background:color-mix(in srgb,var(--primary) 10%,transparent);border:1px solid color-mix(in srgb,var(--primary) 28%,transparent);font-size:11px}.article h1{font-size:clamp(34px,5vw,62px);line-height:1.25;margin:17px 0 13px;font-weight:900}.desc{color:var(--muted);font-size:17px;line-height:2;margin-bottom:16px}.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-bottom:28px}.cover{width:100%;max-height:650px;object-fit:cover;border-radius:22px;border:1px solid var(--line);display:block;margin-bottom:38px}.content{font-size:17px;color:color-mix(in srgb,var(--text) 88%,transparent)}.content p{white-space:pre-line;margin:0 0 27px}.content img{display:block;width:100%;max-height:720px;object-fit:cover;border-radius:18px;margin:32px 0;border:1px solid var(--line)}.content video,.content iframe{display:block;width:100%;border:0;border-radius:18px;margin:32px 0;background:#000}.content iframe{min-height:500px}.side{position:sticky;top:95px;align-self:start}.sidebox{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:18px;margin-bottom:15px}.sidebox h3{font-size:15px;margin:0 0 13px}.latest{display:flex;gap:10px;text-decoration:none;padding:10px 0;border-bottom:1px solid var(--line)}.latest:last-child{border:0}.latest img{width:78px;height:58px;object-fit:cover;border-radius:8px}.latest b{font-size:11px;line-height:1.7}.latest small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.comments{margin-top:65px;padding-top:32px;border-top:1px solid var(--line)}.comments h2{font-size:25px;margin:0 0 18px}.comment-form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:22px}.comment-form textarea{width:100%;min-height:120px;resize:vertical;border:1px solid var(--line);border-radius:11px;background:var(--bg2);color:var(--text);padding:12px;font:inherit;outline:0}.comment-form textarea:focus{border-color:var(--primary)}.send{margin-top:10px;border:0;border-radius:10px;padding:10px 17px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;font-family:inherit;font-weight:800;cursor:pointer}.comment{padding:15px 0;border-bottom:1px solid var(--line)}.comment-head{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.comment-name{font-weight:800;color:var(--text)}.comment p{margin:6px 0 0;white-space:pre-line;font-size:14px}.note{color:var(--muted);font-size:12px}.related{margin-top:60px;border-top:1px solid var(--line);padding-top:30px}.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.rel{border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;background:var(--card)}.rel img{width:100%;height:150px;object-fit:cover}.rel div{padding:12px;font-size:13px;line-height:1.7}.loading{text-align:center;padding:100px;color:var(--muted)}footer{text-align:center;padding:35px;border-top:1px solid var(--line);color:var(--muted);font-size:10px}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.side{position:static}.related-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.page{padding:30px 14px 60px}.article h1{font-size:34px}.content{font-size:16px}.content iframe{min-height:230px}.related-grid{grid-template-columns:1fr}.cover{border-radius:16px}}
 </style>
 </head>
-
 <body>
-
 <div class="bg"></div>
-
-<header>
-
-    <nav class="nav">
-
-        <a href="index.html" class="logo">
-            PERSIAN <span>STARK</span>
-        </a>
-
-        <a href="index.html" class="back">
-            ← بازگشت به سایت
-        </a>
-
-    </nav>
-
-</header>
-
-
+<header><div class="nav"><a class="logo" href="index.html">PERSIAN <span>STARK</span></a><div class="tools"><button class="btn" id="themeBtn">☀️</button><a class="btn" href="index.html">← بازگشت</a></div></div></header>
 <main class="page">
+<div id="loading" class="loading">در حال بارگذاری مطلب...</div>
+<div id="page" style="display:none">
+<div class="layout">
+<article class="article">
+<span id="category" class="category"></span><h1 id="title"></h1><div id="desc" class="desc"></div><div class="meta"><span>✦ PERSIAN STARK</span><span id="date"></span></div><img id="cover" class="cover" alt="">
+<div id="content" class="content"></div>
 
-    <div id="loading" class="loading">
-        در حال بارگذاری مطلب...
-    </div>
+<section class="comments" id="comments">
+<h2>نظرات کاربران 💬</h2>
+<div id="commentForm"></div>
+<div id="commentList"><div class="note">در حال دریافت نظرات...</div></div>
+</section>
 
-
-    <div id="articlePage" style="display:none;">
-
-        <div class="layout">
-
-            <article class="article">
-
-                <span id="category" class="category"></span>
-
-                <h1 id="title"></h1>
-
-                <div id="subtitle" class="subtitle"></div>
-
-                <div class="meta">
-
-                    <span>
-                        ✦ PERSIAN STARK
-                    </span>
-
-                    <span id="date"></span>
-
-                </div>
-
-                <img
-                    id="cover"
-                    class="cover"
-                    src=""
-                    alt=""
-                >
-
-                <div id="content" class="content"></div>
-
-
-                <!-- RELATED -->
-                <section class="related-section">
-
-                    <h2>
-                        مطالب مرتبط
-                    </h2>
-
-                    <div
-                        id="relatedGrid"
-                        class="related-grid"
-                    ></div>
-
-                </section>
-
-            </article>
-
-
-            <!-- SIDEBAR -->
-
-            <aside class="sidebar">
-
-                <div class="sidebar-box">
-
-                    <div class="sidebar-title">
-                        آخرین مطالب
-                    </div>
-
-                    <div id="latest"></div>
-
-                </div>
-
-
-                <div class="sidebar-box">
-
-                    <div class="sidebar-title">
-                        PERSIAN STARK
-                    </div>
-
-                    <p style="font-size:12px;color:#8994a7;line-height:2;">
-                        اخبار گیم، معرفی بازی و مطالب کاربردی
-                        دنیای تکنولوژی و گیم.
-                    </p>
-
-                </div>
-
-            </aside>
-
-        </div>
-
-    </div>
-
+<section class="related"><h2>مطالب مرتبط</h2><div id="relatedGrid" class="related-grid"></div></section>
+</article>
+<aside class="side"><div class="sidebox"><h3>آخرین مطالب</h3><div id="latest"></div></div><div class="sidebox"><h3>PERSIAN STARK</h3><p class="note">اخبار گیم، معرفی بازی و مطالب کاربردی دنیای گیم.</p></div></aside>
+</div>
+</div>
 </main>
-
-
-<footer>
-    © 2026 PERSIAN STARK — All Rights Reserved
-</footer>
-
+<footer>© 2026 PERSIAN STARK</footer>
 
 <script>
+const SUPABASE_URL="https://jmdoxofcyoxdrtxvvuiu.supabase.co";
+const SUPABASE_KEY="sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
+const {createClient}=supabase;
+const db=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:"persian-stark-auth"}});
+const esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+const cat=v=>({news:"اخبار گیم",game:"معرفی بازی",software:"نرم‌افزار",store:"فروشگاه CS2"}[v]||"PERSIAN STARK");
+const date=v=>v?new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"long",day:"numeric"}).format(new Date(v)):"";
+const fallback="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80";
+function setTheme(t){document.body.classList.toggle("light",t==="light");document.getElementById("themeBtn").textContent=t==="light"?"🌙":"☀️";localStorage.setItem("ps-theme",t)}
+setTheme(localStorage.getItem("ps-theme")||"dark");document.getElementById("themeBtn").onclick=()=>setTheme(document.body.classList.contains("light")?"dark":"light");
 
-const SUPABASE_URL =
-"https://jmdoxofcyoxdrtxvvuiu.supabase.co";
+function yt(url){const m=String(url||"").match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/]+)/);return m?m[1]:null}
 
-const SUPABASE_KEY =
-"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
-
-const { createClient } = supabase;
-
-const db = createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY,
-    {
-        auth:{
-            persistSession:true,
-            autoRefreshToken:true,
-            detectSessionInUrl:true,
-            storageKey:"persian-stark-auth"
-        }
-    }
-);
-
-
-/* ================= HELPERS ================= */
-
-function escapeHTML(value=""){
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
-
-
-function categoryName(category){
-
-    const names={
-        news:"اخبار گیم",
-        game:"معرفی بازی",
-        software:"نرم‌افزار",
-        store:"فروشگاه CS2"
-    };
-
-    return names[category] || "PERSIAN STARK";
-}
-
-
-function formatDate(date){
-
-    if(!date) return "";
-
-    try{
-
-        return new Intl.DateTimeFormat(
-            "fa-IR",
-            {
-                year:"numeric",
-                month:"long",
-                day:"numeric"
-            }
-        ).format(new Date(date));
-
-    }catch(e){
-
-        return "";
-
-    }
-}
-
-
-/* ================= YOUTUBE ================= */
-
-function youtubeId(url){
-
-    if(!url) return null;
-
-    const match =
-        url.match(
-            /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/]+)/
-        );
-
-    return match ? match[1] : null;
-}
-
-
-/* ================= LOAD ARTICLE ================= */
+let currentPost=null;
 
 async function loadArticle(){
-
-    const params =
-        new URLSearchParams(location.search);
-
-    const id =
-        params.get("id");
-
-
-    if(!id){
-
-        document.getElementById("loading").innerHTML =
-            "شناسه مطلب پیدا نشد.";
-
-        return;
-
-    }
-
-
-    const {data:post,error} =
-        await db
-            .from("posts")
-            .select("*")
-            .eq("id",id)
-            .single();
-
-
-    if(error || !post){
-
-        console.error(error);
-
-        document.getElementById("loading").innerHTML =
-            "این مطلب پیدا نشد.";
-
-        return;
-
-    }
-
-
-    document.title =
-        `${post.title} | PERSIAN STARK`;
-
-
-    document.getElementById("category").textContent =
-        categoryName(post.category);
-
-
-    document.getElementById("title").textContent =
-        post.title || "";
-
-
-    document.getElementById("subtitle").textContent =
-        post.description || "";
-
-
-    document.getElementById("date").textContent =
-        formatDate(post.created_at);
-
-
-    const cover =
-        document.getElementById("cover");
-
-
-    if(post.image_url){
-
-        cover.src = post.image_url;
-
-    }else{
-
-        cover.style.display="none";
-
-    }
-
-
-    /* MAIN CONTENT */
-
-    let html="";
-
-
-    if(post.content){
-
-        html += `
-            <div class="block-text">
-                ${escapeHTML(post.content)}
-            </div>
-        `;
-
-    }
-
-
-    /* BLOCKS */
-
-    const {data:blocks,error:blockError} =
-        await db
-            .from("post_blocks")
-            .select("*")
-            .eq("post_id",id)
-            .order("sort_order",{ascending:true});
-
-
-    if(!blockError && blocks){
-
-        for(const block of blocks){
-
-            if(block.type === "text"){
-
-                html += `
-                    <div class="block-text">
-                        ${escapeHTML(block.content || "")}
-                    </div>
-                `;
-
-            }
-
-
-            if(block.type === "image"){
-
-                html += `
-
-                    <div class="block-image">
-
-                        <img
-                            src="${escapeHTML(block.content || "")}"
-                            alt=""
-                            loading="lazy"
-                        >
-
-                    </div>
-
-                `;
-
-            }
-
-
-            if(block.type === "video"){
-
-                const yt =
-                    youtubeId(block.content);
-
-
-                if(yt){
-
-                    html += `
-
-                        <iframe
-                            src="https://www.youtube.com/embed/${escapeHTML(yt)}"
-                            title="Video"
-                            allowfullscreen
-                        ></iframe>
-
-                    `;
-
-                }else{
-
-                    html += `
-
-                        <div class="block-video">
-
-                            <video
-                                src="${escapeHTML(block.content || "")}"
-                                controls
-                                preload="metadata"
-                            ></video>
-
-                        </div>
-
-                    `;
-
-                }
-
-            }
-
-        }
-
-    }
-
-
-    if(!html){
-
-        html =
-            `<p>
-                محتوایی برای این مطلب ثبت نشده است.
-            </p>`;
-
-    }
-
-
-    document.getElementById("content").innerHTML =
-        html;
-
-
-    await loadLatest(post.id);
-
-    await loadRelated(post);
-
-
-    document.getElementById("loading").style.display =
-        "none";
-
-    document.getElementById("articlePage").style.display =
-        "block";
-
+ const id=new URLSearchParams(location.search).get("id");
+ if(!id){document.getElementById("loading").textContent="شناسه مطلب پیدا نشد.";return}
+ const {data:post,error}=await db.from("posts").select("*").eq("id",id).single();
+ if(error||!post){document.getElementById("loading").textContent="این مطلب پیدا نشد.";return}
+ currentPost=post;document.title=(post.title||"مطلب")+" | PERSIAN STARK";
+ document.getElementById("category").textContent=cat(post.category);document.getElementById("title").textContent=post.title||"";
+ document.getElementById("desc").textContent=post.description||"";document.getElementById("date").textContent=date(post.created_at);
+ const cover=document.getElementById("cover");if(post.image_url)cover.src=post.image_url;else cover.style.display="none";
+ let html=post.content?`<p>${esc(post.content)}</p>`:"";
+ const {data:blocks}=await db.from("post_blocks").select("*").eq("post_id",id).order("sort_order",{ascending:true});
+ (blocks||[]).forEach(b=>{if(b.type==="text")html+=`<p>${esc(b.content)}</p>`;if(b.type==="image")html+=`<img src="${esc(b.content)}" loading="lazy" alt="">`;if(b.type==="video"){const id=yt(b.content);html+=id?`<iframe src="https://www.youtube.com/embed/${esc(id)}" allowfullscreen title="video"></iframe>`:`<video src="${esc(b.content)}" controls preload="metadata"></video>`}});
+ document.getElementById("content").innerHTML=html||"<p>محتوایی برای این مطلب ثبت نشده است.";
+ await loadLatest(id);await loadRelated(post);await loadComments(id);await setupCommentForm();
+ document.getElementById("loading").style.display="none";document.getElementById("page").style.display="block";
 }
 
-
-/* ================= LATEST ================= */
-
-async function loadLatest(currentId){
-
-    const {data} =
-        await db
-            .from("posts")
-            .select("*")
-            .neq("id",currentId)
-            .order("created_at",{ascending:false})
-            .limit(5);
-
-
-    const box =
-        document.getElementById("latest");
-
-
-    if(!data || !data.length){
-
-        box.innerHTML =
-            `<p style="color:#778398;font-size:12px;">
-                مطلب دیگری وجود ندارد.
-            </p>`;
-
-        return;
-
-    }
-
-
-    box.innerHTML =
-        data.map(post => {
-
-            const image =
-                post.image_url ||
-                "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80";
-
-            return `
-
-                <a
-                    class="related"
-                    href="article.html?id=${encodeURIComponent(post.id)}"
-                >
-
-                    <img
-                        src="${escapeHTML(image)}"
-                        alt=""
-                    >
-
-                    <div>
-
-                        <div class="related-title">
-                            ${escapeHTML(post.title)}
-                        </div>
-
-                        <div class="related-date">
-                            ${formatDate(post.created_at)}
-                        </div>
-
-                    </div>
-
-                </a>
-
-            `;
-
-        }).join("");
-
+async function loadLatest(id){
+ const {data}=await db.from("posts").select("*").neq("id",id).order("created_at",{ascending:false}).limit(5);
+ document.getElementById("latest").innerHTML=(data||[]).map(p=>`<a class="latest" href="article.html?id=${encodeURIComponent(p.id)}"><img src="${esc(p.image_url||fallback)}"><span><b>${esc(p.title)}</b><small>${date(p.created_at)}</small></span></a>`).join("")||'<div class="note">مطلب دیگری وجود ندارد.</div>';
 }
-
-
-/* ================= RELATED ================= */
-
 async function loadRelated(post){
-
-    const grid =
-        document.getElementById("relatedGrid");
-
-
-    const {data} =
-        await db
-            .from("posts")
-            .select("*")
-            .eq("category",post.category)
-            .neq("id",post.id)
-            .order("created_at",{ascending:false})
-            .limit(3);
-
-
-    if(!data || !data.length){
-
-        grid.innerHTML =
-            `<p style="color:#778398;">
-                مطلب مرتبطی پیدا نشد.
-            </p>`;
-
-        return;
-
-    }
-
-
-    grid.innerHTML =
-        data.map(item => {
-
-            const image =
-                item.image_url ||
-                "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80";
-
-
-            return `
-
-                <a
-                    class="related-card"
-                    href="article.html?id=${encodeURIComponent(item.id)}"
-                >
-
-                    <img
-                        src="${escapeHTML(image)}"
-                        alt=""
-                        loading="lazy"
-                    >
-
-                    <div>
-                        ${escapeHTML(item.title)}
-                    </div>
-
-                </a>
-
-            `;
-
-        }).join("");
-
+ const {data}=await db.from("posts").select("*").eq("category",post.category).neq("id",post.id).order("created_at",{ascending:false}).limit(3);
+ document.getElementById("relatedGrid").innerHTML=(data||[]).map(p=>`<a class="rel" href="article.html?id=${encodeURIComponent(p.id)}"><img src="${esc(p.image_url||fallback)}"><div>${esc(p.title)}</div></a>`).join("")||'<div class="note">مطلب مرتبطی پیدا نشد.</div>';
 }
 
-
+async function setupCommentForm(){
+ const box=document.getElementById("commentForm");
+ const {data:{session}}=await db.auth.getSession();
+ if(!session){box.innerHTML='<div class="comment-form"><div class="note">برای ثبت نظر ابتدا وارد حساب خود شوید.</div><a class="btn" style="display:inline-block;margin-top:10px" href="index.html">ورود / ثبت‌نام</a></div>';return}
+ box.innerHTML='<div class="comment-form"><textarea id="commentText" maxlength="2000" placeholder="نظر خودت درباره این مطلب را بنویس..."></textarea><button class="send" id="sendComment">ارسال نظر</button><div id="commentMsg" class="note"></div></div>';
+ document.getElementById("sendComment").onclick=async()=>{
+   const text=document.getElementById("commentText").value.trim(), msg=document.getElementById("commentMsg");
+   if(!text){msg.textContent="متن نظر را بنویس.";return}
+   msg.textContent="در حال ارسال...";
+   const {error}=await db.from("comments").insert({post_id:currentPost.id,user_id:session.user.id,content:text});
+   if(error){console.error(error);msg.textContent="ارسال نظر انجام نشد. جدول comments و دسترسی‌های آن را بررسی کن.";return}
+   document.getElementById("commentText").value="";msg.textContent="نظر ثبت شد ✓";await loadComments(currentPost.id);
+ };
+}
+async function loadComments(postId){
+ const {data,error}=await db.from("comments").select("id,content,created_at,user_id").eq("post_id",postId).order("created_at",{ascending:true});
+ const box=document.getElementById("commentList");
+ if(error){box.innerHTML='<div class="note">بخش نظرات هنوز در دیتابیس فعال نشده است.</div>';return}
+ const ids=[...new Set((data||[]).map(x=>x.user_id).filter(Boolean))];
+ let names={};
+ if(ids.length){const {data:profiles}=await db.from("profiles").select("id,username").in("id",ids);(profiles||[]).forEach(p=>names[p.id]=p.username)}
+ box.innerHTML=(data||[]).length?(data||[]).map(c=>`<div class="comment"><div class="comment-head"><span class="comment-name">${esc(names[c.user_id]||"کاربر")}</span><span>${date(c.created_at)}</span></div><p>${esc(c.content)}</p></div>`).join(""):'<div class="note">هنوز نظری ثبت نشده؛ اولین نفر باش! 👋</div>';
+}
+db.auth.onAuthStateChange(()=>{if(currentPost)setupCommentForm()});
 loadArticle();
-
 </script>
-
 </body>
 </html>
