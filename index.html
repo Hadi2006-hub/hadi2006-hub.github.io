@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>PERSIAN STARK | مطلب</title>
+
 <meta name="theme-color" content="#07111f">
-<title>PERSIAN STARK | دنیای گیم</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -18,34 +20,29 @@
 :root{
     --bg:#07111f;
     --bg2:#0b1728;
-    --card:rgba(12,27,45,.90);
-    --card2:#102238;
-    --text:#f5f9ff;
-    --muted:#9eafc4;
-    --line:rgba(255,255,255,.09);
-    --accent:#00c8ff;
-    --accent2:#18e0c1;
-    --orange:#ff9d42;
-    --danger:#ff5577;
-    --header:rgba(5,14,26,.88);
+    --card:rgba(14,27,45,.92);
+    --card2:#101f33;
+    --text:#f5f7fb;
+    --muted:#9eacc0;
+    --border:rgba(255,255,255,.08);
+    --primary:#00c2ff;
+    --primary2:#6c63ff;
+    --danger:#ff4d67;
+    --success:#35d07f;
     --shadow:0 20px 60px rgba(0,0,0,.28);
-    --max:1380px;
 }
 
-html.light{
-    --bg:#f3f7fb;
-    --bg2:#eaf1f7;
-    --card:#fff;
-    --card2:#f7faff;
-    --text:#132238;
-    --muted:#607087;
-    --line:rgba(19,34,56,.12);
-    --accent:#008bc7;
-    --accent2:#009e89;
-    --orange:#e87516;
-    --danger:#d93458;
-    --header:rgba(255,255,255,.92);
-    --shadow:0 18px 45px rgba(30,55,80,.12);
+body.light{
+    --bg:#f3f6fa;
+    --bg2:#eaf0f6;
+    --card:rgba(255,255,255,.94);
+    --card2:#ffffff;
+    --text:#172033;
+    --muted:#667085;
+    --border:rgba(15,23,42,.09);
+    --primary:#008fc4;
+    --primary2:#5b54d6;
+    --shadow:0 18px 50px rgba(31,41,55,.10);
 }
 
 html{
@@ -53,74 +50,92 @@ html{
 }
 
 body{
-    font-family:
-    Tahoma,
-    Arial,
-    sans-serif;
-
-    background:
-        linear-gradient(
-            rgba(3,5,16,.72),
-            rgba(3,5,16,.88)
-        ),
-        url("./background.jpg");
-
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
-    background-color:var(--bg);
-
-    color:var(--text);
     min-height:100vh;
-    transition:.3s ease;
-}
-
-html.light body{
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+    color:var(--text);
     background:
-        linear-gradient(
-            rgba(243,247,251,.78),
-            rgba(243,247,251,.92)
-        ),
-        url("./background.jpg");
-
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+        radial-gradient(circle at 10% 10%,rgba(0,194,255,.09),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(108,99,255,.10),transparent 30%),
+        linear-gradient(135deg,var(--bg),var(--bg2));
+    transition:
+        background .3s ease,
+        color .3s ease;
+    overflow-x:hidden;
 }
 
-a{
-    color:inherit;
-    text-decoration:none;
+/* =========================
+   BACKGROUND
+========================= */
+
+.background-effects{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-2;
+    overflow:hidden;
 }
 
-button,
-input{
-    font-family:inherit;
+.background-effects::before,
+.background-effects::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.22;
+    animation:floatGlow 10s ease-in-out infinite alternate;
 }
 
-button{
-    cursor:pointer;
+.background-effects::before{
+    width:360px;
+    height:360px;
+    background:#00c2ff;
+    top:-120px;
+    left:-120px;
 }
 
-.container{
-    width:min(var(--max),calc(100% - 32px));
-    margin:auto;
+.background-effects::after{
+    width:420px;
+    height:420px;
+    background:#6c63ff;
+    bottom:-160px;
+    right:-120px;
+    animation-delay:2s;
 }
 
-/* ================= HEADER ================= */
+@keyframes floatGlow{
+    from{
+        transform:translate3d(0,0,0) scale(1);
+    }
+    to{
+        transform:translate3d(30px,20px,0) scale(1.08);
+    }
+}
 
-header{
+/* =========================
+   HEADER
+========================= */
+
+.site-header{
     position:sticky;
     top:0;
     z-index:1000;
-    background:var(--header);
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
-    border-bottom:1px solid var(--line);
+    background:rgba(7,17,31,.78);
+    border-bottom:1px solid var(--border);
 }
 
-.nav{
-    min-height:76px;
+body.light .site-header{
+    background:rgba(255,255,255,.82);
+}
+
+.header-inner{
+    width:min(1200px,calc(100% - 30px));
+    margin:auto;
+    min-height:72px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -128,940 +143,739 @@ header{
 }
 
 .logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:21px;
+    text-decoration:none;
+    color:var(--text);
+    font-size:22px;
     font-weight:900;
+    letter-spacing:.5px;
     white-space:nowrap;
 }
 
-.logo-mark{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    display:grid;
-    place-items:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    box-shadow:0 8px 25px rgba(0,200,255,.22);
-    font-size:20px;
-}
-
 .logo span{
-    color:var(--accent);
+    color:var(--primary);
 }
 
-.nav-center{
+.main-nav{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:7px;
+    flex:1;
 }
 
-.nav-link{
-    border:0;
-    background:transparent;
+.main-nav a{
+    text-decoration:none;
     color:var(--muted);
-    padding:11px 14px;
-    border-radius:12px;
-    transition:.2s;
+    padding:10px 13px;
+    border-radius:11px;
     font-size:14px;
-    white-space:nowrap;
+    transition:.2s ease;
 }
 
-.nav-link:hover{
-    background:var(--card2);
+.main-nav a:hover{
     color:var(--text);
+    background:rgba(255,255,255,.06);
 }
 
-.nav-link.subtitle-link{
-    color:var(--accent);
-}
-
-.nav-link.subtitle-link:hover{
-    color:var(--text);
-}
-
-.nav-actions{
+.header-actions{
     display:flex;
     align-items:center;
     gap:8px;
 }
 
 .icon-btn{
-    width:42px;
-    height:42px;
-    border:1px solid var(--line);
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
     background:var(--card);
     color:var(--text);
     border-radius:12px;
-    display:grid;
-    place-items:center;
+    cursor:pointer;
     font-size:18px;
-    transition:.2s;
+    transition:.2s ease;
 }
 
 .icon-btn:hover{
     transform:translateY(-2px);
-    border-color:rgba(0,200,255,.4);
+    border-color:rgba(0,194,255,.35);
 }
 
-.auth-btn{
-    border:0;
-    padding:11px 16px;
-    border-radius:12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    font-weight:900;
-    box-shadow:0 8px 25px rgba(0,200,255,.16);
-}
-
-.user-menu{
-    position:relative;
-}
-
-.user-button{
+.back-btn{
+    text-decoration:none;
     display:flex;
+    align-items:center;
+    gap:7px;
+    height:40px;
+    padding:0 13px;
+    border-radius:12px;
+    color:var(--text);
+    background:var(--card);
+    border:1px solid var(--border);
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.back-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+    width:min(1180px,calc(100% - 30px));
+    margin:35px auto 70px;
+}
+
+.breadcrumb{
+    display:flex;
+    flex-wrap:wrap;
     align-items:center;
     gap:8px;
-    border:1px solid var(--line);
-    background:var(--card);
-    color:var(--text);
-    border-radius:13px;
-    padding:8px 12px;
-    min-width:130px;
-}
-
-.user-avatar{
-    width:31px;
-    height:31px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    font-weight:900;
-}
-
-.user-name{
-    max-width:120px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.user-dropdown{
-    position:absolute;
-    top:calc(100% + 9px);
-    left:0;
-    width:205px;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:15px;
-    padding:8px;
-    box-shadow:var(--shadow);
-    display:none;
-}
-
-.user-dropdown.show{
-    display:block;
-    animation:drop .18s ease;
-}
-
-@keyframes drop{
-    from{
-        opacity:0;
-        transform:translateY(-5px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-.dropdown-item{
-    width:100%;
-    border:0;
-    background:transparent;
-    color:var(--text);
-    padding:12px;
-    text-align:right;
-    border-radius:10px;
-    display:block;
-}
-
-.dropdown-item:hover{
-    background:var(--card2);
-}
-
-.dropdown-item.logout{
-    color:var(--danger);
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    padding:75px 0 45px;
-}
-
-.hero-box{
-    min-height:390px;
-    border:1px solid var(--line);
-    border-radius:28px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(4,16,30,.95),
-            rgba(8,28,45,.72)
-        );
-
-    box-shadow:var(--shadow);
-    display:flex;
-    align-items:center;
-    overflow:hidden;
-    position:relative;
-    padding:55px;
-}
-
-html.light .hero-box{
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.96),
-            rgba(239,248,255,.88)
-        );
-}
-
-.hero-box:before{
-    content:"";
-    position:absolute;
-    width:400px;
-    height:400px;
-    border-radius:50%;
-    background:var(--accent);
-    filter:blur(130px);
-    opacity:.12;
-    left:-130px;
-    top:-180px;
-}
-
-.hero-content{
-    position:relative;
-    max-width:760px;
-}
-
-.hero-badge{
-    display:inline-flex;
-    padding:8px 13px;
-    border-radius:999px;
-    background:rgba(0,200,255,.10);
-    color:var(--accent);
-    border:1px solid rgba(0,200,255,.18);
+    color:var(--muted);
     font-size:13px;
     margin-bottom:18px;
 }
 
-.hero h1{
-    font-size:clamp(32px,5vw,62px);
-    line-height:1.1;
+.breadcrumb a{
+    color:var(--muted);
+    text-decoration:none;
+}
+
+.breadcrumb a:hover{
+    color:var(--primary);
+}
+
+/* =========================
+   ARTICLE
+========================= */
+
+.article-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:25px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+
+.article-head{
+    padding:32px 34px 22px;
+}
+
+.article-category{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 11px;
+    border-radius:999px;
+    background:rgba(0,194,255,.10);
+    color:var(--primary);
+    border:1px solid rgba(0,194,255,.18);
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:16px;
+}
+
+.article-title{
+    font-size:clamp(27px,4vw,45px);
+    line-height:1.5;
+    font-weight:900;
+    margin-bottom:15px;
+    letter-spacing:-.5px;
+}
+
+.article-description{
+    color:var(--muted);
+    font-size:16px;
+    line-height:2;
+    max-width:900px;
+}
+
+.article-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:20px;
+}
+
+.meta-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:var(--muted);
+    font-size:12px;
+    padding:8px 11px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:rgba(255,255,255,.025);
+}
+
+/* =========================
+   COVER
+========================= */
+
+.cover-wrap{
+    width:100%;
+    padding:0 24px 24px;
+}
+
+.cover{
+    width:100%;
+    max-height:650px;
+    object-fit:contain;
+    display:block;
+    border-radius:18px;
+    background:#050b13;
+    border:1px solid var(--border);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.article-content{
+    padding:10px 34px 35px;
+}
+
+.article-block{
+    margin:0 0 28px;
+}
+
+.text-block{
+    color:var(--text);
+    font-size:17px;
+    line-height:2.25;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.image-block{
+    width:100%;
+    text-align:center;
+}
+
+.article-image{
+    display:block;
+    width:auto;
+    max-width:100%;
+    max-height:850px;
+    height:auto;
+    object-fit:contain;
+    margin:0 auto;
+    border-radius:17px;
+    border:1px solid var(--border);
+    background:#050b13;
+    box-shadow:0 15px 45px rgba(0,0,0,.16);
+}
+
+.video-block{
+    width:100%;
+}
+
+.video-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:16 / 9;
+    border-radius:18px;
+    overflow:hidden;
+    background:#050b13;
+    border:1px solid var(--border);
+}
+
+.video-frame iframe,
+.video-frame video{
+    width:100%;
+    height:100%;
+    display:block;
+    border:0;
+}
+
+.video-direct{
+    object-fit:contain;
+}
+
+/* =========================
+   DOWNLOAD
+========================= */
+
+.download-box{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid rgba(53,208,127,.20);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(53,208,127,.08),
+            rgba(0,194,255,.05)
+        );
+}
+
+.download-info{
+    min-width:0;
+}
+
+.download-title{
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.download-size{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.download-button{
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-height:46px;
+    padding:0 19px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#00b96b,#13a878);
+    color:#fff;
+    text-decoration:none;
+    font-weight:800;
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.download-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(53,208,127,.18);
+}
+
+/* =========================
+   OLD DOWNLOAD
+========================= */
+
+.old-download{
+    margin-top:5px;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.025);
+}
+
+.old-download-title{
+    font-weight:800;
+    margin-bottom:12px;
+}
+
+.old-download a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:11px 18px;
+    border-radius:11px;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:white;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* =========================
+   COMMENTS
+========================= */
+
+.comments-section{
+    border-top:1px solid var(--border);
+    padding:30px 34px 35px;
+}
+
+.section-title{
+    font-size:22px;
+    font-weight:900;
+    margin-bottom:7px;
+}
+
+.section-subtitle{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:22px;
+}
+
+.comment-form{
+    display:none;
+    margin-bottom:28px;
+}
+
+.comment-form textarea{
+    width:100%;
+    min-height:120px;
+    resize:vertical;
+    padding:15px;
+    border-radius:15px;
+    border:1px solid var(--border);
+    outline:none;
+    background:var(--card2);
+    color:var(--text);
+    font-family:inherit;
+    line-height:1.9;
+}
+
+.comment-form textarea:focus{
+    border-color:rgba(0,194,255,.45);
+}
+
+.comment-form-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:10px;
+}
+
+.comment-login{
+    display:none;
+    padding:15px;
+    border-radius:14px;
+    background:rgba(0,194,255,.06);
+    border:1px solid rgba(0,194,255,.12);
+    color:var(--muted);
+    font-size:13px;
     margin-bottom:20px;
 }
 
-.hero h1 span{
-    color:var(--accent);
-}
-
-.hero p{
-    color:var(--muted);
-    line-height:2;
-    font-size:16px;
-    max-width:680px;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-top:27px;
-}
-
-.primary-btn,
-.secondary-btn{
-    border-radius:13px;
-    padding:13px 19px;
-    font-weight:800;
-    border:1px solid var(--line);
-    transition:.2s;
+.comment-login button{
+    border:0;
+    background:none;
+    color:var(--primary);
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:bold;
 }
 
 .primary-btn{
     border:0;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
+    cursor:pointer;
+    color:#fff;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    border-radius:11px;
+    padding:11px 18px;
+    font-family:inherit;
+    font-weight:bold;
 }
 
-.secondary-btn{
-    background:var(--card);
-    color:var(--text);
-}
-
-.primary-btn:hover,
-.secondary-btn:hover{
-    transform:translateY(-2px);
-}
-
-/* ================= SECTION ================= */
-
-.section{
-    padding:25px 0 60px;
-}
-
-.section-head{
+.comments-list{
     display:flex;
-    align-items:end;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:22px;
+    flex-direction:column;
+    gap:12px;
 }
 
-.section-title{
-    font-size:26px;
-    font-weight:900;
+.comment{
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:rgba(255,255,255,.025);
 }
 
-.section-title span{
-    color:var(--accent);
-}
-
-.section-sub{
-    color:var(--muted);
-    margin-top:7px;
-    font-size:13px;
-}
-
-/* ================= CATEGORY ================= */
-
-.categories{
-    display:flex;
-    gap:9px;
-    flex-wrap:wrap;
-    margin-bottom:25px;
-}
-
-.category{
-    border:1px solid var(--line);
-    background:var(--card);
-    color:var(--muted);
-    padding:10px 16px;
-    border-radius:999px;
-    transition:.2s;
-}
-
-.category:hover,
-.category.active{
-    color:#03121c;
-    border-color:transparent;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-}
-
-/* ================= POSTS ================= */
-
-.posts-grid{
-    display:grid;
-    grid-template-columns:
-        repeat(3,minmax(0,1fr));
-    gap:20px;
-}
-
-.post-card{
-    border:1px solid var(--line);
-    background:var(--card);
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 12px 40px rgba(0,0,0,.10);
-    transition:.25s;
-}
-
-.post-card:hover{
-    transform:translateY(-5px);
-    border-color:rgba(0,200,255,.3);
-    box-shadow:0 20px 55px rgba(0,0,0,.18);
-}
-
-.post-image{
-    width:100%;
-    aspect-ratio:16/9;
-    object-fit:cover;
-    display:block;
-    background:var(--card2);
-}
-
-.post-body{
-    padding:18px;
-}
-
-.post-meta{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:10px;
-}
-
-.post-category{
-    color:var(--accent);
-}
-
-.post-title{
-    font-size:19px;
-    line-height:1.6;
-    margin-bottom:8px;
-
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-}
-
-.post-description{
-    color:var(--muted);
-    line-height:1.9;
-    font-size:13px;
-    min-height:50px;
-
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-}
-
-.post-footer{
+.comment-top{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:10px;
-    margin-top:17px;
+    margin-bottom:9px;
 }
 
-.read-btn{
-    color:var(--accent);
+.comment-user{
+    font-size:13px;
     font-weight:800;
-    font-size:13px;
 }
 
-.download-mini{
-    font-size:12px;
-    color:var(--orange);
-}
-
-.loading{
-    padding:50px;
-    text-align:center;
+.comment-date{
     color:var(--muted);
-    grid-column:1/-1;
-}
-
-.empty{
-    padding:60px 20px;
-    text-align:center;
-    border:1px dashed var(--line);
-    border-radius:20px;
-    color:var(--muted);
-    grid-column:1/-1;
-}
-
-/* ================= SUBTITLES ================= */
-
-.subtitle-section{
-    padding-top:10px;
-}
-
-.subtitle-title-icon{
-    display:inline-flex;
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    align-items:center;
-    justify-content:center;
-    background:rgba(0,200,255,.10);
-    border:1px solid rgba(0,200,255,.16);
-    margin-left:8px;
-}
-
-.subtitle-card{
-    position:relative;
-}
-
-.subtitle-card:after{
-    content:"رایگان";
-    position:absolute;
-    top:12px;
-    right:12px;
-    z-index:2;
-    padding:6px 10px;
-    border-radius:999px;
-    background:rgba(3,18,28,.82);
-    color:var(--accent2);
-    border:1px solid rgba(24,224,193,.25);
     font-size:11px;
-    font-weight:900;
-    backdrop-filter:blur(8px);
 }
 
-html.light .subtitle-card:after{
-    background:rgba(255,255,255,.90);
-}
-
-.subtitle-empty{
-    grid-column:1/-1;
-    border:1px dashed var(--line);
-    background:var(--card);
-    border-radius:20px;
-    padding:45px 20px;
-    text-align:center;
-    color:var(--muted);
-}
-
-.subtitle-empty-icon{
-    font-size:35px;
-    margin-bottom:12px;
-}
-
-.subtitle-empty-title{
+.comment-text{
     color:var(--text);
-    font-weight:900;
-    font-size:17px;
-    margin-bottom:7px;
+    font-size:14px;
+    line-height:1.9;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
 }
 
-.subtitle-error{
-    grid-column:1/-1;
-    border:1px solid rgba(255,85,119,.18);
-    background:rgba(255,85,119,.06);
-    border-radius:20px;
-    padding:30px 20px;
-    text-align:center;
+.delete-comment{
+    margin-top:10px;
+    border:0;
+    background:none;
     color:var(--danger);
-}
-
-/* ================= STATS ================= */
-
-.stats{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:10px 0 40px;
-}
-
-.stat{
-    border:1px solid var(--line);
-    background:rgba(10,25,42,.62);
-    border-radius:12px;
-    padding:8px 13px;
-    color:var(--muted);
+    cursor:pointer;
+    font-family:inherit;
     font-size:11px;
 }
 
-html.light .stat{
-    background:rgba(255,255,255,.72);
+.empty-comments{
+    color:var(--muted);
+    text-align:center;
+    padding:30px 10px;
+    border:1px dashed var(--border);
+    border-radius:15px;
 }
 
-.stat strong{
-    color:var(--text);
-}
+/* =========================
+   LOADING / ERROR
+========================= */
 
-/* ================= AUTH MODAL ================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:3000;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(8px);
-    display:none;
+.center-state{
+    min-height:400px;
+    display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding:20px;
+    text-align:center;
+    gap:12px;
 }
 
-.modal.show{
-    display:flex;
+.loader{
+    width:42px;
+    height:42px;
+    border:3px solid rgba(255,255,255,.10);
+    border-top-color:var(--primary);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
 }
 
-.auth-box{
-    width:min(460px,100%);
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:24px;
-    box-shadow:0 30px 100px rgba(0,0,0,.45);
-    padding:27px;
-    position:relative;
-    animation:modalIn .2s ease;
-}
-
-@keyframes modalIn{
-    from{
-        opacity:0;
-        transform:translateY(15px) scale(.98);
-    }
-
+@keyframes spin{
     to{
-        opacity:1;
-        transform:none;
+        transform:rotate(360deg);
     }
 }
 
-.close-modal{
-    position:absolute;
-    left:17px;
-    top:17px;
-    width:35px;
-    height:35px;
-    border-radius:10px;
-    border:1px solid var(--line);
-    background:var(--card2);
-    color:var(--text);
-}
-
-.auth-logo{
-    width:60px;
-    height:60px;
-    border-radius:17px;
-    display:grid;
-    place-items:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    font-size:25px;
-    margin-bottom:15px;
-}
-
-.auth-box h2{
-    font-size:25px;
-    margin-bottom:8px;
-}
-
-.auth-desc{
-    color:var(--muted);
-    font-size:13px;
-    line-height:1.8;
-    margin-bottom:20px;
-}
-
-.auth-tabs{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    padding:5px;
-    background:var(--card2);
-    border-radius:12px;
-    margin-bottom:18px;
-}
-
-.auth-tab{
-    border:0;
-    padding:10px;
-    border-radius:9px;
-    background:transparent;
-    color:var(--muted);
-}
-
-.auth-tab.active{
-    background:var(--card);
-    color:var(--text);
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
-}
-
-.field{
-    margin-bottom:13px;
-}
-
-.field label{
-    display:block;
-    margin-bottom:7px;
-    font-size:13px;
-    color:var(--muted);
-}
-
-.field input{
-    width:100%;
-    border:1px solid var(--line);
-    background:var(--card2);
-    color:var(--text);
-    padding:13px;
-    border-radius:12px;
-    outline:none;
-    transition:.2s;
-}
-
-.field input:focus{
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(0,200,255,.08);
-}
-
-.auth-submit{
-    width:100%;
-    border:0;
-    padding:13px;
-    border-radius:12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
+.state-title{
+    font-size:20px;
     font-weight:900;
-    margin-top:5px;
 }
 
-.auth-submit:disabled{
-    opacity:.6;
-    cursor:not-allowed;
+.state-text{
+    color:var(--muted);
+    font-size:13px;
+    max-width:500px;
+    line-height:1.9;
 }
 
-.forgot{
-    border:0;
-    background:transparent;
-    color:var(--accent);
-    font-size:12px;
-    margin-top:14px;
-}
-
-.auth-message{
-    margin-top:13px;
-    padding:11px;
-    border-radius:10px;
-    display:none;
-    font-size:12px;
-    line-height:1.8;
-}
-
-.auth-message.show{
-    display:block;
-}
-
-.auth-message.error{
-    background:rgba(255,85,119,.10);
-    color:var(--danger);
-    border:1px solid rgba(255,85,119,.15);
-}
-
-.auth-message.success{
-    background:rgba(24,224,193,.10);
-    color:var(--accent2);
-    border:1px solid rgba(24,224,193,.15);
-}
-
-/* ================= TOAST ================= */
+/* =========================
+   TOAST
+========================= */
 
 .toast{
     position:fixed;
-    bottom:25px;
-    right:25px;
-    z-index:5000;
-    background:var(--card);
-    border:1px solid var(--line);
-    box-shadow:var(--shadow);
-    color:var(--text);
+    left:20px;
+    bottom:20px;
+    z-index:9999;
+    max-width:min(380px,calc(100% - 40px));
+    padding:13px 16px;
     border-radius:13px;
-    padding:13px 17px;
-    max-width:330px;
-    transform:translateY(120px);
+    background:#111d2d;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    transform:translateY(30px);
     opacity:0;
-    transition:.25s;
+    pointer-events:none;
+    transition:.25s ease;
     font-size:13px;
 }
 
 .toast.show{
-    transform:none;
+    transform:translateY(0);
     opacity:1;
 }
 
 .toast.success{
-    border-color:rgba(24,224,193,.35);
+    border-color:rgba(53,208,127,.3);
 }
 
 .toast.error{
-    border-color:rgba(255,85,119,.35);
+    border-color:rgba(255,77,103,.3);
 }
 
-/* ================= FOOTER ================= */
+/* =========================
+   FOOTER
+========================= */
 
-footer{
-    border-top:1px solid var(--line);
-    padding:30px 0;
-    color:var(--muted);
+.footer{
+    width:min(1180px,calc(100% - 30px));
+    margin:0 auto 30px;
+    padding:25px 10px;
     text-align:center;
+    color:var(--muted);
     font-size:12px;
 }
 
-.footer-logo{
-    color:var(--text);
-    font-weight:900;
-    margin-bottom:8px;
-}
+/* =========================
+   MOBILE
+========================= */
 
-/* ================= RESPONSIVE ================= */
+@media(max-width:850px){
 
-@media(max-width:1180px){
-
-    .nav-center{
-        gap:2px;
+    .header-inner{
+        min-height:64px;
     }
 
-    .nav-link{
-        padding:10px 9px;
-        font-size:13px;
-    }
-}
-
-@media(max-width:1050px){
-
-    .nav-center{
+    .main-nav{
         display:none;
     }
 
-    .posts-grid{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
+    .logo{
+        font-size:19px;
+    }
+
+    .page{
+        margin-top:22px;
+    }
+
+    .article-head{
+        padding:24px 20px 18px;
+    }
+
+    .article-title{
+        font-size:27px;
+        line-height:1.55;
+    }
+
+    .article-description{
+        font-size:14px;
+        line-height:2;
+    }
+
+    .cover-wrap{
+        padding:0 14px 14px;
+    }
+
+    .cover{
+        border-radius:14px;
+        max-height:450px;
+    }
+
+    .article-content{
+        padding:8px 20px 28px;
+    }
+
+    .text-block{
+        font-size:15px;
+        line-height:2.2;
+    }
+
+    .article-image{
+        max-height:600px;
+        border-radius:13px;
+    }
+
+    .comments-section{
+        padding:25px 20px 28px;
+    }
+
+    .download-box{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .download-button{
+        width:100%;
     }
 }
 
-@media(max-width:700px){
+@media(max-width:520px){
 
-    .container{
-        width:min(100% - 20px,var(--max));
+    .header-inner{
+        width:calc(100% - 20px);
+        gap:8px;
     }
 
-    .nav{
-        min-height:68px;
+    .header-actions{
+        gap:5px;
     }
 
-    .logo{
-        font-size:16px;
+    .back-btn{
+        padding:0 10px;
+        font-size:11px;
     }
 
-    .logo-mark{
+    .icon-btn{
         width:37px;
         height:37px;
     }
 
-    .auth-btn{
-        padding:9px 11px;
-        font-size:12px;
+    .page{
+        width:calc(100% - 14px);
+        margin-bottom:40px;
     }
 
-    .user-button{
-        min-width:auto;
-        padding:6px 8px;
+    .article-card{
+        border-radius:18px;
     }
 
-    .user-name{
-        display:none;
+    .article-head{
+        padding:20px 15px 16px;
     }
 
-    .user-dropdown{
-        left:0;
-        width:190px;
+    .article-title{
+        font-size:23px;
     }
 
-    .hero{
-        padding:25px 0 25px;
+    .article-description{
+        font-size:13px;
     }
 
-    .hero-box{
-        min-height:410px;
-        padding:30px 22px;
-        border-radius:21px;
+    .article-meta{
+        gap:7px;
     }
 
-    .hero h1{
-        font-size:36px;
+    .meta-item{
+        font-size:10px;
+        padding:7px 9px;
     }
 
-    .hero p{
+    .cover-wrap{
+        padding:0 9px 9px;
+    }
+
+    .cover{
+        border-radius:12px;
+    }
+
+    .article-content{
+        padding:6px 15px 22px;
+    }
+
+    .article-block{
+        margin-bottom:22px;
+    }
+
+    .text-block{
         font-size:14px;
+        line-height:2.15;
     }
 
-    .posts-grid{
-        grid-template-columns:1fr;
+    .article-image{
+        border-radius:11px;
     }
 
-    .section{
-        padding-bottom:45px;
+    .comments-section{
+        padding:22px 15px 25px;
     }
 
-    .section-head{
-        align-items:flex-start;
+    .comment-form-bottom{
         flex-direction:column;
+        align-items:stretch;
     }
 
-    .section-head .secondary-btn{
+    .primary-btn{
         width:100%;
-        text-align:center;
     }
 
-    .section-title{
-        font-size:22px;
-    }
-
-    .stats{
-        margin-bottom:25px;
-    }
-
-    .toast{
-        right:10px;
-        left:10px;
-        bottom:10px;
-        max-width:none;
+    .footer{
+        width:calc(100% - 20px);
     }
 }
 </style>
@@ -1069,484 +883,176 @@ footer{
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<div class="background-effects"></div>
 
-<header>
-<div class="container nav">
+<header class="site-header">
+    <div class="header-inner">
 
-    <a href="./index.html" class="logo">
-        <div class="logo-mark">🎮</div>
-        <div>PERSIAN <span>STARK</span></div>
-    </a>
-
-    <nav class="nav-center">
-
-        <a href="#home" class="nav-link">
-            خانه
+        <a href="index.html" class="logo">
+            PERSIAN <span>STARK</span>
         </a>
 
-        <a href="#posts" class="nav-link">
-            مطالب
-        </a>
+        <nav class="main-nav">
+            <a href="index.html">خانه</a>
+            <a href="index.html#news">اخبار</a>
+            <a href="index.html#games">معرفی بازی</a>
+            <a href="index.html#software">نرم‌افزار</a>
+            <a href="subtitles.html">زیرنویس‌های رایگان</a>
+        </nav>
 
-        <a href="#games" class="nav-link">
-            معرفی بازی
-        </a>
+        <div class="header-actions">
 
-        <a href="#software" class="nav-link">
-            نرم افزار
-        </a>
-
-        <a
-            href="./subtitles.html"
-            class="nav-link subtitle-link"
-        >
-            🎮 زیرنویس رایگان
-        </a>
-
-    </nav>
-
-    <div class="nav-actions">
-
-        <button
-            class="icon-btn"
-            id="themeBtn"
-            title="تغییر حالت"
-        >☀️</button>
-
-        <button
-            class="auth-btn"
-            id="loginBtn"
-        >ورود / ثبت‌نام</button>
-
-        <div
-            class="user-menu"
-            id="userMenu"
-            style="display:none"
-        >
+            <a href="index.html" class="back-btn">
+                ← بازگشت
+            </a>
 
             <button
-                class="user-button"
-                id="userButton"
+                type="button"
+                class="icon-btn"
+                id="themeBtn"
+                title="تغییر حالت"
             >
-
-                <span
-                    class="user-avatar"
-                    id="userAvatar"
-                >👤</span>
-
-                <span
-                    class="user-name"
-                    id="userName"
-                >
-                    کاربر
-                </span>
-
-                <span>⌄</span>
-
+                ☾
             </button>
 
-            <div
-                class="user-dropdown"
-                id="userDropdown"
-            >
+        </div>
 
-                <a
-                    class="dropdown-item"
-                    href="./profile.html"
-                >
-                    👤 پروفایل من
-                </a>
+    </div>
+</header>
 
-                <button
-                    class="dropdown-item logout"
-                    id="logoutBtn"
-                >
-                    🚪 خروج از حساب
-                </button>
+
+<main class="page">
+
+    <div class="breadcrumb">
+        <a href="index.html">خانه</a>
+        <span>›</span>
+        <span id="breadcrumbCategory">مطلب</span>
+    </div>
+
+
+    <div id="loadingState" class="article-card">
+        <div class="center-state">
+            <div class="loader"></div>
+            <div class="state-title">در حال بارگذاری مطلب...</div>
+            <div class="state-text">
+                لطفاً چند لحظه صبر کنید.
+            </div>
+        </div>
+    </div>
+
+
+    <article id="articleCard" class="article-card" style="display:none;">
+
+        <div class="article-head">
+
+            <div id="articleCategory" class="article-category">
+                مطلب
+            </div>
+
+            <h1 id="articleTitle" class="article-title">
+                عنوان مطلب
+            </h1>
+
+            <div id="articleDescription" class="article-description"></div>
+
+            <div class="article-meta">
+
+                <div class="meta-item">
+                    📅
+                    <span id="articleDate">---</span>
+                </div>
+
+                <div class="meta-item">
+                    🎮
+                    <span id="articleCategoryMeta">---</span>
+                </div>
 
             </div>
 
         </div>
 
-    </div>
 
-</div>
-</header>
+        <div id="coverWrap" class="cover-wrap" style="display:none;">
+            <img
+                id="articleCover"
+                class="cover"
+                alt=""
+            >
+        </div>
 
 
-<!-- ================= HERO ================= -->
+        <div id="articleContent" class="article-content"></div>
 
-<main id="home">
 
-<section class="hero">
+        <section class="comments-section">
 
-<div class="container">
+            <h2 class="section-title">
+                نظرات کاربران
+            </h2>
 
-<div class="hero-box">
+            <div class="section-subtitle">
+                نظر خودت رو درباره این مطلب با بقیه به اشتراک بذار.
+            </div>
 
-<div class="hero-content">
 
-<div class="hero-badge">
-🎮 مرجع گیم و تکنولوژی
-</div>
+            <div id="commentLogin" class="comment-login">
+                برای ثبت نظر ابتدا وارد حساب کاربری خودت شو.
+                <button id="loginBtn" type="button">
+                    ورود / ثبت‌نام
+                </button>
+            </div>
 
-<h1>
-دنیای گیم را با
-<span>PERSIAN STARK</span>
-تجربه کن
-</h1>
 
-<p>
-آخرین اخبار بازی‌ها، معرفی بازی‌های جدید،
-نرم‌افزارهای کاربردی، زیرنویس‌های فارسی رایگان
-و مطالب دنیای گیم را یکجا دنبال کن.
-</p>
+            <form id="commentForm" class="comment-form">
 
-<div class="hero-buttons">
+                <textarea
+                    id="commentInput"
+                    maxlength="2000"
+                    placeholder="نظر خودت را بنویس..."
+                    required
+                ></textarea>
 
-<a
-href="#posts"
-class="primary-btn"
->
-مشاهده مطالب
-</a>
+                <div class="comment-form-bottom">
 
-<a
-href="./subtitles.html"
-class="secondary-btn"
->
-🎮 زیرنویس‌های رایگان
-</a>
+                    <span
+                        id="commentUser"
+                        style="color:var(--muted);font-size:12px;"
+                    ></span>
 
-<button
-class="secondary-btn"
-id="heroLoginBtn"
->
-عضویت در سایت
-</button>
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        ارسال نظر
+                    </button>
 
-</div>
+                </div>
 
-</div>
+            </form>
 
-</div>
 
-</div>
+            <div id="commentsList" class="comments-list">
+                <div class="empty-comments">
+                    در حال بارگذاری نظرات...
+                </div>
+            </div>
 
-</section>
+        </section>
 
-
-<!-- ================= STATS ================= -->
-
-<div class="container">
-
-<div class="stats">
-
-<div class="stat">
-👥 اعضا:
-<strong id="membersCount">—</strong>
-</div>
-
-<div class="stat">
-🟢 آنلاین:
-<strong id="onlineCount">—</strong>
-</div>
-
-<div class="stat">
-👁️ بازدید امروز:
-<strong id="todayVisits">—</strong>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ================= POSTS ================= -->
-
-<section
-class="section"
-id="posts"
->
-
-<div class="container">
-
-<div class="section-head">
-
-<div>
-
-<div class="section-title">
-آخرین مطالب
-</div>
-
-<div class="section-sub">
-جدیدترین مطالب منتشرشده در PERSIAN STARK
-</div>
-
-</div>
-
-</div>
-
-
-<div
-class="categories"
-id="categories"
->
-
-<button
-class="category active"
-data-category="all"
->
-همه
-</button>
-
-</div>
-
-
-<div
-class="posts-grid"
-id="postsGrid"
->
-
-<div class="loading">
-در حال دریافت مطالب...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ================= FREE SUBTITLES ================= -->
-
-<section
-class="section subtitle-section"
-id="subtitles"
->
-
-<div class="container">
-
-<div class="section-head">
-
-<div>
-
-<div class="section-title">
-
-<span class="subtitle-title-icon">
-🎮
-</span>
-
-آخرین
-<span>
-زیرنویس‌های رایگان
-</span>
-
-</div>
-
-<div class="section-sub">
-جدیدترین زیرنویس‌های فارسی بازی‌ها را رایگان دریافت کنید
-</div>
-
-</div>
-
-<a
-href="./subtitles.html"
-class="secondary-btn"
->
-مشاهده همه زیرنویس‌ها ←
-</a>
-
-</div>
-
-
-<div
-class="posts-grid"
-id="subtitlesGrid"
->
-
-<div class="loading">
-در حال دریافت آخرین زیرنویس‌ها...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer>
-
-<div class="container">
-
-<div class="footer-logo">
-PERSIAN STARK 🎮
-</div>
-
-<div>
-دنیای گیم، اخبار، معرفی بازی، نرم‌افزار و زیرنویس فارسی
-</div>
-
-<div style="margin-top:8px">
-© <span id="year"></span> PERSIAN STARK
-</div>
-
-</div>
-
-</footer>
+    </article>
 
 </main>
 
 
-<!-- ================= AUTH MODAL ================= -->
-
-<div
-class="modal"
-id="authModal"
->
-
-<div class="auth-box">
-
-<button
-class="close-modal"
-id="closeModal"
->
-✕
-</button>
-
-<div class="auth-logo">
-🎮
-</div>
-
-<h2 id="authTitle">
-ورود به حساب
-</h2>
-
-<div
-class="auth-desc"
-id="authDesc"
->
-برای استفاده از امکانات سایت وارد حساب خود شوید.
-</div>
+<footer class="footer">
+    © 2026 PERSIAN STARK — دنیای گیم
+</footer>
 
 
-<div class="auth-tabs">
-
-<button
-class="auth-tab active"
-id="loginTab"
->
-ورود
-</button>
-
-<button
-class="auth-tab"
-id="registerTab"
->
-ثبت‌نام
-</button>
-
-</div>
-
-
-<form id="authForm">
-
-<div
-class="field"
-id="usernameField"
-style="display:none"
->
-
-<label>
-نام کاربری
-</label>
-
-<input
-type="text"
-id="usernameInput"
-placeholder="مثلاً PersianGamer"
-autocomplete="username"
-/>
-
-</div>
-
-
-<div class="field">
-
-<label>
-ایمیل
-</label>
-
-<input
-type="email"
-id="emailInput"
-placeholder="example@email.com"
-required
-autocomplete="email"
-/>
-
-</div>
-
-
-<div class="field">
-
-<label>
-رمز عبور
-</label>
-
-<input
-type="password"
-id="passwordInput"
-placeholder="حداقل ۶ کاراکتر"
-required
-autocomplete="current-password"
-/>
-
-</div>
-
-
-<button
-class="auth-submit"
-id="authSubmit"
-type="submit"
->
-ورود به حساب
-</button>
-
-</form>
-
-
-<button
-class="forgot"
-id="forgotBtn"
->
-رمز عبورم را فراموش کرده‌ام
-</button>
-
-
-<div
-class="auth-message"
-id="authMessage"
-></div>
-
-</div>
-
-</div>
-
-
-<div
-class="toast"
-id="toast"
-></div>
+<div id="toast" class="toast"></div>
 
 
 <script>
-
 /* =========================================================
    SUPABASE
 ========================================================= */
@@ -1568,755 +1074,85 @@ const db = createClient(
 
 
 /* =========================================================
-   GLOBALS
+   GLOBAL
 ========================================================= */
 
+let currentPost = null;
 let currentUser = null;
-let allPosts = [];
-let currentCategory = "all";
-let authMode = "login";
 
 
 /* =========================================================
-   DOM
+   HELPERS
 ========================================================= */
 
-const loginBtn =
-    document.getElementById("loginBtn");
+function escapeHTML(value){
+    if(value === null || value === undefined){
+        return "";
+    }
 
-const heroLoginBtn =
-    document.getElementById("heroLoginBtn");
-
-const userMenu =
-    document.getElementById("userMenu");
-
-const userButton =
-    document.getElementById("userButton");
-
-const userDropdown =
-    document.getElementById("userDropdown");
-
-const logoutBtn =
-    document.getElementById("logoutBtn");
-
-const userName =
-    document.getElementById("userName");
-
-const userAvatar =
-    document.getElementById("userAvatar");
-
-const authModal =
-    document.getElementById("authModal");
-
-const closeModal =
-    document.getElementById("closeModal");
-
-const loginTab =
-    document.getElementById("loginTab");
-
-const registerTab =
-    document.getElementById("registerTab");
-
-const authForm =
-    document.getElementById("authForm");
-
-const authTitle =
-    document.getElementById("authTitle");
-
-const authDesc =
-    document.getElementById("authDesc");
-
-const usernameField =
-    document.getElementById("usernameField");
-
-const usernameInput =
-    document.getElementById("usernameInput");
-
-const emailInput =
-    document.getElementById("emailInput");
-
-const passwordInput =
-    document.getElementById("passwordInput");
-
-const authSubmit =
-    document.getElementById("authSubmit");
-
-const forgotBtn =
-    document.getElementById("forgotBtn");
-
-const authMessage =
-    document.getElementById("authMessage");
-
-const postsGrid =
-    document.getElementById("postsGrid");
-
-const subtitlesGrid =
-    document.getElementById("subtitlesGrid");
-
-const categories =
-    document.getElementById("categories");
-
-const themeBtn =
-    document.getElementById("themeBtn");
-
-const toast =
-    document.getElementById("toast");
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
 
 
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer;
-
-function showToast(message,type="success"){
-
-    clearTimeout(toastTimer);
+function showToast(message,type=""){
+    const toast = document.getElementById("toast");
 
     toast.textContent = message;
+    toast.className = "toast show " + type;
 
-    toast.className =
-        "toast show " + type;
+    clearTimeout(window.__toastTimer);
 
-    toastTimer = setTimeout(()=>{
-
-        toast.className =
-            "toast";
-
-    },3500);
+    window.__toastTimer = setTimeout(()=>{
+        toast.className = "toast";
+    },3000);
 }
 
 
-/* =========================================================
-   AUTH MESSAGE
-========================================================= */
+function getPostId(){
 
-function showAuthMessage(message,type="error"){
+    const params = new URLSearchParams(window.location.search);
 
-    authMessage.textContent =
-        message;
-
-    authMessage.className =
-        "auth-message show " + type;
-}
-
-function clearAuthMessage(){
-
-    authMessage.textContent =
-        "";
-
-    authMessage.className =
-        "auth-message";
+    return params.get("id");
 }
 
 
-/* =========================================================
-   AUTH MODAL
-========================================================= */
+function formatDate(date){
 
-function openAuth(mode="login"){
-
-    authMode =
-        mode;
-
-    clearAuthMessage();
-
-    authModal.classList.add(
-        "show"
-    );
-
-    updateAuthUI();
-
-    setTimeout(()=>{
-
-        emailInput.focus();
-
-    },100);
-}
-
-
-function closeAuth(){
-
-    authModal.classList.remove(
-        "show"
-    );
-
-    authForm.reset();
-
-    clearAuthMessage();
-}
-
-
-function updateAuthUI(){
-
-    if(authMode === "login"){
-
-        authTitle.textContent =
-            "ورود به حساب";
-
-        authDesc.textContent =
-            "برای استفاده از امکانات سایت وارد حساب خود شوید.";
-
-        usernameField.style.display =
-            "none";
-
-        usernameInput.required =
-            false;
-
-        authSubmit.textContent =
-            "ورود به حساب";
-
-        forgotBtn.style.display =
-            "inline-block";
-
-        loginTab.classList.add(
-            "active"
-        );
-
-        registerTab.classList.remove(
-            "active"
-        );
-
-    }else{
-
-        authTitle.textContent =
-            "ساخت حساب کاربری";
-
-        authDesc.textContent =
-            "حساب خودت را بساز و در مطالب سایت مشارکت کن.";
-
-        usernameField.style.display =
-            "block";
-
-        usernameInput.required =
-            true;
-
-        authSubmit.textContent =
-            "ساخت حساب";
-
-        forgotBtn.style.display =
-            "none";
-
-        registerTab.classList.add(
-            "active"
-        );
-
-        loginTab.classList.remove(
-            "active"
-        );
+    if(!date){
+        return "---";
     }
-}
-
-
-/* =========================================================
-   AUTH EVENTS
-========================================================= */
-
-loginBtn.addEventListener(
-    "click",
-    ()=>{
-
-        if(currentUser){
-
-            userDropdown.classList.toggle(
-                "show"
-            );
-
-        }else{
-
-            openAuth("login");
-
-        }
-    }
-);
-
-
-heroLoginBtn.addEventListener(
-    "click",
-    ()=>{
-
-        if(currentUser){
-
-            location.href =
-                "./profile.html";
-
-        }else{
-
-            openAuth("register");
-
-        }
-    }
-);
-
-
-closeModal.addEventListener(
-    "click",
-    closeAuth
-);
-
-
-loginTab.addEventListener(
-    "click",
-    ()=>{
-
-        authMode =
-            "login";
-
-        clearAuthMessage();
-
-        updateAuthUI();
-    }
-);
-
-
-registerTab.addEventListener(
-    "click",
-    ()=>{
-
-        authMode =
-            "register";
-
-        clearAuthMessage();
-
-        updateAuthUI();
-    }
-);
-
-
-authModal.addEventListener(
-    "click",
-    e=>{
-
-        if(e.target === authModal){
-
-            closeAuth();
-
-        }
-    }
-);
-
-
-userButton.addEventListener(
-    "click",
-    e=>{
-
-        e.stopPropagation();
-
-        userDropdown.classList.toggle(
-            "show"
-        );
-    }
-);
-
-
-document.addEventListener(
-    "click",
-    ()=>{
-
-        userDropdown.classList.remove(
-            "show"
-        );
-    }
-);
-
-
-logoutBtn.addEventListener(
-    "click",
-    async ()=>{
-
-        const {
-            error
-        } = await db.auth.signOut();
-
-        if(error){
-
-            showToast(
-                "خروج از حساب انجام نشد.",
-                "error"
-            );
-
-            return;
-        }
-
-        userDropdown.classList.remove(
-            "show"
-        );
-
-        showToast(
-            "با موفقیت از حساب خارج شدید."
-        );
-    }
-);
-
-
-/* =========================================================
-   LOGIN / REGISTER
-========================================================= */
-
-authForm.addEventListener(
-    "submit",
-    async e=>{
-
-        e.preventDefault();
-
-        clearAuthMessage();
-
-        const email =
-            emailInput.value.trim();
-
-        const password =
-            passwordInput.value;
-
-        if(!email || !password){
-
-            showAuthMessage(
-                "ایمیل و رمز عبور را وارد کنید."
-            );
-
-            return;
-        }
-
-
-        authSubmit.disabled =
-            true;
-
-        authSubmit.textContent =
-            "در حال انجام...";
-
-
-        try{
-
-            if(authMode === "login"){
-
-                const {
-                    data,
-                    error
-                } = await db.auth.signInWithPassword({
-
-                    email,
-                    password
-
-                });
-
-                if(error)
-                    throw error;
-
-                currentUser =
-                    data.user;
-
-                showToast(
-                    "خوش آمدی 👋"
-                );
-
-                closeAuth();
-
-                await updateHeader();
-
-            }else{
-
-                const username =
-                    usernameInput.value.trim();
-
-                if(username.length < 3){
-
-                    showAuthMessage(
-                        "نام کاربری باید حداقل ۳ کاراکتر باشد."
-                    );
-
-                    return;
-                }
-
-                if(password.length < 6){
-
-                    showAuthMessage(
-                        "رمز عبور باید حداقل ۶ کاراکتر باشد."
-                    );
-
-                    return;
-                }
-
-
-                const {
-                    data,
-                    error
-                } = await db.auth.signUp({
-
-                    email,
-                    password,
-
-                    options:{
-                        emailRedirectTo:
-                            window.location.origin +
-                            "/index.html"
-                    }
-
-                });
-
-
-                if(error)
-                    throw error;
-
-
-                if(data.user){
-
-                    currentUser =
-                        data.user;
-
-
-                    const {
-                        error:profileError
-                    } = await db
-                        .from("profiles")
-                        .upsert({
-
-                            id:data.user.id,
-
-                            username:username,
-
-                            steam_trade_url:null,
-
-                            updated_at:
-                                new Date().toISOString()
-
-                        },{
-                            onConflict:"id"
-                        });
-
-
-                    if(profileError){
-
-                        console.warn(
-                            "Profile creation:",
-                            profileError
-                        );
-                    }
-                }
-
-
-                showAuthMessage(
-                    "ثبت‌نام انجام شد. اگر تأیید ایمیل فعال باشد، لینک تأیید به ایمیل شما ارسال شده است.",
-                    "success"
-                );
-
-                showToast(
-                    "حساب شما ساخته شد."
-                );
-
-                setTimeout(()=>{
-
-                    closeAuth();
-
-                },1800);
-
-                await updateHeader();
-            }
-
-        }catch(error){
-
-            console.error(error);
-
-            let message =
-                error.message ||
-                "خطایی رخ داد.";
-
-
-            if(
-                message.includes(
-                    "Invalid login credentials"
-                )
-            ){
-
-                message =
-                    "ایمیل یا رمز عبور اشتباه است.";
-            }
-
-
-            if(
-                message.includes(
-                    "User already registered"
-                )
-            ){
-
-                message =
-                    "این ایمیل قبلاً ثبت‌نام کرده است.";
-            }
-
-
-            if(
-                message.includes(
-                    "Password should be at least"
-                )
-            ){
-
-                message =
-                    "رمز عبور باید حداقل ۶ کاراکتر باشد.";
-            }
-
-
-            showAuthMessage(
-                message
-            );
-
-        }finally{
-
-            authSubmit.disabled =
-                false;
-
-            updateAuthUI();
-        }
-    }
-);
-
-
-/* =========================================================
-   PASSWORD RESET
-========================================================= */
-
-forgotBtn.addEventListener(
-    "click",
-    async ()=>{
-
-        const email =
-            emailInput.value.trim();
-
-        if(!email){
-
-            showAuthMessage(
-                "ابتدا ایمیل خود را وارد کنید."
-            );
-
-            emailInput.focus();
-
-            return;
-        }
-
-        forgotBtn.disabled =
-            true;
-
-
-        const {
-            error
-        } = await db.auth.resetPasswordForEmail(
-            email,
-            {
-                redirectTo:
-                    window.location.origin +
-                    "/profile.html"
-            }
-        );
-
-
-        forgotBtn.disabled =
-            false;
-
-
-        if(error){
-
-            showAuthMessage(
-                error.message
-            );
-
-            return;
-        }
-
-
-        showAuthMessage(
-            "لینک بازیابی رمز عبور به ایمیل شما ارسال شد.",
-            "success"
-        );
-    }
-);
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-db.auth.onAuthStateChange(
-    async (event,session)=>{
-
-        currentUser =
-            session?.user || null;
-
-        await updateHeader();
-    }
-);
-
-
-/* =========================================================
-   UPDATE HEADER
-========================================================= */
-
-async function updateHeader(){
-
-    if(!currentUser){
-
-        loginBtn.style.display =
-            "block";
-
-        loginBtn.textContent =
-            "ورود / ثبت‌نام";
-
-        userMenu.style.display =
-            "none";
-
-        return;
-    }
-
-
-    loginBtn.style.display =
-        "none";
-
-    userMenu.style.display =
-        "block";
-
-
-    let username =
-        currentUser.email
-        ?.split("@")[0] ||
-        "کاربر";
-
 
     try{
-
-        const {
-            data
-        } = await db
-            .from("profiles")
-            .select("username")
-            .eq(
-                "id",
-                currentUser.id
-            )
-            .maybeSingle();
-
-
-        if(
-            data &&
-            data.username &&
-            data.username.trim()
-        ){
-
-            username =
-                data.username.trim();
-        }
-
-    }catch(error){
-
-        console.warn(
-            "Profile fetch:",
-            error
-        );
+        return new Intl.DateTimeFormat(
+            "fa-IR",
+            {
+                year:"numeric",
+                month:"long",
+                day:"numeric"
+            }
+        ).format(new Date(date));
+    }catch{
+        return new Date(date).toLocaleDateString("fa-IR");
     }
+}
 
 
-    userName.textContent =
-        username;
+function categoryName(category){
 
-    userAvatar.textContent =
-        username
-        .charAt(0)
-        .toUpperCase();
+    const map = {
+        news:"اخبار بازی",
+        game:"معرفی بازی",
+        software:"نرم‌افزار",
+        store:"فروشگاه CS2",
+        subtitles:"زیرنویس‌های رایگان"
+    };
+
+    return map[category] || category || "مطلب";
 }
 
 
@@ -2327,81 +1163,334 @@ async function updateHeader(){
 function applyTheme(theme){
 
     if(theme === "light"){
-
-        document.documentElement
-            .classList.add("light");
-
-        themeBtn.textContent =
-            "🌙";
-
+        document.body.classList.add("light");
+        document.getElementById("themeBtn").textContent = "☀";
     }else{
-
-        document.documentElement
-            .classList.remove("light");
-
-        themeBtn.textContent =
-            "☀️";
+        document.body.classList.remove("light");
+        document.getElementById("themeBtn").textContent = "☾";
     }
 }
 
 
-const savedTheme =
-    localStorage.getItem(
-        "persian-stark-theme"
-    ) || "dark";
+function loadTheme(){
+
+    const saved = localStorage.getItem("persian-stark-theme");
+
+    applyTheme(saved === "light" ? "light" : "dark");
+}
 
 
-applyTheme(
-    savedTheme
-);
+document.getElementById("themeBtn").addEventListener("click",()=>{
+
+    const isLight = document.body.classList.contains("light");
+
+    const newTheme = isLight ? "dark" : "light";
+
+    localStorage.setItem(
+        "persian-stark-theme",
+        newTheme
+    );
+
+    applyTheme(newTheme);
+});
 
 
-themeBtn.addEventListener(
-    "click",
-    ()=>{
-
-        const isLight =
-            document.documentElement
-                .classList.contains(
-                    "light"
-                );
-
-
-        const newTheme =
-            isLight
-                ? "dark"
-                : "light";
-
-
-        localStorage.setItem(
-            "persian-stark-theme",
-            newTheme
-        );
-
-
-        applyTheme(
-            newTheme
-        );
-    }
-);
+loadTheme();
 
 
 /* =========================================================
-   LOAD POSTS
+   YOUTUBE
 ========================================================= */
 
-async function loadPosts(){
+function getYouTubeId(url){
 
-    postsGrid.innerHTML =
-        `<div class="loading">
-            در حال دریافت مطالب...
-        </div>`;
+    if(!url){
+        return null;
+    }
+
+    const value = String(url).trim();
+
+    const patterns = [
+
+        /youtu\.be\/([^?&/]+)/i,
+
+        /youtube\.com\/watch\?v=([^?&/]+)/i,
+
+        /youtube\.com\/embed\/([^?&/]+)/i,
+
+        /youtube\.com\/shorts\/([^?&/]+)/i,
+
+        /youtube-nocookie\.com\/embed\/([^?&/]+)/i
+
+    ];
+
+    for(const pattern of patterns){
+
+        const match = value.match(pattern);
+
+        if(match && match[1]){
+            return match[1];
+        }
+    }
+
+    return null;
+}
 
 
-    const {
-        data,
-        error
-    } = await db
+/* =========================================================
+   MEDIA URL
+========================================================= */
+
+function normalizeMediaUrl(url){
+
+    if(!url){
+        return "";
+    }
+
+    return String(url).trim();
+}
+
+
+/* =========================================================
+   BLOCK RENDER
+========================================================= */
+
+function renderTextBlock(content){
+
+    const wrapper = document.createElement("div");
+
+    wrapper.className = "article-block text-block";
+
+    /*
+       textContent عمداً استفاده شده تا اگر کسی
+       داخل متن HTML/Script وارد کرد اجرا نشود.
+    */
+
+    wrapper.textContent = content || "";
+
+    return wrapper;
+}
+
+
+function renderImageBlock(url){
+
+    const wrapper = document.createElement("div");
+
+    wrapper.className = "article-block image-block";
+
+    const img = document.createElement("img");
+
+    img.className = "article-image";
+
+    img.src = normalizeMediaUrl(url);
+
+    img.alt = currentPost?.title || "تصویر مطلب";
+
+    img.loading = "lazy";
+
+    img.decoding = "async";
+
+    img.onerror = function(){
+
+        wrapper.innerHTML = `
+            <div class="empty-comments">
+                تصویر قابل نمایش نیست.
+            </div>
+        `;
+    };
+
+    wrapper.appendChild(img);
+
+    return wrapper;
+}
+
+
+function renderVideoBlock(url){
+
+    const wrapper = document.createElement("div");
+
+    wrapper.className = "article-block video-block";
+
+    const frame = document.createElement("div");
+
+    frame.className = "video-frame";
+
+    const youtubeId = getYouTubeId(url);
+
+    if(youtubeId){
+
+        const iframe = document.createElement("iframe");
+
+        iframe.src =
+            "https://www.youtube.com/embed/" +
+            encodeURIComponent(youtubeId) +
+            "?rel=0";
+
+        iframe.title = "ویدیو";
+
+        iframe.loading = "lazy";
+
+        iframe.allow =
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
+        iframe.allowFullscreen = true;
+
+        frame.appendChild(iframe);
+
+    }else{
+
+        const video = document.createElement("video");
+
+        video.className = "video-direct";
+
+        video.controls = true;
+
+        video.preload = "metadata";
+
+        video.playsInline = true;
+
+        video.src = normalizeMediaUrl(url);
+
+        frame.appendChild(video);
+    }
+
+    wrapper.appendChild(frame);
+
+    return wrapper;
+}
+
+
+function renderDownloadBlock(rawContent){
+
+    const wrapper = document.createElement("div");
+
+    wrapper.className = "article-block";
+
+    let data = null;
+
+    /*
+       دانلود جدید:
+       {
+          url,
+          title,
+          buttonText,
+          size
+       }
+    */
+
+    try{
+        data = JSON.parse(rawContent);
+    }catch{
+        data = {
+            url:rawContent,
+            title:"دانلود فایل",
+            buttonText:"دانلود",
+            size:""
+        };
+    }
+
+    const url = data?.url || "";
+
+    if(!url){
+        return wrapper;
+    }
+
+    const title =
+        data?.title ||
+        "دانلود فایل";
+
+    const buttonText =
+        data?.buttonText ||
+        "دانلود";
+
+    const size =
+        data?.size ||
+        "";
+
+    wrapper.innerHTML = `
+        <div class="download-box">
+
+            <div class="download-info">
+
+                <div class="download-title">
+                    📥 ${escapeHTML(title)}
+                </div>
+
+                ${
+                    size
+                    ?
+                    `<div class="download-size">
+                        حجم فایل: ${escapeHTML(size)}
+                    </div>`
+                    :
+                    ""
+                }
+
+            </div>
+
+            <a
+                class="download-button"
+                href="${escapeHTML(url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+            >
+                ⬇ ${escapeHTML(buttonText)}
+            </a>
+
+        </div>
+    `;
+
+    return wrapper;
+}
+
+
+function renderBlock(block){
+
+    if(!block){
+        return null;
+    }
+
+    switch(block.type){
+
+        case "text":
+            return renderTextBlock(block.content);
+
+        case "image":
+            return renderImageBlock(block.content);
+
+        case "video":
+            return renderVideoBlock(block.content);
+
+        case "download":
+            return renderDownloadBlock(block.content);
+
+        default:
+            return null;
+    }
+}
+
+
+/* =========================================================
+   LOAD POST
+========================================================= */
+
+async function loadPost(){
+
+    const postId = getPostId();
+
+    if(!postId){
+
+        showError(
+            "شناسه مطلب پیدا نشد.",
+            "آدرس مطلب ناقص است."
+        );
+
+        return;
+    }
+
+
+    const { data:post, error } = await db
         .from("posts")
         .select(`
             id,
@@ -2413,703 +1502,775 @@ async function loadPosts(){
             category,
             created_at
         `)
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
+        .eq("id",postId)
+        .maybeSingle();
 
 
     if(error){
 
         console.error(error);
 
-        postsGrid.innerHTML =
-            `<div class="empty">
-                دریافت مطالب با خطا مواجه شد.
-             </div>`;
+        showError(
+            "خطا در بارگذاری مطلب",
+            error.message
+        );
 
         return;
     }
 
 
-    allPosts =
-        data || [];
+    if(!post){
 
-
-    buildCategories();
-
-    renderPosts();
-}
-
-
-/* =========================================================
-   BUILD CATEGORIES
-========================================================= */
-
-function buildCategories(){
-
-    const unique =
-        [
-            ...new Set(
-                allPosts
-                .map(
-                    post =>
-                        post.category
-                )
-                .filter(Boolean)
-            )
-        ];
-
-
-    categories.innerHTML = `
-
-        <button
-            class="category active"
-            data-category="all"
-        >
-            همه
-        </button>
-
-    `;
-
-
-    unique.forEach(
-        category=>{
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-            button.className =
-                "category";
-
-            button.dataset.category =
-                category;
-
-            button.textContent =
-                category;
-
-            categories.appendChild(
-                button
-            );
-        }
-    );
-
-
-    categories
-        .querySelectorAll(
-            ".category"
-        )
-        .forEach(
-            button=>{
-
-                button.addEventListener(
-                    "click",
-                    ()=>{
-
-                        categories
-                            .querySelectorAll(
-                                ".category"
-                            )
-                            .forEach(
-                                b =>
-                                    b.classList.remove(
-                                        "active"
-                                    )
-                            );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-
-                        currentCategory =
-                            button.dataset.category;
-
-
-                        renderPosts();
-                    }
-                );
-            }
+        showError(
+            "مطلب پیدا نشد",
+            "ممکن است مطلب حذف شده باشد یا آدرس آن اشتباه باشد."
         );
+
+        return;
+    }
+
+
+    currentPost = post;
+
+    await loadBlocks();
+
+    renderPost();
+
+    await loadComments();
+}
+
+
+function showError(title,text){
+
+    document.getElementById("loadingState").innerHTML = `
+        <div class="center-state">
+
+            <div style="font-size:45px;">
+                ⚠️
+            </div>
+
+            <div class="state-title">
+                ${escapeHTML(title)}
+            </div>
+
+            <div class="state-text">
+                ${escapeHTML(text)}
+            </div>
+
+            <a
+                href="index.html"
+                class="back-btn"
+                style="margin-top:10px;"
+            >
+                بازگشت به خانه
+            </a>
+
+        </div>
+    `;
 }
 
 
 /* =========================================================
-   RENDER POSTS
+   LOAD BLOCKS
 ========================================================= */
 
-function renderPosts(){
+async function loadBlocks(){
 
-    let posts =
-        [...allPosts];
+    currentPost.blocks = [];
+
+    const { data, error } = await db
+        .from("post_blocks")
+        .select(`
+            id,
+            post_id,
+            type,
+            content,
+            sort_order,
+            created_at
+        `)
+        .eq("post_id",currentPost.id)
+        .order("sort_order",{ascending:true})
+        .order("id",{ascending:true});
+
+
+    if(error){
+
+        console.warn(
+            "post_blocks load error:",
+            error
+        );
+
+        return;
+    }
+
+
+    currentPost.blocks = data || [];
+}
+
+
+/* =========================================================
+   RENDER POST
+========================================================= */
+
+function renderPost(){
+
+    document.title =
+        "PERSIAN STARK | " +
+        (currentPost.title || "مطلب");
+
+
+    document.getElementById("breadcrumbCategory")
+        .textContent =
+        categoryName(currentPost.category);
+
+
+    document.getElementById("articleCategory")
+        .textContent =
+        categoryName(currentPost.category);
+
+
+    document.getElementById("articleCategoryMeta")
+        .textContent =
+        categoryName(currentPost.category);
+
+
+    document.getElementById("articleTitle")
+        .textContent =
+        currentPost.title || "بدون عنوان";
+
+
+    const descriptionEl =
+        document.getElementById("articleDescription");
+
+
+    if(currentPost.description){
+
+        descriptionEl.textContent =
+            currentPost.description;
+
+        descriptionEl.style.display = "block";
+
+    }else{
+
+        descriptionEl.style.display = "none";
+    }
+
+
+    document.getElementById("articleDate")
+        .textContent =
+        formatDate(currentPost.created_at);
+
+
+    /* COVER */
+
+    const coverWrap =
+        document.getElementById("coverWrap");
+
+    const cover =
+        document.getElementById("articleCover");
+
+
+    if(currentPost.image_url){
+
+        cover.src =
+            normalizeMediaUrl(
+                currentPost.image_url
+            );
+
+        cover.alt =
+            currentPost.title || "تصویر مطلب";
+
+        coverWrap.style.display = "block";
+
+        cover.onerror = function(){
+            coverWrap.style.display = "none";
+        };
+
+    }else{
+
+        coverWrap.style.display = "none";
+    }
+
+
+    /* CONTENT */
+
+    const content =
+        document.getElementById("articleContent");
+
+    content.innerHTML = "";
+
+
+    /*
+       اول محتوای قدیمی posts.content
+       اگر وجود داشته باشد نمایش داده می‌شود.
+    */
+
+    if(
+        currentPost.content &&
+        currentPost.content.trim()
+    ){
+
+        content.appendChild(
+            renderTextBlock(
+                currentPost.content
+            )
+        );
+    }
+
+
+    /*
+       سپس بلوک‌های post_blocks
+       دقیقاً بر اساس sort_order
+    */
+
+    if(
+        Array.isArray(currentPost.blocks) &&
+        currentPost.blocks.length
+    ){
+
+        currentPost.blocks.forEach(block=>{
+
+            const element =
+                renderBlock(block);
+
+            if(element){
+                content.appendChild(element);
+            }
+
+        });
+    }
+
+
+    /*
+       دانلود قدیمی posts.download_url
+       فقط وقتی نمایش داده می‌شود که
+       داخل بلوک‌ها دانلودی نداشته باشیم.
+    */
+
+    const hasDownloadBlock =
+        Array.isArray(currentPost.blocks) &&
+        currentPost.blocks.some(
+            block => block.type === "download"
+        );
 
 
     if(
-        currentCategory !== "all"
+        currentPost.download_url &&
+        !hasDownloadBlock
     ){
 
-        posts =
-            posts.filter(
-                post =>
-                    post.category ===
-                    currentCategory
-            );
+        const oldDownload =
+            document.createElement("div");
+
+        oldDownload.className =
+            "article-block old-download";
+
+        oldDownload.innerHTML = `
+            <div class="old-download-title">
+                📥 لینک دانلود
+            </div>
+
+            <a
+                href="${escapeHTML(currentPost.download_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+            >
+                ⬇ دانلود فایل
+            </a>
+        `;
+
+        content.appendChild(oldDownload);
     }
 
 
-    if(!posts.length){
+    document.getElementById("loadingState")
+        .style.display = "none";
 
-        postsGrid.innerHTML =
-            `<div class="empty">
-                هنوز مطلبی در این بخش منتشر نشده است.
-             </div>`;
-
-        return;
-    }
-
-
-    postsGrid.innerHTML =
-        posts.map(
-            post=>{
-
-                const date =
-                    post.created_at
-                        ? new Date(
-                            post.created_at
-                        ).toLocaleDateString(
-                            "fa-IR"
-                        )
-                        : "";
-
-
-                const image =
-                    post.image_url ||
-                    "./background.jpg";
-
-
-                const description =
-                    post.description ||
-                    "برای مشاهده کامل این مطلب وارد صفحه آن شوید.";
-
-
-                return `
-
-                <article
-                    class="post-card"
-                >
-
-                    <a
-                        href="./article.html?id=${encodeURIComponent(post.id)}"
-                    >
-
-                        <img
-                            class="post-image"
-                            src="${escapeHtml(image)}"
-                            alt="${escapeHtml(post.title || "مطلب")}"
-                            loading="lazy"
-                            onerror="this.src='./background.jpg'"
-                        >
-
-                    </a>
-
-
-                    <div class="post-body">
-
-                        <div class="post-meta">
-
-                            <span class="post-category">
-                                ${escapeHtml(
-                                    post.category ||
-                                    "مطالب"
-                                )}
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                ${date}
-                            </span>
-
-                        </div>
-
-
-                        <h2 class="post-title">
-                            ${escapeHtml(
-                                post.title ||
-                                "بدون عنوان"
-                            )}
-                        </h2>
-
-
-                        <p class="post-description">
-                            ${escapeHtml(
-                                description
-                            )}
-                        </p>
-
-
-                        <div class="post-footer">
-
-                            <a
-                                class="read-btn"
-                                href="./article.html?id=${encodeURIComponent(post.id)}"
-                            >
-                                ادامه مطلب ←
-                            </a>
-
-
-                            ${
-                                post.download_url
-                                ?
-                                `<span class="download-mini">
-                                    📥 دانلود
-                                 </span>`
-                                :
-                                ""
-                            }
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-                `;
-
-            }
-        ).join("");
+    document.getElementById("articleCard")
+        .style.display = "block";
 }
 
 
 /* =========================================================
-   LOAD LATEST FREE SUBTITLES
+   AUTH
 ========================================================= */
 
-async function loadLatestSubtitles(){
+async function loadAuth(){
 
-    if(!subtitlesGrid)
+    const {
+        data:{
+            session
+        }
+    } = await db.auth.getSession();
+
+
+    currentUser =
+        session?.user || null;
+
+
+    updateCommentUI();
+
+
+    db.auth.onAuthStateChange(
+        async (_event,session)=>{
+            currentUser =
+                session?.user || null;
+
+            updateCommentUI();
+        }
+    );
+}
+
+
+async function getUsername(){
+
+    if(!currentUser){
+        return "کاربر";
+    }
+
+
+    const { data } = await db
+        .from("profiles")
+        .select("username")
+        .eq("id",currentUser.id)
+        .maybeSingle();
+
+
+    return (
+        data?.username ||
+        currentUser.email?.split("@")[0] ||
+        "کاربر"
+    );
+}
+
+
+function updateCommentUI(){
+
+    const form =
+        document.getElementById("commentForm");
+
+    const login =
+        document.getElementById("commentLogin");
+
+    const userLabel =
+        document.getElementById("commentUser");
+
+
+    if(currentUser){
+
+        form.style.display = "block";
+
+        login.style.display = "none";
+
+        getUsername().then(username=>{
+            userLabel.textContent =
+                "ارسال به عنوان: " + username;
+        });
+
+    }else{
+
+        form.style.display = "none";
+
+        login.style.display = "block";
+    }
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+document.getElementById("loginBtn")
+    .addEventListener("click",()=>{
+
+        /*
+           اگر index.html سیستم مودال ورود دارد،
+           کاربر را به همان صفحه می‌فرستیم.
+        */
+
+        window.location.href =
+            "index.html?login=1";
+    });
+
+
+/* =========================================================
+   COMMENTS
+========================================================= */
+
+async function loadComments(){
+
+    if(!currentPost){
         return;
+    }
 
 
-    subtitlesGrid.innerHTML =
-        `<div class="loading">
-            در حال دریافت آخرین زیرنویس‌ها...
-        </div>`;
+    const list =
+        document.getElementById("commentsList");
 
+
+    const { data, error } = await db
+        .from("comments")
+        .select(`
+            id,
+            post_id,
+            user_id,
+            content,
+            created_at
+        `)
+        .eq("post_id",currentPost.id)
+        .order("created_at",{ascending:false});
+
+
+    if(error){
+
+        console.error(error);
+
+        list.innerHTML = `
+            <div class="empty-comments">
+                خطا در بارگذاری نظرات.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if(!data || !data.length){
+
+        list.innerHTML = `
+            <div class="empty-comments">
+                هنوز نظری برای این مطلب ثبت نشده.
+                اولین نفر باش 👀
+            </div>
+        `;
+
+        return;
+    }
+
+
+    /*
+       گرفتن username ها از profiles
+    */
+
+    const userIds =
+        [...new Set(
+            data.map(comment=>comment.user_id)
+        )];
+
+
+    let profiles = [];
+
+
+    if(userIds.length){
+
+        const result =
+            await db
+                .from("profiles")
+                .select("id,username")
+                .in("id",userIds);
+
+
+        profiles =
+            result.data || [];
+    }
+
+
+    const profileMap = {};
+
+
+    profiles.forEach(profile=>{
+        profileMap[profile.id] =
+            profile.username;
+    });
+
+
+    list.innerHTML = "";
+
+
+    data.forEach(comment=>{
+
+        const item =
+            document.createElement("div");
+
+        item.className = "comment";
+
+
+        const username =
+            profileMap[comment.user_id] ||
+            "کاربر";
+
+
+        const date =
+            formatDateTime(comment.created_at);
+
+
+        const isOwner =
+            currentUser &&
+            currentUser.id === comment.user_id;
+
+
+        item.innerHTML = `
+
+            <div class="comment-top">
+
+                <div class="comment-user">
+                    👤 ${escapeHTML(username)}
+                </div>
+
+                <div class="comment-date">
+                    ${escapeHTML(date)}
+                </div>
+
+            </div>
+
+            <div class="comment-text">
+                ${escapeHTML(comment.content)}
+            </div>
+
+            ${
+                isOwner
+                ?
+                `
+                <button
+                    type="button"
+                    class="delete-comment"
+                    data-id="${comment.id}"
+                >
+                    حذف نظر
+                </button>
+                `
+                :
+                ""
+            }
+
+        `;
+
+
+        const deleteButton =
+            item.querySelector(".delete-comment");
+
+
+        if(deleteButton){
+
+            deleteButton.addEventListener(
+                "click",
+                ()=>{
+                    deleteComment(comment.id);
+                }
+            );
+        }
+
+
+        list.appendChild(item);
+    });
+}
+
+
+function formatDateTime(date){
+
+    if(!date){
+        return "";
+    }
 
     try{
 
-        const {
-            data,
-            error
-        } = await db
-            .from("posts")
-            .select(`
-                id,
-                title,
-                description,
-                image_url,
-                download_url,
-                category,
-                created_at
-            `)
-            .eq(
-                "category",
-                "زیرنویس‌های رایگان"
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            )
-            .limit(4);
+        return new Intl.DateTimeFormat(
+            "fa-IR",
+            {
+                year:"numeric",
+                month:"short",
+                day:"numeric",
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        ).format(new Date(date));
+
+    }catch{
+
+        return new Date(date)
+            .toLocaleString("fa-IR");
+    }
+}
 
 
-        if(error)
-            throw error;
+/* =========================================================
+   SUBMIT COMMENT
+========================================================= */
+
+document.getElementById("commentForm")
+    .addEventListener("submit",async event=>{
+
+        event.preventDefault();
 
 
-        if(
-            !data ||
-            !data.length
-        ){
+        if(!currentUser){
 
-            subtitlesGrid.innerHTML = `
-
-                <div class="subtitle-empty">
-
-                    <div class="subtitle-empty-icon">
-                        🎮
-                    </div>
-
-                    <div class="subtitle-empty-title">
-                        هنوز زیرنویس رایگانی منتشر نشده
-                    </div>
-
-                    <div>
-                        به‌زودی زیرنویس‌های فارسی بازی‌ها اینجا قرار می‌گیرند.
-                    </div>
-
-                </div>
-
-            `;
+            showToast(
+                "برای ثبت نظر وارد حساب شوید.",
+                "error"
+            );
 
             return;
         }
 
 
-        subtitlesGrid.innerHTML =
-            data.map(
-                post=>{
+        const input =
+            document.getElementById("commentInput");
 
-                    const date =
-                        post.created_at
-                            ? new Date(
-                                post.created_at
-                            ).toLocaleDateString(
-                                "fa-IR"
-                            )
-                            : "";
 
+        const content =
+            input.value.trim();
 
-                    const image =
-                        post.image_url ||
-                        "./background.jpg";
 
+        if(!content){
 
-                    const description =
-                        post.description ||
-                        "زیرنویس فارسی رایگان این بازی.";
+            showToast(
+                "متن نظر را وارد کنید.",
+                "error"
+            );
 
-
-                    return `
-
-                    <article
-                        class="post-card subtitle-card"
-                    >
-
-                        <a
-                            href="./article.html?id=${encodeURIComponent(post.id)}"
-                        >
-
-                            <img
-                                class="post-image"
-                                src="${escapeHtml(image)}"
-                                alt="${escapeHtml(post.title || "زیرنویس بازی")}"
-                                loading="lazy"
-                                onerror="this.src='./background.jpg'"
-                            >
-
-                        </a>
-
-
-                        <div class="post-body">
-
-                            <div class="post-meta">
-
-                                <span class="post-category">
-                                    🎮 زیرنویس فارسی
-                                </span>
-
-                                <span>•</span>
-
-                                <span>
-                                    ${date}
-                                </span>
-
-                            </div>
-
-
-                            <h2 class="post-title">
-                                ${escapeHtml(
-                                    post.title ||
-                                    "زیرنویس بازی"
-                                )}
-                            </h2>
-
-
-                            <p class="post-description">
-                                ${escapeHtml(
-                                    description
-                                )}
-                            </p>
-
-
-                            <div class="post-footer">
-
-                                <a
-                                    class="read-btn"
-                                    href="./article.html?id=${encodeURIComponent(post.id)}"
-                                >
-                                    مشاهده و دانلود ←
-                                </a>
-
-
-                                <span class="download-mini">
-                                    📥 رایگان
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                    `;
-
-                }
-            ).join("");
-
-
-    }catch(error){
-
-        console.error(
-            "Latest subtitles:",
-            error
-        );
-
-
-        subtitlesGrid.innerHTML = `
-
-            <div class="subtitle-error">
-
-                دریافت زیرنویس‌ها با خطا مواجه شد.
-                لطفاً دوباره صفحه را باز کنید.
-
-            </div>
-
-        `;
-    }
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value){
-
-    if(
-        value === null ||
-        value === undefined
-    )
-        return "";
-
-
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-}
-
-
-/* =========================================================
-   SITE STATS
-========================================================= */
-
-function getSessionId(){
-
-    let id =
-        localStorage.getItem(
-            "persian-stark-session"
-        );
-
-
-    if(!id){
-
-        id =
-            crypto.randomUUID();
-
-
-        localStorage.setItem(
-            "persian-stark-session",
-            id
-        );
-    }
-
-
-    return id;
-}
-
-
-async function updateSiteStats(){
-
-    const sessionId =
-        getSessionId();
-
-
-    try{
-
-        await db.rpc(
-            "update_presence",
-            {
-                p_session_id:
-                    sessionId
-            }
-        );
-
-
-        await db.rpc(
-            "record_site_visit",
-            {
-                p_session_id:
-                    sessionId
-            }
-        );
-
-
-        const {
-            data,
-            error
-        } = await db.rpc(
-            "get_site_stats"
-        );
-
-
-        if(error)
-            throw error;
-
-
-        if(data){
-
-            document.getElementById(
-                "membersCount"
-            ).textContent =
-                Number(
-                    data.members || 0
-                ).toLocaleString(
-                    "fa-IR"
-                );
-
-
-            document.getElementById(
-                "onlineCount"
-            ).textContent =
-                Number(
-                    data.online || 0
-                ).toLocaleString(
-                    "fa-IR"
-                );
-
-
-            document.getElementById(
-                "todayVisits"
-            ).textContent =
-                Number(
-                    data.today_visits || 0
-                ).toLocaleString(
-                    "fa-IR"
-                );
+            return;
         }
 
 
-    }catch(error){
+        if(content.length > 2000){
 
-        console.warn(
-            "Stats unavailable:",
-            error
-        );
-    }
-}
+            showToast(
+                "نظر نمی‌تواند بیشتر از ۲۰۰۰ کاراکتر باشد.",
+                "error"
+            );
 
-
-/* =========================================================
-   EMAIL CONFIRMATION MESSAGE
-========================================================= */
-
-function checkEmailConfirmation(){
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
+            return;
+        }
 
 
-    const hash =
-        window.location.hash || "";
+        const button =
+            event.target.querySelector(
+                "button[type=submit]"
+            );
 
 
-    if(
-        params.get("confirmed") === "true" ||
-        hash.includes("type=signup")
-    ){
+        button.disabled = true;
+
+        button.textContent =
+            "در حال ارسال...";
+
+
+        const { error } = await db
+            .from("comments")
+            .insert({
+                post_id:currentPost.id,
+                user_id:currentUser.id,
+                content:content
+            });
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "ارسال نظر";
+
+
+        if(error){
+
+            console.error(error);
+
+            showToast(
+                "ثبت نظر انجام نشد.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        input.value = "";
+
 
         showToast(
-            "ایمیل شما با موفقیت تأیید شد 🎉"
+            "نظر شما با موفقیت ثبت شد.",
+            "success"
         );
 
-        return true;
+
+        await loadComments();
+    });
+
+
+/* =========================================================
+   DELETE COMMENT
+========================================================= */
+
+async function deleteComment(commentId){
+
+    if(!currentUser){
+        return;
     }
 
 
-    return false;
+    const confirmed =
+        confirm(
+            "آیا از حذف این نظر مطمئن هستید؟"
+        );
+
+
+    if(!confirmed){
+        return;
+    }
+
+
+    const { error } = await db
+        .from("comments")
+        .delete()
+        .eq("id",commentId)
+        .eq("user_id",currentUser.id);
+
+
+    if(error){
+
+        console.error(error);
+
+        showToast(
+            "حذف نظر انجام نشد.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    showToast(
+        "نظر حذف شد.",
+        "success"
+    );
+
+
+    await loadComments();
 }
 
 
 /* =========================================================
-   INIT
+   START
 ========================================================= */
-
-document.getElementById(
-    "year"
-).textContent =
-    new Date().getFullYear();
-
 
 (async function(){
 
     try{
 
-        const {
-            data
-        } = await db.auth.getSession();
+        await loadAuth();
 
-
-        currentUser =
-            data?.session?.user ||
-            null;
-
+        await loadPost();
 
     }catch(error){
 
-        console.warn(
-            error
+        console.error(error);
+
+        showError(
+            "یک خطای غیرمنتظره رخ داد",
+            "صفحه را دوباره باز کنید."
         );
     }
-
-
-    await updateHeader();
-
-    await loadPosts();
-
-    await loadLatestSubtitles();
-
-    await updateSiteStats();
-
-    checkEmailConfirmation();
 
 })();
 </script>
