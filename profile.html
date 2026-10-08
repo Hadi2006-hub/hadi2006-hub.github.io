@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>پروفایل | PERSIAN STARK</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+:root{
+
+--bg:#07111f;
+--bg2:#0b1728;
+--card:rgba(12,27,45,.94);
+--card2:#102238;
+
+--text:#f5f9ff;
+--muted:#9eafc4;
+
+--line:rgba(255,255,255,.09);
+
+--accent:#00c8ff;
+--accent2:#18e0c1;
+
+--danger:#ff5577;
+
+--header:rgba(5,14,26,.88);
+
+--shadow:0 20px 60px rgba(0,0,0,.28);
+
+}
+
+html.light{
+
+--bg:#f3f7fb;
+--bg2:#eaf1f7;
+
+--card:#fff;
+--card2:#f7faff;
+
+--text:#132238;
+--muted:#607087;
+
+--line:rgba(19,34,56,.12);
+
+--accent:#008bc7;
+--accent2:#009e89;
+
+--danger:#d93458;
+
+--header:rgba(255,255,255,.92);
+
+--shadow:0 18px 45px rgba(30,55,80,.12);
+
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+min-height:100vh;
+
+font-family:
+Tahoma,
+Arial,
+sans-serif;
+
+color:var(--text);
+
+background:
+
+linear-gradient(
+rgba(3,5,16,.72),
+rgba(3,5,16,.88)
+),
+
+url("./background.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+overflow-x:hidden;
+
+}
+
+html.light body{
+
+background:
+
+linear-gradient(
+rgba(243,247,251,.90),
+rgba(243,247,251,.96)
+),
+
+url("./background.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+}
+
+button,
+input{
+font-family:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+a{
+color:inherit;
+text-decoration:none;
+}
+
+.container{
+
+width:min(
+1180px,
+calc(100% - 30px)
+);
+
+margin:auto;
+
+}
+
+/* HEADER */
+
+.header{
+
+position:sticky;
+top:0;
+
+z-index:100;
+
+background:var(--header);
+
+backdrop-filter:blur(20px);
+
+border-bottom:
+1px solid var(--line);
+
+}
+
+.header-inner{
+
+min-height:76px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:20px;
+
+}
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+font-weight:900;
+
+}
+
+.logo-icon{
+
+width:45px;
+height:45px;
+
+display:grid;
+place-items:center;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+135deg,
+var(--accent),
+var(--accent2)
+);
+
+color:#03121d;
+
+font-weight:1000;
+
+}
+
+.logo-text{
+
+font-size:18px;
+
+}
+
+.logo-text span{
+
+color:var(--accent);
+
+}
+
+.header-actions{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+}
+
+.icon-btn{
+
+width:43px;
+height:43px;
+
+border-radius:13px;
+
+border:1px solid var(--line);
+
+background:var(--card2);
+
+color:var(--text);
+
+font-size:18px;
+
+}
+
+.home-btn{
+
+padding:11px 17px;
+
+border-radius:13px;
+
+background:
+linear-gradient(
+135deg,
+var(--accent),
+var(--accent2)
+);
+
+color:#03121d;
+
+font-weight:900;
+
+}
+
+/* PAGE */
+
+.page{
+
+padding:55px 0 80px;
+
+}
+
+.profile-grid{
+
+display:grid;
+
+grid-template-columns:
+300px
+minmax(0,1fr);
+
+gap:25px;
+
+align-items:start;
+
+}
+
+/* SIDEBAR */
+
+.profile-side{
+
+background:var(--card);
+
+border:1px solid var(--line);
+
+border-radius:25px;
+
+padding:28px;
+
+box-shadow:var(--shadow);
+
+text-align:center;
+
+}
+
+.avatar{
+
+width:105px;
+height:105px;
+
+margin:0 auto 18px;
+
+display:grid;
+place-items:center;
+
+border-radius:50%;
+
+background:
+linear-gradient(
+135deg,
+var(--accent),
+var(--accent2)
+);
+
+color:#03121d;
+
+font-size:38px;
+
+font-weight:1000;
+
+box-shadow:
+0 15px 45px
+rgba(0,200,255,.20);
+
+}
+
+.profile-name{
+
+font-size:21px;
+
+font-weight:950;
+
+word-break:break-word;
+
+}
+
+.profile-email{
+
+margin-top:7px;
+
+font-size:12px;
+
+color:var(--muted);
+
+word-break:break-all;
+
+}
+
+.status{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:7px;
+
+margin-top:18px;
+
+padding:7px 11px;
+
+border-radius:999px;
+
+font-size:11px;
+
+color:var(--accent2);
+
+background:
+rgba(24,224,193,.08);
+
+border:
+1px solid
+rgba(24,224,193,.15);
+
+}
+
+.status-dot{
+
+width:7px;
+height:7px;
+
+border-radius:50%;
+
+background:var(--accent2);
+
+}
+
+/* MAIN CARD */
+
+.card{
+
+background:var(--card);
+
+border:1px solid var(--line);
+
+border-radius:25px;
+
+padding:32px;
+
+box-shadow:var(--shadow);
+
+}
+
+.card-title{
+
+font-size:25px;
+
+font-weight:950;
+
+margin-bottom:8px;
+
+}
+
+.card-description{
+
+color:var(--muted);
+
+font-size:13px;
+
+line-height:2;
+
+margin-bottom:30px;
+
+}
+
+/* FORM */
+
+.form-group{
+
+margin-bottom:22px;
+
+}
+
+.form-label{
+
+display:block;
+
+font-size:13px;
+
+font-weight:800;
+
+margin-bottom:9px;
+
+}
+
+.input-wrap{
+
+position:relative;
+
+}
+
+.form-input{
+
+width:100%;
+
+height:51px;
+
+padding:
+0 16px;
+
+border-radius:14px;
+
+border:
+1px solid var(--line);
+
+background:var(--card2);
+
+color:var(--text);
+
+outline:none;
+
+font-size:14px;
+
+direction:ltr;
+
+text-align:left;
+
+transition:.2s;
+
+}
+
+.form-input:focus{
+
+border-color:var(--accent);
+
+box-shadow:
+0 0 0 3px
+rgba(0,200,255,.08);
+
+}
+
+.username-input{
+
+direction:rtl;
+
+text-align:right;
+
+}
+
+.trade-input{
+
+padding-left:110px;
+
+}
+
+.copy-btn{
+
+position:absolute;
+
+left:6px;
+
+top:6px;
+
+height:39px;
+
+padding:0 13px;
+
+border-radius:10px;
+
+background:var(--accent);
+
+color:#03121d;
+
+font-size:12px;
+
+font-weight:900;
+
+}
+
+.help{
+
+margin-top:9px;
+
+color:var(--muted);
+
+font-size:11px;
+
+line-height:1.9;
+
+}
+
+.trade-help{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:15px;
+
+margin-top:12px;
+
+padding:15px;
+
+border-radius:14px;
+
+background:var(--card2);
+
+border:1px solid var(--line);
+
+}
+
+.trade-help-text{
+
+font-size:12px;
+
+color:var(--muted);
+
+line-height:1.9;
+
+}
+
+.steam-link{
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+white-space:nowrap;
+
+padding:10px 13px;
+
+border-radius:11px;
+
+background:
+rgba(0,200,255,.10);
+
+border:
+1px solid
+rgba(0,200,255,.18);
+
+color:var(--accent);
+
+font-size:11px;
+
+font-weight:900;
+
+}
+
+/* ACTIONS */
+
+.actions{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+margin-top:28px;
+
+padding-top:25px;
+
+border-top:
+1px solid var(--line);
+
+}
+
+.save-btn{
+
+min-height:48px;
+
+padding:
+0 23px;
+
+border-radius:13px;
+
+background:
+linear-gradient(
+135deg,
+var(--accent),
+var(--accent2)
+);
+
+color:#03121d;
+
+font-weight:950;
+
+}
+
+.logout-btn{
+
+min-height:48px;
+
+padding:
+0 20px;
+
+border-radius:13px;
+
+background:transparent;
+
+border:
+1px solid
+rgba(255,85,119,.25);
+
+color:var(--danger);
+
+font-weight:800;
+
+}
+
+.save-btn:disabled{
+
+opacity:.55;
+
+cursor:not-allowed;
+
+}
+
+/* INFO */
+
+.info-box{
+
+margin-top:25px;
+
+padding:18px;
+
+border-radius:17px;
+
+background:
+rgba(0,200,255,.06);
+
+border:
+1px solid
+rgba(0,200,255,.12);
+
+}
+
+.info-title{
+
+font-size:13px;
+
+font-weight:900;
+
+margin-bottom:7px;
+
+}
+
+.info-text{
+
+color:var(--muted);
+
+font-size:12px;
+
+line-height:2;
+
+}
+
+/* TOAST */
+
+.toast{
+
+position:fixed;
+
+left:20px;
+
+bottom:20px;
+
+z-index:999;
+
+max-width:360px;
+
+padding:14px 18px;
+
+border-radius:14px;
+
+background:var(--card);
+
+border:
+1px solid var(--line);
+
+box-shadow:var(--shadow);
+
+transform:
+translateY(30px);
+
+opacity:0;
+
+pointer-events:none;
+
+transition:.25s;
+
+}
+
+.toast.show{
+
+transform:
+translateY(0);
+
+opacity:1;
+
+}
+
+.toast.error{
+
+border-color:
+rgba(255,85,119,.35);
+
+}
+
+.toast.success{
+
+border-color:
+rgba(24,224,193,.35);
+
+}
+
+/* LOADING */
+
+.loading{
+
+min-height:350px;
+
+display:grid;
+
+place-items:center;
+
+}
+
+.spinner{
+
+width:42px;
+height:42px;
+
+border:
+3px solid var(--line);
+
+border-top-color:
+var(--accent);
+
+border-radius:50%;
+
+animation:
+spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+.profile-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.profile-side{
+
+padding:25px;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.container{
+
+width:
+calc(100% - 20px);
+
+}
+
+.header-inner{
+
+min-height:68px;
+
+}
+
+.logo-text{
+
+font-size:15px;
+
+}
+
+.logo-icon{
+
+width:40px;
+height:40px;
+
+}
+
+.home-btn{
+
+padding:
+9px 11px;
+
+font-size:12px;
+
+}
+
+.page{
+
+padding:
+25px 0 50px;
+
+}
+
+.card{
+
+padding:22px 18px;
+
+border-radius:20px;
+
+}
+
+.card-title{
+
+font-size:21px;
+
+}
+
+.trade-help{
+
+align-items:
+stretch;
+
+flex-direction:column;
+
+}
+
+.steam-link{
+
+width:100%;
+
+}
+
+.actions{
+
+flex-direction:column;
+
+}
+
+.save-btn,
+.logout-btn{
+
+width:100%;
+
+}
+
+.trade-input{
+
+padding-left:95px;
+
+}
+
+.toast{
+
+left:10px;
+
+right:10px;
+
+bottom:10px;
+
+max-width:none;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+<div class="container header-inner">
+
+<a
+href="index.html"
+class="logo"
+>
+
+<div class="logo-icon">
+PS
+</div>
+
+<div class="logo-text">
+
+<span>PERSIAN</span>
+STARK
+
+</div>
+
+</a>
+
+
+<div class="header-actions">
+
+<button
+id="themeBtn"
+class="icon-btn"
+title="تغییر حالت"
+>
+☀️
+</button>
+
+<a
+href="index.html"
+class="home-btn"
+>
+بازگشت به سایت
+</a>
+
+</div>
+
+</div>
+
+</header>
+
+
+
+<main class="page">
+
+<div class="container">
+
+
+<div
+id="loading"
+class="card loading"
+>
+
+<div class="spinner"></div>
+
+</div>
+
+
+<div
+id="notLogged"
+class="card"
+style="display:none;text-align:center;"
+>
+
+<div style="font-size:55px;margin-bottom:15px;">
+🔐
+</div>
+
+<div class="card-title">
+ابتدا وارد حساب خود شوید
+</div>
+
+<div class="card-description">
+برای مشاهده و ویرایش پروفایل باید وارد حساب کاربری خود شوید.
+</div>
+
+<a
+href="index.html"
+class="home-btn"
+>
+ورود / ثبت‌نام
+</a>
+
+</div>
+
+
+
+<div
+id="profileContent"
+class="profile-grid"
+style="display:none;"
+>
+
+
+<aside class="profile-side">
+
+<div
+id="avatar"
+class="avatar"
+>
+PS
+</div>
+
+<div
+id="sideUsername"
+class="profile-name"
+>
+کاربر
+</div>
+
+<div
+id="sideEmail"
+class="profile-email"
+>
+—
+</div>
+
+<div class="status">
+
+<span class="status-dot"></span>
+
+حساب فعال
+
+</div>
+
+</aside>
+
+
+
+<section class="card">
+
+<div class="card-title">
+پروفایل من
+</div>
+
+<div class="card-description">
+اطلاعات حساب کاربری و لینک Steam Trade خودت را از اینجا مدیریت کن.
+</div>
+
+
+<div class="form-group">
+
+<label
+class="form-label"
+for="username"
+>
+نام کاربری
+</label>
+
+<input
+id="username"
+class="form-input username-input"
+type="text"
+maxlength="40"
+placeholder="نام کاربری"
+>
+
+<div class="help">
+نامی که در بخش نظرات سایت نمایش داده می‌شود.
+</div>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label
+class="form-label"
+>
+ایمیل
+</label>
+
+<input
+id="email"
+class="form-input"
+type="email"
+readonly
+>
+
+<div class="help">
+ایمیل حساب از اطلاعات ورود دریافت می‌شود و از این بخش قابل تغییر نیست.
+</div>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label
+class="form-label"
+for="tradeUrl"
+>
+Steam Trade Link
+</label>
+
+<div class="input-wrap">
+
+<input
+id="tradeUrl"
+class="form-input trade-input"
+type="url"
+dir="ltr"
+placeholder="https://steamcommunity.com/tradeoffer/new/?partner=..."
+autocomplete="off"
+>
+
+<button
+id="copyBtn"
+class="copy-btn"
+type="button"
+>
+کپی
+</button>
+
+</div>
+
+<div class="help">
+لینک Trade استیم خودت را اینجا قرار بده.
+</div>
+
+
+<div class="trade-help">
+
+<div class="trade-help-text">
+
+<strong style="color:var(--text);">
+Trade Link نداری؟
+</strong>
+
+<br>
+
+اگر نمی‌دانی لینک Trade خودت را از کجا پیدا کنی،
+روی دکمه روبه‌رو بزن.
+
+</div>
+
+
+<a
+href="https://steamcommunity.com/my/tradeoffers/privacy"
+target="_blank"
+rel="noopener noreferrer"
+class="steam-link"
+>
+🔗 پیدا کردن Trade Link
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="actions">
+
+<button
+id="saveBtn"
+class="save-btn"
+type="button"
+>
+ذخیره تغییرات
+</button>
+
+<button
+id="logoutBtn"
+class="logout-btn"
+type="button"
+>
+خروج از حساب
+</button>
+
+</div>
+
+
+<div class="info-box">
+
+<div class="info-title">
+🔒 امنیت
+</div>
+
+<div class="info-text">
+Trade Link فقط در پروفایل خودت ذخیره می‌شود.
+اطلاعات ورود و رمز عبور در این صفحه نمایش داده نمی‌شود.
+برای امنیت بیشتر، لینک Trade را فقط در حساب خودت وارد کن.
+</div>
+
+</div>
+
+
+</section>
+
+</div>
+
+</div>
+
+</main>
+
+
+<div
+id="toast"
+class="toast"
+></div>
+
+
+
+<script>
+
+const { createClient } = supabase;
+
+
+const db = createClient(
+
+"https://jmdoxofcyoxdrtxvvuiu.supabase.co",
+
+"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74",
+
+{
+
+auth:{
+
+persistSession:true,
+
+autoRefreshToken:true,
+
+detectSessionInUrl:true,
+
+storageKey:"persian-stark-auth"
+
+}
+
+}
+
+);
+
+
+
+let currentUser = null;
+
+
+
+const $ = id =>
+document.getElementById(id);
+
+
+
+/* THEME */
+
+function loadTheme(){
+
+const theme =
+localStorage.getItem("ps-theme")
+|| "dark";
+
+document.documentElement
+.classList.toggle(
+"light",
+theme === "light"
+);
+
+$("themeBtn").textContent =
+theme === "light"
+? "🌙"
+: "☀️";
+
+}
+
+
+$("themeBtn")
+.addEventListener(
+"click",
+()=>{
+
+const isLight =
+document.documentElement
+.classList.contains("light");
+
+const next =
+isLight
+? "dark"
+: "light";
+
+document.documentElement
+.classList.toggle(
+"light",
+next === "light"
+);
+
+localStorage.setItem(
+"ps-theme",
+next
+);
+
+$("themeBtn").textContent =
+next === "light"
+? "🌙"
+: "☀️";
+
+});
+
+
+
+/* TOAST */
+
+function toast(message,type="success"){
+
+const el =
+$("toast");
+
+el.textContent =
+message;
+
+el.className =
+`toast show ${type}`;
+
+clearTimeout(
+window.toastTimer
+);
+
+window.toastTimer =
+setTimeout(
+()=>{
+
+el.className =
+"toast";
+
+},
+3500
+);
+
+}
+
+
+
+/* GET SESSION */
+
+async function getUser(){
+
+const {
+data,
+error
+} =
+await db.auth.getSession();
+
+
+if(error){
+
+console.error(error);
+
+return null;
+
+}
+
+return data?.session?.user || null;
+
+}
+
+
+
+/* LOAD PROFILE */
+
+async function loadProfile(){
+
+currentUser =
+await getUser();
+
+
+$("loading").style.display =
+"none";
+
+
+if(!currentUser){
+
+$("notLogged").style.display =
+"block";
+
+return;
+
+}
+
+
+$("profileContent").style.display =
+"grid";
+
+
+$("email").value =
+currentUser.email || "";
+
+
+$("sideEmail").textContent =
+currentUser.email || "—";
+
+
+const {
+data,
+error
+} =
+await db
+.from("profiles")
+.select(`
+id,
+username,
+steam_trade_url
+`)
+.eq("id",currentUser.id)
+.maybeSingle();
+
+
+if(error){
+
+console.error(error);
+
+toast(
+"دریافت اطلاعات پروفایل با خطا مواجه شد.",
+"error"
+);
+
+return;
+
+}
+
+
+const username =
+data?.username
+||
+currentUser.email?.split("@")[0]
+||
+"کاربر";
+
+
+$("username").value =
+username;
+
+
+$("tradeUrl").value =
+data?.steam_trade_url || "";
+
+
+$("sideUsername").textContent =
+username;
+
+
+const first =
+username
+.trim()
+.charAt(0)
+.toUpperCase();
+
+
+$("avatar").textContent =
+first || "PS";
+
+}
+
+
+
+/* SAVE */
+
+$("saveBtn")
+.addEventListener(
+"click",
+async()=>{
+
+if(!currentUser){
+
+toast(
+"ابتدا وارد حساب شوید.",
+"error"
+);
+
+return;
+
+}
+
+
+const username =
+$("username")
+.value
+.trim();
+
+
+const tradeUrl =
+$("tradeUrl")
+.value
+.trim();
+
+
+if(!username){
+
+toast(
+"نام کاربری را وارد کنید.",
+"error"
+);
+
+return;
+
+}
+
+
+if(username.length < 3){
+
+toast(
+"نام کاربری باید حداقل ۳ کاراکتر باشد.",
+"error"
+);
+
+return;
+
+}
+
+
+if(username.length > 40){
+
+toast(
+"نام کاربری نباید بیشتر از ۴۰ کاراکتر باشد.",
+"error"
+);
+
+return;
+
+}
+
+
+/* TRADE URL VALIDATION */
+
+if(tradeUrl){
+
+let valid = false;
+
+try{
+
+const url =
+new URL(tradeUrl);
+
+valid =
+url.protocol === "https:"
+&&
+url.hostname ===
+"steamcommunity.com"
+&&
+url.pathname
+.includes("/tradeoffer/");
+
+}catch(e){
+
+valid = false;
+
+}
+
+
+if(!valid){
+
+toast(
+"لینک Steam Trade معتبر نیست.",
+"error"
+);
+
+return;
+
+}
+
+}
+
+
+const button =
+$("saveBtn");
+
+
+button.disabled =
+true;
+
+button.textContent =
+"در حال ذخیره...";
+
+
+const {
+error
+} =
+await db
+.from("profiles")
+.upsert({
+
+id:currentUser.id,
+
+username:username,
+
+steam_trade_url:
+tradeUrl || null,
+
+updated_at:
+new Date().toISOString()
+
+},{
+onConflict:"id"
+});
+
+
+button.disabled =
+false;
+
+button.textContent =
+"ذخیره تغییرات";
+
+
+if(error){
+
+console.error(error);
+
+toast(
+"ذخیره اطلاعات انجام نشد.",
+"error"
+);
+
+return;
+
+}
+
+
+$("sideUsername")
+.textContent =
+username;
+
+
+$("avatar")
+.textContent =
+username
+.charAt(0)
+.toUpperCase();
+
+
+toast(
+"پروفایل با موفقیت ذخیره شد."
+);
+
+});
+
+
+
+/* COPY TRADE LINK */
+
+$("copyBtn")
+.addEventListener(
+"click",
+async()=>{
+
+const value =
+$("tradeUrl")
+.value.trim();
+
+
+if(!value){
+
+toast(
+"ابتدا Trade Link را وارد کن.",
+"error"
+);
+
+return;
+
+}
+
+
+try{
+
+await navigator.clipboard.writeText(
+value
+);
+
+toast(
+"Trade Link کپی شد."
+);
+
+}catch(e){
+
+$("tradeUrl").select();
+
+document.execCommand("copy");
+
+toast(
+"Trade Link کپی شد."
+);
+
+}
+
+});
+
+
+
+/* LOGOUT */
+
+$("logoutBtn")
+.addEventListener(
+"click",
+async()=>{
+
+const ok =
+confirm(
+"آیا می‌خواهی از حساب خود خارج شوی؟"
+);
+
+if(!ok) return;
+
+
+await db.auth.signOut();
+
+
+window.location.href =
+"index.html";
+
+});
+
+
+
+/* AUTH CHANGES */
+
+db.auth.onAuthStateChange(
+(event,session)=>{
+
+currentUser =
+session?.user || null;
+
+if(!currentUser){
+
+window.location.href =
+"index.html";
+
+}
+
+});
+
+
+
+/* START */
+
+loadTheme();
+
+loadProfile();
+
+</script>
+
+</body>
+</html>
