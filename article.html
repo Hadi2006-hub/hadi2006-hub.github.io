@@ -1,971 +1,1019 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PERSIAN STARK | مطلب</title>
 
-<link
-    href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 :root{
-
     --bg:#07111f;
-
-    --card:#0d1b2d;
-
+    --bg2:#0b1728;
+    --card:rgba(12,27,45,.94);
     --card2:#102238;
-
     --text:#f5f9ff;
-
     --muted:#9eafc4;
-
     --line:rgba(255,255,255,.09);
-
     --accent:#00c8ff;
-
     --accent2:#18e0c1;
-
     --orange:#ff9d42;
-
-    --danger:#ff526d;
-
-    --max:1200px;
-
+    --danger:#ff5577;
+    --header:rgba(5,14,26,.88);
+    --shadow:0 20px 60px rgba(0,0,0,.28);
 }
 
 html.light{
-
     --bg:#f3f7fb;
-
-    --card:#ffffff;
-
-    --card2:#f8fbfe;
-
-    --text:#102033;
-
+    --bg2:#eaf1f7;
+    --card:#fff;
+    --card2:#f7faff;
+    --text:#132238;
     --muted:#607087;
-
-    --line:rgba(16,32,51,.11);
-
-    --accent:#008fd1;
-
-    --accent2:#00a98f;
-
-    --orange:#ed7b19;
-}
-
-*{
-
-    box-sizing:border-box;
-
-    margin:0;
-
-    padding:0;
-
+    --line:rgba(19,34,56,.12);
+    --accent:#008bc7;
+    --accent2:#009e89;
+    --orange:#e87516;
+    --danger:#d93458;
+    --header:rgba(255,255,255,.92);
+    --shadow:0 18px 45px rgba(30,55,80,.12);
 }
 
 html{
-
     scroll-behavior:smooth;
-
 }
 
 body{
-
-    font-family:"Vazirmatn",sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 15% 10%,
-            rgba(0,200,255,.10),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 90% 40%,
-            rgba(24,224,193,.07),
-            transparent 30%
-        ),
-        var(--bg);
-
-    color:var(--text);
-
     min-height:100vh;
-
-    transition:.3s;
-}
-
-
-/* ================= HEADER ================= */
-
-header{
-
-    position:sticky;
-
-    top:0;
-
-    z-index:1000;
-
-    background:rgba(5,14,26,.80);
-
-    backdrop-filter:blur(18px);
-
-    border-bottom:1px solid var(--line);
-}
-
-html.light header{
-
-    background:rgba(255,255,255,.82);
-}
-
-.nav{
-
-    max-width:var(--max);
-
-    height:75px;
-
-    margin:auto;
-
-    padding:0 20px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:15px;
-}
-
-.logo{
-
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
     color:var(--text);
+    background:
+        linear-gradient(
+            rgba(3,5,16,.72),
+            rgba(3,5,16,.88)
+        ),
+        url("./background.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    overflow-x:hidden;
+}
 
+html.light body{
+    background:
+        linear-gradient(
+            rgba(243,247,251,.90),
+            rgba(243,247,251,.96)
+        ),
+        url("./background.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 10% 20%,rgba(0,200,255,.10),transparent 28%),
+        radial-gradient(circle at 90% 80%,rgba(24,224,193,.08),transparent 28%);
+    z-index:-1;
+}
+
+a{
+    color:inherit;
     text-decoration:none;
-
-    font-size:20px;
-
-    font-weight:900;
 }
 
-.logo span{
-
-    color:var(--accent);
-}
-
-.nav-actions{
-
-    display:flex;
-
-    gap:8px;
-}
-
-.nav-btn{
-
-    border:1px solid var(--line);
-
-    background:rgba(255,255,255,.04);
-
-    color:var(--text);
-
-    width:42px;
-
-    height:42px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
+button,
+input,
+textarea{
     font-family:inherit;
 }
 
-
-/* ================= PAGE ================= */
-
-.page{
-
-    max-width:var(--max);
-
-    margin:auto;
-
-    padding:45px 20px 80px;
+button{
+    border:0;
+    cursor:pointer;
 }
 
-.back{
+.container{
+    width:min(1240px,calc(100% - 32px));
+    margin:auto;
+}
 
-    display:inline-flex;
+/* HEADER */
 
+.header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(20px);
+    background:var(--header);
+    border-bottom:1px solid var(--line);
+}
+
+.header-inner{
+    min-height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:900;
+    white-space:nowrap;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    background:
+        linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#03121d;
+    font-size:21px;
+    font-weight:1000;
+    box-shadow:0 8px 30px rgba(0,200,255,.20);
+}
+
+.logo-text{
+    font-size:19px;
+    letter-spacing:.5px;
+}
+
+.logo-text span{
     color:var(--accent);
+}
 
-    text-decoration:none;
+.nav{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
 
-    font-size:13px;
+.nav a{
+    color:var(--muted);
+    padding:10px 13px;
+    border-radius:12px;
+    transition:.2s;
+}
 
-    margin-bottom:25px;
+.nav a:hover{
+    color:var(--text);
+    background:rgba(255,255,255,.06);
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    color:var(--text);
+    background:var(--card2);
+    border:1px solid var(--line);
+    font-size:18px;
+}
+
+.account-btn{
+    padding:11px 15px;
+    border-radius:13px;
+    color:#04141d;
+    font-weight:800;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+}
+
+/* ARTICLE */
+
+.article-wrap{
+    padding:50px 0 80px;
 }
 
 .article-layout{
-
     display:grid;
-
-    grid-template-columns:
-        minmax(0,1fr)
-        300px;
-
-    gap:25px;
-
+    grid-template-columns:minmax(0,1fr) 330px;
+    gap:28px;
     align-items:start;
 }
 
 .article{
-
+    min-width:0;
     background:var(--card);
-
     border:1px solid var(--line);
-
-    border-radius:24px;
-
+    border-radius:28px;
     overflow:hidden;
+    box-shadow:var(--shadow);
 }
 
 .article-head{
-
-    padding:35px 38px 25px;
+    padding:34px 36px 26px;
 }
 
 .category{
-
     display:inline-flex;
-
+    align-items:center;
+    gap:7px;
     padding:7px 12px;
-
     border-radius:999px;
-
-    background:rgba(0,200,255,.09);
-
-    border:1px solid rgba(0,200,255,.25);
-
     color:var(--accent);
-
-    font-size:12px;
-
-    margin-bottom:17px;
+    background:rgba(0,200,255,.09);
+    border:1px solid rgba(0,200,255,.16);
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:16px;
 }
 
-.article h1{
-
-    font-size:
-        clamp(
-            28px,
-            5vw,
-            52px
-        );
-
-    line-height:1.35;
-
-    font-weight:900;
-
-    margin-bottom:18px;
+.article-title{
+    font-size:clamp(27px,4vw,46px);
+    line-height:1.45;
+    font-weight:950;
+    margin-bottom:15px;
 }
 
-.description{
-
+.article-description{
     color:var(--muted);
-
     font-size:16px;
-
     line-height:2;
-
-    margin-bottom:18px;
 }
 
-.meta{
-
+.article-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
     color:var(--muted);
+    font-size:13px;
+    margin-top:20px;
+}
 
-    font-size:12px;
+.cover-wrap{
+    padding:0 28px;
 }
 
 .cover{
-
     width:100%;
-
-    max-height:600px;
-
-    object-fit:cover;
-
-    display:block;
-}
-
-.article-content{
-
-    padding:35px 38px;
-
-    line-height:2.25;
-
-    font-size:16px;
-}
-
-.article-content p{
-
-    margin-bottom:24px;
-}
-
-.article-content img{
-
-    display:block;
-
-    width:100%;
-
-    max-height:700px;
-
-    object-fit:cover;
-
-    border-radius:16px;
-
-    margin:30px 0;
-}
-
-.article-content iframe{
-
-    width:100%;
-
     aspect-ratio:16/9;
+    object-fit:cover;
+    display:block;
+    border-radius:22px;
+    border:1px solid var(--line);
+    background:var(--card2);
+}
 
-    border:0;
+.article-body{
+    padding:32px 36px 40px;
+    min-width:0;
+}
 
-    border-radius:16px;
+.article-body > p{
+    font-size:17px;
+    line-height:2.35;
+    color:var(--text);
+    margin:0 0 24px;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
 
+.article-body .text-block{
+    font-size:17px;
+    line-height:2.35;
+    margin:0 0 25px;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.media-block{
     margin:30px 0;
 }
 
-.article-content h2{
-
-    font-size:28px;
-
-    margin:35px 0 18px;
-}
-
-.article-content h3{
-
-    font-size:22px;
-
-    margin:30px 0 15px;
-}
-
-
-/* ================= SIDEBAR ================= */
-
-.sidebar{
-
-    position:sticky;
-
-    top:100px;
-
-}
-
-.side-box{
-
-    background:var(--card);
-
-    border:1px solid var(--line);
-
-    border-radius:20px;
-
-    padding:22px;
-
-    margin-bottom:18px;
-}
-
-.side-title{
-
-    font-weight:900;
-
-    margin-bottom:18px;
-}
-
-.side-post{
-
+.article-body img{
     display:block;
-
-    color:var(--text);
-
-    text-decoration:none;
-
-    padding:12px 0;
-
-    border-bottom:1px solid var(--line);
-
-    font-size:13px;
-
-    line-height:1.8;
-}
-
-.side-post:last-child{
-
-    border-bottom:0;
-}
-
-
-/* ================= COMMENTS ================= */
-
-.comments{
-
-    margin-top:25px;
-
-    background:var(--card);
-
+    width:100%;
+    max-width:100%;
+    height:auto;
+    max-height:760px;
+    object-fit:contain;
+    border-radius:20px;
+    margin:0 auto;
+    background:var(--card2);
     border:1px solid var(--line);
-
-    border-radius:24px;
-
-    padding:30px;
 }
 
-.comments-title{
+.media-caption{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:8px;
+    text-align:center;
+}
 
-    font-size:25px;
+.video-box{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:20px;
+    overflow:hidden;
+    background:#000;
+    border:1px solid var(--line);
+}
 
+.video-box iframe,
+.video-box video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border:0;
+    object-fit:contain;
+}
+
+/* DOWNLOAD */
+
+.download-box{
+    margin:38px 0;
+    padding:24px;
+    border-radius:22px;
+    border:1px solid rgba(0,200,255,.20);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,200,255,.10),
+            rgba(24,224,193,.05)
+        );
+}
+
+.download-title{
+    font-size:19px;
     font-weight:900;
-
     margin-bottom:7px;
 }
 
-.comments-sub{
-
+.download-description{
     color:var(--muted);
-
     font-size:13px;
+    margin-bottom:18px;
+}
 
-    margin-bottom:25px;
+.download-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    min-height:48px;
+    padding:0 22px;
+    border-radius:14px;
+    color:#03121d;
+    font-weight:900;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    transition:.2s;
+}
+
+.download-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px rgba(0,200,255,.18);
+}
+
+/* COMMENTS */
+
+.comments{
+    border-top:1px solid var(--line);
+    padding:35px 36px 40px;
+}
+
+.comments-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:24px;
+}
+
+.comments-title{
+    font-size:24px;
+    font-weight:950;
+}
+
+.comments-count{
+    color:var(--muted);
+    font-size:13px;
 }
 
 .comment-login{
-
     padding:20px;
-
-    border:1px dashed var(--line);
-
-    border-radius:15px;
-
+    border-radius:18px;
+    background:var(--card2);
+    border:1px solid var(--line);
     color:var(--muted);
-
-    text-align:center;
-
+    line-height:2;
     margin-bottom:25px;
 }
 
-.comment-login button{
-
+.login-link{
+    display:inline-flex;
     margin-top:12px;
-
-    border:0;
-
-    border-radius:10px;
-
-    padding:10px 18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#00121c;
-
-    font-family:inherit;
-
-    font-weight:800;
-
-    cursor:pointer;
+    padding:10px 16px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#03121d;
+    font-weight:900;
 }
 
 .comment-form{
-
-    display:none;
-
     margin-bottom:30px;
 }
 
-.comment-form.show{
-
-    display:block;
-}
-
 .comment-form textarea{
-
     width:100%;
-
     min-height:130px;
-
     resize:vertical;
-
+    padding:16px;
+    border-radius:17px;
     border:1px solid var(--line);
-
-    background:rgba(0,0,0,.13);
-
-    color:var(--text);
-
-    border-radius:14px;
-
-    padding:15px;
-
-    font-family:inherit;
-
     outline:none;
-}
-
-html.light .comment-form textarea{
-
-    background:#fff;
+    color:var(--text);
+    background:var(--card2);
+    line-height:2;
 }
 
 .comment-form textarea:focus{
-
     border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(0,200,255,.08);
 }
 
-.comment-submit{
-
+.comment-form-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
     margin-top:10px;
+}
 
-    border:0;
+.comment-hint{
+    color:var(--muted);
+    font-size:12px;
+}
 
-    border-radius:10px;
-
-    padding:11px 20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#00121c;
-
-    font-family:inherit;
-
+.submit-comment{
+    padding:12px 20px;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#03121d;
     font-weight:900;
+}
 
-    cursor:pointer;
+.submit-comment:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+}
+
+.comments-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
 }
 
 .comment{
-
-    padding:20px 0;
-
-    border-top:1px solid var(--line);
+    padding:18px;
+    border-radius:18px;
+    border:1px solid var(--line);
+    background:var(--card2);
 }
 
-.comment-head{
-
+.comment-top{
     display:flex;
-
-    justify-content:space-between;
-
     align-items:center;
-
-    gap:15px;
-
+    justify-content:space-between;
+    gap:12px;
     margin-bottom:10px;
 }
 
 .comment-user{
-
-    font-weight:800;
-
-    font-size:14px;
+    font-weight:900;
 }
 
 .comment-date{
-
     color:var(--muted);
-
     font-size:11px;
 }
 
 .comment-text{
-
-    color:var(--muted);
-
+    color:var(--text);
     line-height:2;
-
-    font-size:14px;
-
     white-space:pre-wrap;
+    overflow-wrap:anywhere;
 }
 
 .delete-comment{
-
-    border:0;
-
-    background:transparent;
-
-    color:var(--danger);
-
-    font-family:inherit;
-
-    font-size:11px;
-
-    cursor:pointer;
-
     margin-top:10px;
+    color:var(--danger);
+    background:transparent;
+    font-size:12px;
 }
 
-.no-comments{
-
+.empty-comments{
     text-align:center;
-
-    padding:30px;
-
+    padding:25px;
     color:var(--muted);
+    border:1px dashed var(--line);
+    border-radius:17px;
 }
 
+/* SIDEBAR */
 
-/* ================= LOADING ================= */
+.sidebar{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    position:sticky;
+    top:100px;
+}
+
+.side-card{
+    padding:22px;
+    border-radius:22px;
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+}
+
+.side-title{
+    font-size:18px;
+    font-weight:900;
+    margin-bottom:17px;
+}
+
+.latest-item{
+    display:flex;
+    gap:12px;
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+}
+
+.latest-item:last-child{
+    border-bottom:0;
+}
+
+.latest-image{
+    width:80px;
+    height:55px;
+    flex:none;
+    object-fit:cover;
+    border-radius:10px;
+    background:var(--card2);
+}
+
+.latest-title{
+    font-size:13px;
+    line-height:1.7;
+    font-weight:800;
+}
+
+.latest-date{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:5px;
+}
+
+/* LOADING / ERROR */
 
 .loading{
-
-    text-align:center;
-
-    padding:60px;
-
+    min-height:400px;
+    display:grid;
+    place-items:center;
     color:var(--muted);
+    font-size:16px;
 }
 
+.spinner{
+    width:40px;
+    height:40px;
+    border:3px solid var(--line);
+    border-top-color:var(--accent);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
 
-/* ================= MOBILE ================= */
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
 
-@media(max-width:900px){
+.error-box{
+    padding:40px;
+    text-align:center;
+    border-radius:25px;
+    background:var(--card);
+    border:1px solid var(--line);
+}
 
+.error-box h2{
+    margin-bottom:10px;
+}
+
+.error-box p{
+    color:var(--muted);
+    line-height:2;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    z-index:999;
+    max-width:350px;
+    padding:14px 18px;
+    border-radius:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    transform:translateY(30px);
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+.toast.success{
+    border-color:rgba(24,224,193,.35);
+}
+
+.toast.error{
+    border-color:rgba(255,85,119,.35);
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
     .article-layout{
-
         grid-template-columns:1fr;
     }
 
     .sidebar{
-
         position:static;
+        display:grid;
+        grid-template-columns:1fr 1fr;
     }
-
-}
-
-@media(max-width:600px){
 
     .nav{
+        display:none;
+    }
+}
 
-        height:65px;
-
-        padding:0 15px;
+@media(max-width:650px){
+    .container{
+        width:min(100% - 20px,1240px);
     }
 
-    .logo{
-
-        font-size:17px;
+    .header-inner{
+        min-height:68px;
     }
 
-    .page{
+    .logo-text{
+        font-size:15px;
+    }
 
-        padding:
-            25px
-            12px
-            60px;
+    .logo-icon{
+        width:40px;
+        height:40px;
+    }
+
+    .account-btn{
+        padding:9px 11px;
+        font-size:12px;
+    }
+
+    .article-wrap{
+        padding:20px 0 50px;
     }
 
     .article{
-
-        border-radius:18px;
+        border-radius:20px;
     }
 
     .article-head{
-
-        padding:
-            25px
-            20px
-            20px;
+        padding:24px 20px 20px;
     }
 
-    .article-content{
+    .article-title{
+        font-size:27px;
+    }
 
-        padding:
-            25px 20px;
+    .cover-wrap{
+        padding:0 14px;
+    }
+
+    .cover{
+        border-radius:15px;
+    }
+
+    .article-body{
+        padding:25px 20px 30px;
+    }
+
+    .article-body > p,
+    .article-body .text-block{
+        font-size:16px;
+        line-height:2.2;
     }
 
     .comments{
-
-        padding:22px 18px;
-
-        border-radius:18px;
+        padding:28px 20px 30px;
     }
 
+    .sidebar{
+        display:flex;
+    }
+
+    .comment-form-footer{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .submit-comment{
+        width:100%;
+    }
+
+    .toast{
+        left:10px;
+        right:10px;
+        bottom:10px;
+        max-width:none;
+    }
 }
-
 </style>
-
 </head>
-
 
 <body>
 
+<header class="header">
+    <div class="container header-inner">
 
-<header>
+        <a href="index.html" class="logo">
+            <div class="logo-icon">PS</div>
+            <div class="logo-text">
+                <span>PERSIAN</span> STARK
+            </div>
+        </a>
 
-<nav class="nav">
+        <nav class="nav">
+            <a href="index.html">خانه</a>
+            <a href="index.html#news">اخبار گیم</a>
+            <a href="index.html#games">معرفی بازی</a>
+            <a href="index.html#software">نرم‌افزار</a>
+            <a href="index.html#store">فروشگاه</a>
+        </nav>
 
-    <a
-        href="index.html"
-        class="logo"
-    >
-        PERSIAN <span>STARK</span>
-    </a>
+        <div class="header-actions">
+            <button
+                class="icon-btn"
+                id="themeBtn"
+                title="تغییر حالت"
+            >☀️</button>
 
-
-    <div class="nav-actions">
-
-        <button
-            class="nav-btn"
-            id="themeBtn"
-            onclick="toggleTheme()"
-        >
-            🌙
-        </button>
-
-        <button
-            class="nav-btn"
-            onclick="goHome()"
-            title="خانه"
-        >
-            🏠
-        </button>
-
-    </div>
-
-</nav>
-
-</header>
-
-
-<main class="page">
-
-
-<a
-    href="index.html"
-    class="back"
->
-    ← بازگشت به سایت
-</a>
-
-
-<div id="articleLoading" class="loading">
-
-    در حال دریافت مطلب...
-
-</div>
-
-
-<div
-    id="articleArea"
-    style="display:none;"
->
-
-
-<div class="article-layout">
-
-
-<article class="article">
-
-
-    <div class="article-head">
-
-        <span
-            id="articleCategory"
-            class="category"
-        ></span>
-
-        <h1 id="articleTitle"></h1>
-
-        <div
-            id="articleDescription"
-            class="description"
-        ></div>
-
-        <div
-            id="articleMeta"
-            class="meta"
-        ></div>
-
-    </div>
-
-
-    <img
-        id="articleCover"
-        class="cover"
-        style="display:none;"
-        alt=""
-    >
-
-
-    <div
-        id="articleContent"
-        class="article-content"
-    ></div>
-
-
-</article>
-
-
-<aside class="sidebar">
-
-
-<div class="side-box">
-
-    <div class="side-title">
-        آخرین مطالب
-    </div>
-
-    <div id="latestPosts">
-
-        <div class="loading">
-            در حال دریافت...
+            <a
+                href="index.html"
+                class="account-btn"
+                id="accountBtn"
+            >حساب کاربری</a>
         </div>
 
     </div>
+</header>
 
-</div>
 
+<main class="article-wrap">
 
-<div class="side-box">
+<div class="container">
 
-    <div class="side-title">
-        PERSIAN STARK
+    <div id="pageLoading" class="article">
+        <div class="loading">
+            <div class="spinner"></div>
+        </div>
     </div>
 
-    <p
-        style="
-        color:var(--muted);
-        font-size:13px;
-        line-height:2;
-        "
+    <div id="pageError" style="display:none;">
+        <div class="error-box">
+            <h2>مطلب پیدا نشد</h2>
+            <p id="errorText">
+                این مطلب وجود ندارد یا حذف شده است.
+            </p>
+            <br>
+            <a href="index.html" class="account-btn">
+                بازگشت به سایت
+            </a>
+        </div>
+    </div>
+
+    <div
+        id="articleLayout"
+        class="article-layout"
+        style="display:none;"
     >
-        اخبار گیم، معرفی بازی و
-        نرم‌افزارهای کاربردی.
-    </p>
 
-</div>
+        <article class="article">
 
+            <div class="article-head">
 
-</aside>
+                <div
+                    id="articleCategory"
+                    class="category"
+                >اخبار گیم</div>
 
+                <h1
+                    id="articleTitle"
+                    class="article-title"
+                ></h1>
 
-</div>
+                <div
+                    id="articleDescription"
+                    class="article-description"
+                ></div>
 
+                <div class="article-meta">
+                    <span id="articleDate">📅 —</span>
+                    <span id="articleType">🎮 PERSIAN STARK</span>
+                </div>
 
-<!-- COMMENTS -->
-
-<section class="comments">
-
-
-<div class="comments-title">
-    نظرات کاربران
-</div>
-
-<div class="comments-sub">
-    نظر خودت درباره این مطلب رو با ما به اشتراک بذار.
-</div>
-
-
-<div
-    id="commentLogin"
-    class="comment-login"
->
-
-    برای ثبت نظر باید وارد حساب کاربری خودت بشی.
-
-    <br>
-
-    <button onclick="openLoginPage()">
-        ورود / ثبت‌نام
-    </button>
-
-</div>
+            </div>
 
 
-<form
-    id="commentForm"
-    class="comment-form"
-    onsubmit="submitComment(event)"
->
-
-    <textarea
-        id="commentText"
-        maxlength="2000"
-        placeholder="نظرت رو بنویس..."
-        required
-    ></textarea>
-
-    <button
-        type="submit"
-        class="comment-submit"
-    >
-        ثبت نظر
-    </button>
-
-</form>
+            <div
+                id="coverWrap"
+                class="cover-wrap"
+                style="display:none;"
+            >
+                <img
+                    id="coverImage"
+                    class="cover"
+                    alt=""
+                    loading="eager"
+                >
+            </div>
 
 
-<div id="commentsList">
+            <div
+                id="articleBody"
+                class="article-body"
+            ></div>
 
-    <div class="loading">
-        در حال دریافت نظرات...
+
+            <section
+                id="commentsSection"
+                class="comments"
+            >
+
+                <div class="comments-head">
+                    <div class="comments-title">
+                        💬 نظرات کاربران
+                    </div>
+
+                    <div
+                        id="commentsCount"
+                        class="comments-count"
+                    >
+                        ۰ نظر
+                    </div>
+                </div>
+
+
+                <div
+                    id="commentLogin"
+                    class="comment-login"
+                    style="display:none;"
+                >
+                    برای ثبت نظر ابتدا وارد حساب کاربری خود شوید.
+
+                    <br>
+
+                    <a
+                        href="index.html"
+                        class="login-link"
+                    >
+                        ورود / ثبت‌نام
+                    </a>
+                </div>
+
+
+                <form
+                    id="commentForm"
+                    class="comment-form"
+                    style="display:none;"
+                >
+
+                    <textarea
+                        id="commentInput"
+                        maxlength="2000"
+                        placeholder="نظر خودت را درباره این مطلب بنویس..."
+                        required
+                    ></textarea>
+
+                    <div class="comment-form-footer">
+
+                        <span class="comment-hint">
+                            حداکثر ۲۰۰۰ کاراکتر
+                        </span>
+
+                        <button
+                            id="submitComment"
+                            class="submit-comment"
+                            type="submit"
+                        >
+                            ثبت نظر
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <div
+                    id="commentsList"
+                    class="comments-list"
+                ></div>
+
+            </section>
+
+        </article>
+
+
+        <aside class="sidebar">
+
+            <div class="side-card">
+
+                <div class="side-title">
+                    آخرین مطالب
+                </div>
+
+                <div id="latestPosts"></div>
+
+            </div>
+
+
+            <div class="side-card">
+
+                <div class="side-title">
+                    PERSIAN STARK
+                </div>
+
+                <p
+                    style="
+                    color:var(--muted);
+                    line-height:2;
+                    font-size:13px;
+                    "
+                >
+                    اخبار، معرفی بازی، نرم‌افزار و مطالب دنیای گیم را در
+                    PERSIAN STARK دنبال کنید.
+                </p>
+
+            </div>
+
+        </aside>
+
     </div>
 
 </div>
-
-
-</section>
-
-
-</div>
-
 
 </main>
 
 
+<div id="toast" class="toast"></div>
+
+
 <script>
 
+const { createClient } = supabase;
 
-/* ================= SUPABASE ================= */
-
-const SUPABASE_URL =
-"https://jmdoxofcyoxdrtxvvuiu.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74";
-
-const {
-    createClient
-} = supabase;
-
-const db =
-createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY,
+const db = createClient(
+    "https://jmdoxofcyoxdrtxvvuiu.supabase.co",
+    "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74",
     {
         auth:{
             persistSession:true,
@@ -977,418 +1025,581 @@ createClient(
 );
 
 
-/* ================= POST ID ================= */
+/* -------------------------
+   GLOBAL
+------------------------- */
 
-const params =
-new URLSearchParams(
-    location.search
-);
-
-const postId =
-params.get("id");
+let currentUser = null;
+let currentPost = null;
 
 
-/* ================= HELPERS ================= */
+/* -------------------------
+   HELPERS
+------------------------- */
 
-function escapeHTML(value=""){
+const $ = id => document.getElementById(id);
 
-    return String(value)
 
-        .replaceAll("&","&amp;")
+function escapeHTML(value){
 
-        .replaceAll("<","&lt;")
+    const div = document.createElement("div");
 
-        .replaceAll(">","&gt;")
+    div.textContent = value ?? "";
 
-        .replaceAll('"',"&quot;")
-
-        .replaceAll("'","&#039;");
-
+    return div.innerHTML;
 }
 
 
-function categoryName(category){
+function showToast(message,type="success"){
 
-    const names = {
+    const toast = $("toast");
 
-        news:"اخبار گیم",
+    toast.textContent = message;
 
-        game:"معرفی بازی",
+    toast.className = `toast show ${type}`;
 
-        software:"نرم‌افزار",
+    clearTimeout(window.toastTimer);
 
-        store:"فروشگاه CS2"
+    window.toastTimer = setTimeout(()=>{
 
-    };
+        toast.className = "toast";
 
-    return names[category]
-        || "PERSIAN STARK";
-
+    },3500);
 }
 
 
 function formatDate(date){
 
-    try{
+    if(!date) return "—";
 
-        return new Intl.DateTimeFormat(
-            "fa-IR",
-            {
-                year:"numeric",
-                month:"long",
-                day:"numeric",
-                hour:"2-digit",
-                minute:"2-digit"
-            }
-        ).format(
-            new Date(date)
-        );
-
-    }catch(e){
-
-        return "";
-
-    }
-
+    return new Intl.DateTimeFormat(
+        "fa-IR",
+        {
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+        }
+    ).format(new Date(date));
 }
 
 
-/* ================= THEME ================= */
+function getPostId(){
 
-function applyTheme(theme){
+    const params = new URLSearchParams(
+        window.location.search
+    );
 
-    if(theme === "light"){
+    return params.get("id");
+}
 
-        document.documentElement
-            .classList
-            .add("light");
 
-        document.getElementById(
-            "themeBtn"
-        ).textContent = "☀️";
+/* -------------------------
+   THEME
+------------------------- */
 
-    }else{
+function loadTheme(){
 
-        document.documentElement
-            .classList
-            .remove("light");
+    const theme =
+        localStorage.getItem("ps-theme") || "dark";
 
-        document.getElementById(
-            "themeBtn"
-        ).textContent = "🌙";
+    document.documentElement.classList.toggle(
+        "light",
+        theme === "light"
+    );
 
-    }
+    $("themeBtn").textContent =
+        theme === "light" ? "🌙" : "☀️";
+}
+
+
+$("themeBtn").addEventListener("click",()=>{
+
+    const isLight =
+        document.documentElement.classList.contains("light");
+
+    const next =
+        isLight ? "dark" : "light";
+
+    document.documentElement.classList.toggle(
+        "light",
+        next === "light"
+    );
 
     localStorage.setItem(
         "ps-theme",
-        theme
+        next
     );
 
+    $("themeBtn").textContent =
+        next === "light" ? "🌙" : "☀️";
+});
+
+
+/* -------------------------
+   AUTH
+------------------------- */
+
+async function loadUser(){
+
+    const {
+        data
+    } = await db.auth.getSession();
+
+    currentUser =
+        data?.session?.user || null;
+
+    updateAccountButton();
+
+    updateCommentUI();
 }
 
 
-function toggleTheme(){
+function updateAccountButton(){
 
-    const light =
-        document.documentElement
-            .classList
-            .contains("light");
+    const btn = $("accountBtn");
 
-    applyTheme(
-        light
-            ? "dark"
-            : "light"
-    );
+    if(!currentUser){
 
+        btn.textContent = "ورود / ثبت‌نام";
+
+        btn.href = "index.html";
+
+        return;
+    }
+
+    const email =
+        currentUser.email || "";
+
+    const name =
+        email.split("@")[0] || "حساب من";
+
+    btn.textContent =
+        `👤 ${name}`;
+
+    /*
+       فعلاً لینک حساب به صفحه اصلی می‌رود.
+       وقتی پروفایل حرفه‌ای را اضافه کنیم،
+       همین قسمت به profile.html متصل می‌شود.
+    */
+
+    btn.href =
+        "index.html#profile";
 }
 
 
-applyTheme(
-    localStorage.getItem(
-        "ps-theme"
-    ) || "dark"
+db.auth.onAuthStateChange(
+    async (event,session)=>{
+
+        currentUser =
+            session?.user || null;
+
+        updateAccountButton();
+
+        updateCommentUI();
+
+        if(currentPost){
+
+            await loadComments(currentPost.id);
+
+        }
+
+    }
 );
 
 
-/* ================= LOAD ARTICLE ================= */
+/* -------------------------
+   COMMENT UI
+------------------------- */
 
-async function loadArticle(){
+function updateCommentUI(){
+
+    if(currentUser){
+
+        $("commentLogin").style.display =
+            "none";
+
+        $("commentForm").style.display =
+            "block";
+
+    }else{
+
+        $("commentLogin").style.display =
+            "block";
+
+        $("commentForm").style.display =
+            "none";
+
+    }
+}
+
+
+/* -------------------------
+   LOAD POST
+------------------------- */
+
+async function loadPost(){
+
+    const postId = getPostId();
 
     if(!postId){
 
-        document.getElementById(
-            "articleLoading"
-        ).textContent =
-            "شناسه مطلب پیدا نشد.";
+        showError(
+            "شناسه مطلب در آدرس صفحه وجود ندارد."
+        );
 
         return;
-
     }
 
-
-    const {
-        data:post,
-        error
-    } = await db
-
-        .from("posts")
-
-        .select("*")
-
-        .eq("id",postId)
-
-        .single();
-
-
-    if(error || !post){
-
-        console.error(error);
-
-        document.getElementById(
-            "articleLoading"
-        ).textContent =
-            "این مطلب پیدا نشد.";
-
-        return;
-
-    }
-
-
-    document.title =
-        post.title +
-        " | PERSIAN STARK";
-
-
-    document.getElementById(
-        "articleCategory"
-    ).textContent =
-        categoryName(
-            post.category
-        );
-
-
-    document.getElementById(
-        "articleTitle"
-    ).textContent =
-        post.title ||
-        "بدون عنوان";
-
-
-    document.getElementById(
-        "articleDescription"
-    ).textContent =
-        post.description ||
-        "";
-
-
-    document.getElementById(
-        "articleMeta"
-    ).textContent =
-        formatDate(
-            post.created_at
-        );
-
-
-    if(post.image_url){
-
-        const cover =
-            document.getElementById(
-                "articleCover"
-            );
-
-        cover.src =
-            post.image_url;
-
-        cover.alt =
-            post.title || "";
-
-        cover.style.display =
-            "block";
-
-    }
-
-
-    const content =
-        document.getElementById(
-            "articleContent"
-        );
-
-
-    if(post.content){
-
-        content.innerHTML =
-            formatContent(
-                post.content
-            );
-
-    }
-
-
-    await loadBlocks();
-
-    document.getElementById(
-        "articleLoading"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "articleArea"
-    ).style.display =
-        "block";
-
-
-    loadLatest();
-
-    updateCommentUI();
-
-    loadComments();
-
-}
-
-
-/* ================= CONTENT ================= */
-
-function formatContent(text){
-
-    const safe =
-        escapeHTML(text);
-
-
-    return safe
-        .split(/\n\s*\n/)
-        .map(
-            p =>
-            `<p>${p.replace(/\n/g,"<br>")}</p>`
-        )
-        .join("");
-
-}
-
-
-/* ================= BLOCKS ================= */
-
-async function loadBlocks(){
 
     const {
         data,
         error
     } = await db
-
-        .from("post_blocks")
-
-        .select("*")
-
-        .eq(
-            "post_id",
-            postId
-        )
-
-        .order(
-            "sort_order",
-            {
-                ascending:true
-            }
-        );
+        .from("posts")
+        .select(`
+            id,
+            title,
+            description,
+            content,
+            image_url,
+            download_url,
+            category,
+            created_at
+        `)
+        .eq("id",postId)
+        .maybeSingle();
 
 
     if(error){
 
-        console.log(
-            "No blocks:",
-            error
+        console.error(error);
+
+        showError(
+            "خطا در دریافت اطلاعات مطلب."
         );
 
         return;
+    }
+
+
+    if(!data){
+
+        showError(
+            "این مطلب وجود ندارد یا حذف شده است."
+        );
+
+        return;
+    }
+
+
+    currentPost = data;
+
+    renderPost(data);
+
+    await loadBlocks(data.id);
+
+    await loadComments(data.id);
+
+    await loadLatestPosts();
+
+    $("pageLoading").style.display =
+        "none";
+
+    $("articleLayout").style.display =
+        "grid";
+}
+
+
+function renderPost(post){
+
+    document.title =
+        `${post.title} | PERSIAN STARK`;
+
+
+    $("articleTitle").textContent =
+        post.title || "بدون عنوان";
+
+
+    $("articleDescription").textContent =
+        post.description || "";
+
+
+    $("articleCategory").textContent =
+        post.category || "مطالب گیم";
+
+
+    $("articleDate").textContent =
+        `📅 ${formatDate(post.created_at)}`;
+
+
+    if(post.image_url){
+
+        $("coverWrap").style.display =
+            "block";
+
+        $("coverImage").src =
+            post.image_url;
+
+        $("coverImage").alt =
+            post.title || "PERSIAN STARK";
 
     }
 
 
-    if(!data?.length)
-        return;
+    if(post.content){
+
+        const p =
+            document.createElement("p");
+
+        p.textContent =
+            post.content;
+
+        $("articleBody").appendChild(p);
+
+    }
 
 
-    const content =
-        document.getElementById(
-            "articleContent"
+    if(post.download_url){
+
+        renderDownload(
+            post.download_url
         );
 
-
-    data.forEach(
-        block => {
-
-            if(block.type === "text"){
-
-                const p =
-                    document.createElement(
-                        "p"
-                    );
-
-                p.innerHTML =
-                    escapeHTML(
-                        block.content
-                    )
-                    .replace(
-                        /\n/g,
-                        "<br>"
-                    );
-
-                content.appendChild(p);
-
-            }
+    }
+}
 
 
-            if(block.type === "image"){
+/* -------------------------
+   DOWNLOAD
+------------------------- */
 
-                const img =
-                    document.createElement(
-                        "img"
-                    );
+function renderDownload(url){
 
-                img.src =
-                    block.content;
+    const box =
+        document.createElement("div");
 
-                img.loading =
-                    "lazy";
-
-                content.appendChild(img);
-
-            }
+    box.className =
+        "download-box";
 
 
-            if(block.type === "video"){
+    const safeUrl =
+        String(url).trim();
 
-                const iframe =
-                    document.createElement(
-                        "iframe"
-                    );
 
-                iframe.src =
-                    youtubeEmbed(
-                        block.content
-                    );
+    if(!/^https?:\/\//i.test(safeUrl)){
 
-                iframe.allow =
-                    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        return;
+    }
 
-                iframe.allowFullscreen =
-                    true;
 
-                content.appendChild(
-                    iframe
-                );
+    box.innerHTML = `
 
-            }
+        <div class="download-title">
+            📥 لینک دانلود مستقیم
+        </div>
+
+        <div class="download-description">
+            برای دریافت فایل روی دکمه زیر کلیک کنید.
+        </div>
+
+        <a
+            class="download-btn"
+            href="${escapeHTML(safeUrl)}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            ⬇️ دانلود فایل
+        </a>
+    `;
+
+
+    $("articleBody").appendChild(box);
+}
+
+
+/* -------------------------
+   BLOCKS
+------------------------- */
+
+async function loadBlocks(postId){
+
+    const {
+        data,
+        error
+    } = await db
+        .from("post_blocks")
+        .select(`
+            id,
+            type,
+            content,
+            sort_order
+        `)
+        .eq("post_id",postId)
+        .order("sort_order",{
+            ascending:true
+        });
+
+
+    if(error){
+
+        console.warn(
+            "post_blocks:",
+            error
+        );
+
+        return;
+    }
+
+
+    if(!data?.length) return;
+
+
+    for(const block of data){
+
+        renderBlock(block);
+
+    }
+}
+
+
+function renderBlock(block){
+
+    if(!block?.content) return;
+
+
+    if(block.type === "text"){
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "text-block";
+
+        div.textContent =
+            block.content;
+
+        $("articleBody").appendChild(div);
+
+        return;
+    }
+
+
+    if(block.type === "image"){
+
+        const wrap =
+            document.createElement("div");
+
+        wrap.className =
+            "media-block";
+
+
+        const img =
+            document.createElement("img");
+
+        img.src =
+            block.content;
+
+        img.alt =
+            "تصویر مطلب";
+
+        img.loading =
+            "lazy";
+
+
+        img.onerror = ()=>{
+
+            wrap.remove();
+
+        };
+
+
+        wrap.appendChild(img);
+
+        $("articleBody").appendChild(wrap);
+
+        return;
+    }
+
+
+    if(block.type === "video"){
+
+        const wrap =
+            document.createElement("div");
+
+        wrap.className =
+            "media-block";
+
+
+        const videoBox =
+            document.createElement("div");
+
+        videoBox.className =
+            "video-box";
+
+
+        const url =
+            String(block.content).trim();
+
+
+        const youtubeId =
+            getYoutubeId(url);
+
+
+        if(youtubeId){
+
+            const iframe =
+                document.createElement("iframe");
+
+            iframe.src =
+                `https://www.youtube.com/embed/${youtubeId}`;
+
+            iframe.allow =
+                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
+            iframe.allowFullscreen =
+                true;
+
+            iframe.loading =
+                "lazy";
+
+            videoBox.appendChild(iframe);
+
+        }else{
+
+            const video =
+                document.createElement("video");
+
+            video.src =
+                url;
+
+            video.controls =
+                true;
+
+            video.playsInline =
+                true;
+
+            video.preload =
+                "metadata";
+
+            videoBox.appendChild(video);
 
         }
-    );
+
+
+        wrap.appendChild(videoBox);
+
+        $("articleBody").appendChild(wrap);
+
+    }
 
 }
 
 
-/* ================= YOUTUBE ================= */
+/* -------------------------
+   YOUTUBE
+------------------------- */
 
-function youtubeEmbed(url){
+function getYoutubeId(url){
 
     try{
 
@@ -1397,364 +1608,314 @@ function youtubeEmbed(url){
 
 
         if(
-            parsed.hostname.includes(
-                "youtu.be"
-            )
+            parsed.hostname.includes("youtube.com") &&
+            parsed.searchParams.get("v")
         ){
 
-            return "https://www.youtube.com/embed/" +
-                parsed.pathname.slice(1);
+            return parsed.searchParams.get("v");
 
         }
 
 
-        const id =
-            parsed.searchParams.get(
-                "v"
-            );
+        if(
+            parsed.hostname === "youtu.be"
+        ){
 
-
-        if(id){
-
-            return "https://www.youtube.com/embed/" +
-                id;
+            return parsed.pathname
+                .replace("/","")
+                .split("/")[0];
 
         }
 
 
-        return url;
+        if(
+            parsed.pathname.startsWith("/shorts/")
+        ){
+
+            return parsed.pathname
+                .split("/")[2];
+
+        }
+
+
+        if(
+            parsed.pathname.startsWith("/embed/")
+        ){
+
+            return parsed.pathname
+                .split("/")[2];
+
+        }
 
     }catch(e){
 
-        return url;
+        return null;
 
     }
 
+
+    return null;
 }
 
 
-/* ================= LATEST ================= */
+/* -------------------------
+   COMMENTS
+------------------------- */
 
-async function loadLatest(){
-
-    const box =
-        document.getElementById(
-            "latestPosts"
-        );
-
+async function loadComments(postId){
 
     const {
         data,
         error
     } = await db
-
-        .from("posts")
-
-        .select(
-            "id,title,created_at"
-        )
-
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        )
-
-        .limit(6);
-
-
-    if(error){
-
-        box.innerHTML =
-            "خطا در دریافت مطالب.";
-
-        return;
-
-    }
-
-
-    if(!data?.length){
-
-        box.innerHTML =
-            "مطلبی وجود ندارد.";
-
-        return;
-
-    }
-
-
-    box.innerHTML =
-        data
-
-            .filter(
-                post =>
-                String(post.id) !==
-                String(postId)
-            )
-
-            .map(
-                post => `
-
-                <a
-                    class="side-post"
-                    href="article.html?id=${encodeURIComponent(post.id)}"
-                >
-
-                    ${escapeHTML(
-                        post.title
-                    )}
-
-                </a>
-
-                `
-            )
-
-            .join("");
-
-}
-
-
-/* ================= COMMENT UI ================= */
-
-async function updateCommentUI(){
-
-    const {
-        data
-    } = await db.auth.getSession();
-
-
-    const loginBox =
-        document.getElementById(
-            "commentLogin"
-        );
-
-    const form =
-        document.getElementById(
-            "commentForm"
-        );
-
-
-    if(data.session){
-
-        loginBox.style.display =
-            "none";
-
-        form.classList.add(
-            "show"
-        );
-
-    }else{
-
-        loginBox.style.display =
-            "block";
-
-        form.classList.remove(
-            "show"
-        );
-
-    }
-
-}
-
-
-/* ================= LOAD COMMENTS ================= */
-
-async function loadComments(){
-
-    const list =
-        document.getElementById(
-            "commentsList"
-        );
-
-
-    const {
-        data,
-        error
-    } = await db
-
         .from("comments")
-
-        .select(
-            `
+        .select(`
             id,
+            post_id,
             user_id,
             content,
-            created_at,
-            profiles(
-                username
-            )
-            `
-        )
-
-        .eq(
-            "post_id",
-            postId
-        )
-
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
+            created_at
+        `)
+        .eq("post_id",postId)
+        .order("created_at",{
+            ascending:true
+        });
 
 
     if(error){
 
         console.error(error);
 
-        list.innerHTML = `
-            <div class="no-comments">
-                بخش نظرات هنوز فعال نشده است.
+        $("commentsList").innerHTML = `
+            <div class="empty-comments">
+                دریافت نظرات با خطا مواجه شد.
             </div>
         `;
 
         return;
-
     }
 
 
-    if(!data?.length){
+    const comments =
+        data || [];
 
-        list.innerHTML = `
-            <div class="no-comments">
-                هنوز نظری ثبت نشده.
-                اولین نفر باش که نظر میدهی ✨
+
+    $("commentsCount").textContent =
+        `${new Intl.NumberFormat("fa-IR").format(comments.length)} نظر`;
+
+
+    if(!comments.length){
+
+        $("commentsList").innerHTML = `
+            <div class="empty-comments">
+                هنوز نظری برای این مطلب ثبت نشده.
+                <br>
+                اولین نفری باش که نظر می‌دهد 👇
             </div>
         `;
 
         return;
+    }
+
+
+    /*
+       برای جلوگیری از درخواست‌های زیاد،
+       usernameها را یکجا می‌گیریم.
+    */
+
+    const ids =
+        [...new Set(
+            comments.map(c=>c.user_id)
+        )];
+
+
+    let profiles = [];
+
+
+    if(ids.length){
+
+        const result =
+            await db
+                .from("profiles")
+                .select("id,username")
+                .in("id",ids);
+
+
+        profiles =
+            result.data || [];
 
     }
 
 
-    const {
-        data:sessionData
-    } = await db.auth.getSession();
-
-
-    const currentUser =
-        sessionData.session?.user;
-
-
-    list.innerHTML =
-        data
-
-            .map(
-                comment => {
-
-                    const username =
-                        comment.profiles
-                            ?.username ||
-                        "کاربر";
-
-
-                    const canDelete =
-                        currentUser &&
-                        currentUser.id ===
-                        comment.user_id;
-
-
-                    return `
-
-                    <div class="comment">
-
-                        <div class="comment-head">
-
-                            <div class="comment-user">
-                                ${escapeHTML(
-                                    username
-                                )}
-                            </div>
-
-                            <div class="comment-date">
-                                ${formatDate(
-                                    comment.created_at
-                                )}
-                            </div>
-
-                        </div>
-
-
-                        <div class="comment-text">
-                            ${escapeHTML(
-                                comment.content
-                            )}
-                        </div>
-
-
-                        ${
-                            canDelete
-                            ?
-                            `
-                            <button
-                                class="delete-comment"
-                                onclick="deleteComment(${comment.id})"
-                            >
-                                حذف نظر
-                            </button>
-                            `
-                            :
-                            ""
-                        }
-
-                    </div>
-
-                    `;
-
-                }
+    const profileMap =
+        new Map(
+            profiles.map(
+                p=>[p.id,p.username]
             )
+        );
 
-            .join("");
+
+    $("commentsList").innerHTML = "";
+
+
+    comments.forEach(comment=>{
+
+        const box =
+            document.createElement("div");
+
+        box.className =
+            "comment";
+
+
+        const username =
+            profileMap.get(comment.user_id)
+            || "کاربر";
+
+
+        const top =
+            document.createElement("div");
+
+        top.className =
+            "comment-top";
+
+
+        const user =
+            document.createElement("div");
+
+        user.className =
+            "comment-user";
+
+        user.textContent =
+            `👤 ${username}`;
+
+
+        const date =
+            document.createElement("div");
+
+        date.className =
+            "comment-date";
+
+        date.textContent =
+            formatDate(comment.created_at);
+
+
+        top.appendChild(user);
+
+        top.appendChild(date);
+
+
+        const text =
+            document.createElement("div");
+
+        text.className =
+            "comment-text";
+
+        text.textContent =
+            comment.content;
+
+
+        box.appendChild(top);
+
+        box.appendChild(text);
+
+
+        if(
+            currentUser &&
+            currentUser.id === comment.user_id
+        ){
+
+            const del =
+                document.createElement("button");
+
+            del.className =
+                "delete-comment";
+
+            del.textContent =
+                "حذف نظر";
+
+
+            del.addEventListener(
+                "click",
+                ()=>deleteComment(comment.id)
+            );
+
+
+            box.appendChild(del);
+
+        }
+
+
+        $("commentsList")
+            .appendChild(box);
+
+    });
 
 }
 
 
-/* ================= SUBMIT COMMENT ================= */
+/* -------------------------
+   ADD COMMENT
+------------------------- */
 
-async function submitComment(event){
+$("commentForm")
+.addEventListener("submit",async event=>{
 
     event.preventDefault();
 
 
-    const {
-        data:sessionData
-    } = await db.auth.getSession();
+    if(!currentUser){
 
-
-    if(!sessionData.session){
-
-        openLoginPage();
+        showToast(
+            "ابتدا وارد حساب خود شوید.",
+            "error"
+        );
 
         return;
-
     }
 
 
-    const textarea =
-        document.getElementById(
-            "commentText"
-        );
+    if(!currentPost){
+
+        return;
+    }
+
+
+    const input =
+        $("commentInput");
 
 
     const content =
-        textarea.value.trim();
+        input.value.trim();
 
 
-    if(!content)
+    if(!content){
+
+        showToast(
+            "متن نظر را وارد کنید.",
+            "error"
+        );
+
         return;
+    }
+
+
+    if(content.length > 2000){
+
+        showToast(
+            "نظر نمی‌تواند بیشتر از ۲۰۰۰ کاراکتر باشد.",
+            "error"
+        );
+
+        return;
+    }
 
 
     const button =
-        document.querySelector(
-            ".comment-submit"
-        );
+        $("submitComment");
 
 
     button.disabled =
         true;
-
 
     button.textContent =
         "در حال ثبت...";
@@ -1763,25 +1924,16 @@ async function submitComment(event){
     const {
         error
     } = await db
-
         .from("comments")
-
         .insert({
-
-            post_id:postId,
-
-            user_id:
-                sessionData.session
-                    .user.id,
-
-            content
-
+            post_id:currentPost.id,
+            user_id:currentUser.id,
+            content:content
         });
 
 
     button.disabled =
         false;
-
 
     button.textContent =
         "ثبت نظر";
@@ -1791,105 +1943,224 @@ async function submitComment(event){
 
         console.error(error);
 
-        alert(
-            "ثبت نظر انجام نشد."
+        showToast(
+            "ثبت نظر انجام نشد. دوباره تلاش کنید.",
+            "error"
         );
 
         return;
-
     }
 
 
-    textarea.value =
-        "";
+    input.value = "";
 
 
-    loadComments();
+    showToast(
+        "نظر شما با موفقیت ثبت شد."
+    );
 
-}
+
+    await loadComments(
+        currentPost.id
+    );
+
+});
 
 
-/* ================= DELETE COMMENT ================= */
+/* -------------------------
+   DELETE COMMENT
+------------------------- */
 
 async function deleteComment(id){
 
-    const yes =
+    if(!currentUser){
+
+        return;
+    }
+
+
+    const confirmed =
         confirm(
-            "این نظر حذف شود؟"
+            "آیا از حذف این نظر مطمئن هستید؟"
         );
 
 
-    if(!yes)
-        return;
+    if(!confirmed) return;
 
 
     const {
         error
     } = await db
-
         .from("comments")
-
         .delete()
-
-        .eq(
-            "id",
-            id
-        );
+        .eq("id",id)
+        .eq("user_id",currentUser.id);
 
 
     if(error){
 
-        alert(
-            "حذف نظر انجام نشد."
+        console.error(error);
+
+        showToast(
+            "حذف نظر انجام نشد.",
+            "error"
         );
 
         return;
-
     }
 
 
-    loadComments();
+    showToast(
+        "نظر حذف شد."
+    );
 
+
+    await loadComments(
+        currentPost.id
+    );
 }
 
 
-/* ================= LOGIN ================= */
+/* -------------------------
+   LATEST POSTS
+------------------------- */
 
-function openLoginPage(){
+async function loadLatestPosts(){
 
-    location.href =
-        "index.html?login=1";
+    const {
+        data,
+        error
+    } = await db
+        .from("posts")
+        .select(`
+            id,
+            title,
+            image_url,
+            created_at
+        `)
+        .order("created_at",{
+            ascending:false
+        })
+        .limit(6);
 
-}
 
+    if(error){
 
-db.auth.onAuthStateChange(
-    () => {
-
-        updateCommentUI();
-
-        loadComments();
-
+        return;
     }
-);
 
 
-/* ================= HOME ================= */
+    $("latestPosts").innerHTML = "";
 
-function goHome(){
 
-    location.href =
-        "index.html";
+    (data || []).forEach(post=>{
+
+        const item =
+            document.createElement("a");
+
+        item.className =
+            "latest-item";
+
+        item.href =
+            `article.html?id=${post.id}`;
+
+
+        if(post.image_url){
+
+            const img =
+                document.createElement("img");
+
+            img.className =
+                "latest-image";
+
+            img.src =
+                post.image_url;
+
+            img.alt =
+                "";
+
+            img.loading =
+                "lazy";
+
+            item.appendChild(img);
+
+        }
+
+
+        const content =
+            document.createElement("div");
+
+
+        const title =
+            document.createElement("div");
+
+        title.className =
+            "latest-title";
+
+        title.textContent =
+            post.title || "بدون عنوان";
+
+
+        const date =
+            document.createElement("span");
+
+        date.className =
+            "latest-date";
+
+        date.textContent =
+            formatDate(post.created_at);
+
+
+        content.appendChild(title);
+
+        content.appendChild(date);
+
+        item.appendChild(content);
+
+
+        $("latestPosts")
+            .appendChild(item);
+
+    });
 
 }
 
 
-/* ================= START ================= */
+/* -------------------------
+   ERROR
+------------------------- */
 
-loadArticle();
+function showError(message){
+
+    $("pageLoading").style.display =
+        "none";
+
+    $("articleLayout").style.display =
+        "none";
+
+    $("pageError").style.display =
+        "block";
+
+    $("errorText").textContent =
+        message;
+}
+
+
+/* -------------------------
+   START
+------------------------- */
+
+loadTheme();
+
+(async()=>{
+
+    await loadUser();
+
+    await loadPost();
+
+})();
 
 </script>
 
 </body>
-
 </html>
