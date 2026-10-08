@@ -1,994 +1,1057 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
-
-<title>پروفایل | PERSIAN STARK</title>
+<title>پروفایل من | PERSIAN STARK</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 :root{
-
---bg:#07111f;
---bg2:#0b1728;
---card:rgba(12,27,45,.94);
---card2:#102238;
-
---text:#f5f9ff;
---muted:#9eafc4;
-
---line:rgba(255,255,255,.09);
-
---accent:#00c8ff;
---accent2:#18e0c1;
-
---danger:#ff5577;
-
---header:rgba(5,14,26,.88);
-
---shadow:0 20px 60px rgba(0,0,0,.28);
-
+    --bg:#07111f;
+    --bg2:#0b1728;
+    --card:rgba(12,27,45,.93);
+    --card2:#102238;
+    --text:#f5f9ff;
+    --muted:#9eafc4;
+    --line:rgba(255,255,255,.09);
+    --accent:#00c8ff;
+    --accent2:#18e0c1;
+    --orange:#ff9d42;
+    --danger:#ff5577;
+    --header:rgba(5,14,26,.88);
+    --shadow:0 20px 60px rgba(0,0,0,.30);
+    --max:1180px;
 }
 
 html.light{
-
---bg:#f3f7fb;
---bg2:#eaf1f7;
-
---card:#fff;
---card2:#f7faff;
-
---text:#132238;
---muted:#607087;
-
---line:rgba(19,34,56,.12);
-
---accent:#008bc7;
---accent2:#009e89;
-
---danger:#d93458;
-
---header:rgba(255,255,255,.92);
-
---shadow:0 18px 45px rgba(30,55,80,.12);
-
+    --bg:#f3f7fb;
+    --bg2:#eaf1f7;
+    --card:#ffffff;
+    --card2:#f7faff;
+    --text:#132238;
+    --muted:#607087;
+    --line:rgba(19,34,56,.12);
+    --accent:#008bc7;
+    --accent2:#009e89;
+    --orange:#e87516;
+    --danger:#d93458;
+    --header:rgba(255,255,255,.92);
+    --shadow:0 18px 45px rgba(30,55,80,.12);
 }
 
 html{
-scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
+    min-height:100vh;
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
 
-min-height:100vh;
+    background:
+        linear-gradient(
+            rgba(3,5,16,.72),
+            rgba(3,5,16,.88)
+        ),
+        url("./background.jpg");
 
-font-family:
-Tahoma,
-Arial,
-sans-serif;
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    background-color:var(--bg);
 
-color:var(--text);
-
-background:
-
-linear-gradient(
-rgba(3,5,16,.72),
-rgba(3,5,16,.88)
-),
-
-url("./background.jpg");
-
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-
-overflow-x:hidden;
-
+    color:var(--text);
+    transition:.3s ease;
 }
 
 html.light body{
+    background:
+        linear-gradient(
+            rgba(243,247,251,.78),
+            rgba(243,247,251,.92)
+        ),
+        url("./background.jpg");
 
-background:
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
 
-linear-gradient(
-rgba(243,247,251,.90),
-rgba(243,247,251,.96)
-),
-
-url("./background.jpg");
-
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-
+a{
+    text-decoration:none;
+    color:inherit;
 }
 
 button,
 input{
-font-family:inherit;
+    font-family:inherit;
 }
 
 button{
-cursor:pointer;
+    cursor:pointer;
 }
 
-a{
-color:inherit;
-text-decoration:none;
+/* ================= HEADER ================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:var(--header);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border-bottom:1px solid var(--line);
 }
 
 .container{
-
-width:min(
-1180px,
-calc(100% - 30px)
-);
-
-margin:auto;
-
+    width:min(var(--max),calc(100% - 32px));
+    margin:auto;
 }
 
-/* HEADER */
+.nav{
+    min-height:76px;
 
-.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-position:sticky;
-top:0;
-
-z-index:100;
-
-background:var(--header);
-
-backdrop-filter:blur(20px);
-
-border-bottom:
-1px solid var(--line);
-
-}
-
-.header-inner{
-
-min-height:76px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-between;
-
-gap:20px;
-
+    gap:20px;
 }
 
 .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
 
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-font-weight:900;
-
+    font-size:20px;
+    font-weight:900;
+    white-space:nowrap;
 }
 
-.logo-icon{
+.logo-mark{
+    width:42px;
+    height:42px;
 
-width:45px;
-height:45px;
+    display:grid;
+    place-items:center;
 
-display:grid;
-place-items:center;
+    border-radius:13px;
 
-border-radius:14px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
 
-background:
-linear-gradient(
-135deg,
-var(--accent),
-var(--accent2)
-);
+    color:#03121c;
 
-color:#03121d;
-
-font-weight:1000;
-
+    box-shadow:
+        0 8px 25px rgba(0,200,255,.22);
 }
 
-.logo-text{
-
-font-size:18px;
-
+.logo span{
+    color:var(--accent);
 }
 
-.logo-text span{
-
-color:var(--accent);
-
+.nav-links{
+    display:flex;
+    gap:7px;
 }
 
-.header-actions{
+.nav-link{
+    padding:11px 14px;
 
-display:flex;
+    color:var(--muted);
 
-align-items:center;
+    border-radius:11px;
 
-gap:8px;
+    transition:.2s;
+}
 
+.nav-link:hover{
+    background:var(--card2);
+    color:var(--text);
+}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
 }
 
 .icon-btn{
+    width:42px;
+    height:42px;
 
-width:43px;
-height:43px;
+    display:grid;
+    place-items:center;
 
-border-radius:13px;
+    border:1px solid var(--line);
+    border-radius:12px;
 
-border:1px solid var(--line);
+    background:var(--card);
+    color:var(--text);
 
-background:var(--card2);
+    font-size:17px;
 
-color:var(--text);
-
-font-size:18px;
-
+    transition:.2s;
 }
 
-.home-btn{
-
-padding:11px 17px;
-
-border-radius:13px;
-
-background:
-linear-gradient(
-135deg,
-var(--accent),
-var(--accent2)
-);
-
-color:#03121d;
-
-font-weight:900;
-
+.icon-btn:hover{
+    transform:translateY(-2px);
+    border-color:rgba(0,200,255,.4);
 }
 
-/* PAGE */
+.back-btn{
+    border:1px solid var(--line);
+
+    background:var(--card);
+    color:var(--text);
+
+    padding:11px 15px;
+
+    border-radius:12px;
+
+    transition:.2s;
+}
+
+.back-btn:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+}
+
+/* ================= PAGE ================= */
 
 .page{
-
-padding:55px 0 80px;
-
+    padding:55px 0 70px;
 }
 
-.profile-grid{
-
-display:grid;
-
-grid-template-columns:
-300px
-minmax(0,1fr);
-
-gap:25px;
-
-align-items:start;
-
+.page-title{
+    margin-bottom:28px;
 }
 
-/* SIDEBAR */
+.page-title h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
 
-.profile-side{
+.page-title p{
+    color:var(--muted);
+    font-size:14px;
+}
 
-background:var(--card);
+/* ================= PROFILE LAYOUT ================= */
 
-border:1px solid var(--line);
+.profile-layout{
+    display:grid;
 
-border-radius:25px;
+    grid-template-columns:
+        310px
+        minmax(0,1fr);
 
-padding:28px;
+    gap:22px;
+}
 
-box-shadow:var(--shadow);
+/* ================= SIDEBAR ================= */
 
-text-align:center;
+.profile-card{
+    background:var(--card);
 
+    border:1px solid var(--line);
+
+    border-radius:23px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    height:max-content;
+}
+
+.avatar-wrap{
+    display:flex;
+    justify-content:center;
+
+    margin-bottom:18px;
 }
 
 .avatar{
+    width:105px;
+    height:105px;
 
-width:105px;
-height:105px;
+    border-radius:50%;
 
-margin:0 auto 18px;
+    display:grid;
+    place-items:center;
 
-display:grid;
-place-items:center;
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
 
-border-radius:50%;
+    color:#03121c;
 
-background:
-linear-gradient(
-135deg,
-var(--accent),
-var(--accent2)
-);
+    font-size:39px;
+    font-weight:900;
 
-color:#03121d;
-
-font-size:38px;
-
-font-weight:1000;
-
-box-shadow:
-0 15px 45px
-rgba(0,200,255,.20);
-
+    box-shadow:
+        0 12px 40px rgba(0,200,255,.20);
 }
 
 .profile-name{
+    text-align:center;
 
-font-size:21px;
+    font-size:21px;
+    font-weight:900;
 
-font-weight:950;
-
-word-break:break-word;
-
+    word-break:break-word;
 }
 
 .profile-email{
+    text-align:center;
 
-margin-top:7px;
+    color:var(--muted);
 
-font-size:12px;
+    font-size:12px;
 
-color:var(--muted);
+    margin-top:7px;
 
-word-break:break-all;
+    word-break:break-all;
+}
 
+.account-status{
+    display:flex;
+    justify-content:center;
+
+    margin-top:16px;
 }
 
 .status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
 
-display:inline-flex;
+    padding:7px 11px;
 
-align-items:center;
+    border-radius:999px;
 
-gap:7px;
+    background:rgba(24,224,193,.09);
 
-margin-top:18px;
+    border:1px solid rgba(24,224,193,.15);
 
-padding:7px 11px;
+    color:var(--accent2);
 
-border-radius:999px;
-
-font-size:11px;
-
-color:var(--accent2);
-
-background:
-rgba(24,224,193,.08);
-
-border:
-1px solid
-rgba(24,224,193,.15);
-
+    font-size:12px;
 }
 
 .status-dot{
+    width:7px;
+    height:7px;
 
-width:7px;
-height:7px;
+    border-radius:50%;
 
-border-radius:50%;
+    background:var(--accent2);
 
-background:var(--accent2);
-
+    box-shadow:
+        0 0 10px var(--accent2);
 }
 
-/* MAIN CARD */
+.profile-menu{
+    margin-top:25px;
 
-.card{
+    border-top:1px solid var(--line);
 
-background:var(--card);
-
-border:1px solid var(--line);
-
-border-radius:25px;
-
-padding:32px;
-
-box-shadow:var(--shadow);
-
+    padding-top:15px;
 }
 
-.card-title{
+.menu-item{
+    width:100%;
 
-font-size:25px;
+    border:0;
 
-font-weight:950;
+    background:transparent;
 
-margin-bottom:8px;
+    color:var(--muted);
 
+    padding:12px;
+
+    border-radius:11px;
+
+    text-align:right;
+
+    margin-bottom:5px;
+
+    transition:.2s;
 }
 
-.card-description{
-
-color:var(--muted);
-
-font-size:13px;
-
-line-height:2;
-
-margin-bottom:30px;
-
+.menu-item:hover{
+    background:var(--card2);
+    color:var(--text);
 }
 
-/* FORM */
+.menu-item.active{
+    background:
+        rgba(0,200,255,.09);
 
-.form-group{
-
-margin-bottom:22px;
-
+    color:var(--accent);
 }
 
-.form-label{
+.menu-item.logout{
+    color:var(--danger);
+}
 
-display:block;
+/* ================= MAIN CARD ================= */
 
-font-size:13px;
+.settings-card{
+    background:var(--card);
 
-font-weight:800;
+    border:1px solid var(--line);
 
-margin-bottom:9px;
+    border-radius:23px;
 
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+}
+
+.card-header{
+    padding:25px 27px;
+
+    border-bottom:1px solid var(--line);
+}
+
+.card-header h2{
+    font-size:22px;
+    margin-bottom:7px;
+}
+
+.card-header p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.8;
+}
+
+.form{
+    padding:27px;
+}
+
+.field{
+    margin-bottom:20px;
+}
+
+.field label{
+    display:block;
+
+    font-size:13px;
+
+    color:var(--muted);
+
+    margin-bottom:8px;
 }
 
 .input-wrap{
-
-position:relative;
-
+    position:relative;
 }
 
-.form-input{
+.field input{
+    width:100%;
 
-width:100%;
+    border:1px solid var(--line);
 
-height:51px;
+    background:var(--card2);
 
-padding:
-0 16px;
+    color:var(--text);
 
-border-radius:14px;
+    padding:14px;
 
-border:
-1px solid var(--line);
+    border-radius:13px;
 
-background:var(--card2);
+    outline:none;
 
-color:var(--text);
+    font-size:14px;
 
-outline:none;
-
-font-size:14px;
-
-direction:ltr;
-
-text-align:left;
-
-transition:.2s;
-
+    transition:.2s;
 }
 
-.form-input:focus{
+.field input:focus{
+    border-color:var(--accent);
 
-border-color:var(--accent);
-
-box-shadow:
-0 0 0 3px
-rgba(0,200,255,.08);
-
+    box-shadow:
+        0 0 0 3px rgba(0,200,255,.08);
 }
 
-.username-input{
-
-direction:rtl;
-
-text-align:right;
-
+.field input[readonly]{
+    opacity:.75;
+    cursor:not-allowed;
 }
 
-.trade-input{
+.field-help{
+    margin-top:8px;
 
-padding-left:110px;
+    color:var(--muted);
 
+    font-size:11px;
+
+    line-height:1.8;
 }
 
+/* ================= TRADE ================= */
+
+.trade-box{
+    border:1px solid rgba(0,200,255,.15);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,200,255,.055),
+            rgba(24,224,193,.035)
+        );
+
+    border-radius:17px;
+
+    padding:18px;
+
+    margin-top:8px;
+}
+
+.trade-title{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    font-size:15px;
+    font-weight:900;
+
+    margin-bottom:7px;
+}
+
+.trade-description{
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.9;
+
+    margin-bottom:14px;
+}
+
+.trade-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.trade-help,
 .copy-btn{
+    border-radius:11px;
 
-position:absolute;
+    padding:10px 13px;
 
-left:6px;
+    font-size:12px;
 
-top:6px;
-
-height:39px;
-
-padding:0 13px;
-
-border-radius:10px;
-
-background:var(--accent);
-
-color:#03121d;
-
-font-size:12px;
-
-font-weight:900;
-
-}
-
-.help{
-
-margin-top:9px;
-
-color:var(--muted);
-
-font-size:11px;
-
-line-height:1.9;
-
+    font-weight:800;
 }
 
 .trade-help{
+    border:0;
 
-display:flex;
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
 
-align-items:center;
-
-justify-content:space-between;
-
-gap:15px;
-
-margin-top:12px;
-
-padding:15px;
-
-border-radius:14px;
-
-background:var(--card2);
-
-border:1px solid var(--line);
-
+    color:#03121c;
 }
 
-.trade-help-text{
+.copy-btn{
+    border:1px solid var(--line);
 
-font-size:12px;
+    background:var(--card);
 
-color:var(--muted);
-
-line-height:1.9;
-
+    color:var(--text);
 }
 
-.steam-link{
-
-display:inline-flex;
-
-align-items:center;
-
-justify-content:center;
-
-white-space:nowrap;
-
-padding:10px 13px;
-
-border-radius:11px;
-
-background:
-rgba(0,200,255,.10);
-
-border:
-1px solid
-rgba(0,200,255,.18);
-
-color:var(--accent);
-
-font-size:11px;
-
-font-weight:900;
-
+.copy-btn:hover{
+    border-color:var(--accent);
 }
 
-/* ACTIONS */
+/* ================= SAVE ================= */
 
-.actions{
+.form-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-display:flex;
+    gap:15px;
 
-align-items:center;
+    border-top:1px solid var(--line);
 
-gap:10px;
+    padding-top:22px;
 
-margin-top:28px;
-
-padding-top:25px;
-
-border-top:
-1px solid var(--line);
-
+    margin-top:5px;
 }
 
 .save-btn{
+    border:0;
 
-min-height:48px;
+    padding:13px 23px;
 
-padding:
-0 23px;
+    border-radius:12px;
 
-border-radius:13px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
 
-background:
-linear-gradient(
-135deg,
-var(--accent),
-var(--accent2)
-);
+    color:#03121c;
 
-color:#03121d;
+    font-weight:900;
 
-font-weight:950;
-
-}
-
-.logout-btn{
-
-min-height:48px;
-
-padding:
-0 20px;
-
-border-radius:13px;
-
-background:transparent;
-
-border:
-1px solid
-rgba(255,85,119,.25);
-
-color:var(--danger);
-
-font-weight:800;
-
+    min-width:150px;
 }
 
 .save-btn:disabled{
-
-opacity:.55;
-
-cursor:not-allowed;
-
+    opacity:.6;
+    cursor:not-allowed;
 }
 
-/* INFO */
-
-.info-box{
-
-margin-top:25px;
-
-padding:18px;
-
-border-radius:17px;
-
-background:
-rgba(0,200,255,.06);
-
-border:
-1px solid
-rgba(0,200,255,.12);
-
+.save-status{
+    color:var(--muted);
+    font-size:12px;
 }
 
-.info-title{
+/* ================= SECURITY ================= */
 
-font-size:13px;
-
-font-weight:900;
-
-margin-bottom:7px;
-
+.security-section{
+    margin-top:22px;
 }
 
-.info-text{
+.security-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
 
-color:var(--muted);
-
-font-size:12px;
-
-line-height:2;
-
+    gap:12px;
 }
 
-/* TOAST */
+.security-item{
+    border:1px solid var(--line);
 
-.toast{
+    background:var(--card2);
 
-position:fixed;
+    border-radius:15px;
 
-left:20px;
-
-bottom:20px;
-
-z-index:999;
-
-max-width:360px;
-
-padding:14px 18px;
-
-border-radius:14px;
-
-background:var(--card);
-
-border:
-1px solid var(--line);
-
-box-shadow:var(--shadow);
-
-transform:
-translateY(30px);
-
-opacity:0;
-
-pointer-events:none;
-
-transition:.25s;
-
+    padding:17px;
 }
 
-.toast.show{
-
-transform:
-translateY(0);
-
-opacity:1;
-
+.security-item h3{
+    font-size:14px;
+    margin-bottom:7px;
 }
 
-.toast.error{
+.security-item p{
+    color:var(--muted);
 
-border-color:
-rgba(255,85,119,.35);
+    font-size:11px;
 
+    line-height:1.8;
+
+    margin-bottom:13px;
 }
 
-.toast.success{
+.security-btn{
+    border:1px solid var(--line);
 
-border-color:
-rgba(24,224,193,.35);
+    background:var(--card);
 
+    color:var(--text);
+
+    border-radius:10px;
+
+    padding:9px 12px;
+
+    font-size:11px;
 }
 
-/* LOADING */
+.security-btn:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+}
 
-.loading{
+/* ================= LOADING ================= */
 
-min-height:350px;
+.loading-screen{
+    min-height:70vh;
 
-display:grid;
+    display:flex;
 
-place-items:center;
+    align-items:center;
+    justify-content:center;
 
+    color:var(--muted);
+
+    font-size:14px;
 }
 
 .spinner{
+    width:25px;
+    height:25px;
 
-width:42px;
-height:42px;
+    border:3px solid var(--line);
 
-border:
-3px solid var(--line);
+    border-top-color:var(--accent);
 
-border-top-color:
-var(--accent);
+    border-radius:50%;
 
-border-radius:50%;
+    animation:spin .7s linear infinite;
 
-animation:
-spin .8s linear infinite;
-
+    margin-left:10px;
 }
 
 @keyframes spin{
-
-to{
-transform:rotate(360deg);
+    to{
+        transform:rotate(360deg);
+    }
 }
 
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    z-index:5000;
+
+    background:var(--card);
+
+    border:1px solid var(--line);
+
+    box-shadow:var(--shadow);
+
+    color:var(--text);
+
+    border-radius:13px;
+
+    padding:13px 17px;
+
+    max-width:350px;
+
+    transform:translateY(120px);
+
+    opacity:0;
+
+    transition:.25s;
+
+    font-size:13px;
 }
 
-/* MOBILE */
-
-@media(max-width:850px){
-
-.profile-grid{
-
-grid-template-columns:1fr;
-
+.toast.show{
+    transform:none;
+    opacity:1;
 }
 
-.profile-side{
-
-padding:25px;
-
+.toast.error{
+    border-color:rgba(255,85,119,.35);
 }
 
+.toast.success{
+    border-color:rgba(24,224,193,.35);
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+
+    z-index:4000;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.72);
+
+    backdrop-filter:blur(8px);
+
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(430px,100%);
+
+    background:var(--card);
+
+    border:1px solid var(--line);
+
+    border-radius:21px;
+
+    padding:25px;
+
+    box-shadow:0 30px 100px rgba(0,0,0,.45);
+}
+
+.modal-box h2{
+    font-size:20px;
+    margin-bottom:9px;
+}
+
+.modal-box p{
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.9;
+
+    margin-bottom:18px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+}
+
+.modal-primary,
+.modal-secondary{
+    flex:1;
+
+    padding:11px;
+
+    border-radius:11px;
+}
+
+.modal-primary{
+    border:0;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+
+    color:#03121c;
+
+    font-weight:900;
+}
+
+.modal-secondary{
+    border:1px solid var(--line);
+
+    background:var(--card2);
+
+    color:var(--text);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .profile-layout{
+        grid-template-columns:1fr;
+    }
+
+    .profile-card{
+        display:grid;
+
+        grid-template-columns:
+            120px
+            1fr;
+
+        gap:20px;
+
+        align-items:center;
+    }
+
+    .avatar-wrap{
+        grid-row:span 2;
+
+        margin:0;
+    }
+
+    .profile-name,
+    .profile-email,
+    .account-status{
+        text-align:right;
+        justify-content:flex-start;
+    }
+
+    .profile-menu{
+        grid-column:1/-1;
+        margin-top:5px;
+    }
 }
 
 @media(max-width:600px){
 
-.container{
+    .container{
+        width:min(100% - 20px,var(--max));
+    }
 
-width:
-calc(100% - 20px);
+    .nav{
+        min-height:68px;
+    }
 
+    .logo{
+        font-size:16px;
+    }
+
+    .logo-mark{
+        width:37px;
+        height:37px;
+    }
+
+    .back-btn{
+        padding:9px 11px;
+        font-size:12px;
+    }
+
+    .page{
+        padding:30px 0 50px;
+    }
+
+    .page-title h1{
+        font-size:27px;
+    }
+
+    .profile-card{
+        display:block;
+    }
+
+    .avatar-wrap{
+        margin-bottom:15px;
+    }
+
+    .profile-name,
+    .profile-email,
+    .account-status{
+        text-align:center;
+        justify-content:center;
+    }
+
+    .form,
+    .card-header{
+        padding:20px;
+    }
+
+    .form-footer{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .save-btn{
+        width:100%;
+    }
+
+    .security-grid{
+        grid-template-columns:1fr;
+    }
+
+    .trade-actions{
+        flex-direction:column;
+    }
+
+    .trade-help,
+    .copy-btn{
+        width:100%;
+    }
+
+    .toast{
+        right:10px;
+        left:10px;
+        bottom:10px;
+        max-width:none;
+    }
 }
-
-.header-inner{
-
-min-height:68px;
-
-}
-
-.logo-text{
-
-font-size:15px;
-
-}
-
-.logo-icon{
-
-width:40px;
-height:40px;
-
-}
-
-.home-btn{
-
-padding:
-9px 11px;
-
-font-size:12px;
-
-}
-
-.page{
-
-padding:
-25px 0 50px;
-
-}
-
-.card{
-
-padding:22px 18px;
-
-border-radius:20px;
-
-}
-
-.card-title{
-
-font-size:21px;
-
-}
-
-.trade-help{
-
-align-items:
-stretch;
-
-flex-direction:column;
-
-}
-
-.steam-link{
-
-width:100%;
-
-}
-
-.actions{
-
-flex-direction:column;
-
-}
-
-.save-btn,
-.logout-btn{
-
-width:100%;
-
-}
-
-.trade-input{
-
-padding-left:95px;
-
-}
-
-.toast{
-
-left:10px;
-
-right:10px;
-
-bottom:10px;
-
-max-width:none;
-
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
 
-<header class="header">
+<header>
 
-<div class="container header-inner">
+<div class="container nav">
 
 <a
-href="index.html"
+href="./index.html"
 class="logo"
 >
+    <div class="logo-mark">🎮</div>
 
-<div class="logo-icon">
-PS
-</div>
-
-<div class="logo-text">
-
-<span>PERSIAN</span>
-STARK
-
-</div>
-
+    <div>
+        PERSIAN <span>STARK</span>
+    </div>
 </a>
 
 
-<div class="header-actions">
+<div class="nav-links">
+
+<a
+href="./index.html"
+class="nav-link"
+>
+خانه
+</a>
+
+<a
+href="./index.html#posts"
+class="nav-link"
+>
+مطالب
+</a>
+
+</div>
+
+
+<div class="nav-actions">
 
 <button
-id="themeBtn"
 class="icon-btn"
+id="themeBtn"
 title="تغییر حالت"
 >
 ☀️
 </button>
 
 <a
-href="index.html"
-class="home-btn"
+href="./index.html"
+class="back-btn"
 >
-بازگشت به سایت
+← بازگشت به سایت
 </a>
 
 </div>
@@ -998,255 +1061,20 @@ class="home-btn"
 </header>
 
 
+<!-- ================= MAIN ================= -->
 
-<main class="page">
-
-<div class="container">
-
+<main>
 
 <div
-id="loading"
-class="card loading"
+class="container page"
+id="page"
 >
+
+<div class="loading-screen">
 
 <div class="spinner"></div>
 
-</div>
-
-
-<div
-id="notLogged"
-class="card"
-style="display:none;text-align:center;"
->
-
-<div style="font-size:55px;margin-bottom:15px;">
-🔐
-</div>
-
-<div class="card-title">
-ابتدا وارد حساب خود شوید
-</div>
-
-<div class="card-description">
-برای مشاهده و ویرایش پروفایل باید وارد حساب کاربری خود شوید.
-</div>
-
-<a
-href="index.html"
-class="home-btn"
->
-ورود / ثبت‌نام
-</a>
-
-</div>
-
-
-
-<div
-id="profileContent"
-class="profile-grid"
-style="display:none;"
->
-
-
-<aside class="profile-side">
-
-<div
-id="avatar"
-class="avatar"
->
-PS
-</div>
-
-<div
-id="sideUsername"
-class="profile-name"
->
-کاربر
-</div>
-
-<div
-id="sideEmail"
-class="profile-email"
->
-—
-</div>
-
-<div class="status">
-
-<span class="status-dot"></span>
-
-حساب فعال
-
-</div>
-
-</aside>
-
-
-
-<section class="card">
-
-<div class="card-title">
-پروفایل من
-</div>
-
-<div class="card-description">
-اطلاعات حساب کاربری و لینک Steam Trade خودت را از اینجا مدیریت کن.
-</div>
-
-
-<div class="form-group">
-
-<label
-class="form-label"
-for="username"
->
-نام کاربری
-</label>
-
-<input
-id="username"
-class="form-input username-input"
-type="text"
-maxlength="40"
-placeholder="نام کاربری"
->
-
-<div class="help">
-نامی که در بخش نظرات سایت نمایش داده می‌شود.
-</div>
-
-</div>
-
-
-
-<div class="form-group">
-
-<label
-class="form-label"
->
-ایمیل
-</label>
-
-<input
-id="email"
-class="form-input"
-type="email"
-readonly
->
-
-<div class="help">
-ایمیل حساب از اطلاعات ورود دریافت می‌شود و از این بخش قابل تغییر نیست.
-</div>
-
-</div>
-
-
-
-<div class="form-group">
-
-<label
-class="form-label"
-for="tradeUrl"
->
-Steam Trade Link
-</label>
-
-<div class="input-wrap">
-
-<input
-id="tradeUrl"
-class="form-input trade-input"
-type="url"
-dir="ltr"
-placeholder="https://steamcommunity.com/tradeoffer/new/?partner=..."
-autocomplete="off"
->
-
-<button
-id="copyBtn"
-class="copy-btn"
-type="button"
->
-کپی
-</button>
-
-</div>
-
-<div class="help">
-لینک Trade استیم خودت را اینجا قرار بده.
-</div>
-
-
-<div class="trade-help">
-
-<div class="trade-help-text">
-
-<strong style="color:var(--text);">
-Trade Link نداری؟
-</strong>
-
-<br>
-
-اگر نمی‌دانی لینک Trade خودت را از کجا پیدا کنی،
-روی دکمه روبه‌رو بزن.
-
-</div>
-
-
-<a
-href="https://steamcommunity.com/my/tradeoffers/privacy"
-target="_blank"
-rel="noopener noreferrer"
-class="steam-link"
->
-🔗 پیدا کردن Trade Link
-</a>
-
-</div>
-
-</div>
-
-
-
-<div class="actions">
-
-<button
-id="saveBtn"
-class="save-btn"
-type="button"
->
-ذخیره تغییرات
-</button>
-
-<button
-id="logoutBtn"
-class="logout-btn"
-type="button"
->
-خروج از حساب
-</button>
-
-</div>
-
-
-<div class="info-box">
-
-<div class="info-title">
-🔒 امنیت
-</div>
-
-<div class="info-text">
-Trade Link فقط در پروفایل خودت ذخیره می‌شود.
-اطلاعات ورود و رمز عبور در این صفحه نمایش داده نمی‌شود.
-برای امنیت بیشتر، لینک Trade را فقط در حساب خودت وارد کن.
-</div>
-
-</div>
-
-
-</section>
+در حال بارگذاری پروفایل...
 
 </div>
 
@@ -1255,544 +1083,1093 @@ Trade Link فقط در پروفایل خودت ذخیره می‌شود.
 </main>
 
 
+<!-- ================= TOAST ================= -->
+
 <div
-id="toast"
 class="toast"
+id="toast"
 ></div>
 
+
+<!-- ================= PASSWORD MODAL ================= -->
+
+<div
+class="modal"
+id="passwordModal"
+>
+
+<div class="modal-box">
+
+<h2>
+🔐 تغییر رمز عبور
+</h2>
+
+<p>
+با تأیید این گزینه، یک لینک تغییر رمز
+به ایمیل حساب شما ارسال خواهد شد.
+</p>
+
+<div class="modal-actions">
+
+<button
+class="modal-secondary"
+id="cancelPassword"
+>
+انصراف
+</button>
+
+<button
+class="modal-primary"
+id="confirmPassword"
+>
+ارسال لینک
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 
 <script>
 
+/* =========================================================
+   SUPABASE
+========================================================= */
+
 const { createClient } = supabase;
 
-
 const db = createClient(
-
-"https://jmdoxofcyoxdrtxvvuiu.supabase.co",
-
-"sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74",
-
-{
-
-auth:{
-
-persistSession:true,
-
-autoRefreshToken:true,
-
-detectSessionInUrl:true,
-
-storageKey:"persian-stark-auth"
-
-}
-
-}
-
+    "https://jmdoxofcyoxdrtxvvuiu.supabase.co",
+    "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74",
+    {
+        auth:{
+            persistSession:true,
+            autoRefreshToken:true,
+            detectSessionInUrl:true,
+            storageKey:"persian-stark-auth"
+        }
+    }
 );
 
 
+/* =========================================================
+   GLOBALS
+========================================================= */
 
 let currentUser = null;
+let currentProfile = null;
+
+const page =
+    document.getElementById("page");
+
+const themeBtn =
+    document.getElementById("themeBtn");
+
+const toast =
+    document.getElementById("toast");
+
+const passwordModal =
+    document.getElementById("passwordModal");
+
+const cancelPassword =
+    document.getElementById("cancelPassword");
+
+const confirmPassword =
+    document.getElementById("confirmPassword");
 
 
+/* =========================================================
+   TOAST
+========================================================= */
 
-const $ = id =>
-document.getElementById(id);
+let toastTimer;
 
+function showToast(
+    message,
+    type="success"
+){
 
+    clearTimeout(toastTimer);
 
-/* THEME */
+    toast.textContent =
+        message;
 
-function loadTheme(){
+    toast.className =
+        "toast show " + type;
 
-const theme =
-localStorage.getItem("ps-theme")
-|| "dark";
-
-document.documentElement
-.classList.toggle(
-"light",
-theme === "light"
-);
-
-$("themeBtn").textContent =
-theme === "light"
-? "🌙"
-: "☀️";
-
+    toastTimer =
+        setTimeout(()=>{
+            toast.className =
+                "toast";
+        },3500);
 }
 
 
-$("themeBtn")
-.addEventListener(
-"click",
-()=>{
+/* =========================================================
+   THEME
+========================================================= */
 
-const isLight =
-document.documentElement
-.classList.contains("light");
+function applyTheme(theme){
 
-const next =
-isLight
-? "dark"
-: "light";
+    if(theme === "light"){
 
-document.documentElement
-.classList.toggle(
-"light",
-next === "light"
-);
+        document.documentElement
+            .classList.add("light");
 
-localStorage.setItem(
-"ps-theme",
-next
-);
+        themeBtn.textContent =
+            "🌙";
 
-$("themeBtn").textContent =
-next === "light"
-? "🌙"
-: "☀️";
+    }else{
 
-});
+        document.documentElement
+            .classList.remove("light");
 
-
-
-/* TOAST */
-
-function toast(message,type="success"){
-
-const el =
-$("toast");
-
-el.textContent =
-message;
-
-el.className =
-`toast show ${type}`;
-
-clearTimeout(
-window.toastTimer
-);
-
-window.toastTimer =
-setTimeout(
-()=>{
-
-el.className =
-"toast";
-
-},
-3500
-);
-
+        themeBtn.textContent =
+            "☀️";
+    }
 }
 
 
+const savedTheme =
+    localStorage.getItem(
+        "persian-stark-theme"
+    ) || "dark";
 
-/* GET SESSION */
-
-async function getUser(){
-
-const {
-data,
-error
-} =
-await db.auth.getSession();
+applyTheme(savedTheme);
 
 
-if(error){
+themeBtn.addEventListener(
+    "click",
+    ()=>{
 
-console.error(error);
+        const isLight =
+            document.documentElement
+                .classList.contains("light");
 
-return null;
+        const newTheme =
+            isLight
+                ? "dark"
+                : "light";
 
+        localStorage.setItem(
+            "persian-stark-theme",
+            newTheme
+        );
+
+        applyTheme(newTheme);
+    }
+);
+
+
+/* =========================================================
+   LOAD USER
+========================================================= */
+
+async function loadUser(){
+
+    const {
+        data,
+        error
+    } = await db.auth.getSession();
+
+    if(error){
+
+        console.error(error);
+
+        redirectHome();
+
+        return;
+    }
+
+
+    currentUser =
+        data?.session?.user || null;
+
+
+    if(!currentUser){
+
+        redirectHome();
+
+        return;
+    }
+
+
+    await loadProfile();
 }
 
-return data?.session?.user || null;
 
-}
-
-
-
-/* LOAD PROFILE */
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
 
 async function loadProfile(){
 
-currentUser =
-await getUser();
+    const {
+        data,
+        error
+    } = await db
+        .from("profiles")
+        .select(
+            "id,username,steam_trade_url,created_at,updated_at"
+        )
+        .eq(
+            "id",
+            currentUser.id
+        )
+        .maybeSingle();
 
 
-$("loading").style.display =
-"none";
+    if(error){
+
+        console.error(error);
+
+        showToast(
+            "دریافت اطلاعات پروفایل با خطا مواجه شد.",
+            "error"
+        );
+    }
 
 
-if(!currentUser){
+    currentProfile =
+        data || null;
 
-$("notLogged").style.display =
-"block";
 
-return;
-
+    renderProfile();
 }
 
 
-$("profileContent").style.display =
-"grid";
+/* =========================================================
+   RENDER PROFILE
+========================================================= */
+
+function renderProfile(){
+
+    const email =
+        currentUser.email || "";
 
 
-$("email").value =
-currentUser.email || "";
+    const username =
+        currentProfile?.username?.trim() ||
+        email.split("@")[0] ||
+        "کاربر";
 
 
-$("sideEmail").textContent =
-currentUser.email || "—";
+    const tradeUrl =
+        currentProfile?.steam_trade_url ||
+        "";
 
 
-const {
-data,
-error
-} =
-await db
-.from("profiles")
-.select(`
-id,
-username,
-steam_trade_url
-`)
-.eq("id",currentUser.id)
-.maybeSingle();
+    const initial =
+        username
+            .charAt(0)
+            .toUpperCase();
 
 
-if(error){
+    const createdDate =
+        currentProfile?.created_at
+            ? new Date(
+                currentProfile.created_at
+            ).toLocaleDateString(
+                "fa-IR"
+            )
+            : "—";
 
-console.error(error);
 
-toast(
-"دریافت اطلاعات پروفایل با خطا مواجه شد.",
-"error"
-);
+    page.innerHTML = `
 
-return;
+        <div class="page-title">
 
+            <h1>
+                👤 پروفایل من
+            </h1>
+
+            <p>
+                اطلاعات حساب و تنظیمات شخصی خودت را مدیریت کن.
+            </p>
+
+        </div>
+
+
+        <div class="profile-layout">
+
+
+            <!-- SIDEBAR -->
+
+            <aside class="profile-card">
+
+                <div class="avatar-wrap">
+
+                    <div class="avatar">
+                        ${escapeHtml(initial)}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="profile-name">
+                        ${escapeHtml(username)}
+                    </div>
+
+                    <div class="profile-email">
+                        ${escapeHtml(email)}
+                    </div>
+
+
+                    <div class="account-status">
+
+                        <div class="status">
+
+                            <span class="status-dot"></span>
+
+                            حساب فعال
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-menu">
+
+                    <button
+                        class="menu-item active"
+                        type="button"
+                    >
+                        👤 اطلاعات پروفایل
+                    </button>
+
+
+                    <button
+                        class="menu-item"
+                        id="securityMenu"
+                        type="button"
+                    >
+                        🔐 امنیت حساب
+                    </button>
+
+
+                    <button
+                        class="menu-item logout"
+                        id="logoutProfile"
+                        type="button"
+                    >
+                        🚪 خروج از حساب
+                    </button>
+
+                </div>
+
+            </aside>
+
+
+            <!-- MAIN -->
+
+            <section>
+
+                <div class="settings-card">
+
+                    <div class="card-header">
+
+                        <h2>
+                            اطلاعات حساب
+                        </h2>
+
+                        <p>
+                            اطلاعات زیر مربوط به حساب فعلی شماست.
+                            ایمیل حساب قابل تغییر مستقیم نیست.
+                        </p>
+
+                    </div>
+
+
+                    <form
+                        class="form"
+                        id="profileForm"
+                    >
+
+
+                        <div class="field">
+
+                            <label>
+                                نام کاربری
+                            </label>
+
+                            <input
+                                type="text"
+                                id="usernameInput"
+                                value="${escapeHtml(username)}"
+                                maxlength="40"
+                                placeholder="نام کاربری"
+                                autocomplete="nickname"
+                            >
+
+                            <div class="field-help">
+                                این نام کنار نظرات شما در مطالب سایت نمایش داده می‌شود.
+                            </div>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                ایمیل حساب
+                            </label>
+
+                            <input
+                                type="email"
+                                value="${escapeHtml(email)}"
+                                readonly
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label>
+                                Steam Trade Link
+                            </label>
+
+
+                            <div class="trade-box">
+
+                                <div class="trade-title">
+                                    🎮 اتصال حساب Steam
+                                </div>
+
+
+                                <div class="trade-description">
+                                    لینک Trade استیم خودت را اینجا قرار بده تا
+                                    برای استفاده‌های بعدی در پروفایلت ذخیره شود.
+                                </div>
+
+
+                                <input
+                                    type="url"
+                                    id="tradeInput"
+                                    value="${escapeHtml(tradeUrl)}"
+                                    placeholder="https://steamcommunity.com/tradeoffer/new/?partner=..."
+                                >
+
+
+                                <div class="trade-actions">
+
+                                    <a
+                                        href="https://steamcommunity.com/my/tradeoffers/privacy"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="trade-help"
+                                    >
+                                        🔗 پیدا کردن Trade Link
+                                    </a>
+
+
+                                    <button
+                                        type="button"
+                                        class="copy-btn"
+                                        id="copyTradeBtn"
+                                    >
+                                        📋 کپی لینک
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="field-help">
+                                اگر Trade Link نداری، روی «پیدا کردن Trade Link» بزن.
+                                صفحه مربوط به Steam باز می‌شود و می‌توانی لینک خودت را کپی کنی.
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-footer">
+
+                            <div
+                                class="save-status"
+                                id="saveStatus"
+                            >
+                                آخرین بروزرسانی:
+                                ${currentProfile?.updated_at
+                                    ? new Date(
+                                        currentProfile.updated_at
+                                      ).toLocaleString("fa-IR")
+                                    : "هنوز ذخیره نشده"}
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="save-btn"
+                                id="saveBtn"
+                            >
+                                💾 ذخیره تغییرات
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- SECURITY -->
+
+                <div
+                    class="settings-card security-section"
+                    id="securitySection"
+                >
+
+                    <div class="card-header">
+
+                        <h2>
+                            🔐 امنیت حساب
+                        </h2>
+
+                        <p>
+                            گزینه‌های مربوط به امنیت حساب کاربری.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form">
+
+                        <div class="security-grid">
+
+                            <div class="security-item">
+
+                                <h3>
+                                    تغییر رمز عبور
+                                </h3>
+
+                                <p>
+                                    لینک تغییر رمز عبور به ایمیل حساب شما ارسال می‌شود.
+                                </p>
+
+                                <button
+                                    class="security-btn"
+                                    id="changePasswordBtn"
+                                    type="button"
+                                >
+                                    ارسال لینک تغییر رمز
+                                </button>
+
+                            </div>
+
+
+                            <div class="security-item">
+
+                                <h3>
+                                    وضعیت ایمیل
+                                </h3>
+
+                                <p>
+                                    ایمیل حساب:
+                                    ${currentUser.email_confirmed_at
+                                        ? "تأیید شده"
+                                        : "هنوز تأیید نشده"}
+                                </p>
+
+                                <span
+                                    class="status"
+                                    style="
+                                        font-size:10px;
+                                        display:inline-flex;
+                                    "
+                                >
+                                    ${
+                                        currentUser.email_confirmed_at
+                                        ? "✓ تأیید شده"
+                                        : "⚠ نیاز به تأیید"
+                                    }
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+    `;
+
+
+    bindProfileEvents();
 }
 
 
-const username =
-data?.username
-||
-currentUser.email?.split("@")[0]
-||
-"کاربر";
+/* =========================================================
+   PROFILE EVENTS
+========================================================= */
+
+function bindProfileEvents(){
+
+    const form =
+        document.getElementById(
+            "profileForm"
+        );
+
+    const usernameInput =
+        document.getElementById(
+            "usernameInput"
+        );
+
+    const tradeInput =
+        document.getElementById(
+            "tradeInput"
+        );
+
+    const copyTradeBtn =
+        document.getElementById(
+            "copyTradeBtn"
+        );
+
+    const saveBtn =
+        document.getElementById(
+            "saveBtn"
+        );
+
+    const logoutProfile =
+        document.getElementById(
+            "logoutProfile"
+        );
+
+    const securityMenu =
+        document.getElementById(
+            "securityMenu"
+        );
+
+    const changePasswordBtn =
+        document.getElementById(
+            "changePasswordBtn"
+        );
 
 
-$("username").value =
-username;
+    /* SAVE */
+
+    form.addEventListener(
+        "submit",
+        async e=>{
+
+            e.preventDefault();
 
 
-$("tradeUrl").value =
-data?.steam_trade_url || "";
+            const username =
+                usernameInput.value.trim();
+
+            const tradeUrl =
+                tradeInput.value.trim();
 
 
-$("sideUsername").textContent =
-username;
+            if(username.length < 3){
+
+                showToast(
+                    "نام کاربری باید حداقل ۳ کاراکتر باشد.",
+                    "error"
+                );
+
+                usernameInput.focus();
+
+                return;
+            }
 
 
-const first =
-username
-.trim()
-.charAt(0)
-.toUpperCase();
+            if(username.length > 40){
+
+                showToast(
+                    "نام کاربری بیش از حد طولانی است.",
+                    "error"
+                );
+
+                return;
+            }
 
 
-$("avatar").textContent =
-first || "PS";
+            if(
+                tradeUrl &&
+                !isValidSteamTradeUrl(tradeUrl)
+            ){
 
+                showToast(
+                    "Steam Trade Link واردشده معتبر نیست.",
+                    "error"
+                );
+
+                tradeInput.focus();
+
+                return;
+            }
+
+
+            saveBtn.disabled =
+                true;
+
+            saveBtn.textContent =
+                "در حال ذخیره...";
+
+
+            try{
+
+                const {
+                    data,
+                    error
+                } = await db
+                    .from("profiles")
+                    .upsert({
+
+                        id:currentUser.id,
+
+                        username:username,
+
+                        steam_trade_url:
+                            tradeUrl || null,
+
+                        updated_at:
+                            new Date().toISOString()
+
+                    },{
+                        onConflict:"id"
+                    })
+                    .select()
+                    .single();
+
+
+                if(error)
+                    throw error;
+
+
+                currentProfile =
+                    data;
+
+
+                showToast(
+                    "اطلاعات پروفایل با موفقیت ذخیره شد."
+                );
+
+
+                renderProfile();
+
+
+            }catch(error){
+
+                console.error(error);
+
+                showToast(
+                    error.message ||
+                    "ذخیره اطلاعات انجام نشد.",
+                    "error"
+                );
+
+            }finally{
+
+                saveBtn.disabled =
+                    false;
+
+                saveBtn.textContent =
+                    "💾 ذخیره تغییرات";
+            }
+
+        }
+    );
+
+
+    /* COPY */
+
+    copyTradeBtn.addEventListener(
+        "click",
+        async ()=>{
+
+            const value =
+                tradeInput.value.trim();
+
+
+            if(!value){
+
+                showToast(
+                    "ابتدا Trade Link را وارد کنید.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            try{
+
+                await navigator.clipboard.writeText(
+                    value
+                );
+
+                showToast(
+                    "Trade Link کپی شد 📋"
+                );
+
+            }catch(error){
+
+                tradeInput.select();
+
+                document.execCommand(
+                    "copy"
+                );
+
+                showToast(
+                    "Trade Link کپی شد 📋"
+                );
+            }
+        }
+    );
+
+
+    /* LOGOUT */
+
+    logoutProfile.addEventListener(
+        "click",
+        async ()=>{
+
+            const {
+                error
+            } = await db.auth.signOut();
+
+
+            if(error){
+
+                showToast(
+                    "خروج از حساب انجام نشد.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            location.href =
+                "./index.html";
+        }
+    );
+
+
+    /* SECURITY SCROLL */
+
+    securityMenu.addEventListener(
+        "click",
+        ()=>{
+
+            document
+                .getElementById(
+                    "securitySection"
+                )
+                .scrollIntoView({
+                    behavior:"smooth"
+                });
+        }
+    );
+
+
+    /* PASSWORD */
+
+    changePasswordBtn.addEventListener(
+        "click",
+        ()=>{
+            passwordModal.classList.add(
+                "show"
+            );
+        }
+    );
 }
 
 
+/* =========================================================
+   PASSWORD RESET
+========================================================= */
 
-/* SAVE */
-
-$("saveBtn")
-.addEventListener(
-"click",
-async()=>{
-
-if(!currentUser){
-
-toast(
-"ابتدا وارد حساب شوید.",
-"error"
+cancelPassword.addEventListener(
+    "click",
+    ()=>{
+        passwordModal.classList.remove(
+            "show"
+        );
+    }
 );
 
-return;
 
+passwordModal.addEventListener(
+    "click",
+    e=>{
+
+        if(e.target === passwordModal){
+
+            passwordModal.classList.remove(
+                "show"
+            );
+        }
+    }
+);
+
+
+confirmPassword.addEventListener(
+    "click",
+    async ()=>{
+
+        confirmPassword.disabled =
+            true;
+
+        confirmPassword.textContent =
+            "در حال ارسال...";
+
+
+        try{
+
+            const {
+                error
+            } = await db
+                .auth
+                .resetPasswordForEmail(
+                    currentUser.email,
+                    {
+                        redirectTo:
+                            window.location.origin +
+                            "/profile.html"
+                    }
+                );
+
+
+            if(error)
+                throw error;
+
+
+            passwordModal.classList.remove(
+                "show"
+            );
+
+
+            showToast(
+                "لینک تغییر رمز به ایمیل شما ارسال شد."
+            );
+
+        }catch(error){
+
+            console.error(error);
+
+            showToast(
+                error.message ||
+                "ارسال لینک انجام نشد.",
+                "error"
+            );
+
+        }finally{
+
+            confirmPassword.disabled =
+                false;
+
+            confirmPassword.textContent =
+                "ارسال لینک";
+        }
+    }
+);
+
+
+/* =========================================================
+   VALIDATE STEAM TRADE URL
+========================================================= */
+
+function isValidSteamTradeUrl(url){
+
+    try{
+
+        const parsed =
+            new URL(url);
+
+
+        return (
+            parsed.protocol === "https:" &&
+            parsed.hostname ===
+                "steamcommunity.com" &&
+            parsed.pathname.startsWith(
+                "/tradeoffer/"
+            )
+        );
+
+    }catch(error){
+
+        return false;
+    }
 }
 
 
-const username =
-$("username")
-.value
-.trim();
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+        return "";
+    }
 
 
-const tradeUrl =
-$("tradeUrl")
-.value
-.trim();
-
-
-if(!username){
-
-toast(
-"نام کاربری را وارد کنید.",
-"error"
-);
-
-return;
-
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
-if(username.length < 3){
+/* =========================================================
+   REDIRECT
+========================================================= */
 
-toast(
-"نام کاربری باید حداقل ۳ کاراکتر باشد.",
-"error"
-);
+function redirectHome(){
 
-return;
+    showToast(
+        "برای مشاهده پروفایل ابتدا وارد حساب شوید.",
+        "error"
+    );
 
+    setTimeout(()=>{
+        location.href =
+            "./index.html";
+    },900);
 }
 
 
-if(username.length > 40){
-
-toast(
-"نام کاربری نباید بیشتر از ۴۰ کاراکتر باشد.",
-"error"
-);
-
-return;
-
-}
-
-
-/* TRADE URL VALIDATION */
-
-if(tradeUrl){
-
-let valid = false;
-
-try{
-
-const url =
-new URL(tradeUrl);
-
-valid =
-url.protocol === "https:"
-&&
-url.hostname ===
-"steamcommunity.com"
-&&
-url.pathname
-.includes("/tradeoffer/");
-
-}catch(e){
-
-valid = false;
-
-}
-
-
-if(!valid){
-
-toast(
-"لینک Steam Trade معتبر نیست.",
-"error"
-);
-
-return;
-
-}
-
-}
-
-
-const button =
-$("saveBtn");
-
-
-button.disabled =
-true;
-
-button.textContent =
-"در حال ذخیره...";
-
-
-const {
-error
-} =
-await db
-.from("profiles")
-.upsert({
-
-id:currentUser.id,
-
-username:username,
-
-steam_trade_url:
-tradeUrl || null,
-
-updated_at:
-new Date().toISOString()
-
-},{
-onConflict:"id"
-});
-
-
-button.disabled =
-false;
-
-button.textContent =
-"ذخیره تغییرات";
-
-
-if(error){
-
-console.error(error);
-
-toast(
-"ذخیره اطلاعات انجام نشد.",
-"error"
-);
-
-return;
-
-}
-
-
-$("sideUsername")
-.textContent =
-username;
-
-
-$("avatar")
-.textContent =
-username
-.charAt(0)
-.toUpperCase();
-
-
-toast(
-"پروفایل با موفقیت ذخیره شد."
-);
-
-});
-
-
-
-/* COPY TRADE LINK */
-
-$("copyBtn")
-.addEventListener(
-"click",
-async()=>{
-
-const value =
-$("tradeUrl")
-.value.trim();
-
-
-if(!value){
-
-toast(
-"ابتدا Trade Link را وارد کن.",
-"error"
-);
-
-return;
-
-}
-
-
-try{
-
-await navigator.clipboard.writeText(
-value
-);
-
-toast(
-"Trade Link کپی شد."
-);
-
-}catch(e){
-
-$("tradeUrl").select();
-
-document.execCommand("copy");
-
-toast(
-"Trade Link کپی شد."
-);
-
-}
-
-});
-
-
-
-/* LOGOUT */
-
-$("logoutBtn")
-.addEventListener(
-"click",
-async()=>{
-
-const ok =
-confirm(
-"آیا می‌خواهی از حساب خود خارج شوی؟"
-);
-
-if(!ok) return;
-
-
-await db.auth.signOut();
-
-
-window.location.href =
-"index.html";
-
-});
-
-
-
-/* AUTH CHANGES */
+/* =========================================================
+   AUTH STATE
+========================================================= */
 
 db.auth.onAuthStateChange(
-(event,session)=>{
+    (event,session)=>{
 
-currentUser =
-session?.user || null;
+        if(!session){
 
-if(!currentUser){
-
-window.location.href =
-"index.html";
-
-}
-
-});
+            location.href =
+                "./index.html";
+        }
+    }
+);
 
 
+/* =========================================================
+   START
+========================================================= */
 
-/* START */
-
-loadTheme();
-
-loadProfile();
+loadUser();
 
 </script>
 
