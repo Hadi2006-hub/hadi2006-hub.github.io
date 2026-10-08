@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>زیرنویس‌های رایگان | PERSIAN STARK</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+    --bg:#07111f;
+    --bg2:#0b1728;
+    --card:rgba(12,27,45,.92);
+    --card2:#102238;
+    --text:#f5f9ff;
+    --muted:#9eafc4;
+    --line:rgba(255,255,255,.09);
+    --accent:#00c8ff;
+    --accent2:#18e0c1;
+    --orange:#ff9d42;
+    --danger:#ff5577;
+    --header:rgba(5,14,26,.88);
+    --shadow:0 20px 60px rgba(0,0,0,.28);
+    --max:1380px;
+}
+
+html.light{
+    --bg:#f3f7fb;
+    --bg2:#eaf1f7;
+    --card:#fff;
+    --card2:#f7faff;
+    --text:#132238;
+    --muted:#607087;
+    --line:rgba(19,34,56,.12);
+    --accent:#008bc7;
+    --accent2:#009e89;
+    --orange:#e87516;
+    --danger:#d93458;
+    --header:rgba(255,255,255,.92);
+    --shadow:0 18px 45px rgba(30,55,80,.12);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+
+    background:
+        linear-gradient(
+            rgba(3,5,16,.72),
+            rgba(3,5,16,.88)
+        ),
+        url("./background.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    transition:
+        background-color .3s,
+        color .3s;
+}
+
+html.light body{
+    background:
+        linear-gradient(
+            rgba(243,247,251,.88),
+            rgba(243,247,251,.94)
+        ),
+        url("./background.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    font-family:inherit;
+}
+
+.container{
+    width:min(
+        calc(100% - 32px),
+        var(--max)
+    );
+    margin:auto;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:var(--header);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border-bottom:1px solid var(--line);
+}
+
+.nav{
+    min-height:76px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:.4px;
+
+    white-space:nowrap;
+}
+
+.logo-mark{
+    width:42px;
+    height:42px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+
+    color:#03111b;
+
+    box-shadow:
+        0 8px 30px rgba(0,200,255,.22);
+}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.nav-btn{
+    border:1px solid var(--line);
+    background:var(--card);
+
+    color:var(--text);
+
+    height:42px;
+    padding:0 14px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.nav-btn:hover{
+    transform:translateY(-2px);
+    border-color:var(--accent);
+}
+
+.home-btn{
+    color:var(--accent);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    margin-top:32px;
+
+    padding:42px;
+
+    border:1px solid var(--line);
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,200,255,.12),
+            rgba(24,224,193,.06),
+            rgba(255,255,255,.025)
+        ),
+        var(--card);
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+.hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:280px;
+    height:280px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,200,255,.18),
+            transparent 70%
+        );
+
+    left:-100px;
+    bottom:-130px;
+
+    pointer-events:none;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+
+    max-width:850px;
+}
+
+.hero-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:8px 13px;
+
+    border-radius:999px;
+
+    background:rgba(0,200,255,.09);
+    border:1px solid rgba(0,200,255,.2);
+
+    color:var(--accent);
+
+    font-size:13px;
+    font-weight:bold;
+
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(30px,5vw,54px);
+    line-height:1.2;
+
+    margin-bottom:15px;
+}
+
+.hero h1 span{
+    color:var(--accent);
+}
+
+.hero p{
+    color:var(--muted);
+
+    font-size:16px;
+    line-height:2;
+
+    max-width:760px;
+}
+
+/* ================= SECTION ================= */
+
+.section-head{
+    margin-top:38px;
+    margin-bottom:20px;
+
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.section-title{
+    font-size:25px;
+    font-weight:900;
+}
+
+.section-title span{
+    color:var(--accent);
+}
+
+.result-count{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* ================= GRID ================= */
+
+.posts-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:20px;
+}
+
+.post-card{
+    min-width:0;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    background:var(--card);
+
+    border:1px solid var(--line);
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.14);
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.post-card:hover{
+    transform:translateY(-7px);
+
+    border-color:
+        rgba(0,200,255,.42);
+
+    box-shadow:
+        0 22px 55px rgba(0,0,0,.24);
+}
+
+.post-image{
+    width:100%;
+    aspect-ratio:16/9;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--card2),
+            var(--bg2)
+        );
+
+    overflow:hidden;
+}
+
+.post-image img{
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+
+    transition:
+        transform .45s ease;
+}
+
+.post-card:hover .post-image img{
+    transform:scale(1.05);
+}
+
+.post-body{
+    padding:18px;
+
+    display:flex;
+    flex-direction:column;
+
+    flex:1;
+}
+
+.post-category{
+    display:inline-flex;
+    align-items:center;
+
+    width:max-content;
+
+    padding:6px 10px;
+
+    border-radius:8px;
+
+    background:
+        rgba(0,200,255,.09);
+
+    color:var(--accent);
+
+    border:
+        1px solid rgba(0,200,255,.15);
+
+    font-size:11px;
+    font-weight:bold;
+
+    margin-bottom:12px;
+}
+
+.post-title{
+    font-size:17px;
+    line-height:1.7;
+
+    margin-bottom:9px;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+.post-description{
+    color:var(--muted);
+
+    font-size:13px;
+    line-height:1.9;
+
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+
+    margin-bottom:18px;
+}
+
+.post-footer{
+    margin-top:auto;
+
+    padding-top:14px;
+
+    border-top:1px solid var(--line);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+}
+
+.post-date{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.read-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:9px 13px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+
+    color:#03111b;
+
+    font-size:12px;
+    font-weight:900;
+
+    white-space:nowrap;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    grid-column:1/-1;
+
+    min-height:240px;
+
+    display:grid;
+    place-items:center;
+
+    border:1px solid var(--line);
+    border-radius:20px;
+
+    background:var(--card);
+
+    color:var(--muted);
+}
+
+.loader{
+    width:42px;
+    height:42px;
+
+    border:3px solid var(--line);
+    border-top-color:var(--accent);
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+    margin:auto auto 15px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    grid-column:1/-1;
+
+    padding:70px 20px;
+
+    text-align:center;
+
+    border:
+        1px dashed var(--line);
+
+    border-radius:22px;
+
+    background:var(--card);
+
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:52px;
+    margin-bottom:15px;
+}
+
+/* ================= MORE ================= */
+
+.more-wrap{
+    display:flex;
+    justify-content:center;
+
+    margin:
+        30px
+        0
+        55px;
+}
+
+.more-btn{
+    min-width:230px;
+
+    height:50px;
+
+    border:1px solid
+        rgba(0,200,255,.3);
+
+    border-radius:13px;
+
+    background:var(--card);
+
+    color:var(--accent);
+
+    font-size:14px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.more-btn:hover{
+    transform:translateY(-3px);
+
+    background:
+        rgba(0,200,255,.08);
+
+    border-color:
+        var(--accent);
+}
+
+.more-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+
+    left:20px;
+    bottom:20px;
+
+    z-index:5000;
+
+    padding:13px 17px;
+
+    border-radius:13px;
+
+    background:
+        var(--card);
+
+    border:1px solid var(--line);
+
+    box-shadow:var(--shadow);
+
+    transform:
+        translateY(30px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.3s;
+
+    font-size:13px;
+}
+
+.toast.show{
+    transform:
+        translateY(0);
+
+    opacity:1;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    margin-top:70px;
+
+    border-top:1px solid var(--line);
+
+    padding:28px 0;
+
+    color:var(--muted);
+
+    text-align:center;
+
+    font-size:12px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1100px){
+
+    .posts-grid{
+        grid-template-columns:
+            repeat(3,minmax(0,1fr));
+    }
+}
+
+@media(max-width:800px){
+
+    .posts-grid{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .hero{
+        padding:30px 24px;
+    }
+
+    .logo{
+        font-size:18px;
+    }
+
+    .logo-mark{
+        width:38px;
+        height:38px;
+    }
+
+    .nav-btn{
+        padding:0 11px;
+    }
+}
+
+@media(max-width:560px){
+
+    .container{
+        width:min(
+            calc(100% - 20px),
+            var(--max)
+        );
+    }
+
+    .nav{
+        min-height:68px;
+    }
+
+    .home-btn{
+        font-size:0;
+        width:42px;
+        padding:0;
+    }
+
+    .home-btn::before{
+        content:"⌂";
+        font-size:19px;
+    }
+
+    .hero{
+        margin-top:18px;
+        padding:27px 20px;
+        border-radius:21px;
+    }
+
+    .hero h1{
+        font-size:29px;
+    }
+
+    .hero p{
+        font-size:13px;
+    }
+
+    .section-head{
+        margin-top:28px;
+    }
+
+    .section-title{
+        font-size:21px;
+    }
+
+    .posts-grid{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .post-body{
+        padding:15px;
+    }
+
+    .post-title{
+        font-size:16px;
+    }
+
+    .post-description{
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container nav">
+
+        <a href="./index.html" class="logo">
+            <span class="logo-mark">PS</span>
+            <span>PERSIAN STARK</span>
+        </a>
+
+        <div class="nav-actions">
+
+            <a
+                href="./index.html"
+                class="nav-btn home-btn"
+            >
+                🏠 صفحه اصلی
+            </a>
+
+            <button
+                class="nav-btn"
+                id="themeBtn"
+                type="button"
+            >
+                🌙
+            </button>
+
+        </div>
+
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-label">
+                🎮 PERSIAN STARK
+            </div>
+
+            <h1>
+                زیرنویس‌های
+                <span>رایگان بازی‌ها</span>
+            </h1>
+
+            <p>
+                مجموعه‌ای از زیرنویس‌های فارسی بازی‌ها،
+                کاملاً رایگان برای استفاده شما.
+                زیرنویس موردنظرت رو پیدا کن، وارد صفحه‌اش شو
+                و فایل رو دریافت کن.
+            </p>
+
+        </div>
+
+    </section>
+
+    <div class="section-head">
+
+        <h2 class="section-title">
+            🎮 آخرین <span>زیرنویس‌ها</span>
+        </h2>
+
+        <div
+            class="result-count"
+            id="resultCount"
+        >
+            در حال بارگذاری...
+        </div>
+
+    </div>
+
+    <section
+        class="posts-grid"
+        id="postsGrid"
+    >
+
+        <div class="loading">
+
+            <div>
+
+                <div class="loader"></div>
+
+                در حال دریافت زیرنویس‌ها...
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div
+        class="more-wrap"
+        id="moreWrap"
+        style="display:none"
+    >
+
+        <button
+            class="more-btn"
+            id="moreBtn"
+            type="button"
+        >
+            نمایش زیرنویس‌های بیشتر
+        </button>
+
+    </div>
+
+</main>
+
+<footer>
+    <div class="container">
+        © PERSIAN STARK — زیرنویس‌های رایگان بازی‌ها
+    </div>
+</footer>
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const { createClient } = supabase;
+
+const db = createClient(
+    "https://jmdoxofcyoxdrtxvvuiu.supabase.co",
+    "sb_publishable_NqGaaVTBkzHUdCsWyWLXSA_dBqD_Q74",
+    {
+        auth:{
+            persistSession:true,
+            autoRefreshToken:true,
+            detectSessionInUrl:true,
+            storageKey:"persian-stark-auth"
+        }
+    }
+);
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const postsGrid =
+    document.getElementById("postsGrid");
+
+const moreWrap =
+    document.getElementById("moreWrap");
+
+const moreBtn =
+    document.getElementById("moreBtn");
+
+const resultCount =
+    document.getElementById("resultCount");
+
+const themeBtn =
+    document.getElementById("themeBtn");
+
+const toast =
+    document.getElementById("toast");
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+const CATEGORY =
+    "زیرنویس‌های رایگان";
+
+const PAGE_SIZE = 12;
+
+let currentPage = 0;
+
+let loading = false;
+
+let hasMore = true;
+
+let totalLoaded = 0;
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(()=>{
+            toast.classList.remove("show");
+        },3000);
+}
+
+
+/* =====================================================
+   THEME
+===================================================== */
+
+function applyTheme(theme){
+
+    if(theme === "light"){
+
+        document.documentElement
+            .classList.add("light");
+
+        themeBtn.textContent = "☀️";
+
+    }else{
+
+        document.documentElement
+            .classList.remove("light");
+
+        themeBtn.textContent = "🌙";
+    }
+}
+
+const savedTheme =
+    localStorage.getItem(
+        "persian-stark-theme"
+    ) || "dark";
+
+applyTheme(savedTheme);
+
+
+themeBtn.addEventListener(
+    "click",
+    ()=>{
+
+        const isLight =
+            document.documentElement
+                .classList.contains("light");
+
+        const next =
+            isLight ? "dark" : "light";
+
+        localStorage.setItem(
+            "persian-stark-theme",
+            next
+        );
+
+        applyTheme(next);
+    }
+);
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+    if(value === null ||
+       value === undefined){
+
+        return "";
+    }
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(date){
+
+    try{
+
+        return new Intl.DateTimeFormat(
+            "fa-IR",
+            {
+                year:"numeric",
+                month:"long",
+                day:"numeric"
+            }
+        ).format(
+            new Date(date)
+        );
+
+    }catch{
+
+        return "";
+    }
+}
+
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+function getImage(post){
+
+    return (
+        post.image_url ||
+        "./background.jpg"
+    );
+}
+
+
+/* =====================================================
+   CREATE CARD
+===================================================== */
+
+function createCard(post){
+
+    const article =
+        document.createElement("article");
+
+    article.className =
+        "post-card";
+
+    const title =
+        escapeHtml(
+            post.title ||
+            "بدون عنوان"
+        );
+
+    const description =
+        escapeHtml(
+            post.description ||
+            "برای مشاهده جزئیات و دریافت زیرنویس وارد صفحه شوید."
+        );
+
+    const image =
+        escapeHtml(
+            getImage(post)
+        );
+
+    const date =
+        formatDate(
+            post.created_at
+        );
+
+    article.innerHTML = `
+
+        <a
+            href="./article.html?id=${encodeURIComponent(post.id)}"
+            aria-label="${title}"
+        >
+
+            <div class="post-image">
+
+                <img
+                    src="${image}"
+                    alt="${title}"
+                    loading="lazy"
+                    onerror="this.src='./background.jpg'"
+                >
+
+            </div>
+
+        </a>
+
+        <div class="post-body">
+
+            <span class="post-category">
+                🎮 زیرنویس رایگان
+            </span>
+
+            <a
+                href="./article.html?id=${encodeURIComponent(post.id)}"
+            >
+
+                <h3 class="post-title">
+                    ${title}
+                </h3>
+
+            </a>
+
+            <p class="post-description">
+                ${description}
+            </p>
+
+            <div class="post-footer">
+
+                <span class="post-date">
+                    ${date}
+                </span>
+
+                <a
+                    class="read-btn"
+                    href="./article.html?id=${encodeURIComponent(post.id)}"
+                >
+                    مشاهده و دانلود
+                </a>
+
+            </div>
+
+        </div>
+    `;
+
+    return article;
+}
+
+
+/* =====================================================
+   LOAD POSTS
+===================================================== */
+
+async function loadPosts(){
+
+    if(loading || !hasMore){
+        return;
+    }
+
+    loading = true;
+
+    moreBtn.disabled = true;
+
+    if(currentPage === 0){
+
+        postsGrid.innerHTML = `
+            <div class="loading">
+
+                <div>
+
+                    <div class="loader"></div>
+
+                    در حال دریافت زیرنویس‌ها...
+
+                </div>
+
+            </div>
+        `;
+    }
+
+    try{
+
+        const from =
+            currentPage * PAGE_SIZE;
+
+        const to =
+            from + PAGE_SIZE - 1;
+
+        const {
+            data,
+            error,
+            count
+        } = await db
+            .from("posts")
+            .select(
+                "id,title,description,image_url,category,created_at",
+                {
+                    count:"exact"
+                }
+            )
+            .eq(
+                "category",
+                CATEGORY
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            )
+            .range(
+                from,
+                to
+            );
+
+        if(error){
+            throw error;
+        }
+
+        if(currentPage === 0){
+
+            postsGrid.innerHTML = "";
+        }
+
+        if(!data || data.length === 0){
+
+            if(currentPage === 0){
+
+                postsGrid.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            🎮
+                        </div>
+
+                        <h3>
+                            هنوز زیرنویسی منتشر نشده
+                        </h3>
+
+                        <p style="margin-top:10px">
+                            به‌زودی زیرنویس‌های فارسی رایگان
+                            بازی‌ها در این بخش قرار می‌گیرند.
+                        </p>
+
+                    </div>
+                `;
+
+            }
+
+            hasMore = false;
+
+            moreWrap.style.display = "none";
+
+            resultCount.textContent =
+                "۰ زیرنویس";
+
+            return;
+        }
+
+
+        data.forEach(post => {
+
+            postsGrid.appendChild(
+                createCard(post)
+            );
+
+        });
+
+
+        totalLoaded += data.length;
+
+        currentPage++;
+
+
+        const total =
+            count || totalLoaded;
+
+
+        resultCount.textContent =
+            `${new Intl.NumberFormat("fa-IR").format(total)} زیرنویس`;
+
+
+        if(
+            data.length < PAGE_SIZE ||
+            totalLoaded >= total
+        ){
+
+            hasMore = false;
+
+            moreWrap.style.display = "none";
+
+        }else{
+
+            moreWrap.style.display =
+                "flex";
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Subtitle loading error:",
+            error
+        );
+
+        if(currentPage === 0){
+
+            postsGrid.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    <h3>
+                        دریافت اطلاعات انجام نشد
+                    </h3>
+
+                    <p style="margin-top:10px">
+                        اتصال به سرور را بررسی کنید
+                        و دوباره تلاش کنید.
+                    </p>
+
+                    <button
+                        class="more-btn"
+                        style="margin-top:20px"
+                        onclick="location.reload()"
+                    >
+                        تلاش دوباره
+                    </button>
+
+                </div>
+            `;
+
+        }else{
+
+            showToast(
+                "دریافت زیرنویس‌های بیشتر انجام نشد."
+            );
+        }
+
+    }finally{
+
+        loading = false;
+
+        moreBtn.disabled = false;
+    }
+}
+
+
+/* =====================================================
+   MORE BUTTON
+===================================================== */
+
+moreBtn.addEventListener(
+    "click",
+    loadPosts
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadPosts();
+
+</script>
+
+</body>
+</html>
