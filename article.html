@@ -2,9 +2,11 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>PERSIAN STARK | مطلب</title>
+
+<meta name="theme-color" content="#07111f">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -18,33 +20,29 @@
 :root{
     --bg:#07111f;
     --bg2:#0b1728;
-    --card:rgba(12,27,45,.94);
-    --card2:#102238;
-    --text:#f5f9ff;
-    --muted:#9eafc4;
-    --line:rgba(255,255,255,.09);
-    --accent:#00c8ff;
-    --accent2:#18e0c1;
-    --orange:#ff9d42;
-    --danger:#ff5577;
-    --header:rgba(5,14,26,.88);
+    --card:rgba(14,27,45,.92);
+    --card2:#101f33;
+    --text:#f5f7fb;
+    --muted:#9eacc0;
+    --border:rgba(255,255,255,.08);
+    --primary:#00c2ff;
+    --primary2:#6c63ff;
+    --danger:#ff4d67;
+    --success:#35d07f;
     --shadow:0 20px 60px rgba(0,0,0,.28);
 }
 
-html.light{
-    --bg:#f3f7fb;
-    --bg2:#eaf1f7;
-    --card:#fff;
-    --card2:#f7faff;
-    --text:#132238;
-    --muted:#607087;
-    --line:rgba(19,34,56,.12);
-    --accent:#008bc7;
-    --accent2:#009e89;
-    --orange:#e87516;
-    --danger:#d93458;
-    --header:rgba(255,255,255,.92);
-    --shadow:0 18px 45px rgba(30,55,80,.12);
+body.light{
+    --bg:#f3f6fa;
+    --bg2:#eaf0f6;
+    --card:rgba(255,255,255,.94);
+    --card2:#ffffff;
+    --text:#172033;
+    --muted:#667085;
+    --border:rgba(15,23,42,.09);
+    --primary:#008fc4;
+    --primary2:#5b54d6;
+    --shadow:0 18px 50px rgba(31,41,55,.10);
 }
 
 html{
@@ -59,74 +57,85 @@ body{
         sans-serif;
     color:var(--text);
     background:
-        linear-gradient(
-            rgba(3,5,16,.72),
-            rgba(3,5,16,.88)
-        ),
-        url("./background.jpg");
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+        radial-gradient(circle at 10% 10%,rgba(0,194,255,.09),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(108,99,255,.10),transparent 30%),
+        linear-gradient(135deg,var(--bg),var(--bg2));
+    transition:
+        background .3s ease,
+        color .3s ease;
     overflow-x:hidden;
 }
 
-html.light body{
-    background:
-        linear-gradient(
-            rgba(243,247,251,.90),
-            rgba(243,247,251,.96)
-        ),
-        url("./background.jpg");
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
-}
+/* =========================
+   BACKGROUND
+========================= */
 
-body::before{
-    content:"";
+.background-effects{
     position:fixed;
     inset:0;
     pointer-events:none;
-    background:
-        radial-gradient(circle at 10% 20%,rgba(0,200,255,.10),transparent 28%),
-        radial-gradient(circle at 90% 80%,rgba(24,224,193,.08),transparent 28%);
-    z-index:-1;
+    z-index:-2;
+    overflow:hidden;
 }
 
-a{
-    color:inherit;
-    text-decoration:none;
+.background-effects::before,
+.background-effects::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.22;
+    animation:floatGlow 10s ease-in-out infinite alternate;
 }
 
-button,
-input,
-textarea{
-    font-family:inherit;
+.background-effects::before{
+    width:360px;
+    height:360px;
+    background:#00c2ff;
+    top:-120px;
+    left:-120px;
 }
 
-button{
-    border:0;
-    cursor:pointer;
+.background-effects::after{
+    width:420px;
+    height:420px;
+    background:#6c63ff;
+    bottom:-160px;
+    right:-120px;
+    animation-delay:2s;
 }
 
-.container{
-    width:min(1240px,calc(100% - 32px));
-    margin:auto;
+@keyframes floatGlow{
+    from{
+        transform:translate3d(0,0,0) scale(1);
+    }
+    to{
+        transform:translate3d(30px,20px,0) scale(1.08);
+    }
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
-.header{
+.site-header{
     position:sticky;
     top:0;
-    z-index:100;
-    backdrop-filter:blur(20px);
-    background:var(--header);
-    border-bottom:1px solid var(--line);
+    z-index:1000;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    background:rgba(7,17,31,.78);
+    border-bottom:1px solid var(--border);
+}
+
+body.light .site-header{
+    background:rgba(255,255,255,.82);
 }
 
 .header-inner{
-    min-height:76px;
+    width:min(1200px,calc(100% - 30px));
+    margin:auto;
+    min-height:72px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -134,50 +143,36 @@ button{
 }
 
 .logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
+    text-decoration:none;
+    color:var(--text);
+    font-size:22px;
     font-weight:900;
+    letter-spacing:.5px;
     white-space:nowrap;
 }
 
-.logo-icon{
-    width:45px;
-    height:45px;
-    display:grid;
-    place-items:center;
-    border-radius:14px;
-    background:
-        linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#03121d;
-    font-size:21px;
-    font-weight:1000;
-    box-shadow:0 8px 30px rgba(0,200,255,.20);
+.logo span{
+    color:var(--primary);
 }
 
-.logo-text{
-    font-size:19px;
-    letter-spacing:.5px;
-}
-
-.logo-text span{
-    color:var(--accent);
-}
-
-.nav{
+.main-nav{
     display:flex;
     align-items:center;
+    justify-content:center;
     gap:7px;
+    flex:1;
 }
 
-.nav a{
+.main-nav a{
+    text-decoration:none;
     color:var(--muted);
     padding:10px 13px;
-    border-radius:12px;
-    transition:.2s;
+    border-radius:11px;
+    font-size:14px;
+    transition:.2s ease;
 }
 
-.nav a:hover{
+.main-nav a:hover{
     color:var(--text);
     background:rgba(255,255,255,.06);
 }
@@ -189,327 +184,411 @@ button{
 }
 
 .icon-btn{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    color:var(--text);
-    background:var(--card2);
-    border:1px solid var(--line);
-    font-size:18px;
-}
-
-.account-btn{
-    padding:11px 15px;
-    border-radius:13px;
-    color:#04141d;
-    font-weight:800;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-}
-
-/* ARTICLE */
-
-.article-wrap{
-    padding:50px 0 80px;
-}
-
-.article-layout{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) 330px;
-    gap:28px;
-    align-items:start;
-}
-
-.article{
-    min-width:0;
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
     background:var(--card);
-    border:1px solid var(--line);
-    border-radius:28px;
-    overflow:hidden;
+    color:var(--text);
+    border-radius:12px;
+    cursor:pointer;
+    font-size:18px;
+    transition:.2s ease;
+}
+
+.icon-btn:hover{
+    transform:translateY(-2px);
+    border-color:rgba(0,194,255,.35);
+}
+
+.back-btn{
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    height:40px;
+    padding:0 13px;
+    border-radius:12px;
+    color:var(--text);
+    background:var(--card);
+    border:1px solid var(--border);
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.back-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+    width:min(1180px,calc(100% - 30px));
+    margin:35px auto 70px;
+}
+
+.breadcrumb{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.breadcrumb a{
+    color:var(--muted);
+    text-decoration:none;
+}
+
+.breadcrumb a:hover{
+    color:var(--primary);
+}
+
+/* =========================
+   ARTICLE
+========================= */
+
+.article-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:25px;
     box-shadow:var(--shadow);
+    overflow:hidden;
 }
 
 .article-head{
-    padding:34px 36px 26px;
+    padding:32px 34px 22px;
 }
 
-.category{
+.article-category{
     display:inline-flex;
     align-items:center;
     gap:7px;
-    padding:7px 12px;
+    padding:7px 11px;
     border-radius:999px;
-    color:var(--accent);
-    background:rgba(0,200,255,.09);
-    border:1px solid rgba(0,200,255,.16);
-    font-size:13px;
-    font-weight:800;
+    background:rgba(0,194,255,.10);
+    color:var(--primary);
+    border:1px solid rgba(0,194,255,.18);
+    font-size:12px;
+    font-weight:bold;
     margin-bottom:16px;
 }
 
 .article-title{
-    font-size:clamp(27px,4vw,46px);
-    line-height:1.45;
-    font-weight:950;
+    font-size:clamp(27px,4vw,45px);
+    line-height:1.5;
+    font-weight:900;
     margin-bottom:15px;
+    letter-spacing:-.5px;
 }
 
 .article-description{
     color:var(--muted);
     font-size:16px;
     line-height:2;
+    max-width:900px;
 }
 
 .article-meta{
     display:flex;
     flex-wrap:wrap;
-    gap:16px;
-    color:var(--muted);
-    font-size:13px;
+    gap:12px;
     margin-top:20px;
 }
 
+.meta-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:var(--muted);
+    font-size:12px;
+    padding:8px 11px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:rgba(255,255,255,.025);
+}
+
+/* =========================
+   COVER
+========================= */
+
 .cover-wrap{
-    padding:0 28px;
+    width:100%;
+    padding:0 24px 24px;
 }
 
 .cover{
     width:100%;
-    aspect-ratio:16/9;
-    object-fit:cover;
-    display:block;
-    border-radius:22px;
-    border:1px solid var(--line);
-    background:var(--card2);
-}
-
-.article-body{
-    padding:32px 36px 40px;
-    min-width:0;
-}
-
-.article-body > p{
-    font-size:17px;
-    line-height:2.35;
-    color:var(--text);
-    margin:0 0 24px;
-    white-space:pre-wrap;
-    overflow-wrap:anywhere;
-}
-
-.article-body .text-block{
-    font-size:17px;
-    line-height:2.35;
-    margin:0 0 25px;
-    white-space:pre-wrap;
-    overflow-wrap:anywhere;
-}
-
-.media-block{
-    margin:30px 0;
-}
-
-.article-body img{
-    display:block;
-    width:100%;
-    max-width:100%;
-    height:auto;
-    max-height:760px;
+    max-height:650px;
     object-fit:contain;
-    border-radius:20px;
-    margin:0 auto;
-    background:var(--card2);
-    border:1px solid var(--line);
+    display:block;
+    border-radius:18px;
+    background:#050b13;
+    border:1px solid var(--border);
 }
 
-.media-caption{
-    color:var(--muted);
-    font-size:12px;
-    margin-top:8px;
+/* =========================
+   CONTENT
+========================= */
+
+.article-content{
+    padding:10px 34px 35px;
+}
+
+.article-block{
+    margin:0 0 28px;
+}
+
+.text-block{
+    color:var(--text);
+    font-size:17px;
+    line-height:2.25;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.image-block{
+    width:100%;
     text-align:center;
 }
 
-.video-box{
-    position:relative;
-    width:100%;
-    aspect-ratio:16/9;
-    border-radius:20px;
-    overflow:hidden;
-    background:#000;
-    border:1px solid var(--line);
+.article-image{
+    display:block;
+    width:auto;
+    max-width:100%;
+    max-height:850px;
+    height:auto;
+    object-fit:contain;
+    margin:0 auto;
+    border-radius:17px;
+    border:1px solid var(--border);
+    background:#050b13;
+    box-shadow:0 15px 45px rgba(0,0,0,.16);
 }
 
-.video-box iframe,
-.video-box video{
-    position:absolute;
-    inset:0;
+.video-block{
+    width:100%;
+}
+
+.video-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:16 / 9;
+    border-radius:18px;
+    overflow:hidden;
+    background:#050b13;
+    border:1px solid var(--border);
+}
+
+.video-frame iframe,
+.video-frame video{
     width:100%;
     height:100%;
+    display:block;
     border:0;
+}
+
+.video-direct{
     object-fit:contain;
 }
 
-/* DOWNLOAD */
+/* =========================
+   DOWNLOAD
+========================= */
 
 .download-box{
-    margin:38px 0;
-    padding:24px;
-    border-radius:22px;
-    border:1px solid rgba(0,200,255,.20);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid rgba(53,208,127,.20);
     background:
         linear-gradient(
             135deg,
-            rgba(0,200,255,.10),
-            rgba(24,224,193,.05)
+            rgba(53,208,127,.08),
+            rgba(0,194,255,.05)
         );
 }
 
+.download-info{
+    min-width:0;
+}
+
 .download-title{
-    font-size:19px;
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.download-size{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.download-button{
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-height:46px;
+    padding:0 19px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#00b96b,#13a878);
+    color:#fff;
+    text-decoration:none;
+    font-weight:800;
+    font-size:13px;
+    transition:.2s ease;
+}
+
+.download-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(53,208,127,.18);
+}
+
+/* =========================
+   OLD DOWNLOAD
+========================= */
+
+.old-download{
+    margin-top:5px;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.025);
+}
+
+.old-download-title{
+    font-weight:800;
+    margin-bottom:12px;
+}
+
+.old-download a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:11px 18px;
+    border-radius:11px;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:white;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* =========================
+   COMMENTS
+========================= */
+
+.comments-section{
+    border-top:1px solid var(--border);
+    padding:30px 34px 35px;
+}
+
+.section-title{
+    font-size:22px;
     font-weight:900;
     margin-bottom:7px;
 }
 
-.download-description{
+.section-subtitle{
     color:var(--muted);
     font-size:13px;
-    margin-bottom:18px;
-}
-
-.download-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:9px;
-    min-height:48px;
-    padding:0 22px;
-    border-radius:14px;
-    color:#03121d;
-    font-weight:900;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    transition:.2s;
-}
-
-.download-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 30px rgba(0,200,255,.18);
-}
-
-/* COMMENTS */
-
-.comments{
-    border-top:1px solid var(--line);
-    padding:35px 36px 40px;
-}
-
-.comments-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:24px;
-}
-
-.comments-title{
-    font-size:24px;
-    font-weight:950;
-}
-
-.comments-count{
-    color:var(--muted);
-    font-size:13px;
-}
-
-.comment-login{
-    padding:20px;
-    border-radius:18px;
-    background:var(--card2);
-    border:1px solid var(--line);
-    color:var(--muted);
-    line-height:2;
-    margin-bottom:25px;
-}
-
-.login-link{
-    display:inline-flex;
-    margin-top:12px;
-    padding:10px 16px;
-    border-radius:12px;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#03121d;
-    font-weight:900;
+    margin-bottom:22px;
 }
 
 .comment-form{
-    margin-bottom:30px;
+    display:none;
+    margin-bottom:28px;
 }
 
 .comment-form textarea{
     width:100%;
-    min-height:130px;
+    min-height:120px;
     resize:vertical;
-    padding:16px;
-    border-radius:17px;
-    border:1px solid var(--line);
+    padding:15px;
+    border-radius:15px;
+    border:1px solid var(--border);
     outline:none;
-    color:var(--text);
     background:var(--card2);
-    line-height:2;
+    color:var(--text);
+    font-family:inherit;
+    line-height:1.9;
 }
 
 .comment-form textarea:focus{
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(0,200,255,.08);
+    border-color:rgba(0,194,255,.45);
 }
 
-.comment-form-footer{
+.comment-form-bottom{
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    gap:12px;
+    justify-content:space-between;
+    gap:10px;
     margin-top:10px;
 }
 
-.comment-hint{
+.comment-login{
+    display:none;
+    padding:15px;
+    border-radius:14px;
+    background:rgba(0,194,255,.06);
+    border:1px solid rgba(0,194,255,.12);
     color:var(--muted);
-    font-size:12px;
+    font-size:13px;
+    margin-bottom:20px;
 }
 
-.submit-comment{
-    padding:12px 20px;
-    border-radius:13px;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    color:#03121d;
-    font-weight:900;
+.comment-login button{
+    border:0;
+    background:none;
+    color:var(--primary);
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:bold;
 }
 
-.submit-comment:disabled{
-    opacity:.55;
-    cursor:not-allowed;
+.primary-btn{
+    border:0;
+    cursor:pointer;
+    color:#fff;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    border-radius:11px;
+    padding:11px 18px;
+    font-family:inherit;
+    font-weight:bold;
 }
 
 .comments-list{
     display:flex;
     flex-direction:column;
-    gap:14px;
+    gap:12px;
 }
 
 .comment{
-    padding:18px;
-    border-radius:18px;
-    border:1px solid var(--line);
-    background:var(--card2);
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:rgba(255,255,255,.025);
 }
 
 .comment-top{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:12px;
-    margin-bottom:10px;
+    gap:10px;
+    margin-bottom:9px;
 }
 
 .comment-user{
-    font-weight:900;
+    font-size:13px;
+    font-weight:800;
 }
 
 .comment-date{
@@ -519,140 +598,92 @@ button{
 
 .comment-text{
     color:var(--text);
-    line-height:2;
+    font-size:14px;
+    line-height:1.9;
     white-space:pre-wrap;
     overflow-wrap:anywhere;
 }
 
 .delete-comment{
     margin-top:10px;
+    border:0;
+    background:none;
     color:var(--danger);
-    background:transparent;
-    font-size:12px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:11px;
 }
 
 .empty-comments{
-    text-align:center;
-    padding:25px;
     color:var(--muted);
-    border:1px dashed var(--line);
-    border-radius:17px;
+    text-align:center;
+    padding:30px 10px;
+    border:1px dashed var(--border);
+    border-radius:15px;
 }
 
-/* SIDEBAR */
+/* =========================
+   LOADING / ERROR
+========================= */
 
-.sidebar{
+.center-state{
+    min-height:400px;
     display:flex;
     flex-direction:column;
-    gap:18px;
-    position:sticky;
-    top:100px;
-}
-
-.side-card{
-    padding:22px;
-    border-radius:22px;
-    background:var(--card);
-    border:1px solid var(--line);
-    box-shadow:var(--shadow);
-}
-
-.side-title{
-    font-size:18px;
-    font-weight:900;
-    margin-bottom:17px;
-}
-
-.latest-item{
-    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
     gap:12px;
-    padding:11px 0;
-    border-bottom:1px solid var(--line);
 }
 
-.latest-item:last-child{
-    border-bottom:0;
-}
-
-.latest-image{
-    width:80px;
-    height:55px;
-    flex:none;
-    object-fit:cover;
-    border-radius:10px;
-    background:var(--card2);
-}
-
-.latest-title{
-    font-size:13px;
-    line-height:1.7;
-    font-weight:800;
-}
-
-.latest-date{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-top:5px;
-}
-
-/* LOADING / ERROR */
-
-.loading{
-    min-height:400px;
-    display:grid;
-    place-items:center;
-    color:var(--muted);
-    font-size:16px;
-}
-
-.spinner{
-    width:40px;
-    height:40px;
-    border:3px solid var(--line);
-    border-top-color:var(--accent);
+.loader{
+    width:42px;
+    height:42px;
+    border:3px solid rgba(255,255,255,.10);
+    border-top-color:var(--primary);
     border-radius:50%;
     animation:spin .8s linear infinite;
 }
 
 @keyframes spin{
-    to{transform:rotate(360deg);}
+    to{
+        transform:rotate(360deg);
+    }
 }
 
-.error-box{
-    padding:40px;
-    text-align:center;
-    border-radius:25px;
-    background:var(--card);
-    border:1px solid var(--line);
+.state-title{
+    font-size:20px;
+    font-weight:900;
 }
 
-.error-box h2{
-    margin-bottom:10px;
-}
-
-.error-box p{
+.state-text{
     color:var(--muted);
-    line-height:2;
+    font-size:13px;
+    max-width:500px;
+    line-height:1.9;
 }
 
-/* TOAST */
+/* =========================
+   TOAST
+========================= */
 
 .toast{
     position:fixed;
     left:20px;
     bottom:20px;
-    z-index:999;
-    max-width:350px;
-    padding:14px 18px;
-    border-radius:14px;
-    background:var(--card);
-    border:1px solid var(--line);
-    box-shadow:var(--shadow);
+    z-index:9999;
+    max-width:min(380px,calc(100% - 40px));
+    padding:13px 16px;
+    border-radius:13px;
+    background:#111d2d;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
     transform:translateY(30px);
     opacity:0;
     pointer-events:none;
-    transition:.25s;
+    transition:.25s ease;
+    font-size:13px;
 }
 
 .toast.show{
@@ -661,110 +692,190 @@ button{
 }
 
 .toast.success{
-    border-color:rgba(24,224,193,.35);
+    border-color:rgba(53,208,127,.3);
 }
 
 .toast.error{
-    border-color:rgba(255,85,119,.35);
+    border-color:rgba(255,77,103,.3);
 }
 
-/* MOBILE */
+/* =========================
+   FOOTER
+========================= */
 
-@media(max-width:1000px){
-    .article-layout{
-        grid-template-columns:1fr;
-    }
-
-    .sidebar{
-        position:static;
-        display:grid;
-        grid-template-columns:1fr 1fr;
-    }
-
-    .nav{
-        display:none;
-    }
+.footer{
+    width:min(1180px,calc(100% - 30px));
+    margin:0 auto 30px;
+    padding:25px 10px;
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
 }
 
-@media(max-width:650px){
-    .container{
-        width:min(100% - 20px,1240px);
-    }
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:850px){
 
     .header-inner{
-        min-height:68px;
+        min-height:64px;
     }
 
-    .logo-text{
-        font-size:15px;
+    .main-nav{
+        display:none;
     }
 
-    .logo-icon{
-        width:40px;
-        height:40px;
+    .logo{
+        font-size:19px;
     }
 
-    .account-btn{
-        padding:9px 11px;
-        font-size:12px;
-    }
-
-    .article-wrap{
-        padding:20px 0 50px;
-    }
-
-    .article{
-        border-radius:20px;
+    .page{
+        margin-top:22px;
     }
 
     .article-head{
-        padding:24px 20px 20px;
+        padding:24px 20px 18px;
     }
 
     .article-title{
         font-size:27px;
+        line-height:1.55;
+    }
+
+    .article-description{
+        font-size:14px;
+        line-height:2;
     }
 
     .cover-wrap{
-        padding:0 14px;
+        padding:0 14px 14px;
     }
 
     .cover{
-        border-radius:15px;
+        border-radius:14px;
+        max-height:450px;
     }
 
-    .article-body{
-        padding:25px 20px 30px;
+    .article-content{
+        padding:8px 20px 28px;
     }
 
-    .article-body > p,
-    .article-body .text-block{
-        font-size:16px;
+    .text-block{
+        font-size:15px;
         line-height:2.2;
     }
 
-    .comments{
-        padding:28px 20px 30px;
+    .article-image{
+        max-height:600px;
+        border-radius:13px;
     }
 
-    .sidebar{
-        display:flex;
+    .comments-section{
+        padding:25px 20px 28px;
     }
 
-    .comment-form-footer{
-        align-items:flex-start;
+    .download-box{
         flex-direction:column;
+        align-items:stretch;
     }
 
-    .submit-comment{
+    .download-button{
+        width:100%;
+    }
+}
+
+@media(max-width:520px){
+
+    .header-inner{
+        width:calc(100% - 20px);
+        gap:8px;
+    }
+
+    .header-actions{
+        gap:5px;
+    }
+
+    .back-btn{
+        padding:0 10px;
+        font-size:11px;
+    }
+
+    .icon-btn{
+        width:37px;
+        height:37px;
+    }
+
+    .page{
+        width:calc(100% - 14px);
+        margin-bottom:40px;
+    }
+
+    .article-card{
+        border-radius:18px;
+    }
+
+    .article-head{
+        padding:20px 15px 16px;
+    }
+
+    .article-title{
+        font-size:23px;
+    }
+
+    .article-description{
+        font-size:13px;
+    }
+
+    .article-meta{
+        gap:7px;
+    }
+
+    .meta-item{
+        font-size:10px;
+        padding:7px 9px;
+    }
+
+    .cover-wrap{
+        padding:0 9px 9px;
+    }
+
+    .cover{
+        border-radius:12px;
+    }
+
+    .article-content{
+        padding:6px 15px 22px;
+    }
+
+    .article-block{
+        margin-bottom:22px;
+    }
+
+    .text-block{
+        font-size:14px;
+        line-height:2.15;
+    }
+
+    .article-image{
+        border-radius:11px;
+    }
+
+    .comments-section{
+        padding:22px 15px 25px;
+    }
+
+    .comment-form-bottom{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .primary-btn{
         width:100%;
     }
 
-    .toast{
-        left:10px;
-        right:10px;
-        bottom:10px;
-        max-width:none;
+    .footer{
+        width:calc(100% - 20px);
     }
 }
 </style>
@@ -772,242 +883,179 @@ button{
 
 <body>
 
-<header class="header">
-    <div class="container header-inner">
+<div class="background-effects"></div>
+
+<header class="site-header">
+    <div class="header-inner">
 
         <a href="index.html" class="logo">
-            <div class="logo-icon">PS</div>
-            <div class="logo-text">
-                <span>PERSIAN</span> STARK
-            </div>
+            PERSIAN <span>STARK</span>
         </a>
 
-        <nav class="nav">
+        <nav class="main-nav">
             <a href="index.html">خانه</a>
-            <a href="index.html#news">اخبار گیم</a>
+            <a href="index.html#news">اخبار</a>
             <a href="index.html#games">معرفی بازی</a>
             <a href="index.html#software">نرم‌افزار</a>
-            <a href="index.html#store">فروشگاه</a>
+            <a href="subtitles.html">زیرنویس‌های رایگان</a>
         </nav>
 
         <div class="header-actions">
+
+            <a href="index.html" class="back-btn">
+                ← بازگشت
+            </a>
+
             <button
+                type="button"
                 class="icon-btn"
                 id="themeBtn"
                 title="تغییر حالت"
-            >☀️</button>
+            >
+                ☾
+            </button>
 
-            <a
-                href="index.html"
-                class="account-btn"
-                id="accountBtn"
-            >حساب کاربری</a>
         </div>
 
     </div>
 </header>
 
 
-<main class="article-wrap">
+<main class="page">
 
-<div class="container">
+    <div class="breadcrumb">
+        <a href="index.html">خانه</a>
+        <span>›</span>
+        <span id="breadcrumbCategory">مطلب</span>
+    </div>
 
-    <div id="pageLoading" class="article">
-        <div class="loading">
-            <div class="spinner"></div>
+
+    <div id="loadingState" class="article-card">
+        <div class="center-state">
+            <div class="loader"></div>
+            <div class="state-title">در حال بارگذاری مطلب...</div>
+            <div class="state-text">
+                لطفاً چند لحظه صبر کنید.
+            </div>
         </div>
     </div>
 
-    <div id="pageError" style="display:none;">
-        <div class="error-box">
-            <h2>مطلب پیدا نشد</h2>
-            <p id="errorText">
-                این مطلب وجود ندارد یا حذف شده است.
-            </p>
-            <br>
-            <a href="index.html" class="account-btn">
-                بازگشت به سایت
-            </a>
+
+    <article id="articleCard" class="article-card" style="display:none;">
+
+        <div class="article-head">
+
+            <div id="articleCategory" class="article-category">
+                مطلب
+            </div>
+
+            <h1 id="articleTitle" class="article-title">
+                عنوان مطلب
+            </h1>
+
+            <div id="articleDescription" class="article-description"></div>
+
+            <div class="article-meta">
+
+                <div class="meta-item">
+                    📅
+                    <span id="articleDate">---</span>
+                </div>
+
+                <div class="meta-item">
+                    🎮
+                    <span id="articleCategoryMeta">---</span>
+                </div>
+
+            </div>
+
         </div>
-    </div>
-
-    <div
-        id="articleLayout"
-        class="article-layout"
-        style="display:none;"
-    >
-
-        <article class="article">
-
-            <div class="article-head">
-
-                <div
-                    id="articleCategory"
-                    class="category"
-                >اخبار گیم</div>
-
-                <h1
-                    id="articleTitle"
-                    class="article-title"
-                ></h1>
-
-                <div
-                    id="articleDescription"
-                    class="article-description"
-                ></div>
-
-                <div class="article-meta">
-                    <span id="articleDate">📅 —</span>
-                    <span id="articleType">🎮 PERSIAN STARK</span>
-                </div>
-
-            </div>
 
 
-            <div
-                id="coverWrap"
-                class="cover-wrap"
-                style="display:none;"
+        <div id="coverWrap" class="cover-wrap" style="display:none;">
+            <img
+                id="articleCover"
+                class="cover"
+                alt=""
             >
-                <img
-                    id="coverImage"
-                    class="cover"
-                    alt=""
-                    loading="eager"
-                >
+        </div>
+
+
+        <div id="articleContent" class="article-content"></div>
+
+
+        <section class="comments-section">
+
+            <h2 class="section-title">
+                نظرات کاربران
+            </h2>
+
+            <div class="section-subtitle">
+                نظر خودت رو درباره این مطلب با بقیه به اشتراک بذار.
             </div>
 
 
-            <div
-                id="articleBody"
-                class="article-body"
-            ></div>
+            <div id="commentLogin" class="comment-login">
+                برای ثبت نظر ابتدا وارد حساب کاربری خودت شو.
+                <button id="loginBtn" type="button">
+                    ورود / ثبت‌نام
+                </button>
+            </div>
 
 
-            <section
-                id="commentsSection"
-                class="comments"
-            >
+            <form id="commentForm" class="comment-form">
 
-                <div class="comments-head">
-                    <div class="comments-title">
-                        💬 نظرات کاربران
-                    </div>
+                <textarea
+                    id="commentInput"
+                    maxlength="2000"
+                    placeholder="نظر خودت را بنویس..."
+                    required
+                ></textarea>
 
-                    <div
-                        id="commentsCount"
-                        class="comments-count"
+                <div class="comment-form-bottom">
+
+                    <span
+                        id="commentUser"
+                        style="color:var(--muted);font-size:12px;"
+                    ></span>
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
                     >
-                        ۰ نظر
-                    </div>
+                        ارسال نظر
+                    </button>
+
                 </div>
 
+            </form>
 
-                <div
-                    id="commentLogin"
-                    class="comment-login"
-                    style="display:none;"
-                >
-                    برای ثبت نظر ابتدا وارد حساب کاربری خود شوید.
 
-                    <br>
-
-                    <a
-                        href="index.html"
-                        class="login-link"
-                    >
-                        ورود / ثبت‌نام
-                    </a>
+            <div id="commentsList" class="comments-list">
+                <div class="empty-comments">
+                    در حال بارگذاری نظرات...
                 </div>
-
-
-                <form
-                    id="commentForm"
-                    class="comment-form"
-                    style="display:none;"
-                >
-
-                    <textarea
-                        id="commentInput"
-                        maxlength="2000"
-                        placeholder="نظر خودت را درباره این مطلب بنویس..."
-                        required
-                    ></textarea>
-
-                    <div class="comment-form-footer">
-
-                        <span class="comment-hint">
-                            حداکثر ۲۰۰۰ کاراکتر
-                        </span>
-
-                        <button
-                            id="submitComment"
-                            class="submit-comment"
-                            type="submit"
-                        >
-                            ثبت نظر
-                        </button>
-
-                    </div>
-
-                </form>
-
-
-                <div
-                    id="commentsList"
-                    class="comments-list"
-                ></div>
-
-            </section>
-
-        </article>
-
-
-        <aside class="sidebar">
-
-            <div class="side-card">
-
-                <div class="side-title">
-                    آخرین مطالب
-                </div>
-
-                <div id="latestPosts"></div>
-
             </div>
 
+        </section>
 
-            <div class="side-card">
-
-                <div class="side-title">
-                    PERSIAN STARK
-                </div>
-
-                <p
-                    style="
-                    color:var(--muted);
-                    line-height:2;
-                    font-size:13px;
-                    "
-                >
-                    اخبار، معرفی بازی، نرم‌افزار و مطالب دنیای گیم را در
-                    PERSIAN STARK دنبال کنید.
-                </p>
-
-            </div>
-
-        </aside>
-
-    </div>
-
-</div>
+    </article>
 
 </main>
+
+
+<footer class="footer">
+    © 2026 PERSIAN STARK — دنیای گیم
+</footer>
 
 
 <div id="toast" class="toast"></div>
 
 
 <script>
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const { createClient } = supabase;
 
@@ -1025,217 +1073,407 @@ const db = createClient(
 );
 
 
-/* -------------------------
+/* =========================================================
    GLOBAL
-------------------------- */
+========================================================= */
 
-let currentUser = null;
 let currentPost = null;
+let currentUser = null;
 
 
-/* -------------------------
+/* =========================================================
    HELPERS
-------------------------- */
-
-const $ = id => document.getElementById(id);
-
+========================================================= */
 
 function escapeHTML(value){
+    if(value === null || value === undefined){
+        return "";
+    }
 
-    const div = document.createElement("div");
-
-    div.textContent = value ?? "";
-
-    return div.innerHTML;
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
-function showToast(message,type="success"){
-
-    const toast = $("toast");
+function showToast(message,type=""){
+    const toast = document.getElementById("toast");
 
     toast.textContent = message;
+    toast.className = "toast show " + type;
 
-    toast.className = `toast show ${type}`;
+    clearTimeout(window.__toastTimer);
 
-    clearTimeout(window.toastTimer);
-
-    window.toastTimer = setTimeout(()=>{
-
+    window.__toastTimer = setTimeout(()=>{
         toast.className = "toast";
-
-    },3500);
-}
-
-
-function formatDate(date){
-
-    if(!date) return "—";
-
-    return new Intl.DateTimeFormat(
-        "fa-IR",
-        {
-            year:"numeric",
-            month:"long",
-            day:"numeric"
-        }
-    ).format(new Date(date));
+    },3000);
 }
 
 
 function getPostId(){
 
-    const params = new URLSearchParams(
-        window.location.search
-    );
+    const params = new URLSearchParams(window.location.search);
 
     return params.get("id");
 }
 
 
-/* -------------------------
+function formatDate(date){
+
+    if(!date){
+        return "---";
+    }
+
+    try{
+        return new Intl.DateTimeFormat(
+            "fa-IR",
+            {
+                year:"numeric",
+                month:"long",
+                day:"numeric"
+            }
+        ).format(new Date(date));
+    }catch{
+        return new Date(date).toLocaleDateString("fa-IR");
+    }
+}
+
+
+function categoryName(category){
+
+    const map = {
+        news:"اخبار بازی",
+        game:"معرفی بازی",
+        software:"نرم‌افزار",
+        store:"فروشگاه CS2",
+        subtitles:"زیرنویس‌های رایگان"
+    };
+
+    return map[category] || category || "مطلب";
+}
+
+
+/* =========================================================
    THEME
-------------------------- */
+========================================================= */
+
+function applyTheme(theme){
+
+    if(theme === "light"){
+        document.body.classList.add("light");
+        document.getElementById("themeBtn").textContent = "☀";
+    }else{
+        document.body.classList.remove("light");
+        document.getElementById("themeBtn").textContent = "☾";
+    }
+}
+
 
 function loadTheme(){
 
-    const theme =
-        localStorage.getItem("ps-theme") || "dark";
+    const saved = localStorage.getItem("persian-stark-theme");
 
-    document.documentElement.classList.toggle(
-        "light",
-        theme === "light"
-    );
-
-    $("themeBtn").textContent =
-        theme === "light" ? "🌙" : "☀️";
+    applyTheme(saved === "light" ? "light" : "dark");
 }
 
 
-$("themeBtn").addEventListener("click",()=>{
+document.getElementById("themeBtn").addEventListener("click",()=>{
 
-    const isLight =
-        document.documentElement.classList.contains("light");
+    const isLight = document.body.classList.contains("light");
 
-    const next =
-        isLight ? "dark" : "light";
-
-    document.documentElement.classList.toggle(
-        "light",
-        next === "light"
-    );
+    const newTheme = isLight ? "dark" : "light";
 
     localStorage.setItem(
-        "ps-theme",
-        next
+        "persian-stark-theme",
+        newTheme
     );
 
-    $("themeBtn").textContent =
-        next === "light" ? "🌙" : "☀️";
+    applyTheme(newTheme);
 });
 
 
-/* -------------------------
-   AUTH
-------------------------- */
+loadTheme();
 
-async function loadUser(){
 
-    const {
-        data
-    } = await db.auth.getSession();
+/* =========================================================
+   YOUTUBE
+========================================================= */
 
-    currentUser =
-        data?.session?.user || null;
+function getYouTubeId(url){
 
-    updateAccountButton();
+    if(!url){
+        return null;
+    }
 
-    updateCommentUI();
+    const value = String(url).trim();
+
+    const patterns = [
+
+        /youtu\.be\/([^?&/]+)/i,
+
+        /youtube\.com\/watch\?v=([^?&/]+)/i,
+
+        /youtube\.com\/embed\/([^?&/]+)/i,
+
+        /youtube\.com\/shorts\/([^?&/]+)/i,
+
+        /youtube-nocookie\.com\/embed\/([^?&/]+)/i
+
+    ];
+
+    for(const pattern of patterns){
+
+        const match = value.match(pattern);
+
+        if(match && match[1]){
+            return match[1];
+        }
+    }
+
+    return null;
 }
 
 
-function updateAccountButton(){
+/* =========================================================
+   MEDIA URL
+========================================================= */
 
-    const btn = $("accountBtn");
+function normalizeMediaUrl(url){
 
-    if(!currentUser){
-
-        btn.textContent = "ورود / ثبت‌نام";
-
-        btn.href = "index.html";
-
-        return;
+    if(!url){
+        return "";
     }
 
-    const email =
-        currentUser.email || "";
+    return String(url).trim();
+}
 
-    const name =
-        email.split("@")[0] || "حساب من";
 
-    btn.textContent =
-        `👤 ${name}`;
+/* =========================================================
+   BLOCK RENDER
+========================================================= */
+
+function renderTextBlock(content){
+
+    const wrapper = document.createElement("div");
+
+    wrapper.className = "article-block text-block";
 
     /*
-       فعلاً لینک حساب به صفحه اصلی می‌رود.
-       وقتی پروفایل حرفه‌ای را اضافه کنیم،
-       همین قسمت به profile.html متصل می‌شود.
+       textContent عمداً استفاده شده تا اگر کسی
+       داخل متن HTML/Script وارد کرد اجرا نشود.
     */
 
-    btn.href =
-        "index.html#profile";
+    wrapper.textContent = content || "";
+
+    return wrapper;
 }
 
 
-db.auth.onAuthStateChange(
-    async (event,session)=>{
+function renderImageBlock(url){
 
-        currentUser =
-            session?.user || null;
+    const wrapper = document.createElement("div");
 
-        updateAccountButton();
+    wrapper.className = "article-block image-block";
 
-        updateCommentUI();
+    const img = document.createElement("img");
 
-        if(currentPost){
+    img.className = "article-image";
 
-            await loadComments(currentPost.id);
+    img.src = normalizeMediaUrl(url);
 
-        }
+    img.alt = currentPost?.title || "تصویر مطلب";
 
-    }
-);
+    img.loading = "lazy";
+
+    img.decoding = "async";
+
+    img.onerror = function(){
+
+        wrapper.innerHTML = `
+            <div class="empty-comments">
+                تصویر قابل نمایش نیست.
+            </div>
+        `;
+    };
+
+    wrapper.appendChild(img);
+
+    return wrapper;
+}
 
 
-/* -------------------------
-   COMMENT UI
-------------------------- */
+function renderVideoBlock(url){
 
-function updateCommentUI(){
+    const wrapper = document.createElement("div");
 
-    if(currentUser){
+    wrapper.className = "article-block video-block";
 
-        $("commentLogin").style.display =
-            "none";
+    const frame = document.createElement("div");
 
-        $("commentForm").style.display =
-            "block";
+    frame.className = "video-frame";
+
+    const youtubeId = getYouTubeId(url);
+
+    if(youtubeId){
+
+        const iframe = document.createElement("iframe");
+
+        iframe.src =
+            "https://www.youtube.com/embed/" +
+            encodeURIComponent(youtubeId) +
+            "?rel=0";
+
+        iframe.title = "ویدیو";
+
+        iframe.loading = "lazy";
+
+        iframe.allow =
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
+        iframe.allowFullscreen = true;
+
+        frame.appendChild(iframe);
 
     }else{
 
-        $("commentLogin").style.display =
-            "block";
+        const video = document.createElement("video");
 
-        $("commentForm").style.display =
-            "none";
+        video.className = "video-direct";
 
+        video.controls = true;
+
+        video.preload = "metadata";
+
+        video.playsInline = true;
+
+        video.src = normalizeMediaUrl(url);
+
+        frame.appendChild(video);
+    }
+
+    wrapper.appendChild(frame);
+
+    return wrapper;
+}
+
+
+function renderDownloadBlock(rawContent){
+
+    const wrapper = document.createElement("div");
+
+    wrapper.className = "article-block";
+
+    let data = null;
+
+    /*
+       دانلود جدید:
+       {
+          url,
+          title,
+          buttonText,
+          size
+       }
+    */
+
+    try{
+        data = JSON.parse(rawContent);
+    }catch{
+        data = {
+            url:rawContent,
+            title:"دانلود فایل",
+            buttonText:"دانلود",
+            size:""
+        };
+    }
+
+    const url = data?.url || "";
+
+    if(!url){
+        return wrapper;
+    }
+
+    const title =
+        data?.title ||
+        "دانلود فایل";
+
+    const buttonText =
+        data?.buttonText ||
+        "دانلود";
+
+    const size =
+        data?.size ||
+        "";
+
+    wrapper.innerHTML = `
+        <div class="download-box">
+
+            <div class="download-info">
+
+                <div class="download-title">
+                    📥 ${escapeHTML(title)}
+                </div>
+
+                ${
+                    size
+                    ?
+                    `<div class="download-size">
+                        حجم فایل: ${escapeHTML(size)}
+                    </div>`
+                    :
+                    ""
+                }
+
+            </div>
+
+            <a
+                class="download-button"
+                href="${escapeHTML(url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+            >
+                ⬇ ${escapeHTML(buttonText)}
+            </a>
+
+        </div>
+    `;
+
+    return wrapper;
+}
+
+
+function renderBlock(block){
+
+    if(!block){
+        return null;
+    }
+
+    switch(block.type){
+
+        case "text":
+            return renderTextBlock(block.content);
+
+        case "image":
+            return renderImageBlock(block.content);
+
+        case "video":
+            return renderVideoBlock(block.content);
+
+        case "download":
+            return renderDownloadBlock(block.content);
+
+        default:
+            return null;
     }
 }
 
 
-/* -------------------------
+/* =========================================================
    LOAD POST
-------------------------- */
+========================================================= */
 
 async function loadPost(){
 
@@ -1244,17 +1482,15 @@ async function loadPost(){
     if(!postId){
 
         showError(
-            "شناسه مطلب در آدرس صفحه وجود ندارد."
+            "شناسه مطلب پیدا نشد.",
+            "آدرس مطلب ناقص است."
         );
 
         return;
     }
 
 
-    const {
-        data,
-        error
-    } = await db
+    const { data:post, error } = await db
         .from("posts")
         .select(`
             id,
@@ -1275,175 +1511,92 @@ async function loadPost(){
         console.error(error);
 
         showError(
-            "خطا در دریافت اطلاعات مطلب."
+            "خطا در بارگذاری مطلب",
+            error.message
         );
 
         return;
     }
 
 
-    if(!data){
+    if(!post){
 
         showError(
-            "این مطلب وجود ندارد یا حذف شده است."
+            "مطلب پیدا نشد",
+            "ممکن است مطلب حذف شده باشد یا آدرس آن اشتباه باشد."
         );
 
         return;
     }
 
 
-    currentPost = data;
+    currentPost = post;
 
-    renderPost(data);
+    await loadBlocks();
 
-    await loadBlocks(data.id);
+    renderPost();
 
-    await loadComments(data.id);
-
-    await loadLatestPosts();
-
-    $("pageLoading").style.display =
-        "none";
-
-    $("articleLayout").style.display =
-        "grid";
+    await loadComments();
 }
 
 
-function renderPost(post){
+function showError(title,text){
 
-    document.title =
-        `${post.title} | PERSIAN STARK`;
+    document.getElementById("loadingState").innerHTML = `
+        <div class="center-state">
 
+            <div style="font-size:45px;">
+                ⚠️
+            </div>
 
-    $("articleTitle").textContent =
-        post.title || "بدون عنوان";
+            <div class="state-title">
+                ${escapeHTML(title)}
+            </div>
 
+            <div class="state-text">
+                ${escapeHTML(text)}
+            </div>
 
-    $("articleDescription").textContent =
-        post.description || "";
+            <a
+                href="index.html"
+                class="back-btn"
+                style="margin-top:10px;"
+            >
+                بازگشت به خانه
+            </a>
 
-
-    $("articleCategory").textContent =
-        post.category || "مطالب گیم";
-
-
-    $("articleDate").textContent =
-        `📅 ${formatDate(post.created_at)}`;
-
-
-    if(post.image_url){
-
-        $("coverWrap").style.display =
-            "block";
-
-        $("coverImage").src =
-            post.image_url;
-
-        $("coverImage").alt =
-            post.title || "PERSIAN STARK";
-
-    }
-
-
-    if(post.content){
-
-        const p =
-            document.createElement("p");
-
-        p.textContent =
-            post.content;
-
-        $("articleBody").appendChild(p);
-
-    }
-
-
-    if(post.download_url){
-
-        renderDownload(
-            post.download_url
-        );
-
-    }
-}
-
-
-/* -------------------------
-   DOWNLOAD
-------------------------- */
-
-function renderDownload(url){
-
-    const box =
-        document.createElement("div");
-
-    box.className =
-        "download-box";
-
-
-    const safeUrl =
-        String(url).trim();
-
-
-    if(!/^https?:\/\//i.test(safeUrl)){
-
-        return;
-    }
-
-
-    box.innerHTML = `
-
-        <div class="download-title">
-            📥 لینک دانلود مستقیم
         </div>
-
-        <div class="download-description">
-            برای دریافت فایل روی دکمه زیر کلیک کنید.
-        </div>
-
-        <a
-            class="download-btn"
-            href="${escapeHTML(safeUrl)}"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            ⬇️ دانلود فایل
-        </a>
     `;
-
-
-    $("articleBody").appendChild(box);
 }
 
 
-/* -------------------------
-   BLOCKS
-------------------------- */
+/* =========================================================
+   LOAD BLOCKS
+========================================================= */
 
-async function loadBlocks(postId){
+async function loadBlocks(){
 
-    const {
-        data,
-        error
-    } = await db
+    currentPost.blocks = [];
+
+    const { data, error } = await db
         .from("post_blocks")
         .select(`
             id,
+            post_id,
             type,
             content,
-            sort_order
+            sort_order,
+            created_at
         `)
-        .eq("post_id",postId)
-        .order("sort_order",{
-            ascending:true
-        });
+        .eq("post_id",currentPost.id)
+        .order("sort_order",{ascending:true})
+        .order("id",{ascending:true});
 
 
     if(error){
 
         console.warn(
-            "post_blocks:",
+            "post_blocks load error:",
             error
         );
 
@@ -1451,223 +1604,312 @@ async function loadBlocks(postId){
     }
 
 
-    if(!data?.length) return;
-
-
-    for(const block of data){
-
-        renderBlock(block);
-
-    }
+    currentPost.blocks = data || [];
 }
 
 
-function renderBlock(block){
+/* =========================================================
+   RENDER POST
+========================================================= */
 
-    if(!block?.content) return;
+function renderPost(){
+
+    document.title =
+        "PERSIAN STARK | " +
+        (currentPost.title || "مطلب");
 
 
-    if(block.type === "text"){
+    document.getElementById("breadcrumbCategory")
+        .textContent =
+        categoryName(currentPost.category);
 
-        const div =
-            document.createElement("div");
 
-        div.className =
-            "text-block";
+    document.getElementById("articleCategory")
+        .textContent =
+        categoryName(currentPost.category);
 
-        div.textContent =
-            block.content;
 
-        $("articleBody").appendChild(div);
+    document.getElementById("articleCategoryMeta")
+        .textContent =
+        categoryName(currentPost.category);
 
-        return;
+
+    document.getElementById("articleTitle")
+        .textContent =
+        currentPost.title || "بدون عنوان";
+
+
+    const descriptionEl =
+        document.getElementById("articleDescription");
+
+
+    if(currentPost.description){
+
+        descriptionEl.textContent =
+            currentPost.description;
+
+        descriptionEl.style.display = "block";
+
+    }else{
+
+        descriptionEl.style.display = "none";
     }
 
 
-    if(block.type === "image"){
-
-        const wrap =
-            document.createElement("div");
-
-        wrap.className =
-            "media-block";
+    document.getElementById("articleDate")
+        .textContent =
+        formatDate(currentPost.created_at);
 
 
-        const img =
-            document.createElement("img");
+    /* COVER */
 
-        img.src =
-            block.content;
+    const coverWrap =
+        document.getElementById("coverWrap");
 
-        img.alt =
-            "تصویر مطلب";
-
-        img.loading =
-            "lazy";
+    const cover =
+        document.getElementById("articleCover");
 
 
-        img.onerror = ()=>{
+    if(currentPost.image_url){
 
-            wrap.remove();
+        cover.src =
+            normalizeMediaUrl(
+                currentPost.image_url
+            );
 
+        cover.alt =
+            currentPost.title || "تصویر مطلب";
+
+        coverWrap.style.display = "block";
+
+        cover.onerror = function(){
+            coverWrap.style.display = "none";
         };
 
+    }else{
 
-        wrap.appendChild(img);
+        coverWrap.style.display = "none";
+    }
 
-        $("articleBody").appendChild(wrap);
 
+    /* CONTENT */
+
+    const content =
+        document.getElementById("articleContent");
+
+    content.innerHTML = "";
+
+
+    /*
+       اول محتوای قدیمی posts.content
+       اگر وجود داشته باشد نمایش داده می‌شود.
+    */
+
+    if(
+        currentPost.content &&
+        currentPost.content.trim()
+    ){
+
+        content.appendChild(
+            renderTextBlock(
+                currentPost.content
+            )
+        );
+    }
+
+
+    /*
+       سپس بلوک‌های post_blocks
+       دقیقاً بر اساس sort_order
+    */
+
+    if(
+        Array.isArray(currentPost.blocks) &&
+        currentPost.blocks.length
+    ){
+
+        currentPost.blocks.forEach(block=>{
+
+            const element =
+                renderBlock(block);
+
+            if(element){
+                content.appendChild(element);
+            }
+
+        });
+    }
+
+
+    /*
+       دانلود قدیمی posts.download_url
+       فقط وقتی نمایش داده می‌شود که
+       داخل بلوک‌ها دانلودی نداشته باشیم.
+    */
+
+    const hasDownloadBlock =
+        Array.isArray(currentPost.blocks) &&
+        currentPost.blocks.some(
+            block => block.type === "download"
+        );
+
+
+    if(
+        currentPost.download_url &&
+        !hasDownloadBlock
+    ){
+
+        const oldDownload =
+            document.createElement("div");
+
+        oldDownload.className =
+            "article-block old-download";
+
+        oldDownload.innerHTML = `
+            <div class="old-download-title">
+                📥 لینک دانلود
+            </div>
+
+            <a
+                href="${escapeHTML(currentPost.download_url)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+            >
+                ⬇ دانلود فایل
+            </a>
+        `;
+
+        content.appendChild(oldDownload);
+    }
+
+
+    document.getElementById("loadingState")
+        .style.display = "none";
+
+    document.getElementById("articleCard")
+        .style.display = "block";
+}
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+async function loadAuth(){
+
+    const {
+        data:{
+            session
+        }
+    } = await db.auth.getSession();
+
+
+    currentUser =
+        session?.user || null;
+
+
+    updateCommentUI();
+
+
+    db.auth.onAuthStateChange(
+        async (_event,session)=>{
+            currentUser =
+                session?.user || null;
+
+            updateCommentUI();
+        }
+    );
+}
+
+
+async function getUsername(){
+
+    if(!currentUser){
+        return "کاربر";
+    }
+
+
+    const { data } = await db
+        .from("profiles")
+        .select("username")
+        .eq("id",currentUser.id)
+        .maybeSingle();
+
+
+    return (
+        data?.username ||
+        currentUser.email?.split("@")[0] ||
+        "کاربر"
+    );
+}
+
+
+function updateCommentUI(){
+
+    const form =
+        document.getElementById("commentForm");
+
+    const login =
+        document.getElementById("commentLogin");
+
+    const userLabel =
+        document.getElementById("commentUser");
+
+
+    if(currentUser){
+
+        form.style.display = "block";
+
+        login.style.display = "none";
+
+        getUsername().then(username=>{
+            userLabel.textContent =
+                "ارسال به عنوان: " + username;
+        });
+
+    }else{
+
+        form.style.display = "none";
+
+        login.style.display = "block";
+    }
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+document.getElementById("loginBtn")
+    .addEventListener("click",()=>{
+
+        /*
+           اگر index.html سیستم مودال ورود دارد،
+           کاربر را به همان صفحه می‌فرستیم.
+        */
+
+        window.location.href =
+            "index.html?login=1";
+    });
+
+
+/* =========================================================
+   COMMENTS
+========================================================= */
+
+async function loadComments(){
+
+    if(!currentPost){
         return;
     }
 
 
-    if(block.type === "video"){
-
-        const wrap =
-            document.createElement("div");
-
-        wrap.className =
-            "media-block";
+    const list =
+        document.getElementById("commentsList");
 
 
-        const videoBox =
-            document.createElement("div");
-
-        videoBox.className =
-            "video-box";
-
-
-        const url =
-            String(block.content).trim();
-
-
-        const youtubeId =
-            getYoutubeId(url);
-
-
-        if(youtubeId){
-
-            const iframe =
-                document.createElement("iframe");
-
-            iframe.src =
-                `https://www.youtube.com/embed/${youtubeId}`;
-
-            iframe.allow =
-                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-
-            iframe.allowFullscreen =
-                true;
-
-            iframe.loading =
-                "lazy";
-
-            videoBox.appendChild(iframe);
-
-        }else{
-
-            const video =
-                document.createElement("video");
-
-            video.src =
-                url;
-
-            video.controls =
-                true;
-
-            video.playsInline =
-                true;
-
-            video.preload =
-                "metadata";
-
-            videoBox.appendChild(video);
-
-        }
-
-
-        wrap.appendChild(videoBox);
-
-        $("articleBody").appendChild(wrap);
-
-    }
-
-}
-
-
-/* -------------------------
-   YOUTUBE
-------------------------- */
-
-function getYoutubeId(url){
-
-    try{
-
-        const parsed =
-            new URL(url);
-
-
-        if(
-            parsed.hostname.includes("youtube.com") &&
-            parsed.searchParams.get("v")
-        ){
-
-            return parsed.searchParams.get("v");
-
-        }
-
-
-        if(
-            parsed.hostname === "youtu.be"
-        ){
-
-            return parsed.pathname
-                .replace("/","")
-                .split("/")[0];
-
-        }
-
-
-        if(
-            parsed.pathname.startsWith("/shorts/")
-        ){
-
-            return parsed.pathname
-                .split("/")[2];
-
-        }
-
-
-        if(
-            parsed.pathname.startsWith("/embed/")
-        ){
-
-            return parsed.pathname
-                .split("/")[2];
-
-        }
-
-    }catch(e){
-
-        return null;
-
-    }
-
-
-    return null;
-}
-
-
-/* -------------------------
-   COMMENTS
-------------------------- */
-
-async function loadComments(postId){
-
-    const {
-        data,
-        error
-    } = await db
+    const { data, error } = await db
         .from("comments")
         .select(`
             id,
@@ -1676,19 +1918,17 @@ async function loadComments(postId){
             content,
             created_at
         `)
-        .eq("post_id",postId)
-        .order("created_at",{
-            ascending:true
-        });
+        .eq("post_id",currentPost.id)
+        .order("created_at",{ascending:false});
 
 
     if(error){
 
         console.error(error);
 
-        $("commentsList").innerHTML = `
+        list.innerHTML = `
             <div class="empty-comments">
-                دریافت نظرات با خطا مواجه شد.
+                خطا در بارگذاری نظرات.
             </div>
         `;
 
@@ -1696,21 +1936,12 @@ async function loadComments(postId){
     }
 
 
-    const comments =
-        data || [];
+    if(!data || !data.length){
 
-
-    $("commentsCount").textContent =
-        `${new Intl.NumberFormat("fa-IR").format(comments.length)} نظر`;
-
-
-    if(!comments.length){
-
-        $("commentsList").innerHTML = `
+        list.innerHTML = `
             <div class="empty-comments">
                 هنوز نظری برای این مطلب ثبت نشده.
-                <br>
-                اولین نفری باش که نظر می‌دهد 👇
+                اولین نفر باش 👀
             </div>
         `;
 
@@ -1719,262 +1950,261 @@ async function loadComments(postId){
 
 
     /*
-       برای جلوگیری از درخواست‌های زیاد،
-       usernameها را یکجا می‌گیریم.
+       گرفتن username ها از profiles
     */
 
-    const ids =
+    const userIds =
         [...new Set(
-            comments.map(c=>c.user_id)
+            data.map(comment=>comment.user_id)
         )];
 
 
     let profiles = [];
 
 
-    if(ids.length){
+    if(userIds.length){
 
         const result =
             await db
                 .from("profiles")
                 .select("id,username")
-                .in("id",ids);
+                .in("id",userIds);
 
 
         profiles =
             result.data || [];
-
     }
 
 
-    const profileMap =
-        new Map(
-            profiles.map(
-                p=>[p.id,p.username]
-            )
-        );
+    const profileMap = {};
 
 
-    $("commentsList").innerHTML = "";
+    profiles.forEach(profile=>{
+        profileMap[profile.id] =
+            profile.username;
+    });
 
 
-    comments.forEach(comment=>{
+    list.innerHTML = "";
 
-        const box =
+
+    data.forEach(comment=>{
+
+        const item =
             document.createElement("div");
 
-        box.className =
-            "comment";
+        item.className = "comment";
 
 
         const username =
-            profileMap.get(comment.user_id)
-            || "کاربر";
-
-
-        const top =
-            document.createElement("div");
-
-        top.className =
-            "comment-top";
-
-
-        const user =
-            document.createElement("div");
-
-        user.className =
-            "comment-user";
-
-        user.textContent =
-            `👤 ${username}`;
+            profileMap[comment.user_id] ||
+            "کاربر";
 
 
         const date =
-            document.createElement("div");
-
-        date.className =
-            "comment-date";
-
-        date.textContent =
-            formatDate(comment.created_at);
+            formatDateTime(comment.created_at);
 
 
-        top.appendChild(user);
-
-        top.appendChild(date);
-
-
-        const text =
-            document.createElement("div");
-
-        text.className =
-            "comment-text";
-
-        text.textContent =
-            comment.content;
-
-
-        box.appendChild(top);
-
-        box.appendChild(text);
-
-
-        if(
+        const isOwner =
             currentUser &&
-            currentUser.id === comment.user_id
-        ){
-
-            const del =
-                document.createElement("button");
-
-            del.className =
-                "delete-comment";
-
-            del.textContent =
-                "حذف نظر";
+            currentUser.id === comment.user_id;
 
 
-            del.addEventListener(
+        item.innerHTML = `
+
+            <div class="comment-top">
+
+                <div class="comment-user">
+                    👤 ${escapeHTML(username)}
+                </div>
+
+                <div class="comment-date">
+                    ${escapeHTML(date)}
+                </div>
+
+            </div>
+
+            <div class="comment-text">
+                ${escapeHTML(comment.content)}
+            </div>
+
+            ${
+                isOwner
+                ?
+                `
+                <button
+                    type="button"
+                    class="delete-comment"
+                    data-id="${comment.id}"
+                >
+                    حذف نظر
+                </button>
+                `
+                :
+                ""
+            }
+
+        `;
+
+
+        const deleteButton =
+            item.querySelector(".delete-comment");
+
+
+        if(deleteButton){
+
+            deleteButton.addEventListener(
                 "click",
-                ()=>deleteComment(comment.id)
+                ()=>{
+                    deleteComment(comment.id);
+                }
             );
-
-
-            box.appendChild(del);
-
         }
 
 
-        $("commentsList")
-            .appendChild(box);
-
+        list.appendChild(item);
     });
-
 }
 
 
-/* -------------------------
-   ADD COMMENT
-------------------------- */
+function formatDateTime(date){
 
-$("commentForm")
-.addEventListener("submit",async event=>{
+    if(!date){
+        return "";
+    }
 
-    event.preventDefault();
+    try{
+
+        return new Intl.DateTimeFormat(
+            "fa-IR",
+            {
+                year:"numeric",
+                month:"short",
+                day:"numeric",
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        ).format(new Date(date));
+
+    }catch{
+
+        return new Date(date)
+            .toLocaleString("fa-IR");
+    }
+}
 
 
-    if(!currentUser){
+/* =========================================================
+   SUBMIT COMMENT
+========================================================= */
+
+document.getElementById("commentForm")
+    .addEventListener("submit",async event=>{
+
+        event.preventDefault();
+
+
+        if(!currentUser){
+
+            showToast(
+                "برای ثبت نظر وارد حساب شوید.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const input =
+            document.getElementById("commentInput");
+
+
+        const content =
+            input.value.trim();
+
+
+        if(!content){
+
+            showToast(
+                "متن نظر را وارد کنید.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if(content.length > 2000){
+
+            showToast(
+                "نظر نمی‌تواند بیشتر از ۲۰۰۰ کاراکتر باشد.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const button =
+            event.target.querySelector(
+                "button[type=submit]"
+            );
+
+
+        button.disabled = true;
+
+        button.textContent =
+            "در حال ارسال...";
+
+
+        const { error } = await db
+            .from("comments")
+            .insert({
+                post_id:currentPost.id,
+                user_id:currentUser.id,
+                content:content
+            });
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "ارسال نظر";
+
+
+        if(error){
+
+            console.error(error);
+
+            showToast(
+                "ثبت نظر انجام نشد.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        input.value = "";
+
 
         showToast(
-            "ابتدا وارد حساب خود شوید.",
-            "error"
+            "نظر شما با موفقیت ثبت شد.",
+            "success"
         );
 
-        return;
-    }
+
+        await loadComments();
+    });
 
 
-    if(!currentPost){
-
-        return;
-    }
-
-
-    const input =
-        $("commentInput");
-
-
-    const content =
-        input.value.trim();
-
-
-    if(!content){
-
-        showToast(
-            "متن نظر را وارد کنید.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if(content.length > 2000){
-
-        showToast(
-            "نظر نمی‌تواند بیشتر از ۲۰۰۰ کاراکتر باشد.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    const button =
-        $("submitComment");
-
-
-    button.disabled =
-        true;
-
-    button.textContent =
-        "در حال ثبت...";
-
-
-    const {
-        error
-    } = await db
-        .from("comments")
-        .insert({
-            post_id:currentPost.id,
-            user_id:currentUser.id,
-            content:content
-        });
-
-
-    button.disabled =
-        false;
-
-    button.textContent =
-        "ثبت نظر";
-
-
-    if(error){
-
-        console.error(error);
-
-        showToast(
-            "ثبت نظر انجام نشد. دوباره تلاش کنید.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    input.value = "";
-
-
-    showToast(
-        "نظر شما با موفقیت ثبت شد."
-    );
-
-
-    await loadComments(
-        currentPost.id
-    );
-
-});
-
-
-/* -------------------------
+/* =========================================================
    DELETE COMMENT
-------------------------- */
+========================================================= */
 
-async function deleteComment(id){
+async function deleteComment(commentId){
 
     if(!currentUser){
-
         return;
     }
 
@@ -1985,15 +2215,15 @@ async function deleteComment(id){
         );
 
 
-    if(!confirmed) return;
+    if(!confirmed){
+        return;
+    }
 
 
-    const {
-        error
-    } = await db
+    const { error } = await db
         .from("comments")
         .delete()
-        .eq("id",id)
+        .eq("id",commentId)
         .eq("user_id",currentUser.id);
 
 
@@ -2011,155 +2241,38 @@ async function deleteComment(id){
 
 
     showToast(
-        "نظر حذف شد."
+        "نظر حذف شد.",
+        "success"
     );
 
 
-    await loadComments(
-        currentPost.id
-    );
+    await loadComments();
 }
 
 
-/* -------------------------
-   LATEST POSTS
-------------------------- */
+/* =========================================================
+   START
+========================================================= */
 
-async function loadLatestPosts(){
+(async function(){
 
-    const {
-        data,
-        error
-    } = await db
-        .from("posts")
-        .select(`
-            id,
-            title,
-            image_url,
-            created_at
-        `)
-        .order("created_at",{
-            ascending:false
-        })
-        .limit(6);
+    try{
 
+        await loadAuth();
 
-    if(error){
+        await loadPost();
 
-        return;
+    }catch(error){
+
+        console.error(error);
+
+        showError(
+            "یک خطای غیرمنتظره رخ داد",
+            "صفحه را دوباره باز کنید."
+        );
     }
 
-
-    $("latestPosts").innerHTML = "";
-
-
-    (data || []).forEach(post=>{
-
-        const item =
-            document.createElement("a");
-
-        item.className =
-            "latest-item";
-
-        item.href =
-            `article.html?id=${post.id}`;
-
-
-        if(post.image_url){
-
-            const img =
-                document.createElement("img");
-
-            img.className =
-                "latest-image";
-
-            img.src =
-                post.image_url;
-
-            img.alt =
-                "";
-
-            img.loading =
-                "lazy";
-
-            item.appendChild(img);
-
-        }
-
-
-        const content =
-            document.createElement("div");
-
-
-        const title =
-            document.createElement("div");
-
-        title.className =
-            "latest-title";
-
-        title.textContent =
-            post.title || "بدون عنوان";
-
-
-        const date =
-            document.createElement("span");
-
-        date.className =
-            "latest-date";
-
-        date.textContent =
-            formatDate(post.created_at);
-
-
-        content.appendChild(title);
-
-        content.appendChild(date);
-
-        item.appendChild(content);
-
-
-        $("latestPosts")
-            .appendChild(item);
-
-    });
-
-}
-
-
-/* -------------------------
-   ERROR
-------------------------- */
-
-function showError(message){
-
-    $("pageLoading").style.display =
-        "none";
-
-    $("articleLayout").style.display =
-        "none";
-
-    $("pageError").style.display =
-        "block";
-
-    $("errorText").textContent =
-        message;
-}
-
-
-/* -------------------------
-   START
-------------------------- */
-
-loadTheme();
-
-(async()=>{
-
-    await loadUser();
-
-    await loadPost();
-
 })();
-
 </script>
 
 </body>
