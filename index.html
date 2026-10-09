@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -9,1548 +10,413 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-    --bg:#07111f;
-    --bg2:#0b1728;
-    --card:rgba(12,27,45,.90);
-    --card2:#102238;
-    --text:#f5f9ff;
-    --muted:#9eafc4;
-    --line:rgba(255,255,255,.09);
-    --accent:#00c8ff;
-    --accent2:#18e0c1;
-    --orange:#ff9d42;
-    --danger:#ff5577;
-    --header:rgba(5,14,26,.88);
-    --shadow:0 20px 60px rgba(0,0,0,.28);
+    --bg:#07111f;--bg2:#0b1728;--card:rgba(12,27,45,.90);
+    --card2:#102238;--text:#f5f9ff;--muted:#9eafc4;
+    --line:rgba(255,255,255,.09);--accent:#00c8ff;
+    --accent2:#18e0c1;--orange:#ff9d42;--danger:#ff5577;
+    --header:rgba(5,14,26,.88);--shadow:0 20px 60px rgba(0,0,0,.28);
     --max:1380px;
 }
-
 html.light{
-    --bg:#f3f7fb;
-    --bg2:#eaf1f7;
-    --card:#fff;
-    --card2:#f7faff;
-    --text:#132238;
-    --muted:#607087;
-    --line:rgba(19,34,56,.12);
-    --accent:#008bc7;
-    --accent2:#009e89;
-    --orange:#e87516;
-    --danger:#d93458;
-    --header:rgba(255,255,255,.92);
+    --bg:#f3f7fb;--bg2:#eaf1f7;--card:#fff;--card2:#f7faff;
+    --text:#132238;--muted:#607087;--line:rgba(19,34,56,.12);
+    --accent:#008bc7;--accent2:#009e89;--orange:#e87516;
+    --danger:#d93458;--header:rgba(255,255,255,.92);
     --shadow:0 18px 45px rgba(30,55,80,.12);
 }
-
-html{
-    scroll-behavior:smooth;
-}
-
+html{scroll-behavior:smooth}
 body{
-    font-family:
-    Tahoma,
-    Arial,
-    sans-serif;
-
-    background:
-        linear-gradient(
-            rgba(3,5,16,.72),
-            rgba(3,5,16,.88)
-        ),
-        url("./background.jpg");
-
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
-    background-color:var(--bg);
-
-    color:var(--text);
-    min-height:100vh;
-    transition:.3s ease;
+    font-family:Tahoma,Arial,sans-serif;
+    background:linear-gradient(rgba(3,5,16,.72),rgba(3,5,16,.88)),url("./background.jpg");
+    background-size:cover;background-position:center;background-attachment:fixed;
+    background-color:var(--bg);color:var(--text);min-height:100vh;transition:.3s ease;
 }
-
 html.light body{
-    background:
-        linear-gradient(
-            rgba(243,247,251,.78),
-            rgba(243,247,251,.92)
-        ),
-        url("./background.jpg");
-
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+    background:linear-gradient(rgba(243,247,251,.78),rgba(243,247,251,.92)),url("./background.jpg");
+    background-size:cover;background-position:center;background-attachment:fixed;
 }
-
-a{
-    color:inherit;
-    text-decoration:none;
-}
-
-button,
-input{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.container{
-    width:min(var(--max),calc(100% - 32px));
-    margin:auto;
-}
-
-/* ================= HEADER ================= */
+a{color:inherit;text-decoration:none}
+button,input{font-family:inherit}
+button{cursor:pointer}
+.container{width:min(var(--max),calc(100% - 32px));margin:auto}
 
 header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:var(--header);
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+    position:sticky;top:0;z-index:1000;background:var(--header);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
     border-bottom:1px solid var(--line);
 }
-
-.nav{
-    min-height:76px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:21px;
-    font-weight:900;
-    white-space:nowrap;
-}
-
+.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:900;white-space:nowrap}
 .logo-mark{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    display:grid;
-    place-items:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    box-shadow:0 8px 25px rgba(0,200,255,.22);
-    font-size:20px;
+    width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#03121c;box-shadow:0 8px 25px rgba(0,200,255,.22);font-size:20px;
 }
-
-.logo span{
-    color:var(--accent);
-}
-
-.nav-center{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-}
-
+.logo span{color:var(--accent)}
+.nav-center{display:flex;align-items:center;justify-content:center;gap:7px}
 .nav-link{
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    padding:11px 14px;
-    border-radius:12px;
-    transition:.2s;
-    font-size:14px;
-    white-space:nowrap;
+    border:0;background:transparent;color:var(--muted);padding:11px 14px;
+    border-radius:12px;transition:.2s;font-size:14px;white-space:nowrap;
 }
-
-.nav-link:hover{
-    background:var(--card2);
-    color:var(--text);
-}
-
-.nav-link.subtitle-link{
-    color:var(--accent);
-}
-
-.nav-link.subtitle-link:hover{
-    color:var(--text);
-}
-
-.nav-actions{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
+.nav-link:hover{background:var(--card2);color:var(--text)}
+.nav-link.subtitle-link{color:var(--accent)}
+.nav-link.subtitle-link:hover{color:var(--text)}
+.nav-actions{display:flex;align-items:center;gap:8px}
 .icon-btn{
-    width:42px;
-    height:42px;
-    border:1px solid var(--line);
-    background:var(--card);
-    color:var(--text);
-    border-radius:12px;
-    display:grid;
-    place-items:center;
-    font-size:18px;
-    transition:.2s;
+    width:42px;height:42px;border:1px solid var(--line);background:var(--card);
+    color:var(--text);border-radius:12px;display:grid;place-items:center;font-size:18px;transition:.2s;
 }
-
-.icon-btn:hover{
-    transform:translateY(-2px);
-    border-color:rgba(0,200,255,.4);
-}
-
+.icon-btn:hover{transform:translateY(-2px);border-color:rgba(0,200,255,.4)}
 .auth-btn{
-    border:0;
-    padding:11px 16px;
-    border-radius:12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    font-weight:900;
-    box-shadow:0 8px 25px rgba(0,200,255,.16);
+    border:0;padding:11px 16px;border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#03121c;font-weight:900;box-shadow:0 8px 25px rgba(0,200,255,.16);
 }
-
-.user-menu{
-    position:relative;
-}
-
+.user-menu{position:relative}
 .user-button{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    border:1px solid var(--line);
-    background:var(--card);
-    color:var(--text);
-    border-radius:13px;
-    padding:8px 12px;
-    min-width:130px;
+    display:flex;align-items:center;gap:8px;border:1px solid var(--line);
+    background:var(--card);color:var(--text);border-radius:13px;padding:8px 12px;min-width:130px;
 }
-
 .user-avatar{
-    width:31px;
-    height:31px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    font-weight:900;
+    width:31px;height:31px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#03121c;font-weight:900;
 }
-
-.user-name{
-    max-width:120px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
+.user-name{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .user-dropdown{
-    position:absolute;
-    top:calc(100% + 9px);
-    left:0;
-    width:205px;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:15px;
-    padding:8px;
-    box-shadow:var(--shadow);
-    display:none;
+    position:absolute;top:calc(100% + 9px);left:0;width:205px;background:var(--card);
+    border:1px solid var(--line);border-radius:15px;padding:8px;box-shadow:var(--shadow);display:none;
 }
-
-.user-dropdown.show{
-    display:block;
-    animation:drop .18s ease;
-}
-
-@keyframes drop{
-    from{
-        opacity:0;
-        transform:translateY(-5px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
+.user-dropdown.show{display:block;animation:drop .18s ease}
+@keyframes drop{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 .dropdown-item{
-    width:100%;
-    border:0;
-    background:transparent;
-    color:var(--text);
-    padding:12px;
-    text-align:right;
-    border-radius:10px;
-    display:block;
+    width:100%;border:0;background:transparent;color:var(--text);padding:12px;
+    text-align:right;border-radius:10px;display:block;
 }
+.dropdown-item:hover{background:var(--card2)}
+.dropdown-item.logout{color:var(--danger)}
 
-.dropdown-item:hover{
-    background:var(--card2);
-}
-
-.dropdown-item.logout{
-    color:var(--danger);
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    padding:75px 0 45px;
-}
-
+.hero{padding:75px 0 45px}
 .hero-box{
-    min-height:390px;
-    border:1px solid var(--line);
-    border-radius:28px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(4,16,30,.95),
-            rgba(8,28,45,.72)
-        );
-
-    box-shadow:var(--shadow);
-    display:flex;
-    align-items:center;
-    overflow:hidden;
-    position:relative;
-    padding:55px;
+    min-height:390px;border:1px solid var(--line);border-radius:28px;
+    background:linear-gradient(135deg,rgba(4,16,30,.95),rgba(8,28,45,.72));
+    box-shadow:var(--shadow);display:flex;align-items:center;overflow:hidden;position:relative;padding:55px;
 }
-
-html.light .hero-box{
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.96),
-            rgba(239,248,255,.88)
-        );
-}
-
+html.light .hero-box{background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(239,248,255,.88))}
 .hero-box:before{
-    content:"";
-    position:absolute;
-    width:400px;
-    height:400px;
-    border-radius:50%;
-    background:var(--accent);
-    filter:blur(130px);
-    opacity:.12;
-    left:-130px;
-    top:-180px;
+    content:"";position:absolute;width:400px;height:400px;border-radius:50%;
+    background:var(--accent);filter:blur(130px);opacity:.12;left:-130px;top:-180px;
 }
-
-.hero-content{
-    position:relative;
-    max-width:760px;
-}
-
+.hero-content{position:relative;max-width:760px}
 .hero-badge{
-    display:inline-flex;
-    padding:8px 13px;
-    border-radius:999px;
-    background:rgba(0,200,255,.10);
-    color:var(--accent);
-    border:1px solid rgba(0,200,255,.18);
-    font-size:13px;
-    margin-bottom:18px;
+    display:inline-flex;padding:8px 13px;border-radius:999px;background:rgba(0,200,255,.10);
+    color:var(--accent);border:1px solid rgba(0,200,255,.18);font-size:13px;margin-bottom:18px;
 }
-
-.hero h1{
-    font-size:clamp(32px,5vw,62px);
-    line-height:1.1;
-    margin-bottom:20px;
+.hero h1{font-size:clamp(32px,5vw,62px);line-height:1.1;margin-bottom:20px}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted);line-height:2;font-size:16px;max-width:680px}
+.hero-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:27px}
+.primary-btn,.secondary-btn{
+    border-radius:13px;padding:13px 19px;font-weight:800;border:1px solid var(--line);transition:.2s;
 }
+.primary-btn{border:0;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#03121c}
+.secondary-btn{background:var(--card);color:var(--text)}
+.primary-btn:hover,.secondary-btn:hover{transform:translateY(-2px)}
 
-.hero h1 span{
-    color:var(--accent);
-}
-
-.hero p{
-    color:var(--muted);
-    line-height:2;
-    font-size:16px;
-    max-width:680px;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-top:27px;
-}
-
-.primary-btn,
-.secondary-btn{
-    border-radius:13px;
-    padding:13px 19px;
-    font-weight:800;
-    border:1px solid var(--line);
-    transition:.2s;
-}
-
-.primary-btn{
-    border:0;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-}
-
-.secondary-btn{
-    background:var(--card);
-    color:var(--text);
-}
-
-.primary-btn:hover,
-.secondary-btn:hover{
-    transform:translateY(-2px);
-}
-
-/* ================= SECTION ================= */
-
-.section{
-    padding:25px 0 60px;
-}
-
-.section-head{
-    display:flex;
-    align-items:end;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:22px;
-}
-
-.section-title{
-    font-size:26px;
-    font-weight:900;
-}
-
-.section-title span{
-    color:var(--accent);
-}
-
-.section-sub{
-    color:var(--muted);
-    margin-top:7px;
-    font-size:13px;
-}
-
-/* ================= CATEGORY ================= */
-
-.categories{
-    display:flex;
-    gap:9px;
-    flex-wrap:wrap;
-    margin-bottom:25px;
-}
-
+.section{padding:25px 0 60px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:22px}
+.section-title{font-size:26px;font-weight:900}
+.section-title span{color:var(--accent)}
+.section-sub{color:var(--muted);margin-top:7px;font-size:13px}
+.categories{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:25px}
 .category{
-    border:1px solid var(--line);
-    background:var(--card);
-    color:var(--muted);
-    padding:10px 16px;
-    border-radius:999px;
-    transition:.2s;
+    border:1px solid var(--line);background:var(--card);color:var(--muted);
+    padding:10px 16px;border-radius:999px;transition:.2s;
 }
-
-.category:hover,
-.category.active{
-    color:#03121c;
-    border-color:transparent;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
+.category:hover,.category.active{
+    color:#03121c;border-color:transparent;background:linear-gradient(135deg,var(--accent),var(--accent2));
 }
-
-/* ================= POSTS ================= */
-
-.posts-grid{
-    display:grid;
-    grid-template-columns:
-        repeat(3,minmax(0,1fr));
-    gap:20px;
-}
-
+.posts-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .post-card{
-    border:1px solid var(--line);
-    background:var(--card);
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 12px 40px rgba(0,0,0,.10);
-    transition:.25s;
+    border:1px solid var(--line);background:var(--card);border-radius:20px;overflow:hidden;
+    box-shadow:0 12px 40px rgba(0,0,0,.10);transition:.25s;
 }
-
-.post-card:hover{
-    transform:translateY(-5px);
-    border-color:rgba(0,200,255,.3);
-    box-shadow:0 20px 55px rgba(0,0,0,.18);
-}
-
-.post-image{
-    width:100%;
-    aspect-ratio:16/9;
-    object-fit:cover;
-    display:block;
-    background:var(--card2);
-}
-
-.post-body{
-    padding:18px;
-}
-
-.post-meta{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:10px;
-}
-
-.post-category{
-    color:var(--accent);
-}
-
+.post-card:hover{transform:translateY(-5px);border-color:rgba(0,200,255,.3);box-shadow:0 20px 55px rgba(0,0,0,.18)}
+.post-image{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--card2)}
+.post-body{padding:18px}
+.post-meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;margin-bottom:10px}
+.post-category{color:var(--accent)}
 .post-title{
-    font-size:19px;
-    line-height:1.6;
-    margin-bottom:8px;
-
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
+    font-size:19px;line-height:1.6;margin-bottom:8px;display:-webkit-box;
+    -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
-
 .post-description{
-    color:var(--muted);
-    line-height:1.9;
-    font-size:13px;
-    min-height:50px;
-
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
+    color:var(--muted);line-height:1.9;font-size:13px;min-height:50px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
+.post-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:17px}
+.read-btn{color:var(--accent);font-weight:800;font-size:13px}
+.download-mini{font-size:12px;color:var(--orange)}
+.loading{padding:50px;text-align:center;color:var(--muted);grid-column:1/-1}
+.empty{padding:60px 20px;text-align:center;border:1px dashed var(--line);border-radius:20px;color:var(--muted);grid-column:1/-1}
 
-.post-footer{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-top:17px;
-}
-
-.read-btn{
-    color:var(--accent);
-    font-weight:800;
-    font-size:13px;
-}
-
-.download-mini{
-    font-size:12px;
-    color:var(--orange);
-}
-
-.loading{
-    padding:50px;
-    text-align:center;
-    color:var(--muted);
-    grid-column:1/-1;
-}
-
-.empty{
-    padding:60px 20px;
-    text-align:center;
-    border:1px dashed var(--line);
-    border-radius:20px;
-    color:var(--muted);
-    grid-column:1/-1;
-}
-
-/* ================= SUBTITLES ================= */
-
-.subtitle-section{
-    padding-top:10px;
-}
-
+.subtitle-section{padding-top:10px}
 .subtitle-title-icon{
-    display:inline-flex;
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    align-items:center;
-    justify-content:center;
-    background:rgba(0,200,255,.10);
-    border:1px solid rgba(0,200,255,.16);
-    margin-left:8px;
+    display:inline-flex;width:38px;height:38px;border-radius:12px;align-items:center;justify-content:center;
+    background:rgba(0,200,255,.10);border:1px solid rgba(0,200,255,.16);margin-left:8px;
 }
-
-.subtitle-card{
-    position:relative;
-}
-
+.subtitle-card{position:relative}
 .subtitle-card:after{
-    content:"رایگان";
-    position:absolute;
-    top:12px;
-    right:12px;
-    z-index:2;
-    padding:6px 10px;
-    border-radius:999px;
-    background:rgba(3,18,28,.82);
-    color:var(--accent2);
-    border:1px solid rgba(24,224,193,.25);
-    font-size:11px;
-    font-weight:900;
-    backdrop-filter:blur(8px);
+    content:"رایگان";position:absolute;top:12px;right:12px;z-index:2;padding:6px 10px;
+    border-radius:999px;background:rgba(3,18,28,.82);color:var(--accent2);
+    border:1px solid rgba(24,224,193,.25);font-size:11px;font-weight:900;backdrop-filter:blur(8px);
 }
-
-html.light .subtitle-card:after{
-    background:rgba(255,255,255,.90);
-}
-
+html.light .subtitle-card:after{background:rgba(255,255,255,.90)}
 .subtitle-empty{
-    grid-column:1/-1;
-    border:1px dashed var(--line);
-    background:var(--card);
-    border-radius:20px;
-    padding:45px 20px;
-    text-align:center;
-    color:var(--muted);
+    grid-column:1/-1;border:1px dashed var(--line);background:var(--card);
+    border-radius:20px;padding:45px 20px;text-align:center;color:var(--muted);
 }
-
-.subtitle-empty-icon{
-    font-size:35px;
-    margin-bottom:12px;
-}
-
-.subtitle-empty-title{
-    color:var(--text);
-    font-weight:900;
-    font-size:17px;
-    margin-bottom:7px;
-}
-
+.subtitle-empty-icon{font-size:35px;margin-bottom:12px}
+.subtitle-empty-title{color:var(--text);font-weight:900;font-size:17px;margin-bottom:7px}
 .subtitle-error{
-    grid-column:1/-1;
-    border:1px solid rgba(255,85,119,.18);
-    background:rgba(255,85,119,.06);
-    border-radius:20px;
-    padding:30px 20px;
-    text-align:center;
-    color:var(--danger);
+    grid-column:1/-1;border:1px solid rgba(255,85,119,.18);background:rgba(255,85,119,.06);
+    border-radius:20px;padding:30px 20px;text-align:center;color:var(--danger);
 }
-
-/* ================= STATS ================= */
-
-.stats{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:10px 0 40px;
-}
-
-.stat{
-    border:1px solid var(--line);
-    background:rgba(10,25,42,.62);
-    border-radius:12px;
-    padding:8px 13px;
-    color:var(--muted);
-    font-size:11px;
-}
-
-html.light .stat{
-    background:rgba(255,255,255,.72);
-}
-
-.stat strong{
-    color:var(--text);
-}
-
-/* ================= AUTH MODAL ================= */
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px 0 40px}
+.stat{border:1px solid var(--line);background:rgba(10,25,42,.62);border-radius:12px;padding:8px 13px;color:var(--muted);font-size:11px}
+html.light .stat{background:rgba(255,255,255,.72)}
+.stat strong{color:var(--text)}
 
 .modal{
-    position:fixed;
-    inset:0;
-    z-index:3000;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(8px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+    position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);
+    display:none;align-items:center;justify-content:center;padding:20px;
 }
-
-.modal.show{
-    display:flex;
-}
-
+.modal.show{display:flex}
 .auth-box{
-    width:min(460px,100%);
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:24px;
-    box-shadow:0 30px 100px rgba(0,0,0,.45);
-    padding:27px;
-    position:relative;
-    animation:modalIn .2s ease;
+    width:min(460px,100%);background:var(--card);border:1px solid var(--line);
+    border-radius:24px;box-shadow:0 30px 100px rgba(0,0,0,.45);padding:27px;position:relative;animation:modalIn .2s ease;
 }
-
-@keyframes modalIn{
-    from{
-        opacity:0;
-        transform:translateY(15px) scale(.98);
-    }
-
-    to{
-        opacity:1;
-        transform:none;
-    }
-}
-
+@keyframes modalIn{from{opacity:0;transform:translateY(15px) scale(.98)}to{opacity:1;transform:none}}
 .close-modal{
-    position:absolute;
-    left:17px;
-    top:17px;
-    width:35px;
-    height:35px;
-    border-radius:10px;
-    border:1px solid var(--line);
-    background:var(--card2);
-    color:var(--text);
+    position:absolute;left:17px;top:17px;width:35px;height:35px;border-radius:10px;
+    border:1px solid var(--line);background:var(--card2);color:var(--text);
 }
-
 .auth-logo{
-    width:60px;
-    height:60px;
-    border-radius:17px;
-    display:grid;
-    place-items:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    font-size:25px;
-    margin-bottom:15px;
+    width:60px;height:60px;border-radius:17px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#03121c;font-size:25px;margin-bottom:15px;
 }
-
-.auth-box h2{
-    font-size:25px;
-    margin-bottom:8px;
-}
-
-.auth-desc{
-    color:var(--muted);
-    font-size:13px;
-    line-height:1.8;
-    margin-bottom:20px;
-}
-
-.auth-tabs{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    padding:5px;
-    background:var(--card2);
-    border-radius:12px;
-    margin-bottom:18px;
-}
-
-.auth-tab{
-    border:0;
-    padding:10px;
-    border-radius:9px;
-    background:transparent;
-    color:var(--muted);
-}
-
-.auth-tab.active{
-    background:var(--card);
-    color:var(--text);
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
-}
-
-.field{
-    margin-bottom:13px;
-}
-
-.field label{
-    display:block;
-    margin-bottom:7px;
-    font-size:13px;
-    color:var(--muted);
-}
-
-.field input{
-    width:100%;
-    border:1px solid var(--line);
-    background:var(--card2);
-    color:var(--text);
-    padding:13px;
-    border-radius:12px;
-    outline:none;
-    transition:.2s;
-}
-
-.field input:focus{
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(0,200,255,.08);
-}
-
+.auth-box h2{font-size:25px;margin-bottom:8px}
+.auth-desc{color:var(--muted);font-size:13px;line-height:1.8;margin-bottom:20px}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;background:var(--card2);border-radius:12px;margin-bottom:18px}
+.auth-tab{border:0;padding:10px;border-radius:9px;background:transparent;color:var(--muted)}
+.auth-tab.active{background:var(--card);color:var(--text);box-shadow:0 3px 10px rgba(0,0,0,.12)}
+.field{margin-bottom:13px}
+.field label{display:block;margin-bottom:7px;font-size:13px;color:var(--muted)}
+.field input{width:100%;border:1px solid var(--line);background:var(--card2);color:var(--text);padding:13px;border-radius:12px;outline:none;transition:.2s}
+.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,200,255,.08)}
 .auth-submit{
-    width:100%;
-    border:0;
-    padding:13px;
-    border-radius:12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#03121c;
-    font-weight:900;
-    margin-top:5px;
+    width:100%;border:0;padding:13px;border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#03121c;font-weight:900;margin-top:5px;
 }
-
-.auth-submit:disabled{
-    opacity:.6;
-    cursor:not-allowed;
-}
-
-.forgot{
-    border:0;
-    background:transparent;
-    color:var(--accent);
-    font-size:12px;
-    margin-top:14px;
-}
-
-.auth-message{
-    margin-top:13px;
-    padding:11px;
-    border-radius:10px;
-    display:none;
-    font-size:12px;
-    line-height:1.8;
-}
-
-.auth-message.show{
-    display:block;
-}
-
-.auth-message.error{
-    background:rgba(255,85,119,.10);
-    color:var(--danger);
-    border:1px solid rgba(255,85,119,.15);
-}
-
-.auth-message.success{
-    background:rgba(24,224,193,.10);
-    color:var(--accent2);
-    border:1px solid rgba(24,224,193,.15);
-}
-
-/* ================= TOAST ================= */
-
+.auth-submit:disabled{opacity:.6;cursor:not-allowed}
+.forgot{border:0;background:transparent;color:var(--accent);font-size:12px;margin-top:14px}
+.auth-message{margin-top:13px;padding:11px;border-radius:10px;display:none;font-size:12px;line-height:1.8}
+.auth-message.show{display:block}
+.auth-message.error{background:rgba(255,85,119,.10);color:var(--danger);border:1px solid rgba(255,85,119,.15)}
+.auth-message.success{background:rgba(24,224,193,.10);color:var(--accent2);border:1px solid rgba(24,224,193,.15)}
 .toast{
-    position:fixed;
-    bottom:25px;
-    right:25px;
-    z-index:5000;
-    background:var(--card);
-    border:1px solid var(--line);
-    box-shadow:var(--shadow);
-    color:var(--text);
-    border-radius:13px;
-    padding:13px 17px;
-    max-width:330px;
-    transform:translateY(120px);
-    opacity:0;
-    transition:.25s;
-    font-size:13px;
+    position:fixed;bottom:25px;right:25px;z-index:5000;background:var(--card);
+    border:1px solid var(--line);box-shadow:var(--shadow);color:var(--text);border-radius:13px;
+    padding:13px 17px;max-width:330px;transform:translateY(120px);opacity:0;transition:.25s;font-size:13px;
 }
-
-.toast.show{
-    transform:none;
-    opacity:1;
-}
-
-.toast.success{
-    border-color:rgba(24,224,193,.35);
-}
-
-.toast.error{
-    border-color:rgba(255,85,119,.35);
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-    border-top:1px solid var(--line);
-    padding:30px 0;
-    color:var(--muted);
-    text-align:center;
-    font-size:12px;
-}
-
-.footer-logo{
-    color:var(--text);
-    font-weight:900;
-    margin-bottom:8px;
-}
-
-/* ================= RESPONSIVE ================= */
+.toast.show{transform:none;opacity:1}
+.toast.success{border-color:rgba(24,224,193,.35)}
+.toast.error{border-color:rgba(255,85,119,.35)}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);text-align:center;font-size:12px}
+.footer-logo{color:var(--text);font-weight:900;margin-bottom:8px}
 
 @media(max-width:1180px){
-
-    .nav-center{
-        gap:2px;
-    }
-
-    .nav-link{
-        padding:10px 9px;
-        font-size:13px;
-    }
+    .nav-center{gap:2px}
+    .nav-link{padding:10px 9px;font-size:13px}
 }
-
 @media(max-width:1050px){
-
-    .nav-center{
-        display:none;
-    }
-
-    .posts-grid{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-    }
+    .nav-center{display:none}
+    .posts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-
 @media(max-width:700px){
-
-    .container{
-        width:min(100% - 20px,var(--max));
-    }
-
-    .nav{
-        min-height:68px;
-    }
-
-    .logo{
-        font-size:16px;
-    }
-
-    .logo-mark{
-        width:37px;
-        height:37px;
-    }
-
-    .auth-btn{
-        padding:9px 11px;
-        font-size:12px;
-    }
-
-    .user-button{
-        min-width:auto;
-        padding:6px 8px;
-    }
-
-    .user-name{
-        display:none;
-    }
-
-    .user-dropdown{
-        left:0;
-        width:190px;
-    }
-
-    .hero{
-        padding:25px 0 25px;
-    }
-
-    .hero-box{
-        min-height:410px;
-        padding:30px 22px;
-        border-radius:21px;
-    }
-
-    .hero h1{
-        font-size:36px;
-    }
-
-    .hero p{
-        font-size:14px;
-    }
-
-    .posts-grid{
-        grid-template-columns:1fr;
-    }
-
-    .section{
-        padding-bottom:45px;
-    }
-
-    .section-head{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .section-head .secondary-btn{
-        width:100%;
-        text-align:center;
-    }
-
-    .section-title{
-        font-size:22px;
-    }
-
-    .stats{
-        margin-bottom:25px;
-    }
-
-    .toast{
-        right:10px;
-        left:10px;
-        bottom:10px;
-        max-width:none;
-    }
+    .container{width:min(calc(100% - 20px),var(--max))}
+    .nav{min-height:68px}
+    .logo{font-size:16px}
+    .logo-mark{width:37px;height:37px}
+    .auth-btn{padding:9px 11px;font-size:12px}
+    .user-button{min-width:auto;padding:6px 8px}
+    .user-name{display:none}
+    .user-dropdown{left:0;width:190px}
+    .hero{padding:25px 0}
+    .hero-box{min-height:410px;padding:30px 22px;border-radius:21px}
+    .hero h1{font-size:36px}
+    .hero p{font-size:14px}
+    .posts-grid{grid-template-columns:1fr}
+    .section{padding-bottom:45px}
+    .section-head{align-items:flex-start;flex-direction:column}
+    .section-head .secondary-btn{width:100%;text-align:center}
+    .section-title{font-size:22px}
+    .stats{margin-bottom:25px}
+    .toast{right:10px;left:10px;bottom:10px;max-width:none}
 }
 </style>
 </head>
 
 <body>
-
-<!-- ================= HEADER ================= -->
-
 <header>
 <div class="container nav">
-
     <a href="./index.html" class="logo">
         <div class="logo-mark">🎮</div>
         <div>PERSIAN <span>STARK</span></div>
     </a>
 
     <nav class="nav-center">
-
-        <a href="#home" class="nav-link">
-            خانه
-        </a>
-
-        <a href="#posts" class="nav-link">
-            مطالب
-        </a>
-
-        <a href="#games" class="nav-link">
-            معرفی بازی
-        </a>
-
-        <a href="#software" class="nav-link">
-            نرم افزار
-        </a>
-
-        <a
-            href="./subtitles.html"
-            class="nav-link subtitle-link"
-        >
-            🎮 زیرنویس رایگان
-        </a>
-
+        <a href="#home" class="nav-link">خانه</a>
+        <a href="#posts" class="nav-link">مطالب</a>
+        <a href="#games" class="nav-link">معرفی بازی</a>
+        <a href="#software" class="nav-link">نرم افزار</a>
+        <a href="./subtitles.html" class="nav-link subtitle-link">🎮 زیرنویس رایگان</a>
     </nav>
 
     <div class="nav-actions">
+        <button class="icon-btn" id="themeBtn" title="تغییر حالت">☀️</button>
+        <button class="auth-btn" id="loginBtn">ورود / ثبت‌نام</button>
 
-        <button
-            class="icon-btn"
-            id="themeBtn"
-            title="تغییر حالت"
-        >☀️</button>
-
-        <button
-            class="auth-btn"
-            id="loginBtn"
-        >ورود / ثبت‌نام</button>
-
-        <div
-            class="user-menu"
-            id="userMenu"
-            style="display:none"
-        >
-
-            <button
-                class="user-button"
-                id="userButton"
-            >
-
-                <span
-                    class="user-avatar"
-                    id="userAvatar"
-                >👤</span>
-
-                <span
-                    class="user-name"
-                    id="userName"
-                >
-                    کاربر
-                </span>
-
+        <div class="user-menu" id="userMenu" style="display:none">
+            <button class="user-button" id="userButton">
+                <span class="user-avatar" id="userAvatar">👤</span>
+                <span class="user-name" id="userName">کاربر</span>
                 <span>⌄</span>
-
             </button>
 
-            <div
-                class="user-dropdown"
-                id="userDropdown"
-            >
-
-                <a
-                    class="dropdown-item"
-                    href="./profile.html"
-                >
-                    👤 پروفایل من
-                </a>
-
-                <button
-                    class="dropdown-item logout"
-                    id="logoutBtn"
-                >
-                    🚪 خروج از حساب
-                </button>
-
+            <div class="user-dropdown" id="userDropdown">
+                <a class="dropdown-item" href="./profile.html">👤 پروفایل من</a>
+                <button class="dropdown-item logout" id="logoutBtn">🚪 خروج از حساب</button>
             </div>
-
         </div>
-
     </div>
-
 </div>
 </header>
 
-
-<!-- ================= HERO ================= -->
-
 <main id="home">
-
 <section class="hero">
-
 <div class="container">
-
 <div class="hero-box">
-
 <div class="hero-content">
-
-<div class="hero-badge">
-🎮 مرجع گیم و تکنولوژی
+    <div class="hero-badge">🎮 مرجع گیم و تکنولوژی</div>
+    <h1>دنیای گیم را با <span>PERSIAN STARK</span> تجربه کن</h1>
+    <p>آخرین اخبار بازی‌ها، معرفی بازی‌های جدید، نرم‌افزارهای کاربردی، زیرنویس‌های فارسی رایگان و مطالب دنیای گیم را یکجا دنبال کن.</p>
+    <div class="hero-buttons">
+        <a href="#posts" class="primary-btn">مشاهده مطالب</a>
+        <a href="./subtitles.html" class="secondary-btn">🎮 زیرنویس‌های رایگان</a>
+        <button class="secondary-btn" id="heroLoginBtn">عضویت در سایت</button>
+    </div>
 </div>
-
-<h1>
-دنیای گیم را با
-<span>PERSIAN STARK</span>
-تجربه کن
-</h1>
-
-<p>
-آخرین اخبار بازی‌ها، معرفی بازی‌های جدید،
-نرم‌افزارهای کاربردی، زیرنویس‌های فارسی رایگان
-و مطالب دنیای گیم را یکجا دنبال کن.
-</p>
-
-<div class="hero-buttons">
-
-<a
-href="#posts"
-class="primary-btn"
->
-مشاهده مطالب
-</a>
-
-<a
-href="./subtitles.html"
-class="secondary-btn"
->
-🎮 زیرنویس‌های رایگان
-</a>
-
-<button
-class="secondary-btn"
-id="heroLoginBtn"
->
-عضویت در سایت
-</button>
-
 </div>
-
 </div>
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- ================= STATS ================= -->
-
 <div class="container">
-
 <div class="stats">
-
-<div class="stat">
-👥 اعضا:
-<strong id="membersCount">—</strong>
+    <div class="stat">👥 اعضا: <strong id="membersCount">—</strong></div>
+    <div class="stat">🟢 آنلاین: <strong id="onlineCount">—</strong></div>
+    <div class="stat">👁️ بازدید امروز: <strong id="todayVisits">—</strong></div>
+</div>
 </div>
 
-<div class="stat">
-🟢 آنلاین:
-<strong id="onlineCount">—</strong>
-</div>
-
-<div class="stat">
-👁️ بازدید امروز:
-<strong id="todayVisits">—</strong>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ================= POSTS ================= -->
-
-<section
-class="section"
-id="posts"
->
-
+<section class="section" id="posts">
 <div class="container">
+    <div class="section-head">
+        <div>
+            <div class="section-title">آخرین مطالب</div>
+            <div class="section-sub">جدیدترین مطالب منتشرشده در PERSIAN STARK</div>
+        </div>
+    </div>
 
-<div class="section-head">
+    <div class="categories" id="categories">
+        <button class="category active" data-category="all">همه</button>
+    </div>
 
-<div>
-
-<div class="section-title">
-آخرین مطالب
+    <div class="posts-grid" id="postsGrid">
+        <div class="loading">در حال دریافت مطالب...</div>
+    </div>
 </div>
-
-<div class="section-sub">
-جدیدترین مطالب منتشرشده در PERSIAN STARK
-</div>
-
-</div>
-
-</div>
-
-
-<div
-class="categories"
-id="categories"
->
-
-<button
-class="category active"
-data-category="all"
->
-همه
-</button>
-
-</div>
-
-
-<div
-class="posts-grid"
-id="postsGrid"
->
-
-<div class="loading">
-در حال دریافت مطالب...
-</div>
-
-</div>
-
-</div>
-
 </section>
 
-
-<!-- ================= FREE SUBTITLES ================= -->
-
-<section
-class="section subtitle-section"
-id="subtitles"
->
-
+<section class="section subtitle-section" id="subtitles">
 <div class="container">
+    <div class="section-head">
+        <div>
+            <div class="section-title">
+                <span class="subtitle-title-icon">🎮</span>
+                آخرین <span>زیرنویس‌های رایگان</span>
+            </div>
+            <div class="section-sub">جدیدترین زیرنویس‌های فارسی بازی‌ها را رایگان دریافت کنید</div>
+        </div>
+        <a href="./subtitles.html" class="secondary-btn">مشاهده همه زیرنویس‌ها ←</a>
+    </div>
 
-<div class="section-head">
-
-<div>
-
-<div class="section-title">
-
-<span class="subtitle-title-icon">
-🎮
-</span>
-
-آخرین
-<span>
-زیرنویس‌های رایگان
-</span>
-
+    <div class="posts-grid" id="subtitlesGrid">
+        <div class="loading">در حال دریافت آخرین زیرنویس‌ها...</div>
+    </div>
 </div>
-
-<div class="section-sub">
-جدیدترین زیرنویس‌های فارسی بازی‌ها را رایگان دریافت کنید
-</div>
-
-</div>
-
-<a
-href="./subtitles.html"
-class="secondary-btn"
->
-مشاهده همه زیرنویس‌ها ←
-</a>
-
-</div>
-
-
-<div
-class="posts-grid"
-id="subtitlesGrid"
->
-
-<div class="loading">
-در حال دریافت آخرین زیرنویس‌ها...
-</div>
-
-</div>
-
-</div>
-
 </section>
-
-
-<!-- ================= FOOTER ================= -->
 
 <footer>
-
 <div class="container">
-
-<div class="footer-logo">
-PERSIAN STARK 🎮
+    <div class="footer-logo">PERSIAN STARK 🎮</div>
+    <div>دنیای گیم، اخبار، معرفی بازی، نرم‌افزار و زیرنویس فارسی</div>
+    <div style="margin-top:8px">© <span id="year"></span> PERSIAN STARK</div>
 </div>
-
-<div>
-دنیای گیم، اخبار، معرفی بازی، نرم‌افزار و زیرنویس فارسی
-</div>
-
-<div style="margin-top:8px">
-© <span id="year"></span> PERSIAN STARK
-</div>
-
-</div>
-
 </footer>
-
 </main>
 
-
-<!-- ================= AUTH MODAL ================= -->
-
-<div
-class="modal"
-id="authModal"
->
-
+<div class="modal" id="authModal">
 <div class="auth-box">
+    <button class="close-modal" id="closeModal">✕</button>
+    <div class="auth-logo">🎮</div>
+    <h2 id="authTitle">ورود به حساب</h2>
+    <div class="auth-desc" id="authDesc">برای استفاده از امکانات سایت وارد حساب خود شوید.</div>
 
-<button
-class="close-modal"
-id="closeModal"
->
-✕
-</button>
+    <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTab">ورود</button>
+        <button class="auth-tab" id="registerTab">ثبت‌نام</button>
+    </div>
 
-<div class="auth-logo">
-🎮
+    <form id="authForm">
+        <div class="field" id="usernameField" style="display:none">
+            <label>نام کاربری</label>
+            <input type="text" id="usernameInput" placeholder="مثلاً PersianGamer" autocomplete="username">
+        </div>
+
+        <div class="field">
+            <label>ایمیل</label>
+            <input type="email" id="emailInput" placeholder="example@email.com" required autocomplete="email">
+        </div>
+
+        <div class="field">
+            <label>رمز عبور</label>
+            <input type="password" id="passwordInput" placeholder="حداقل ۶ کاراکتر" required autocomplete="current-password">
+        </div>
+
+        <button class="auth-submit" id="authSubmit" type="submit">ورود به حساب</button>
+    </form>
+
+    <button class="forgot" id="forgotBtn">رمز عبورم را فراموش کرده‌ام</button>
+    <div class="auth-message" id="authMessage"></div>
+</div>
 </div>
 
-<h2 id="authTitle">
-ورود به حساب
-</h2>
-
-<div
-class="auth-desc"
-id="authDesc"
->
-برای استفاده از امکانات سایت وارد حساب خود شوید.
-</div>
-
-
-<div class="auth-tabs">
-
-<button
-class="auth-tab active"
-id="loginTab"
->
-ورود
-</button>
-
-<button
-class="auth-tab"
-id="registerTab"
->
-ثبت‌نام
-</button>
-
-</div>
-
-
-<form id="authForm">
-
-<div
-class="field"
-id="usernameField"
-style="display:none"
->
-
-<label>
-نام کاربری
-</label>
-
-<input
-type="text"
-id="usernameInput"
-placeholder="مثلاً PersianGamer"
-autocomplete="username"
-/>
-
-</div>
-
-
-<div class="field">
-
-<label>
-ایمیل
-</label>
-
-<input
-type="email"
-id="emailInput"
-placeholder="example@email.com"
-required
-autocomplete="email"
-/>
-
-</div>
-
-
-<div class="field">
-
-<label>
-رمز عبور
-</label>
-
-<input
-type="password"
-id="passwordInput"
-placeholder="حداقل ۶ کاراکتر"
-required
-autocomplete="current-password"
-/>
-
-</div>
-
-
-<button
-class="auth-submit"
-id="authSubmit"
-type="submit"
->
-ورود به حساب
-</button>
-
-</form>
-
-
-<button
-class="forgot"
-id="forgotBtn"
->
-رمز عبورم را فراموش کرده‌ام
-</button>
-
-
-<div
-class="auth-message"
-id="authMessage"
-></div>
-
-</div>
-
-</div>
-
-
-<div
-class="toast"
-id="toast"
-></div>
-
+<div class="toast" id="toast"></div>
 
 <script>
-
-/* =========================================================
-   SUPABASE
-========================================================= */
-
+/* SUPABASE */
 const { createClient } = supabase;
 
 const db = createClient(
@@ -1566,1553 +432,580 @@ const db = createClient(
     }
 );
 
-
-/* =========================================================
-   GLOBALS
-========================================================= */
-
 let currentUser = null;
 let allPosts = [];
 let currentCategory = "all";
 let authMode = "login";
 
+const loginBtn = document.getElementById("loginBtn");
+const heroLoginBtn = document.getElementById("heroLoginBtn");
+const userMenu = document.getElementById("userMenu");
+const userButton = document.getElementById("userButton");
+const userDropdown = document.getElementById("userDropdown");
+const logoutBtn = document.getElementById("logoutBtn");
+const userName = document.getElementById("userName");
+const userAvatar = document.getElementById("userAvatar");
+const authModal = document.getElementById("authModal");
+const closeModal = document.getElementById("closeModal");
+const loginTab = document.getElementById("loginTab");
+const registerTab = document.getElementById("registerTab");
+const authForm = document.getElementById("authForm");
+const authTitle = document.getElementById("authTitle");
+const authDesc = document.getElementById("authDesc");
+const usernameField = document.getElementById("usernameField");
+const usernameInput = document.getElementById("usernameInput");
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+const authSubmit = document.getElementById("authSubmit");
+const forgotBtn = document.getElementById("forgotBtn");
+const authMessage = document.getElementById("authMessage");
+const postsGrid = document.getElementById("postsGrid");
+const subtitlesGrid = document.getElementById("subtitlesGrid");
+const categories = document.getElementById("categories");
+const themeBtn = document.getElementById("themeBtn");
+const toast = document.getElementById("toast");
 
-/* =========================================================
-   DOM
-========================================================= */
-
-const loginBtn =
-    document.getElementById("loginBtn");
-
-const heroLoginBtn =
-    document.getElementById("heroLoginBtn");
-
-const userMenu =
-    document.getElementById("userMenu");
-
-const userButton =
-    document.getElementById("userButton");
-
-const userDropdown =
-    document.getElementById("userDropdown");
-
-const logoutBtn =
-    document.getElementById("logoutBtn");
-
-const userName =
-    document.getElementById("userName");
-
-const userAvatar =
-    document.getElementById("userAvatar");
-
-const authModal =
-    document.getElementById("authModal");
-
-const closeModal =
-    document.getElementById("closeModal");
-
-const loginTab =
-    document.getElementById("loginTab");
-
-const registerTab =
-    document.getElementById("registerTab");
-
-const authForm =
-    document.getElementById("authForm");
-
-const authTitle =
-    document.getElementById("authTitle");
-
-const authDesc =
-    document.getElementById("authDesc");
-
-const usernameField =
-    document.getElementById("usernameField");
-
-const usernameInput =
-    document.getElementById("usernameInput");
-
-const emailInput =
-    document.getElementById("emailInput");
-
-const passwordInput =
-    document.getElementById("passwordInput");
-
-const authSubmit =
-    document.getElementById("authSubmit");
-
-const forgotBtn =
-    document.getElementById("forgotBtn");
-
-const authMessage =
-    document.getElementById("authMessage");
-
-const postsGrid =
-    document.getElementById("postsGrid");
-
-const subtitlesGrid =
-    document.getElementById("subtitlesGrid");
-
-const categories =
-    document.getElementById("categories");
-
-const themeBtn =
-    document.getElementById("themeBtn");
-
-const toast =
-    document.getElementById("toast");
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
+/* TOAST */
 let toastTimer;
 
 function showToast(message,type="success"){
-
     clearTimeout(toastTimer);
-
     toast.textContent = message;
-
-    toast.className =
-        "toast show " + type;
-
-    toastTimer = setTimeout(()=>{
-
-        toast.className =
-            "toast";
-
-    },3500);
+    toast.className = "toast show " + type;
+    toastTimer = setTimeout(()=>{ toast.className = "toast"; },3500);
 }
-
-
-/* =========================================================
-   AUTH MESSAGE
-========================================================= */
 
 function showAuthMessage(message,type="error"){
-
-    authMessage.textContent =
-        message;
-
-    authMessage.className =
-        "auth-message show " + type;
+    authMessage.textContent = message;
+    authMessage.className = "auth-message show " + type;
 }
-
 function clearAuthMessage(){
-
-    authMessage.textContent =
-        "";
-
-    authMessage.className =
-        "auth-message";
+    authMessage.textContent = "";
+    authMessage.className = "auth-message";
 }
 
-
-/* =========================================================
-   AUTH MODAL
-========================================================= */
-
+/* AUTH MODAL */
 function openAuth(mode="login"){
-
-    authMode =
-        mode;
-
+    authMode = mode;
     clearAuthMessage();
-
-    authModal.classList.add(
-        "show"
-    );
-
+    authModal.classList.add("show");
     updateAuthUI();
-
-    setTimeout(()=>{
-
-        emailInput.focus();
-
-    },100);
+    setTimeout(()=>emailInput.focus(),100);
 }
-
-
 function closeAuth(){
-
-    authModal.classList.remove(
-        "show"
-    );
-
+    authModal.classList.remove("show");
     authForm.reset();
-
     clearAuthMessage();
 }
-
-
 function updateAuthUI(){
-
     if(authMode === "login"){
-
-        authTitle.textContent =
-            "ورود به حساب";
-
-        authDesc.textContent =
-            "برای استفاده از امکانات سایت وارد حساب خود شوید.";
-
-        usernameField.style.display =
-            "none";
-
-        usernameInput.required =
-            false;
-
-        authSubmit.textContent =
-            "ورود به حساب";
-
-        forgotBtn.style.display =
-            "inline-block";
-
-        loginTab.classList.add(
-            "active"
-        );
-
-        registerTab.classList.remove(
-            "active"
-        );
-
+        authTitle.textContent = "ورود به حساب";
+        authDesc.textContent = "برای استفاده از امکانات سایت وارد حساب خود شوید.";
+        usernameField.style.display = "none";
+        usernameInput.required = false;
+        authSubmit.textContent = "ورود به حساب";
+        forgotBtn.style.display = "inline-block";
+        loginTab.classList.add("active");
+        registerTab.classList.remove("active");
     }else{
-
-        authTitle.textContent =
-            "ساخت حساب کاربری";
-
-        authDesc.textContent =
-            "حساب خودت را بساز و در مطالب سایت مشارکت کن.";
-
-        usernameField.style.display =
-            "block";
-
-        usernameInput.required =
-            true;
-
-        authSubmit.textContent =
-            "ساخت حساب";
-
-        forgotBtn.style.display =
-            "none";
-
-        registerTab.classList.add(
-            "active"
-        );
-
-        loginTab.classList.remove(
-            "active"
-        );
+        authTitle.textContent = "ساخت حساب کاربری";
+        authDesc.textContent = "حساب خودت را بساز و در مطالب سایت مشارکت کن.";
+        usernameField.style.display = "block";
+        usernameInput.required = true;
+        authSubmit.textContent = "ساخت حساب";
+        forgotBtn.style.display = "none";
+        registerTab.classList.add("active");
+        loginTab.classList.remove("active");
     }
 }
 
-
-/* =========================================================
-   AUTH EVENTS
-========================================================= */
-
-loginBtn.addEventListener(
-    "click",
-    ()=>{
-
-        if(currentUser){
-
-            userDropdown.classList.toggle(
-                "show"
-            );
-
-        }else{
-
-            openAuth("login");
-
-        }
+/* AUTH EVENTS */
+loginBtn.addEventListener("click",()=>{
+    if(currentUser){
+        userDropdown.classList.toggle("show");
+    }else{
+        openAuth("login");
     }
-);
+});
 
-
-heroLoginBtn.addEventListener(
-    "click",
-    ()=>{
-
-        if(currentUser){
-
-            location.href =
-                "./profile.html";
-
-        }else{
-
-            openAuth("register");
-
-        }
+heroLoginBtn.addEventListener("click",()=>{
+    if(currentUser){
+        location.href = "./profile.html";
+    }else{
+        openAuth("register");
     }
-);
+});
 
+closeModal.addEventListener("click",closeAuth);
 
-closeModal.addEventListener(
-    "click",
-    closeAuth
-);
+loginTab.addEventListener("click",()=>{
+    authMode = "login";
+    clearAuthMessage();
+    updateAuthUI();
+});
 
+registerTab.addEventListener("click",()=>{
+    authMode = "register";
+    clearAuthMessage();
+    updateAuthUI();
+});
 
-loginTab.addEventListener(
-    "click",
-    ()=>{
+authModal.addEventListener("click",e=>{
+    if(e.target === authModal) closeAuth();
+});
 
-        authMode =
-            "login";
+userButton.addEventListener("click",e=>{
+    e.stopPropagation();
+    userDropdown.classList.toggle("show");
+});
 
-        clearAuthMessage();
+document.addEventListener("click",()=>{
+    userDropdown.classList.remove("show");
+});
 
-        updateAuthUI();
+logoutBtn.addEventListener("click",async()=>{
+    const {error} = await db.auth.signOut();
+    if(error){
+        showToast("خروج از حساب انجام نشد.","error");
+        return;
     }
-);
-
-
-registerTab.addEventListener(
-    "click",
-    ()=>{
-
-        authMode =
-            "register";
-
-        clearAuthMessage();
-
-        updateAuthUI();
-    }
-);
-
-
-authModal.addEventListener(
-    "click",
-    e=>{
-
-        if(e.target === authModal){
-
-            closeAuth();
-
-        }
-    }
-);
-
-
-userButton.addEventListener(
-    "click",
-    e=>{
-
-        e.stopPropagation();
-
-        userDropdown.classList.toggle(
-            "show"
-        );
-    }
-);
-
-
-document.addEventListener(
-    "click",
-    ()=>{
-
-        userDropdown.classList.remove(
-            "show"
-        );
-    }
-);
-
-
-logoutBtn.addEventListener(
-    "click",
-    async ()=>{
-
-        const {
-            error
-        } = await db.auth.signOut();
-
-        if(error){
-
-            showToast(
-                "خروج از حساب انجام نشد.",
-                "error"
-            );
-
-            return;
-        }
-
-        userDropdown.classList.remove(
-            "show"
-        );
-
-        showToast(
-            "با موفقیت از حساب خارج شدید."
-        );
-    }
-);
-
-
-/* =========================================================
-   LOGIN / REGISTER
-========================================================= */
-
-authForm.addEventListener(
-    "submit",
-    async e=>{
-
-        e.preventDefault();
-
-        clearAuthMessage();
-
-        const email =
-            emailInput.value.trim();
-
-        const password =
-            passwordInput.value;
-
-        if(!email || !password){
-
-            showAuthMessage(
-                "ایمیل و رمز عبور را وارد کنید."
-            );
-
-            return;
-        }
-
-
-        authSubmit.disabled =
-            true;
-
-        authSubmit.textContent =
-            "در حال انجام...";
-
-
-        try{
-
-            if(authMode === "login"){
-
-                const {
-                    data,
-                    error
-                } = await db.auth.signInWithPassword({
-
-                    email,
-                    password
-
-                });
-
-                if(error)
-                    throw error;
-
-                currentUser =
-                    data.user;
-
-                showToast(
-                    "خوش آمدی 👋"
-                );
-
-                closeAuth();
-
-                await updateHeader();
-
-            }else{
-
-                const username =
-                    usernameInput.value.trim();
-
-                if(username.length < 3){
-
-                    showAuthMessage(
-                        "نام کاربری باید حداقل ۳ کاراکتر باشد."
-                    );
-
-                    return;
-                }
-
-                if(password.length < 6){
-
-                    showAuthMessage(
-                        "رمز عبور باید حداقل ۶ کاراکتر باشد."
-                    );
-
-                    return;
-                }
-
-
-                const {
-                    data,
-                    error
-                } = await db.auth.signUp({
-
-                    email,
-                    password,
-
-                    options:{
-                        emailRedirectTo:
-                            window.location.origin +
-                            "/index.html"
-                    }
-
-                });
-
-
-                if(error)
-                    throw error;
-
-
-                if(data.user){
-
-                    currentUser =
-                        data.user;
-
-
-                    const {
-                        error:profileError
-                    } = await db
-                        .from("profiles")
-                        .upsert({
-
-                            id:data.user.id,
-
-                            username:username,
-
-                            steam_trade_url:null,
-
-                            updated_at:
-                                new Date().toISOString()
-
-                        },{
-                            onConflict:"id"
-                        });
-
-
-                    if(profileError){
-
-                        console.warn(
-                            "Profile creation:",
-                            profileError
-                        );
-                    }
-                }
-
-
-                showAuthMessage(
-                    "ثبت‌نام انجام شد. اگر تأیید ایمیل فعال باشد، لینک تأیید به ایمیل شما ارسال شده است.",
-                    "success"
-                );
-
-                showToast(
-                    "حساب شما ساخته شد."
-                );
-
-                setTimeout(()=>{
-
-                    closeAuth();
-
-                },1800);
-
-                await updateHeader();
-            }
-
-        }catch(error){
-
-            console.error(error);
-
-            let message =
-                error.message ||
-                "خطایی رخ داد.";
-
-
-            if(
-                message.includes(
-                    "Invalid login credentials"
-                )
-            ){
-
-                message =
-                    "ایمیل یا رمز عبور اشتباه است.";
-            }
-
-
-            if(
-                message.includes(
-                    "User already registered"
-                )
-            ){
-
-                message =
-                    "این ایمیل قبلاً ثبت‌نام کرده است.";
-            }
-
-
-            if(
-                message.includes(
-                    "Password should be at least"
-                )
-            ){
-
-                message =
-                    "رمز عبور باید حداقل ۶ کاراکتر باشد.";
-            }
-
-
-            showAuthMessage(
-                message
-            );
-
-        }finally{
-
-            authSubmit.disabled =
-                false;
-
-            updateAuthUI();
-        }
-    }
-);
-
-
-/* =========================================================
-   PASSWORD RESET
-========================================================= */
-
-forgotBtn.addEventListener(
-    "click",
-    async ()=>{
-
-        const email =
-            emailInput.value.trim();
-
-        if(!email){
-
-            showAuthMessage(
-                "ابتدا ایمیل خود را وارد کنید."
-            );
-
-            emailInput.focus();
-
-            return;
-        }
-
-        forgotBtn.disabled =
-            true;
-
-
-        const {
-            error
-        } = await db.auth.resetPasswordForEmail(
-            email,
-            {
-                redirectTo:
-                    window.location.origin +
-                    "/profile.html"
-            }
-        );
-
-
-        forgotBtn.disabled =
-            false;
-
-
-        if(error){
-
-            showAuthMessage(
-                error.message
-            );
-
-            return;
-        }
-
-
-        showAuthMessage(
-            "لینک بازیابی رمز عبور به ایمیل شما ارسال شد.",
-            "success"
-        );
-    }
-);
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-db.auth.onAuthStateChange(
-    async (event,session)=>{
-
-        currentUser =
-            session?.user || null;
-
-        await updateHeader();
-    }
-);
-
-
-/* =========================================================
-   UPDATE HEADER
-========================================================= */
-
-async function updateHeader(){
-
-    if(!currentUser){
-
-        loginBtn.style.display =
-            "block";
-
-        loginBtn.textContent =
-            "ورود / ثبت‌نام";
-
-        userMenu.style.display =
-            "none";
-
+    userDropdown.classList.remove("show");
+    showToast("با موفقیت از حساب خارج شدید.");
+});
+
+/* LOGIN / REGISTER */
+authForm.addEventListener("submit",async e=>{
+    e.preventDefault();
+    clearAuthMessage();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if(!email || !password){
+        showAuthMessage("ایمیل و رمز عبور را وارد کنید.");
         return;
     }
 
-
-    loginBtn.style.display =
-        "none";
-
-    userMenu.style.display =
-        "block";
-
-
-    let username =
-        currentUser.email
-        ?.split("@")[0] ||
-        "کاربر";
-
+    authSubmit.disabled = true;
+    authSubmit.textContent = "در حال انجام...";
 
     try{
+        if(authMode === "login"){
+            const {data,error} = await db.auth.signInWithPassword({email,password});
+            if(error) throw error;
 
-        const {
-            data
-        } = await db
+            currentUser = data.user;
+            showToast("خوش آمدی 👋");
+            closeAuth();
+            await updateHeader();
+        }else{
+            const username = usernameInput.value.trim();
+
+            if(username.length < 3){
+                showAuthMessage("نام کاربری باید حداقل ۳ کاراکتر باشد.");
+                return;
+            }
+            if(password.length < 6){
+                showAuthMessage("رمز عبور باید حداقل ۶ کاراکتر باشد.");
+                return;
+            }
+
+            const {data,error} = await db.auth.signUp({
+                email,
+                password,
+                options:{
+                    emailRedirectTo:window.location.origin + "/index.html"
+                }
+            });
+            if(error) throw error;
+
+            if(data.user){
+                currentUser = data.user;
+                const {error:profileError} = await db
+                    .from("profiles")
+                    .upsert({
+                        id:data.user.id,
+                        username:username,
+                        steam_trade_url:null,
+                        updated_at:new Date().toISOString()
+                    },{onConflict:"id"});
+
+                if(profileError) console.warn("Profile creation:",profileError);
+            }
+
+            showAuthMessage(
+                "ثبت‌نام انجام شد. اگر تأیید ایمیل فعال باشد، لینک تأیید به ایمیل شما ارسال شده است.",
+                "success"
+            );
+            showToast("حساب شما ساخته شد.");
+            setTimeout(closeAuth,1800);
+            await updateHeader();
+        }
+    }catch(error){
+        console.error(error);
+        let message = error.message || "خطایی رخ داد.";
+
+        if(message.includes("Invalid login credentials"))
+            message = "ایمیل یا رمز عبور اشتباه است.";
+        if(message.includes("User already registered"))
+            message = "این ایمیل قبلاً ثبت‌نام کرده است.";
+        if(message.includes("Password should be at least"))
+            message = "رمز عبور باید حداقل ۶ کاراکتر باشد.";
+
+        showAuthMessage(message);
+    }finally{
+        authSubmit.disabled = false;
+        updateAuthUI();
+    }
+});
+
+/* PASSWORD RESET */
+forgotBtn.addEventListener("click",async()=>{
+    const email = emailInput.value.trim();
+
+    if(!email){
+        showAuthMessage("ابتدا ایمیل خود را وارد کنید.");
+        emailInput.focus();
+        return;
+    }
+
+    forgotBtn.disabled = true;
+
+    try{
+        const {error} = await db.auth.resetPasswordForEmail(email,{
+            redirectTo:window.location.origin + "/profile.html"
+        });
+
+        if(error) throw error;
+        showAuthMessage("لینک بازیابی رمز عبور به ایمیل شما ارسال شد.","success");
+    }catch(error){
+        showAuthMessage(error.message || "ارسال لینک بازیابی انجام نشد.");
+    }finally{
+        forgotBtn.disabled = false;
+    }
+});
+
+/* AUTH STATE */
+db.auth.onAuthStateChange(async(event,session)=>{
+    currentUser = session?.user || null;
+    await updateHeader();
+});
+
+/* UPDATE HEADER */
+async function updateHeader(){
+    if(!currentUser){
+        loginBtn.style.display = "block";
+        loginBtn.textContent = "ورود / ثبت‌نام";
+        userMenu.style.display = "none";
+        return;
+    }
+
+    loginBtn.style.display = "none";
+    userMenu.style.display = "block";
+
+    let username = currentUser.email?.split("@")[0] || "کاربر";
+
+    try{
+        const {data} = await db
             .from("profiles")
             .select("username")
-            .eq(
-                "id",
-                currentUser.id
-            )
+            .eq("id",currentUser.id)
             .maybeSingle();
 
-
-        if(
-            data &&
-            data.username &&
-            data.username.trim()
-        ){
-
-            username =
-                data.username.trim();
-        }
-
+        if(data?.username?.trim()) username = data.username.trim();
     }catch(error){
-
-        console.warn(
-            "Profile fetch:",
-            error
-        );
+        console.warn("Profile fetch:",error);
     }
 
-
-    userName.textContent =
-        username;
-
-    userAvatar.textContent =
-        username
-        .charAt(0)
-        .toUpperCase();
+    userName.textContent = username;
+    userAvatar.textContent = username.charAt(0).toUpperCase();
 }
 
-
-/* =========================================================
-   THEME
-========================================================= */
-
+/* THEME */
 function applyTheme(theme){
-
     if(theme === "light"){
-
-        document.documentElement
-            .classList.add("light");
-
-        themeBtn.textContent =
-            "🌙";
-
+        document.documentElement.classList.add("light");
+        themeBtn.textContent = "🌙";
     }else{
-
-        document.documentElement
-            .classList.remove("light");
-
-        themeBtn.textContent =
-            "☀️";
+        document.documentElement.classList.remove("light");
+        themeBtn.textContent = "☀️";
     }
 }
 
+const savedTheme = localStorage.getItem("persian-stark-theme") || "dark";
+applyTheme(savedTheme);
 
-const savedTheme =
-    localStorage.getItem(
-        "persian-stark-theme"
-    ) || "dark";
+themeBtn.addEventListener("click",()=>{
+    const isLight = document.documentElement.classList.contains("light");
+    const newTheme = isLight ? "dark" : "light";
+    localStorage.setItem("persian-stark-theme",newTheme);
+    applyTheme(newTheme);
+});
 
+/* ESCAPE HTML */
+function escapeHtml(value){
+    if(value === null || value === undefined) return "";
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
 
-applyTheme(
-    savedTheme
-);
-
-
-themeBtn.addEventListener(
-    "click",
-    ()=>{
-
-        const isLight =
-            document.documentElement
-                .classList.contains(
-                    "light"
-                );
-
-
-        const newTheme =
-            isLight
-                ? "dark"
-                : "light";
-
-
-        localStorage.setItem(
-            "persian-stark-theme",
-            newTheme
-        );
-
-
-        applyTheme(
-            newTheme
-        );
-    }
-);
-
-
-/* =========================================================
-   LOAD POSTS
-========================================================= */
-
+/* LOAD POSTS */
 async function loadPosts(){
-
-    postsGrid.innerHTML =
-        `<div class="loading">
-            در حال دریافت مطالب...
-        </div>`;
-
-
-    const {
-        data,
-        error
-    } = await db
-        .from("posts")
-        .select(`
-            id,
-            title,
-            description,
-            content,
-            image_url,
-            download_url,
-            category,
-            created_at
-        `)
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        );
-
-
-    if(error){
-
-        console.error(error);
-
-        postsGrid.innerHTML =
-            `<div class="empty">
-                دریافت مطالب با خطا مواجه شد.
-             </div>`;
-
-        return;
-    }
-
-
-    allPosts =
-        data || [];
-
-
-    buildCategories();
-
-    renderPosts();
-}
-
-
-/* =========================================================
-   BUILD CATEGORIES
-========================================================= */
-
-function buildCategories(){
-
-    const unique =
-        [
-            ...new Set(
-                allPosts
-                .map(
-                    post =>
-                        post.category
-                )
-                .filter(Boolean)
-            )
-        ];
-
-
-    categories.innerHTML = `
-
-        <button
-            class="category active"
-            data-category="all"
-        >
-            همه
-        </button>
-
-    `;
-
-
-    unique.forEach(
-        category=>{
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-            button.className =
-                "category";
-
-            button.dataset.category =
-                category;
-
-            button.textContent =
-                category;
-
-            categories.appendChild(
-                button
-            );
-        }
-    );
-
-
-    categories
-        .querySelectorAll(
-            ".category"
-        )
-        .forEach(
-            button=>{
-
-                button.addEventListener(
-                    "click",
-                    ()=>{
-
-                        categories
-                            .querySelectorAll(
-                                ".category"
-                            )
-                            .forEach(
-                                b =>
-                                    b.classList.remove(
-                                        "active"
-                                    )
-                            );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-
-                        currentCategory =
-                            button.dataset.category;
-
-
-                        renderPosts();
-                    }
-                );
-            }
-        );
-}
-
-
-/* =========================================================
-   RENDER POSTS
-========================================================= */
-
-function renderPosts(){
-
-    let posts =
-        [...allPosts];
-
-
-    if(
-        currentCategory !== "all"
-    ){
-
-        posts =
-            posts.filter(
-                post =>
-                    post.category ===
-                    currentCategory
-            );
-    }
-
-
-    if(!posts.length){
-
-        postsGrid.innerHTML =
-            `<div class="empty">
-                هنوز مطلبی در این بخش منتشر نشده است.
-             </div>`;
-
-        return;
-    }
-
-
-    postsGrid.innerHTML =
-        posts.map(
-            post=>{
-
-                const date =
-                    post.created_at
-                        ? new Date(
-                            post.created_at
-                        ).toLocaleDateString(
-                            "fa-IR"
-                        )
-                        : "";
-
-
-                const image =
-                    post.image_url ||
-                    "./background.jpg";
-
-
-                const description =
-                    post.description ||
-                    "برای مشاهده کامل این مطلب وارد صفحه آن شوید.";
-
-
-                return `
-
-                <article
-                    class="post-card"
-                >
-
-                    <a
-                        href="./article.html?id=${encodeURIComponent(post.id)}"
-                    >
-
-                        <img
-                            class="post-image"
-                            src="${escapeHtml(image)}"
-                            alt="${escapeHtml(post.title || "مطلب")}"
-                            loading="lazy"
-                            onerror="this.src='./background.jpg'"
-                        >
-
-                    </a>
-
-
-                    <div class="post-body">
-
-                        <div class="post-meta">
-
-                            <span class="post-category">
-                                ${escapeHtml(
-                                    post.category ||
-                                    "مطالب"
-                                )}
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                ${date}
-                            </span>
-
-                        </div>
-
-
-                        <h2 class="post-title">
-                            ${escapeHtml(
-                                post.title ||
-                                "بدون عنوان"
-                            )}
-                        </h2>
-
-
-                        <p class="post-description">
-                            ${escapeHtml(
-                                description
-                            )}
-                        </p>
-
-
-                        <div class="post-footer">
-
-                            <a
-                                class="read-btn"
-                                href="./article.html?id=${encodeURIComponent(post.id)}"
-                            >
-                                ادامه مطلب ←
-                            </a>
-
-
-                            ${
-                                post.download_url
-                                ?
-                                `<span class="download-mini">
-                                    📥 دانلود
-                                 </span>`
-                                :
-                                ""
-                            }
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-                `;
-
-            }
-        ).join("");
-}
-
-
-/* =========================================================
-   LOAD LATEST FREE SUBTITLES
-========================================================= */
-
-async function loadLatestSubtitles(){
-
-    if(!subtitlesGrid)
-        return;
-
-
-    subtitlesGrid.innerHTML =
-        `<div class="loading">
-            در حال دریافت آخرین زیرنویس‌ها...
-        </div>`;
-
+    postsGrid.innerHTML = `<div class="loading">در حال دریافت مطالب...</div>`;
 
     try{
-
-        const {
-            data,
-            error
-        } = await db
+        const {data,error} = await db
             .from("posts")
-            .select(`
-                id,
-                title,
-                description,
-                image_url,
-                download_url,
-                category,
-                created_at
-            `)
-            .eq(
-                "category",
-                "زیرنویس‌های رایگان"
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            )
+            .select("id,title,description,content,image_url,download_url,category,created_at")
+            .order("created_at",{ascending:false});
+
+        if(error) throw error;
+
+        allPosts = data || [];
+        buildCategories();
+        renderPosts();
+    }catch(error){
+        console.error("Load posts:",error);
+        postsGrid.innerHTML = `<div class="empty">دریافت مطالب با خطا مواجه شد.</div>`;
+    }
+}
+
+/* BUILD CATEGORIES */
+function buildCategories(){
+    const unique = [...new Set(
+        allPosts.map(post=>post.category).filter(Boolean)
+    )];
+
+    categories.innerHTML = `
+        <button class="category active" data-category="all">همه</button>
+    `;
+
+    unique.forEach(category=>{
+        const button = document.createElement("button");
+        button.className = "category";
+        button.dataset.category = category;
+        button.textContent = category;
+        categories.appendChild(button);
+    });
+
+    categories.querySelectorAll(".category").forEach(button=>{
+        button.addEventListener("click",()=>{
+            categories.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
+            button.classList.add("active");
+            currentCategory = button.dataset.category;
+            renderPosts();
+        });
+    });
+}
+
+/* RENDER POSTS */
+function renderPosts(){
+    let posts = [...allPosts];
+
+    if(currentCategory !== "all"){
+        posts = posts.filter(post=>post.category === currentCategory);
+    }
+
+    if(!posts.length){
+        postsGrid.innerHTML = `<div class="empty">هنوز مطلبی در این بخش منتشر نشده است.</div>`;
+        return;
+    }
+
+    postsGrid.innerHTML = posts.map(post=>{
+        const date = post.created_at
+            ? new Date(post.created_at).toLocaleDateString("fa-IR")
+            : "";
+
+        const image = post.image_url || "./background.jpg";
+        const description = post.description || "برای مشاهده کامل این مطلب وارد صفحه آن شوید.";
+        const postUrl = "./article.html?id=" + encodeURIComponent(post.id);
+
+        return `
+            <article class="post-card">
+                <a href="${postUrl}">
+                    <img class="post-image"
+                        src="${escapeHtml(image)}"
+                        alt="${escapeHtml(post.title || "مطلب")}"
+                        loading="lazy"
+                        onerror="this.onerror=null;this.src='./background.jpg'">
+                </a>
+
+                <div class="post-body">
+                    <div class="post-meta">
+                        <span class="post-category">${escapeHtml(post.category || "مطالب")}</span>
+                        <span>•</span>
+                        <span>${date}</span>
+                    </div>
+
+                    <h2 class="post-title">${escapeHtml(post.title || "بدون عنوان")}</h2>
+                    <p class="post-description">${escapeHtml(description)}</p>
+
+                    <div class="post-footer">
+                        <a class="read-btn" href="${postUrl}">ادامه مطلب ←</a>
+                        ${post.download_url ? `<span class="download-mini">📥 دانلود</span>` : ""}
+                    </div>
+                </div>
+            </article>
+        `;
+    }).join("");
+}
+
+/* =========================================================
+   LOAD LATEST FREE SUBTITLES — FIXED
+   Supports category values used by the admin and older posts.
+========================================================= */
+async function loadLatestSubtitles(){
+    if(!subtitlesGrid) return;
+
+    subtitlesGrid.innerHTML = `
+        <div class="loading">در حال دریافت آخرین زیرنویس‌ها...</div>
+    `;
+
+    try{
+        const {data,error} = await db
+            .from("posts")
+            .select("id,title,description,image_url,download_url,category,created_at")
+            .in("category",[
+                "subtitles",
+                "زیرنویس‌های رایگان",
+                "زیرنویس رایگان"
+            ])
+            .order("created_at",{ascending:false})
             .limit(4);
 
+        if(error) throw error;
 
-        if(error)
-            throw error;
-
-
-        if(
-            !data ||
-            !data.length
-        ){
-
+        if(!data || !data.length){
             subtitlesGrid.innerHTML = `
-
                 <div class="subtitle-empty">
-
-                    <div class="subtitle-empty-icon">
-                        🎮
-                    </div>
-
-                    <div class="subtitle-empty-title">
-                        هنوز زیرنویس رایگانی منتشر نشده
-                    </div>
-
-                    <div>
-                        به‌زودی زیرنویس‌های فارسی بازی‌ها اینجا قرار می‌گیرند.
-                    </div>
-
+                    <div class="subtitle-empty-icon">🎮</div>
+                    <div class="subtitle-empty-title">هنوز زیرنویس رایگانی منتشر نشده</div>
+                    <div>به‌زودی زیرنویس‌های فارسی بازی‌ها اینجا قرار می‌گیرند.</div>
                 </div>
-
             `;
-
             return;
         }
 
+        subtitlesGrid.innerHTML = data.map(post=>{
+            const date = post.created_at
+                ? new Date(post.created_at).toLocaleDateString("fa-IR")
+                : "";
 
-        subtitlesGrid.innerHTML =
-            data.map(
-                post=>{
+            const image = post.image_url || "./background.jpg";
+            const description = post.description || "زیرنویس فارسی رایگان این بازی.";
+            const postUrl = "./article.html?id=" + encodeURIComponent(post.id);
 
-                    const date =
-                        post.created_at
-                            ? new Date(
-                                post.created_at
-                            ).toLocaleDateString(
-                                "fa-IR"
-                            )
-                            : "";
+            return `
+                <article class="post-card subtitle-card">
+                    <a href="${postUrl}">
+                        <img class="post-image"
+                            src="${escapeHtml(image)}"
+                            alt="${escapeHtml(post.title || "زیرنویس بازی")}"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='./background.jpg'">
+                    </a>
 
-
-                    const image =
-                        post.image_url ||
-                        "./background.jpg";
-
-
-                    const description =
-                        post.description ||
-                        "زیرنویس فارسی رایگان این بازی.";
-
-
-                    return `
-
-                    <article
-                        class="post-card subtitle-card"
-                    >
-
-                        <a
-                            href="./article.html?id=${encodeURIComponent(post.id)}"
-                        >
-
-                            <img
-                                class="post-image"
-                                src="${escapeHtml(image)}"
-                                alt="${escapeHtml(post.title || "زیرنویس بازی")}"
-                                loading="lazy"
-                                onerror="this.src='./background.jpg'"
-                            >
-
-                        </a>
-
-
-                        <div class="post-body">
-
-                            <div class="post-meta">
-
-                                <span class="post-category">
-                                    🎮 زیرنویس فارسی
-                                </span>
-
-                                <span>•</span>
-
-                                <span>
-                                    ${date}
-                                </span>
-
-                            </div>
-
-
-                            <h2 class="post-title">
-                                ${escapeHtml(
-                                    post.title ||
-                                    "زیرنویس بازی"
-                                )}
-                            </h2>
-
-
-                            <p class="post-description">
-                                ${escapeHtml(
-                                    description
-                                )}
-                            </p>
-
-
-                            <div class="post-footer">
-
-                                <a
-                                    class="read-btn"
-                                    href="./article.html?id=${encodeURIComponent(post.id)}"
-                                >
-                                    مشاهده و دانلود ←
-                                </a>
-
-
-                                <span class="download-mini">
-                                    📥 رایگان
-                                </span>
-
-                            </div>
-
+                    <div class="post-body">
+                        <div class="post-meta">
+                            <span class="post-category">🎮 زیرنویس فارسی</span>
+                            <span>•</span>
+                            <span>${date}</span>
                         </div>
 
-                    </article>
+                        <h2 class="post-title">${escapeHtml(post.title || "زیرنویس بازی")}</h2>
+                        <p class="post-description">${escapeHtml(description)}</p>
 
-                    `;
-
-                }
-            ).join("");
-
+                        <div class="post-footer">
+                            <a class="read-btn" href="${postUrl}">مشاهده و دانلود ←</a>
+                            <span class="download-mini">📥 رایگان</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join("");
 
     }catch(error){
-
-        console.error(
-            "Latest subtitles:",
-            error
-        );
-
-
+        console.error("Latest subtitles:",error);
         subtitlesGrid.innerHTML = `
-
             <div class="subtitle-error">
-
                 دریافت زیرنویس‌ها با خطا مواجه شد.
                 لطفاً دوباره صفحه را باز کنید.
-
             </div>
-
         `;
     }
 }
 
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value){
-
-    if(
-        value === null ||
-        value === undefined
-    )
-        return "";
-
-
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-}
-
-
-/* =========================================================
-   SITE STATS
-========================================================= */
-
+/* SITE STATS */
 function getSessionId(){
-
-    let id =
-        localStorage.getItem(
-            "persian-stark-session"
-        );
-
+    let id = localStorage.getItem("persian-stark-session");
 
     if(!id){
-
-        id =
-            crypto.randomUUID();
-
-
-        localStorage.setItem(
-            "persian-stark-session",
-            id
-        );
+        id = crypto.randomUUID();
+        localStorage.setItem("persian-stark-session",id);
     }
-
 
     return id;
 }
 
-
 async function updateSiteStats(){
-
-    const sessionId =
-        getSessionId();
-
+    const sessionId = getSessionId();
 
     try{
+        await db.rpc("update_presence",{p_session_id:sessionId});
+        await db.rpc("record_site_visit",{p_session_id:sessionId});
 
-        await db.rpc(
-            "update_presence",
-            {
-                p_session_id:
-                    sessionId
-            }
-        );
-
-
-        await db.rpc(
-            "record_site_visit",
-            {
-                p_session_id:
-                    sessionId
-            }
-        );
-
-
-        const {
-            data,
-            error
-        } = await db.rpc(
-            "get_site_stats"
-        );
-
-
-        if(error)
-            throw error;
-
+        const {data,error} = await db.rpc("get_site_stats");
+        if(error) throw error;
 
         if(data){
+            document.getElementById("membersCount").textContent =
+                Number(data.members || 0).toLocaleString("fa-IR");
 
-            document.getElementById(
-                "membersCount"
-            ).textContent =
-                Number(
-                    data.members || 0
-                ).toLocaleString(
-                    "fa-IR"
-                );
+            document.getElementById("onlineCount").textContent =
+                Number(data.online || 0).toLocaleString("fa-IR");
 
-
-            document.getElementById(
-                "onlineCount"
-            ).textContent =
-                Number(
-                    data.online || 0
-                ).toLocaleString(
-                    "fa-IR"
-                );
-
-
-            document.getElementById(
-                "todayVisits"
-            ).textContent =
-                Number(
-                    data.today_visits || 0
-                ).toLocaleString(
-                    "fa-IR"
-                );
+            document.getElementById("todayVisits").textContent =
+                Number(data.today_visits || 0).toLocaleString("fa-IR");
         }
-
-
     }catch(error){
-
-        console.warn(
-            "Stats unavailable:",
-            error
-        );
+        console.warn("Stats unavailable:",error);
     }
 }
 
-
-/* =========================================================
-   EMAIL CONFIRMATION MESSAGE
-========================================================= */
-
+/* EMAIL CONFIRMATION MESSAGE */
 function checkEmailConfirmation(){
+    const params = new URLSearchParams(window.location.search);
+    const hash = window.location.hash || "";
 
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const hash =
-        window.location.hash || "";
-
-
-    if(
-        params.get("confirmed") === "true" ||
-        hash.includes("type=signup")
-    ){
-
-        showToast(
-            "ایمیل شما با موفقیت تأیید شد 🎉"
-        );
-
+    if(params.get("confirmed") === "true" || hash.includes("type=signup")){
+        showToast("ایمیل شما با موفقیت تأیید شد 🎉");
         return true;
     }
-
 
     return false;
 }
 
-
-/* =========================================================
-   INIT
-========================================================= */
-
-document.getElementById(
-    "year"
-).textContent =
-    new Date().getFullYear();
-
+/* INIT */
+document.getElementById("year").textContent = new Date().getFullYear();
 
 (async function(){
-
     try{
-
-        const {
-            data
-        } = await db.auth.getSession();
-
-
-        currentUser =
-            data?.session?.user ||
-            null;
-
-
+        const {data} = await db.auth.getSession();
+        currentUser = data?.session?.user || null;
     }catch(error){
-
-        console.warn(
-            error
-        );
+        console.warn(error);
     }
 
-
     await updateHeader();
-
     await loadPosts();
-
     await loadLatestSubtitles();
-
     await updateSiteStats();
-
     checkEmailConfirmation();
-
 })();
 </script>
-
 </body>
 </html>
